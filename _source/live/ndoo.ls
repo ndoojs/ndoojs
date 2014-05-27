@@ -161,6 +161,8 @@
               actionName = action
             else if _.has controller, '_emptyAction'
               actionName = '_empty'
+
+            # @TODO 基于模块的依赖定义处理
             depend = controller[actionName+'Depend']
             run = !->
               if actionName
