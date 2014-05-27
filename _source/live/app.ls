@@ -24,8 +24,10 @@
   /* }}} */
 
   /* [home module] {{{ */
-  _n.app \home, do
-    indexAction: (param) !->
+  _n.app \example, do
+    mainDepend: ['jquery']
+    mainAction: (param) !->
+      console.log param
   /* }}} */
 
   _n
