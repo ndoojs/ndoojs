@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="12.2">
+  <zoom_level>9</zoom_level>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>396</x>
+      <y>270</y>
+      <w>135</w>
+      <h>225</h>
+    </coordinates>
+    <panel_attributes>ndoo
+N(alias)
+--
+_isDebug
+event
+core
+vars
+func
+--
+on
+trigger
+storage
+require
+dispatch
+triggerPageStatus
+app</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>567</x>
+      <y>234</y>
+      <w>144</w>
+      <h>153</h>
+    </coordinates>
+    <panel_attributes>ndoo.event
+--
+inited
+TEMP_ON
+TEMP_TRIGGER
+_temp
+_construct
+--
+init
+on
+trigger</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>567</x>
+      <y>477</y>
+      <w>144</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>ndoo.app
+--
+home</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>747</x>
+      <y>405</y>
+      <w>126</w>
+      <h>117</h>
+    </coordinates>
+    <panel_attributes>ndoo.app.home
+--
+indexDepend
+--
+init
+indexBefore
+indexAction
+indexAfter
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>504</x>
+      <y>216</y>
+      <w>80</w>
+      <h>125</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>63;27;45;27;45;108;27;108</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>504</x>
+      <y>459</y>
+      <w>80</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>63;27;27;27</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>684</x>
+      <y>387</y>
+      <w>80</w>
+      <h>134</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>63;27;45;27;45;117;27;117</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>567</x>
+      <y>396</y>
+      <w>144</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>core: Backbone
+--
+Events
+Router
+History</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>504</x>
+      <y>315</y>
+      <w>80</w>
+      <h>107</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>63;90;45;90;45;27;27;27</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Note</type>
+    <coordinates>
+      <x>900</x>
+      <y>225</y>
+      <w>297</w>
+      <h>297</h>
+    </coordinates>
+    <panel_attributes>Note..
+bg=gray
+ndoo短名称N
+core中的方法从Backbone而来，Backbone已加时
+可直接调用Backbone
+require整合Do.js和seajs实现依赖加载，seajs偏重
+于cmd模块代码，Do.js偏重于通用文件。
+==
+待完内容：
+1. 比页面更细的模块化
+2. 按需注载。
+3. 增加可调试性，记录模块信息，已执行动作
+4. 单元测试支持</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
