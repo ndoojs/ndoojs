@@ -9,12 +9,13 @@
 */
 ((root, _n, depend) !->
 
-  if root.Backbone
-    return void
-
   _        = depend[\_]
   _core    = _n.core ||  = {}
   Backbone = _core
+
+  if root.Backbone
+    _core = root.Backbone
+    return void
 
   array    = []
   slice    = array.slice

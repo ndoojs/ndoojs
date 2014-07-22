@@ -37,9 +37,9 @@
 
   /* require module {{{ */
   _n.require = (depend, callback, type) !->
-    if type is 'Do'
+    if type is \Do
       Do.apply null, depend.concat callback
-    else if type is 'seajs'
+    else if type is \seajs
       seajs.use.apply null, depend.concat callback
   /* }}} */
 
@@ -80,25 +80,25 @@
     trigger: (eventName, eventType, data) !->
       eventHandle = @eventHandle
       # 处理普通事件
-      if eventType is \default
+      if eventType is \DEFAULT
         eventHandle.trigger eventName, data
       # 处理请求事件
-      else if eventType is \delay
+      else if eventType is \DELAY
         # 如果事件已绑定
         if _.has eventHandle.listened, eventName
           eventHandle.trigger eventName, data
         # 暂存队列
         if _.has eventHandle.events, eventName
-          return void if eventType is \status
+          return void if eventType is \STATUS
           eventHandle.events[eventName].push data
         else
           eventHandle.events[eventName] = [data]
 
       # 状态仅可触发一次
-      else if eventType is \status
+      else if eventType is \STATUS
         # 绑定状态事件
-        if not _.has eventHandle.events, "STATUS:#eventName"
-          eventHandle.events["STATUS:#eventName"] = data
+        if not _.has eventHandle.events, "#eventType:#eventName"
+          eventHandle.events["#eventType:#eventName"] = data
           # 触发已绑定的事件
           if _.has eventHandle.listened, eventName
             eventHandle.trigger eventName, data
@@ -124,23 +124,23 @@
         ++_pk
     triggerPageStatus: !->
       # trigger PAGE_STATUS_FAST
-      @trigger \PAGE_STATUS_FAST, @event.STATUS
+      @trigger \STATUS:PAGE_STATUS_FAST
 
       # trigger PAGE_STATUS_DOM and PAGE_STATUS_DOMORLOAD
       $ !~>
-        @trigger \PAGE_STATUS_DOMPREP, @event.STATUS
-        @trigger \PAGE_STATUS_DOM, @event.STATUS
-        @trigger \PAGE_STATUS_DOMORLOAD, @event.STATUS
+        @trigger \STATUS:PAGE_STATUS_DOMPREP
+        @trigger \STATUS:PAGE_STATUS_DOM
+        @trigger \STATUS:PAGE_STATUS_DOMORLOAD
 
       # trigger PAGE_STATUS_LOAD
       $(window).bind \load, ~>
-        @trigger \PAGE_STATUS_LOAD, @event.STATUS
+        @trigger \STATUS:PAGE_STATUS_LOAD
 
       # trigger PAGE_STATUS_ROUTING
-      @on 'PAGE_STATUS_DOM', !~>
+      @on \PAGE_STATUS_DOM, !~>
         if @pageId
           #Backbone.history.start()
-          @trigger 'PAGE_STATUS_ROUTING', @event.STATUS, @pageId
+          @trigger \STATUS:PAGE_STATUS_ROUTING, @pageId
     /* }}} */
     /* router module {{{ */
     router: new (_core.Router.extend(
@@ -157,25 +157,23 @@
         @router.parse ':controller/:action(/:params)', data, (controller, action, params) !~>
           if _.has @app, controller
             controller = @app[controller]
-            if _.has controller, action+'Action'
+            if _.has controller, action+\Action
               actionName = action
-            else if _.has controller, '_emptyAction'
-              actionName = '_empty'
+            else if _.has controller, \_emptyAction
+              actionName = \_empty
 
             # @TODO 基于模块的依赖定义处理
-            depend = controller[actionName+'Depend']
+            depend ||= controller[\depend]
+            depend = (depend || []).concat controller[actionName+\Depend] || []
+
             run = !->
               if actionName
-                controller[actionName+'Before'](params) if _.has controller, actionName+'Before'
-                controller[actionName+'Action'] params
-                controller[actionName+'After'](params) if _.has controller, actionName+'After'
+                controller[actionName+\Before](params) if _.has controller, actionName+\Before
+                controller[actionName+\Action](params) if _.has controller, actionName+\Action
+                controller[actionName+\After](params) if _.has controller, actionName+\After
+
             if depend and depend.length
-              @require depend, run, \Do
-              # Do.apply null, depend.concat ->
-              #   if actionName
-              #     controller[actionName+'Before'](params) if _.has controller, actionName+'Before'
-              #     controller[actionName+'Action'] params
-              #     controller[actionName+'After'](params) if _.has controller, actionName+'After'
+              @require _.uniq(depend), run, \Do
             else
               run()
     /* }}} */
@@ -193,4 +191,4 @@
   _n.init()
   _n
 )(@N = @ndoo ||= {}, _: _, $: jQuery)
-# vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et:
+/* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */

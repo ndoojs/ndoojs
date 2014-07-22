@@ -9,12 +9,13 @@
 */
 (function(root, _n, depend){
   var _, _core, Backbone, array, slice;
-  if (root.Backbone) {
-    return;
-  }
   _ = depend['_'];
   _core = _n.core || (_n.core = {});
   Backbone = _core;
+  if (root.Backbone) {
+    _core = root.Backbone;
+    return;
+  }
   array = [];
   slice = array.slice;
   

@@ -8,7 +8,7 @@
   _stor    = _n.storage
 
   /* [common prep] {{{ */
-  _n.on \PAGE_STATUS_DOMPREP, !->
+  _n.on \PAGE_STATUS_DOMPREP, \PAGE_RELOAD, !->
 
     init_tpl = ->
       $code = $ \#tplCode

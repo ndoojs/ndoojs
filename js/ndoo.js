@@ -78,23 +78,23 @@
     trigger: function(eventName, eventType, data){
       var eventHandle;
       eventHandle = this.eventHandle;
-      if (eventType === 'default') {
+      if (eventType === 'DEFAULT') {
         eventHandle.trigger(eventName, data);
-      } else if (eventType === 'delay') {
+      } else if (eventType === 'DELAY') {
         if (_.has(eventHandle.listened, eventName)) {
           eventHandle.trigger(eventName, data);
         }
         if (_.has(eventHandle.events, eventName)) {
-          if (eventType === 'status') {
+          if (eventType === 'STATUS') {
             return;
           }
           eventHandle.events[eventName].push(data);
         } else {
           eventHandle.events[eventName] = [data];
         }
-      } else if (eventType === 'status') {
-        if (!_.has(eventHandle.events, "STATUS:" + eventName)) {
-          eventHandle.events["STATUS:" + eventName] = data;
+      } else if (eventType === 'STATUS') {
+        if (!_.has(eventHandle.events, eventType + ":" + eventName)) {
+          eventHandle.events[eventType + ":" + eventName] = data;
           if (_.has(eventHandle.listened, eventName)) {
             eventHandle.trigger(eventName, data);
           }
@@ -132,18 +132,18 @@
     }(),
     triggerPageStatus: function(){
       var this$ = this;
-      this.trigger('PAGE_STATUS_FAST', this.event.STATUS);
+      this.trigger('STATUS:PAGE_STATUS_FAST');
       $(function(){
-        this$.trigger('PAGE_STATUS_DOMPREP', this$.event.STATUS);
-        this$.trigger('PAGE_STATUS_DOM', this$.event.STATUS);
-        this$.trigger('PAGE_STATUS_DOMORLOAD', this$.event.STATUS);
+        this$.trigger('STATUS:PAGE_STATUS_DOMPREP');
+        this$.trigger('STATUS:PAGE_STATUS_DOM');
+        this$.trigger('STATUS:PAGE_STATUS_DOMORLOAD');
       });
       $(window).bind('load', function(){
-        return this$.trigger('PAGE_STATUS_LOAD', this$.event.STATUS);
+        return this$.trigger('STATUS:PAGE_STATUS_LOAD');
       });
       this.on('PAGE_STATUS_DOM', function(){
         if (this$.pageId) {
-          this$.trigger('PAGE_STATUS_ROUTING', this$.event.STATUS, this$.pageId);
+          this$.trigger('STATUS:PAGE_STATUS_ROUTING', this$.pageId);
         }
       });
     }
@@ -173,20 +173,23 @@
             } else if (_.has(controller, '_emptyAction')) {
               actionName = '_empty';
             }
-            depend = controller[actionName + 'Depend'];
+            depend || (depend = controller['depend']);
+            depend = (depend || []).concat(controller[actionName + 'Depend'] || []);
             run = function(){
               if (actionName) {
                 if (_.has(controller, actionName + 'Before')) {
                   controller[actionName + 'Before'](params);
                 }
-                controller[actionName + 'Action'](params);
+                if (_.has(controller, actionName + 'Action')) {
+                  controller[actionName + 'Action'](params);
+                }
                 if (_.has(controller, actionName + 'After')) {
                   controller[actionName + 'After'](params);
                 }
               }
             };
             if (depend && depend.length) {
-              this$.require(depend, run, 'Do');
+              this$.require(_.uniq(depend), run, 'Do');
             } else {
               run();
             }
@@ -209,3 +212,4 @@
   _: _,
   $: jQuery
 });
+/* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */

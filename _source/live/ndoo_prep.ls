@@ -11,51 +11,58 @@
   _n._isDebug        = 0
 
   /* event module {{{ */
-  _n.event =
-    inited: false
+  _n.event = (name, type) ->
+    "#type:#name"
 
-    TEMP_ON: 1
-    TEMP_TRIGGER: 2
+  do (e = _n.event) !->
+    /* 类型常量 */
+    e.TEMP_ON = 1
+    e.TEMP_TRIGGER = 2
 
-    _temp: []
+    /* 初始化标识 */
+    e.inited = false
+    /* 事件暂存 */
+    e._temp = []
 
-    _construct: (eventType) !->
-      this.type = eventType
-
-    on: (eventName, callback) !->
+    /* on api */
+    e.on = (eventName, callback) !->
       @_temp.push do
-        type: @TEMP_ON
-        eventName: eventName
-        callback: callback
+        type      : @TEMP_ON
+        eventName : eventName
+        callback  : callback
 
-    trigger: (eventName, eventType, data) !->
+    /* trigger api */
+    e.trigger = (eventName, eventType, data) !->
       @_temp.push do
-        type: @TEMP_TRIGGER
-        eventName: eventName
-        eventType: eventType
-        data: data
+        type      : @TEMP_TRIGGER
+        eventName : eventName
+        eventType : eventType
+        data      : data
 
-  _n.event.DEFAULT = new _n.event._construct \default
-  _n.event.DELAY = new _n.event._construct \delay
-  _n.event.STATUS = new _n.event._construct \status
+    /* 快捷事件 */
+    e.default = (name) -> "DEFAULT:#name"
+    e.delay   = (name) -> "DELAY:#name"
+    e.status  = (name) -> "STATUS:#name"
 
-  _n.on = (eventName, callback) ->
-    @event.on eventName, callback
+  /* 全局 on api */
+  _n.on = (...eventName, callback) ->
+    for item in eventName
+      @event.on item, callback
 
-  _n.trigger = (eventName, eventType, data) ->
+  /* 全局 trigger api */
+  _n.trigger = (eventName, data) ->
+    _index = eventName.indexOf \:
+    type = eventName.substring 0, _index++
+    type ||= \DEFAULT
+    name = eventName.substring _index
 
-    if typeof eventType is \object and eventType isnt null and eventType.constructor is @.event._construct
-      eventType = eventType.type
-    else
-      data      = eventType
-      eventType = \default
-
-    @event.trigger eventName, eventType, data
+    @event.trigger name, type, data
   /* }}} */
 
   _n.vars ||= {}
   _n.func ||= {}
+
   _n
 )(@N = @ndoo ||= {})
 
-# vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et:
+/* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */
