@@ -40,7 +40,7 @@
     if type is \Do
       Do.apply null, depend.concat callback
     else if type is \seajs
-      seajs.use.apply null, depend.concat callback
+      seajs.use depend, callback
   /* }}} */
 
   /* define app package {{{ */

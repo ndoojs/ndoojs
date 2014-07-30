@@ -38,7 +38,7 @@
     if (type === 'Do') {
       Do.apply(null, depend.concat(callback));
     } else if (type === 'seajs') {
-      seajs.use.apply(null, depend.concat(callback));
+      seajs.use(depend, callback);
     }
   };
   /* }}} */
