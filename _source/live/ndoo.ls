@@ -166,11 +166,64 @@
             depend ||= controller[\depend]
             depend = (depend || []).concat controller[actionName+\Depend] || []
 
+            before = controller.before
+            after = controller.after
+
             run = !->
               if actionName
+                if before
+                  /* 初始化filter数组 */
+                  unless _.isArray(before.filter)
+                    before.filter = [].concat before.filter
+                  isRun = true
+                  /* 初始化only条件 */
+                  if before.only
+                    unless _.isArray(before.only)
+                      before.only = [].concat before.only
+
+                    if _.indexOf(before.only, actionName) < 0
+                      isRun = false
+                    /* 初始化except条件 */
+                  else if before.except
+                    unless _.isArray(before.except)
+                      before.except = [].concat before.except
+
+                    if _.indexOf(before.except, actionName) > -1
+                      isRun = false
+
+                  if isRun
+                    for filter in before.filter
+                      controller[filter+'Filter']()
+                      # filter.call null, controller
+
                 controller[actionName+\Before](params) if _.has controller, actionName+\Before
                 controller[actionName+\Action](params) if _.has controller, actionName+\Action
                 controller[actionName+\After](params) if _.has controller, actionName+\After
+
+                if after
+                  /* 初始化filter数组 */
+                  unless _.isArray(after.filter)
+                    after.filter = [].concat after.filter
+                  isRun = true
+                  /* 初始化only条件 */
+                  if after.only
+                    unless _.isArray(after.only)
+                      after.only = [].concat after.only
+
+                    if _.indexOf(after.only, actionName) < 0
+                      isRun = false
+                    /* 初始化except条件 */
+                  else if after.except
+                    unless _.isArray(after.except)
+                      after.except = [].concat after.except
+
+                    if _.indexOf(after.except, actionName) > -1
+                      isRun = false
+
+                  if isRun
+                    for filter in after.filter
+                      controller[filter+'Filter']()
+                      # filter.call null, controller
 
             if depend and depend.length
               @require _.uniq(depend), run, \Do

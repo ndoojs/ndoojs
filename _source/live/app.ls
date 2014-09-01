@@ -25,6 +25,20 @@
 
   /* [home module] {{{ */
   _n.app \example, do
+    before: do
+      filter: \test
+      only: \main
+
+    after: do
+      filter: \afterTest
+      only: \main
+
+    testFilter: !->
+      console.log \filter_before!
+
+    afterTestFilter: !->
+      console.log \filter_after!
+
     mainDepend: ['jquery']
     mainAction: (param) !->
       console.log param

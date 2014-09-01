@@ -30,6 +30,20 @@
   /* }}} */
   /* [home module] {{{ */
   _n.app('example', {
+    before: {
+      filter: 'test',
+      only: 'main'
+    },
+    after: {
+      filter: 'afterTest',
+      only: 'main'
+    },
+    testFilter: function(){
+      console.log('filter_before!');
+    },
+    afterTestFilter: function(){
+      console.log('filter_after!');
+    },
     mainDepend: ['jquery'],
     mainAction: function(param){
       console.log(param);

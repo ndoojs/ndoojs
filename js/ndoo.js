@@ -165,7 +165,7 @@
       var this$ = this;
       this.on('PAGE_STATUS_ROUTING', function(data){
         this$.router.parse(':controller/:action(/:params)', data, function(controller, action, params){
-          var actionName, depend, run;
+          var actionName, depend, before, after, run;
           if (_.has(this$.app, controller)) {
             controller = this$.app[controller];
             if (_.has(controller, action + 'Action')) {
@@ -175,8 +175,41 @@
             }
             depend || (depend = controller['depend']);
             depend = (depend || []).concat(controller[actionName + 'Depend'] || []);
+            before = controller.before;
+            after = controller.after;
             run = function(){
+              var isRun, i$, ref$, len$, filter;
               if (actionName) {
+                if (before) {
+                  /* 初始化filter数组 */
+                  if (!_.isArray(before.filter)) {
+                    before.filter = [].concat(before.filter);
+                  }
+                  isRun = true;
+                  /* 初始化only条件 */
+                  if (before.only) {
+                    if (!_.isArray(before.only)) {
+                      before.only = [].concat(before.only);
+                    }
+                    if (_.indexOf(before.only, actionName) < 0) {
+                      isRun = false;
+                    }
+                    /* 初始化except条件 */
+                  } else if (before.except) {
+                    if (!_.isArray(before.except)) {
+                      before.except = [].concat(before.except);
+                    }
+                    if (_.indexOf(before.except, actionName) > -1) {
+                      isRun = false;
+                    }
+                  }
+                  if (isRun) {
+                    for (i$ = 0, len$ = (ref$ = before.filter).length; i$ < len$; ++i$) {
+                      filter = ref$[i$];
+                      controller[filter + 'Filter']();
+                    }
+                  }
+                }
                 if (_.has(controller, actionName + 'Before')) {
                   controller[actionName + 'Before'](params);
                 }
@@ -185,6 +218,36 @@
                 }
                 if (_.has(controller, actionName + 'After')) {
                   controller[actionName + 'After'](params);
+                }
+                if (after) {
+                  /* 初始化filter数组 */
+                  if (!_.isArray(after.filter)) {
+                    after.filter = [].concat(after.filter);
+                  }
+                  isRun = true;
+                  /* 初始化only条件 */
+                  if (after.only) {
+                    if (!_.isArray(after.only)) {
+                      after.only = [].concat(after.only);
+                    }
+                    if (_.indexOf(after.only, actionName) < 0) {
+                      isRun = false;
+                    }
+                    /* 初始化except条件 */
+                  } else if (after.except) {
+                    if (!_.isArray(after.except)) {
+                      after.except = [].concat(after.except);
+                    }
+                    if (_.indexOf(after.except, actionName) > -1) {
+                      isRun = false;
+                    }
+                  }
+                  if (isRun) {
+                    for (i$ = 0, len$ = (ref$ = after.filter).length; i$ < len$; ++i$) {
+                      filter = ref$[i$];
+                      controller[filter + 'Filter']();
+                    }
+                  }
                 }
               }
             };
