@@ -162,7 +162,6 @@
           callback.apply null, routeMatch.slice(1)
     ))
     /* }}} */
-
     /* dispatch {{{ */
     dispatch: !->
       /* before and after filter event */
