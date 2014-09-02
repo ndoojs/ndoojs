@@ -176,7 +176,9 @@ var slice$ = [].slice;
           callback.apply(null, routeMatch.slice(1));
         }
       }
-    })),
+    }))
+    /* }}} */
+    /* dispatch {{{ */,
     dispatch: function(){
       /* before and after filter event */
       var this$ = this;
@@ -257,7 +259,7 @@ var slice$ = [].slice;
         this$.router.parse(':controller/:action(/:params)', data, function(controller, action, params){
           if (_.has(this$.app, controller)) {
             this$.trigger('PAGE_APP_LOADED', this$.app, controller, action, params);
-          } else {
+          } else if (_n.hasApp(controller)) {
             this$.require(["ndoo.app." + controller], function(){
               _n.trigger('PAGE_APP_LOADED', _n.app, controller, action, params);
             }, 'Do');

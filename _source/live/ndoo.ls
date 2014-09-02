@@ -161,7 +161,9 @@
         if routeMatch isnt null
           callback.apply null, routeMatch.slice(1)
     ))
+    /* }}} */
 
+    /* dispatch {{{ */
     dispatch: !->
       /* before and after filter event */
       @on \APP_ACTION_BEFORE, \APP_ACTION_AFTER, (data, controller, actionName,
@@ -236,7 +238,7 @@
         (controller, action, params) !~>
           if _.has @app, controller
             @trigger \PAGE_APP_LOADED, @app, controller, action, params
-          else
+          else if _n.hasApp controller
             @require ["ndoo.app.#{controller}"], !->
               _n.trigger \PAGE_APP_LOADED, _n.app, controller, action, params
             , \Do
