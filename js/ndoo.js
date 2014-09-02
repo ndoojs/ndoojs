@@ -7,6 +7,7 @@
 " LastChange: 05/21/2014 15:32
 " --------------------------------------------------
 */
+var slice$ = [].slice;
 (function(_n, depend){
   var _, $, _vars, _func, _stor, _core;
   _ = depend['_'];
@@ -45,9 +46,24 @@
   /* define app package {{{ */
   _n.app = function(name, app){
     var ref$;
-    (ref$ = _n.app)[name] || (ref$[name] = {});
     _.defaults((ref$ = _n.app)[name] || (ref$[name] = {}), app);
   };
+  _n._apps || (_n._apps = {});
+  _n.setApp = function(){
+    var apps, i$, len$, app, results$ = [];
+    apps = slice$.call(arguments);
+    for (i$ = 0, len$ = apps.length; i$ < len$; ++i$) {
+      app = apps[i$];
+      if (!_n._apps[app]) {
+        results$.push(_n._apps[app] = true);
+      }
+    }
+    return results$;
+  };
+  _n.hasApp = function(app){
+    return _n._apps[app];
+  };
+  _n.trigger('STATUS:PAGE_APP_DEFINE');
   /* }}} */
   /* event module {{{ */
   _n.event = _.extend(_n.event, {
@@ -57,7 +73,7 @@
       listened: {}
     }, _core.Events)
     /* }}} */
-    /* 覆写on {{{ */,
+    /* rewrite on {{{ */,
     on: function(eventName, callback){
       var eventHandle, i$, ref$, len$, item;
       eventHandle = this.eventHandle;
@@ -74,15 +90,15 @@
       }
     }
     /* }}} */
-    /* 覆写tigger {{{ */,
+    /* rewrite igger {{{ */,
     trigger: function(eventName, eventType, data){
       var eventHandle;
       eventHandle = this.eventHandle;
       if (eventType === 'DEFAULT') {
-        eventHandle.trigger(eventName, data);
+        eventHandle.trigger.apply(eventHandle, [eventName].concat(data));
       } else if (eventType === 'DELAY') {
         if (_.has(eventHandle.listened, eventName)) {
-          eventHandle.trigger(eventName, data);
+          eventHandle.trigger.apply(eventHandle, [eventName].concat(data));
         }
         if (_.has(eventHandle.events, eventName)) {
           if (eventType === 'STATUS') {
@@ -102,7 +118,7 @@
       }
     }
     /* }}} */
-    /* 初始化 {{{ */,
+    /* init {{{ */,
     init: function(){
       var i$, ref$, len$, item;
       if (!this.inited) {
@@ -162,100 +178,89 @@
       }
     })),
     dispatch: function(){
+      /* before and after filter event */
       var this$ = this;
+      this.on('APP_ACTION_BEFORE', 'APP_ACTION_AFTER', function(data, controller, actionName, params){
+        var isRun, i$, ref$, len$, filter;
+        if (data) {
+          /* init filter array */
+          if (!_.isArray(data.filter)) {
+            data.filter = [].concat(data.filter);
+          }
+          isRun = true;
+          /* init only array */
+          if (data.only) {
+            if (!_.isArray(data.only)) {
+              data.only = [].concat(data.only);
+            }
+            if (_.indexOf(data.only, actionName) < 0) {
+              isRun = false;
+            }
+            /* init except array */
+          } else if (data.except) {
+            if (!_.isArray(data.except)) {
+              data.except = [].concat(data.except);
+            }
+            if (_.indexOf(data.except, actionName) > -1) {
+              isRun = false;
+            }
+          }
+          if (isRun) {
+            for (i$ = 0, len$ = (ref$ = data.filter).length; i$ < len$; ++i$) {
+              filter = ref$[i$];
+              controller[filter + 'Filter'](params);
+            }
+          }
+        }
+      });
+      /* call action */
+      this.on('PAGE_APP_LOADED', function(app, controller, action, params){
+        var controllerName, actionName, depend, before, after, run;
+        if (_.has(app, controller)) {
+          controllerName = controller;
+          controller = app[controller];
+          if (_.has(controller, action + 'Action')) {
+            actionName = action;
+          } else if (_.has(controller, '_emptyAction')) {
+            actionName = '_empty';
+          }
+          depend || (depend = controller['depend']);
+          depend = (depend || []).concat(controller[actionName + 'Depend'] || []);
+          before = controller.before;
+          after = controller.after;
+          run = function(){
+            if (actionName) {
+              _n.trigger('APP_ACTION_BEFORE', before, controller, actionName, params);
+              _n.trigger("APP_" + controllerName.toUpperCase() + "_ACTION_BEFORE", controller, actionName, params);
+              if (_.has(controller, actionName + 'Before')) {
+                controller[actionName + 'Before'](params);
+              }
+              if (_.has(controller, actionName + 'Action')) {
+                controller[actionName + 'Action'](params);
+              }
+              if (_.has(controller, actionName + 'After')) {
+                controller[actionName + 'After'](params);
+              }
+              _n.trigger("APP_" + controllerName.toUpperCase() + "_ACTION_AFTER", controller, actionName, params);
+              _n.trigger('APP_ACTION_AFTER', after, controller, actionName, params);
+            }
+          };
+          if (depend && depend.length) {
+            _n.require(_.uniq(depend), run, 'Do');
+          } else {
+            run();
+          }
+        }
+      });
+      /* page route */
       this.on('PAGE_STATUS_ROUTING', function(data){
         this$.router.parse(':controller/:action(/:params)', data, function(controller, action, params){
-          var actionName, depend, before, after, run;
           if (_.has(this$.app, controller)) {
-            controller = this$.app[controller];
-            if (_.has(controller, action + 'Action')) {
-              actionName = action;
-            } else if (_.has(controller, '_emptyAction')) {
-              actionName = '_empty';
-            }
-            depend || (depend = controller['depend']);
-            depend = (depend || []).concat(controller[actionName + 'Depend'] || []);
-            before = controller.before;
-            after = controller.after;
-            run = function(){
-              var isRun, i$, ref$, len$, filter;
-              if (actionName) {
-                if (before) {
-                  /* 初始化filter数组 */
-                  if (!_.isArray(before.filter)) {
-                    before.filter = [].concat(before.filter);
-                  }
-                  isRun = true;
-                  /* 初始化only条件 */
-                  if (before.only) {
-                    if (!_.isArray(before.only)) {
-                      before.only = [].concat(before.only);
-                    }
-                    if (_.indexOf(before.only, actionName) < 0) {
-                      isRun = false;
-                    }
-                    /* 初始化except条件 */
-                  } else if (before.except) {
-                    if (!_.isArray(before.except)) {
-                      before.except = [].concat(before.except);
-                    }
-                    if (_.indexOf(before.except, actionName) > -1) {
-                      isRun = false;
-                    }
-                  }
-                  if (isRun) {
-                    for (i$ = 0, len$ = (ref$ = before.filter).length; i$ < len$; ++i$) {
-                      filter = ref$[i$];
-                      controller[filter + 'Filter']();
-                    }
-                  }
-                }
-                if (_.has(controller, actionName + 'Before')) {
-                  controller[actionName + 'Before'](params);
-                }
-                if (_.has(controller, actionName + 'Action')) {
-                  controller[actionName + 'Action'](params);
-                }
-                if (_.has(controller, actionName + 'After')) {
-                  controller[actionName + 'After'](params);
-                }
-                if (after) {
-                  /* 初始化filter数组 */
-                  if (!_.isArray(after.filter)) {
-                    after.filter = [].concat(after.filter);
-                  }
-                  isRun = true;
-                  /* 初始化only条件 */
-                  if (after.only) {
-                    if (!_.isArray(after.only)) {
-                      after.only = [].concat(after.only);
-                    }
-                    if (_.indexOf(after.only, actionName) < 0) {
-                      isRun = false;
-                    }
-                    /* 初始化except条件 */
-                  } else if (after.except) {
-                    if (!_.isArray(after.except)) {
-                      after.except = [].concat(after.except);
-                    }
-                    if (_.indexOf(after.except, actionName) > -1) {
-                      isRun = false;
-                    }
-                  }
-                  if (isRun) {
-                    for (i$ = 0, len$ = (ref$ = after.filter).length; i$ < len$; ++i$) {
-                      filter = ref$[i$];
-                      controller[filter + 'Filter']();
-                    }
-                  }
-                }
-              }
-            };
-            if (depend && depend.length) {
-              this$.require(_.uniq(depend), run, 'Do');
-            } else {
-              run();
-            }
+            this$.trigger('PAGE_APP_LOADED', this$.app, controller, action, params);
+          } else {
+            this$.require(["ndoo.app." + controller], function(){
+              _n.trigger('PAGE_APP_LOADED', _n.app, controller, action, params);
+            }, 'Do');
           }
         });
       });

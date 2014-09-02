@@ -50,7 +50,7 @@
       @event.on item, callback
 
   /* 全局 trigger api */
-  _n.trigger = (eventName, data) ->
+  _n.trigger = (eventName, ...data) ->
     _index = eventName.indexOf \:
     type = eventName.substring 0, _index++
     type ||= \DEFAULT

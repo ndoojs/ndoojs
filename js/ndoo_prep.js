@@ -62,8 +62,9 @@ var slice$ = [].slice;
     return results$;
   };
   /* 全局 trigger api */
-  _n.trigger = function(eventName, data){
-    var _index, type, name;
+  _n.trigger = function(eventName){
+    var data, _index, type, name;
+    data = slice$.call(arguments, 1);
     _index = eventName.indexOf(':');
     type = eventName.substring(0, _index++);
     type || (type = 'DEFAULT');

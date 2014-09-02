@@ -45,8 +45,18 @@
 
   /* define app package {{{ */
   _n.app = (name, app) !->
-    _n.app[name] ||= {}
     _.defaults _n.app[name] ||= {}, app
+
+  _n._apps ||= {}
+  _n.setApp = (...apps) ->
+    for app in apps
+      unless _n._apps[app]
+        _n._apps[app] = true
+
+  _n.hasApp = (app) ->
+    _n._apps[app]
+
+  _n.trigger 'STATUS:PAGE_APP_DEFINE'
   /* }}} */
 
   /* event module {{{ */
@@ -57,7 +67,7 @@
         listened : {}
       _core.Events
     /* }}} */
-    /* 覆写on {{{ */
+    /* rewrite on {{{ */
     on: (eventName, callback) !->
       eventHandle = @eventHandle
       # 绑定事件
@@ -76,17 +86,17 @@
         # 清除非状态事件队列
         # delete eventHandle.events[eventName]
     /* }}} */
-    /* 覆写tigger {{{ */
+    /* rewrite igger {{{ */
     trigger: (eventName, eventType, data) !->
       eventHandle = @eventHandle
       # 处理普通事件
       if eventType is \DEFAULT
-        eventHandle.trigger eventName, data
+        eventHandle.trigger.apply eventHandle, [eventName].concat data
       # 处理请求事件
       else if eventType is \DELAY
         # 如果事件已绑定
         if _.has eventHandle.listened, eventName
-          eventHandle.trigger eventName, data
+          eventHandle.trigger.apply eventHandle, [eventName].concat data
         # 暂存队列
         if _.has eventHandle.events, eventName
           return void if eventType is \STATUS
@@ -103,7 +113,7 @@
           if _.has eventHandle.listened, eventName
             eventHandle.trigger eventName, data
     /* }}} */
-    /* 初始化 {{{ */
+    /* init {{{ */
     init: !->
       if not @inited
         for item in @_temp
@@ -153,82 +163,83 @@
     ))
 
     dispatch: !->
-      @.on \PAGE_STATUS_ROUTING, (data) !~>
-        @router.parse ':controller/:action(/:params)', data, (controller, action, params) !~>
+      /* before and after filter event */
+      @on \APP_ACTION_BEFORE, \APP_ACTION_AFTER, (data, controller, actionName,
+      params) !->
+        if data
+          /* init filter array */
+          unless _.isArray(data.filter)
+            data.filter = [].concat data.filter
+
+          isRun = true
+          /* init only array */
+          if data.only
+            unless _.isArray(data.only)
+              data.only = [].concat data.only
+
+            if _.indexOf(data.only, actionName) < 0
+              isRun = false
+            /* init except array */
+          else if data.except
+            unless _.isArray(data.except)
+              data.except = [].concat data.except
+
+            if _.indexOf(data.except, actionName) > -1
+              isRun = false
+
+          if isRun
+            for filter in data.filter
+              controller[filter+'Filter'](params)
+              # filter.call null, controller
+      /* call action */
+      @on \PAGE_APP_LOADED, (app, controller, action, params) !->
+        if _.has app, controller
+          controllerName = controller
+          controller = app[controller]
+          if _.has controller, action+\Action
+            actionName = action
+          else if _.has controller, \_emptyAction
+            actionName = \_empty
+
+          # @TODO 基于模块的依赖定义处理
+          depend ||= controller[\depend]
+          depend = (depend || []).concat controller[actionName+\Depend] || []
+
+          before = controller.before
+          after = controller.after
+
+          run = !->
+            if actionName
+              _n.trigger \APP_ACTION_BEFORE, before,
+                controller, actionName, params
+
+              _n.trigger "APP_#{controllerName.toUpperCase!}_ACTION_BEFORE",
+                controller, actionName, params
+
+              controller[actionName+\Before](params) if _.has controller, actionName+\Before
+              controller[actionName+\Action](params) if _.has controller, actionName+\Action
+              controller[actionName+\After](params) if _.has controller, actionName+\After
+
+              _n.trigger "APP_#{controllerName.toUpperCase!}_ACTION_AFTER",
+                controller, actionName, params
+
+              _n.trigger \APP_ACTION_AFTER,
+                after, controller, actionName, params
+
+          if depend and depend.length
+            _n.require _.uniq(depend), run, \Do
+          else
+            run!
+      /* page route */
+      @on \PAGE_STATUS_ROUTING, (data) !~>
+        @router.parse ':controller/:action(/:params)', data,
+        (controller, action, params) !~>
           if _.has @app, controller
-            controller = @app[controller]
-            if _.has controller, action+\Action
-              actionName = action
-            else if _.has controller, \_emptyAction
-              actionName = \_empty
-
-            # @TODO 基于模块的依赖定义处理
-            depend ||= controller[\depend]
-            depend = (depend || []).concat controller[actionName+\Depend] || []
-
-            before = controller.before
-            after = controller.after
-
-            run = !->
-              if actionName
-                if before
-                  /* 初始化filter数组 */
-                  unless _.isArray(before.filter)
-                    before.filter = [].concat before.filter
-                  isRun = true
-                  /* 初始化only条件 */
-                  if before.only
-                    unless _.isArray(before.only)
-                      before.only = [].concat before.only
-
-                    if _.indexOf(before.only, actionName) < 0
-                      isRun = false
-                    /* 初始化except条件 */
-                  else if before.except
-                    unless _.isArray(before.except)
-                      before.except = [].concat before.except
-
-                    if _.indexOf(before.except, actionName) > -1
-                      isRun = false
-
-                  if isRun
-                    for filter in before.filter
-                      controller[filter+'Filter']()
-                      # filter.call null, controller
-
-                controller[actionName+\Before](params) if _.has controller, actionName+\Before
-                controller[actionName+\Action](params) if _.has controller, actionName+\Action
-                controller[actionName+\After](params) if _.has controller, actionName+\After
-
-                if after
-                  /* 初始化filter数组 */
-                  unless _.isArray(after.filter)
-                    after.filter = [].concat after.filter
-                  isRun = true
-                  /* 初始化only条件 */
-                  if after.only
-                    unless _.isArray(after.only)
-                      after.only = [].concat after.only
-
-                    if _.indexOf(after.only, actionName) < 0
-                      isRun = false
-                    /* 初始化except条件 */
-                  else if after.except
-                    unless _.isArray(after.except)
-                      after.except = [].concat after.except
-
-                    if _.indexOf(after.except, actionName) > -1
-                      isRun = false
-
-                  if isRun
-                    for filter in after.filter
-                      controller[filter+'Filter']()
-                      # filter.call null, controller
-
-            if depend and depend.length
-              @require _.uniq(depend), run, \Do
-            else
-              run()
+            @trigger \PAGE_APP_LOADED, @app, controller, action, params
+          else
+            @require ["ndoo.app.#{controller}"], !->
+              _n.trigger \PAGE_APP_LOADED, _n.app, controller, action, params
+            , \Do
     /* }}} */
 
     /* init {{{ */
