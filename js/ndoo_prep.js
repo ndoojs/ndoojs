@@ -15,13 +15,13 @@ var slice$ = [].slice;
     return type + ":" + name;
   };
   (function(e){
-    /* 类型常量 */
+    /* const */
     e == null && (e = _n.event);
     e.TEMP_ON = 1;
     e.TEMP_TRIGGER = 2;
-    /* 初始化标识 */
+    /* init token */
     e.inited = false;
-    /* 事件暂存 */
+    /* event stack */
     e._temp = [];
     /* on api */
     e.on = function(eventName, callback){
@@ -40,28 +40,21 @@ var slice$ = [].slice;
         data: data
       });
     };
-    /* 快捷事件 */
-    e['default'] = function(name){
-      return "DEFAULT:" + name;
-    };
-    e.delay = function(name){
-      return "DELAY:" + name;
-    };
-    e.status = function(name){
-      return "STATUS:" + name;
-    };
+    /* short event
+    e.default = (name) -> "DEFAULT:#name"
+    e.delay   = (name) -> "DELAY:#name"
+    e.status  = (name) -> "STATUS:#name" */
   })();
-  /* 全局 on api */
-  _n.on = function(){
-    var i$, eventName, callback, len$, item, results$ = [];
-    eventName = 0 < (i$ = arguments.length - 1) ? slice$.call(arguments, 0, i$) : (i$ = 0, []), callback = arguments[i$];
+  /* global event api */
+  _n.on = function(eventName, callback){
+    var i$, len$, item, results$ = [];
+    eventName = eventName.split(' ');
     for (i$ = 0, len$ = eventName.length; i$ < len$; ++i$) {
       item = eventName[i$];
       results$.push(this.event.on(item, callback));
     }
     return results$;
   };
-  /* 全局 trigger api */
   _n.trigger = function(eventName){
     var data, _index, type, name;
     data = slice$.call(arguments, 1);

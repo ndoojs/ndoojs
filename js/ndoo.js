@@ -61,7 +61,7 @@ var slice$ = [].slice;
     return results$;
   };
   _n.hasApp = function(app){
-    return _n._apps[app];
+    return _.has(_n._apps, app);
   };
   _n.trigger('STATUS:PAGE_APP_DEFINE');
   /* }}} */
@@ -182,7 +182,7 @@ var slice$ = [].slice;
     dispatch: function(){
       /* before and after filter event */
       var this$ = this;
-      this.on('APP_ACTION_BEFORE', 'APP_ACTION_AFTER', function(data, controller, actionName, params){
+      this.on('APP_ACTION_BEFORE APP_ACTION_AFTER', function(data, controller, actionName, params){
         var isRun, i$, ref$, len$, filter;
         if (data) {
           /* init filter array */

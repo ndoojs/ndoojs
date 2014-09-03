@@ -15,13 +15,13 @@
     "#type:#name"
 
   do (e = _n.event) !->
-    /* 类型常量 */
+    /* const */
     e.TEMP_ON = 1
     e.TEMP_TRIGGER = 2
 
-    /* 初始化标识 */
+    /* init token */
     e.inited = false
-    /* 事件暂存 */
+    /* event stack */
     e._temp = []
 
     /* on api */
@@ -39,17 +39,17 @@
         eventType : eventType
         data      : data
 
-    /* 快捷事件 */
+    /* short event
     e.default = (name) -> "DEFAULT:#name"
     e.delay   = (name) -> "DELAY:#name"
-    e.status  = (name) -> "STATUS:#name"
+    e.status  = (name) -> "STATUS:#name" */
 
-  /* 全局 on api */
-  _n.on = (...eventName, callback) ->
+  /* global event api */
+  _n.on = (eventName, callback) ->
+    eventName = eventName.split ' '
     for item in eventName
       @event.on item, callback
 
-  /* 全局 trigger api */
   _n.trigger = (eventName, ...data) ->
     _index = eventName.indexOf \:
     type = eventName.substring 0, _index++

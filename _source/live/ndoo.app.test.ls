@@ -28,6 +28,7 @@
 
     mainDepend: ['jquery']
     mainAction: (param) !->
+      _n.initBlock document.getElementById(\#testBlock)
       console.log 'test/main'
   /* }}} */
 

@@ -7,7 +7,6 @@
 " LastChange: 05/21/2014 15:32
 " --------------------------------------------------
 */
-var slice$ = [].slice;
 (function(_n, depend){
   var _, $, _vars, _func, _stor, _core;
   _ = depend['_'];
@@ -17,28 +16,79 @@ var slice$ = [].slice;
   _stor = _n.storage;
   _core = _n.core;
   /* define block package {{{ */
-  _n.block = function(name, block){
-    var ref$;
-    _.defaults((ref$ = _n.block)[name] || (ref$[name] = {}), block);
+  _n.block = function(namespace, name, block){
+    var ns, ref$;
+    if (!namespace) {
+      ns = (ref$ = _n._blocks)['_default'] || (ref$['_default'] = {});
+    } else {
+      ns = (ref$ = _n._blocks)[namespace] || (ref$[namespace] = {});
+    }
+    if (_.isObject(block)) {
+      _.defaults(ns[name] = block);
+    } else if (_.isFunction(block)) {
+      ns[name] = block;
+    }
   };
   _n._blocks || (_n._blocks = {});
-  _n.setBlock = function(){
-    var blocks, i$, len$, block, results$ = [];
-    blocks = slice$.call(arguments);
+  _n.setBlock = function(namespace, blocks){
+    var ns, ref$, i$, len$, block, results$ = [];
+    if (!namespace) {
+      ns = (ref$ = _n._blocks)['_default'] || (ref$['_default'] = {});
+    } else {
+      ns = (ref$ = _n._blocks)[namespace] || (ref$[namespace] = {});
+    }
     for (i$ = 0, len$ = blocks.length; i$ < len$; ++i$) {
       block = blocks[i$];
-      if (!_n._blocks[block]) {
-        results$.push(_n._blocks[block] = true);
+      if (!ns[block]) {
+        results$.push(ns[block] = true);
       }
     }
     return results$;
   };
-  _n.hasBlock = function(block){
-    return _n._blocks[block];
+  _n.hasBlock = function(block, namespace){
+    var ns, ref$;
+    if (!namespace) {
+      ns = (ref$ = _n._blocks)['_global'] || (ref$['_global'] = {});
+    } else {
+      ns = (ref$ = _n._blocks)[namespace] || (ref$[namespace] = {});
+    }
+    return _.has(ns, block);
   };
-  _n.initBlock = function(elem){};
+  _n.on('PAGE_BLOCK_LOADED', function(elem, blocks, namespace, block, params){
+    var ns;
+    if (!namespace) {
+      ns = blocks['_default'];
+    } else {
+      ns = blocks[namespace];
+    }
+    if (_.has(ns, block)) {
+      if (_.isFunction(ns[block])) {
+        return ns[block](elem, params);
+      } else if (_.isObject(ns[block])) {
+        return ns[block].init(elem, params);
+      }
+    }
+  });
+  _n.initBlock = function(elem){
+    var blockId;
+    blockId = $(elem).data('blockId');
+    return _n.router.parse(':namespace/:block(/:params)', blockId, function(namespace, block, params){
+      if (_.has(this.block, namespace) && _.has(this.block[namespace], block)) {
+        _n.trigger('PAGE_BLOCK_LOADED', elem, _n.block, namespace, block, params);
+      } else {
+        this.require(["ndoo.block." + namespace + "." + block], function(){
+          _n.trigger('PAGE_BLOCK_LOADED', elem, _n.block, namespace, block, params);
+        }, 'Do');
+      }
+    });
+  };
   _n.trigger('STATUS:PAGE_BLOCK_DEFINE');
   /* }}} */
+  _n.block('test', 'main', {
+    init: function(elem, params){
+      console.log('init test block');
+    }
+  });
   return _n;
 })(this.N = this.ndoo || (this.ndoo = {}), {
   _: _,

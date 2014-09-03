@@ -54,7 +54,8 @@
         _n._apps[app] = true
 
   _n.hasApp = (app) ->
-    _n._apps[app]
+    _.has _n._apps, app
+    # _n._apps[app]
 
   _n.trigger 'STATUS:PAGE_APP_DEFINE'
   /* }}} */
@@ -165,7 +166,7 @@
     /* dispatch {{{ */
     dispatch: !->
       /* before and after filter event */
-      @on \APP_ACTION_BEFORE, \APP_ACTION_AFTER, (data, controller, actionName,
+      @on 'APP_ACTION_BEFORE APP_ACTION_AFTER', (data, controller, actionName,
       params) !->
         if data
           /* init filter array */
@@ -245,11 +246,11 @@
 
     /* init {{{ */
     init: !->
-      # 实始化事件
+      # initial event
       @event.init()
-      # 初始化状态
+      # initial page status
       @triggerPageStatus()
-      # 默认模块调度
+      # module dispatch
       @dispatch()
     /* }}} */
 
