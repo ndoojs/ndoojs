@@ -70,14 +70,14 @@
     }
   });
   _n.initBlock = function(elem){
-    var blockId;
+    var blockId, this$ = this;
     blockId = $(elem).data('blockId');
-    return _n.router.parse(':namespace/:block(/:params)', blockId, function(namespace, block, params){
-      if (_.has(this.block, namespace) && _.has(this.block[namespace], block)) {
-        _n.trigger('PAGE_BLOCK_LOADED', elem, _n.block, namespace, block, params);
+    _n.router.parse(':namespace/:block(/:params)', blockId, function(namespace, block, params){
+      if (_.has(this$._blocks, namespace) && _.has(this$._blocks[namespace], block)) {
+        _n.trigger('PAGE_BLOCK_LOADED', elem, _n._blocks, namespace, block, params);
       } else {
-        this.require(["ndoo.block." + namespace + "." + block], function(){
-          _n.trigger('PAGE_BLOCK_LOADED', elem, _n.block, namespace, block, params);
+        this$.require(["ndoo.block." + namespace + "." + block], function(){
+          _n.trigger('PAGE_BLOCK_LOADED', elem, _n._blocks, namespace, block, params);
         }, 'Do');
       }
     });

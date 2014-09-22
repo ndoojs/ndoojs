@@ -27,7 +27,7 @@
     },
     mainDepend: ['jquery'],
     mainAction: function(param){
-      _n.initBlock(document.getElementById('#testBlock'));
+      _n.initBlock(document.getElementById('testBlock'));
       console.log('test/main');
     }
   });

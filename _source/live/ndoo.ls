@@ -45,7 +45,7 @@
 
   /* define app package {{{ */
   _n.app = (name, app) !->
-    _.defaults _n.app[name] ||= {}, app
+    _.defaults _n._apps[name] ||= {}, app
 
   _n._apps ||= {}
   _n.setApp = (...apps) ->

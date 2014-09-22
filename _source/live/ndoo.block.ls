@@ -65,15 +65,15 @@
       else if _.isObject ns[block]
         ns[block].init elem, params
 
-  _n.initBlock = (elem) ->
+  _n.initBlock = (elem) !->
     blockId = $(elem).data \blockId
     _n.router.parse ':namespace/:block(/:params)', blockId,
-    (namespace, block, params) !->
-      if _.has(@block, namespace) and _.has @block[namespace], block
-        _n.trigger \PAGE_BLOCK_LOADED, elem, _n.block, namespace, block, params
+    (namespace, block, params) !~>
+      if _.has(@_blocks, namespace) and _.has @_blocks[namespace], block
+        _n.trigger \PAGE_BLOCK_LOADED, elem, _n._blocks, namespace, block, params
       else
         @require ["ndoo.block.#{namespace}.#{block}"], !->
-          _n.trigger \PAGE_BLOCK_LOADED, elem, _n.block, namespace, block, params
+          _n.trigger \PAGE_BLOCK_LOADED, elem, _n._blocks, namespace, block, params
         , \Do
 
 
@@ -83,6 +83,8 @@
   _n.block \test, \main, do
     init: (elem, params) !->
       console.log 'init test block'
+
+  # _n.initBlock!
 
   _n
 )(@N = @ndoo ||= {}, _: _, $: jQuery)
