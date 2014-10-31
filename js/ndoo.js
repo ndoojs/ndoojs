@@ -141,7 +141,7 @@ var slice$ = [].slice;
     pageId: $('#scriptArea').data('pageId'),
     getPk: function(){
       var _pk;
-      _pk = 0;
+      _pk = +new Date();
       return function(){
         return ++_pk;
       };

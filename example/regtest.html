@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>regtest</title>
+  </head>
+  <body>
+    <script>
+      var test = function(str) {
+        console.log(str);
+        console.log(str.match(/^(?:\/?)(.*?)(?:\/([^/?]+))?(?:\?(.*))?$/))
+      }
+      var test2 = function(str) {
+        console.log(str);
+        console.log(str.match(/^(?:\/?)(.*?)(?:\/?([^/?]+))(?:\?(.*?))?$/))
+      }
+      var strarr = ['test', '/test', 'test?abc=1', '/test?abc=1',
+      'block/test', 'block/test?abc=1', '/block/test', '/block/test?abc=1',
+      'utils/block/test', '/utils/block/block', 'utils/block/test?abc=1', '/utils/block/test?abc=1',
+      'block/utils/block/test', '/block/utils/block/block', 'block/utils/block/test?abc=1', '/block/utils/block/test?abc=1'
+      ]
+      console.log("Test Suit 1:");
+      for (var i=0, j=strarr.length; i<j; i++ ) {
+        test( strarr[i] );
+      }
+      console.log("Test Suit 2:");
+      for (var i=0, j=strarr.length; i<j; i++ ) {
+        test2( strarr[i] );
+      }
+    </script>
+  </body>
+</html>

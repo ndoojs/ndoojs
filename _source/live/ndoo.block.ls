@@ -33,6 +33,21 @@
     else if _.isFunction block
       ns[name] = block
 
+  _n.block.pack = (key, value) ->
+    keys = key.replace /^[\/,]|[\/,]$/g, '' .split /[\/,]/
+    _blocks = _n._blocks
+    for item in keys
+      _blocks[item] ||= {}
+
+    if value
+      _blocks[item] value
+    else
+      _blocks[item]
+
+  # _blocks._default
+  # _blocks._app
+  # _blocks.some
+
   _n._blocks ||= {}
 
   _n.setBlock = (namespace, blocks) ->
@@ -47,7 +62,7 @@
 
   _n.hasBlock = (block, namespace) ->
     unless namespace
-      ns = _n._blocks['_global'] ||= {}
+      ns = _n._blocks['_default'] ||= {}
     else
       ns = _n._blocks[namespace] ||= {}
 
@@ -67,8 +82,12 @@
 
   _n.initBlock = (elem) !->
     blockId = $(elem).data \blockId
-    _n.router.parse ':namespace/:block(/:params)', blockId,
-    (namespace, block, params) !~>
+    _n.router.parse //
+      ^(?:\/?)           # ^[/]
+      (.*?)              # [:namespace]
+      (?:\/?([^/?]+))    # /:block
+      (?:\?(.*?))?$      # [?:params]$
+    //, blockId, (namespace, block, params) !~>
       if _.has(@_blocks, namespace) and _.has @_blocks[namespace], block
         _n.trigger \PAGE_BLOCK_LOADED, elem, _n._blocks, namespace, block, params
       else
@@ -84,7 +103,7 @@
     init: (elem, params) !->
       console.log 'init test block'
 
-  # _n.initBlock!
+  # _n.initBlock('[data-ndoo-block]')
 
   _n
 )(@N = @ndoo ||= {}, _: _, $: jQuery)

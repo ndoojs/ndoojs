@@ -45,7 +45,7 @@
 
   /* define app package {{{ */
   _n.app = (name, app) !->
-    _.defaults _n._apps[name] ||= {}, app
+    _.defaults _n.app[name] ||= {}, app
 
   _n._apps ||= {}
   _n.setApp = (...apps) ->
@@ -130,7 +130,7 @@
     /* base {{{ */
     pageId: $(\#scriptArea).data(\pageId)
     getPk: do ->
-      _pk = 0
+      _pk = +new Date!
       ->
         ++_pk
     triggerPageStatus: !->

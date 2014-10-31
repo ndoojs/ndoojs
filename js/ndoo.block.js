@@ -29,6 +29,20 @@
       ns[name] = block;
     }
   };
+  _n.block.pack = function(key, value){
+    var keys, _blocks, i$, len$, item;
+    keys = key.replace(/^[\/,]|[\/,]$/g, '').split(/[\/,]/);
+    _blocks = _n._blocks;
+    for (i$ = 0, len$ = keys.length; i$ < len$; ++i$) {
+      item = keys[i$];
+      _blocks[item] || (_blocks[item] = {});
+    }
+    if (value) {
+      return _blocks[item](value);
+    } else {
+      return _blocks[item];
+    }
+  };
   _n._blocks || (_n._blocks = {});
   _n.setBlock = function(namespace, blocks){
     var ns, ref$, i$, len$, block, results$ = [];
@@ -48,7 +62,7 @@
   _n.hasBlock = function(block, namespace){
     var ns, ref$;
     if (!namespace) {
-      ns = (ref$ = _n._blocks)['_global'] || (ref$['_global'] = {});
+      ns = (ref$ = _n._blocks)['_default'] || (ref$['_default'] = {});
     } else {
       ns = (ref$ = _n._blocks)[namespace] || (ref$[namespace] = {});
     }
@@ -72,7 +86,7 @@
   _n.initBlock = function(elem){
     var blockId, this$ = this;
     blockId = $(elem).data('blockId');
-    _n.router.parse(':namespace/:block(/:params)', blockId, function(namespace, block, params){
+    _n.router.parse(/^(?:\/?)(.*?)(?:\/?([^\/?]+))(?:\?(.*?))?$/, blockId, function(namespace, block, params){
       if (_.has(this$._blocks, namespace) && _.has(this$._blocks[namespace], block)) {
         _n.trigger('PAGE_BLOCK_LOADED', elem, _n._blocks, namespace, block, params);
       } else {
