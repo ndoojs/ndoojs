@@ -22,6 +22,7 @@
   #
 
   /* define block package {{{ */
+  _n._blocks ||= {}
   _n.block = (namespace, name, block) !->
     unless namespace
       ns = _n._blocks['_default'] ||= {}
@@ -34,22 +35,23 @@
       ns[name] = block
 
   _n.block.pack = (key, value) ->
-    keys = key.replace /^[\/,]|[\/,]$/g, '' .split /[\/,]/
     _blocks = _n._blocks
-    for item in keys
-      _blocks[item] ||= {}
+    keys = key.replace /^[\/,]|[\/,]$/g, '' .split /[\/,]/
 
     if value
-      _blocks[item] value
+      for item in keys
+        _blocks[item] ||= {}
+      _blocks[item] = value
     else
-      _blocks[item]
+      for item in keys
+        unless _.has _blocks, item
+          _.has _blocks, item
+      _.has _blocks, item
 
   # _blocks._default
   # _blocks._app
   # _blocks.some
-
-  _n._blocks ||= {}
-
+  /*
   _n.setBlock = (namespace, blocks) ->
     unless namespace
       ns = _n._blocks['_default'] ||= {}
@@ -67,7 +69,7 @@
       ns = _n._blocks[namespace] ||= {}
 
     _.has ns, block
-
+  */
   _n.on \PAGE_BLOCK_LOADED, (elem, blocks, namespace, block, params) ->
     unless namespace
       ns = blocks[\_default]
@@ -87,7 +89,7 @@
       (.*?)              # [:namespace]
       (?:\/?([^/?]+))    # /:block
       (?:\?(.*?))?$      # [?:params]$
-    //, blockId, (namespace, block, params) !~>
+    //, blockId, (namespace = '_default', block, params) !~>
       if _.has(@_blocks, namespace) and _.has @_blocks[namespace], block
         _n.trigger \PAGE_BLOCK_LOADED, elem, _n._blocks, namespace, block, params
       else
