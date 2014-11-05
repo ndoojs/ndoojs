@@ -8,6 +8,7 @@
 " --------------------------------------------------
 */
 ((_n, depend) ->
+  "use strict"
   _        = depend[\_]
   $        = depend[\$]
 
@@ -34,7 +35,6 @@
 
   _n.storage.data = {}
   /* }}} */
-
   /* require module {{{ */
   _n.require = (depend, callback, type) !->
     if type is \Do
@@ -42,24 +42,74 @@
     else if type is \seajs
       seajs.use depend, callback
   /* }}} */
+  /* define block module {{{ */
+  _n._blockData ||= do
+    _block : {}
+    _app   : {}
+    _exist : {}
 
-  /* define app package {{{ */
-  _n.app = (name, app) !->
-    _.defaults _n.app[name] ||= {}, app
+  _n._block = (base, namespace, name, block) ->
+    if base is \block
+      data = _n._blockData[\_block]
+    else if base is \app
+      data = _n._blockData[\_app]
 
-  _n._apps ||= {}
-  _n.setApp = (...apps) ->
-    for app in apps
-      unless _n._apps[app]
-        _n._apps[app] = true
+    if namespace
+      nsArr = namespace.replace /^[/.]|[/.]$/g, '' .split /[/.]/
+    else
+      nsArr = []
 
-  _n.hasApp = (app) ->
-    _.has _n._apps, app
-    # _n._apps[app]
+    temp = data
+    if block
+      if namespace
+        _n._blockData[\_exist]["#base.#namespace.#name"] = true
+      else
+        _n._blockData[\_exist]["#base.#name"] = true
+
+      for ns in nsArr
+        temp = temp[ns] ||= {}
+      temp[name] ||= {}
+
+      if _.isObject block
+        _.defaults temp[name], block
+      else
+        temp[name] = block
+
+    else
+      for ns in nsArr
+        unless _.has temp, ns
+          false
+        temp = temp[ns]
+      temp[name]
+
+  _n.hasBlock = (namespace=\_default, name) ->
+    _n._blockData[\_exist]["block.#namespace.#name"]
+
+  _n.setBlock = (namespace=\_default, name) ->
+    _n._blockData[\_exist]["block.#namespace.#name"] = true
+
+  _n.block = (namespace=\_default, name, block) ->
+    _n._block \block, namespace, name, block
+
+  _n.trigger \STATUS:PAGE_BLOCK_DEFINE
+  /* }}} */
+  /* define app module {{{ */
+  _n.hasApp = (namespace) ->
+    _n._blockData[\_exist]["app.#namespace"]
+
+  _n.setApp = (namespace) ->
+    _n._blockData[\_exist]["app.#namespace"] = true
+
+  _n.app = (namespace, controller) ->
+    if nsmatch = namespace.match /(.*?)(?:[/.]([^/.]+))$/
+      [namespace, controllerName] = nsmatch
+    else
+      [controllerName, namespace] = [namespace, null]
+
+    _n._block \app, namespace, controllerName, controller
 
   _n.trigger 'STATUS:PAGE_APP_DEFINE'
   /* }}} */
-
   /* event module {{{ */
   _n.event = _.extend _n.event,
     /* eventHandle {{{ */
@@ -125,7 +175,6 @@
       @inited = true
     /* }}} */
   /* }}} */
-
   _.extend _n,
     /* base {{{ */
     pageId: $(\#scriptArea).data(\pageId)
@@ -193,68 +242,81 @@
             for filter in data.filter
               controller[filter+'Filter'](params)
               # filter.call null, controller
+
       /* call action */
-      @on \PAGE_APP_LOADED, (app, controller, action, params) !->
-        if _.has app, controller
-          controllerName = controller
-          controller = app[controller]
-          if _.has controller, action+\Action
-            actionName = action
-          else if _.has controller, \_emptyAction
-            actionName = \_empty
+      @on \PAGE_APP_LOADED, (namespace, controllerName, actionName, params) !->
+        if namespace
+          controller = _n.app "#namespace.#controllerName"
+        else
+          controller = _n.app controllerName
 
-          # @TODO 基于模块的依赖定义处理
-          depend ||= controller[\depend]
-          depend = (depend || []).concat controller[actionName+\Depend] || []
+        if !_.has(controller, "#{actionName}Action") and _.has controller, \_emptyAction
+          actionName = \_empty
 
-          before = controller.before
-          after = controller.after
+        # @TODO 基于模块的依赖定义处理
+        depend ||= controller[\depend]
+        depend = (depend || []).concat controller[actionName+\Depend] || []
 
-          run = !->
-            if actionName
-              _n.trigger \APP_ACTION_BEFORE, before,
-                controller, actionName, params
+        before = controller.before
+        after = controller.after
 
-              _n.trigger "APP_#{controllerName.toUpperCase!}_ACTION_BEFORE",
-                controller, actionName, params
+        run = !->
+          if actionName
+            _n.trigger \APP_ACTION_BEFORE, before,
+              controller, actionName, params
 
-              controller[actionName+\Before](params) if _.has controller, actionName+\Before
-              controller[actionName+\Action](params) if _.has controller, actionName+\Action
-              controller[actionName+\After](params) if _.has controller, actionName+\After
+            _n.trigger "APP_#{controllerName.toUpperCase!}_ACTION_BEFORE",
+              controller, actionName, params
 
-              _n.trigger "APP_#{controllerName.toUpperCase!}_ACTION_AFTER",
-                controller, actionName, params
+            controller[actionName+\Before](params) if _.has controller, actionName+\Before
+            controller[actionName+\Action](params) if _.has controller, actionName+\Action
+            controller[actionName+\After](params) if _.has controller, actionName+\After
 
-              _n.trigger \APP_ACTION_AFTER,
-                after, controller, actionName, params
+            _n.trigger "APP_#{controllerName.toUpperCase!}_ACTION_AFTER",
+              controller, actionName, params
 
-          if depend and depend.length
-            _n.require _.uniq(depend), run, \Do
-          else
-            run!
+            _n.trigger \APP_ACTION_AFTER,
+              after, controller, actionName, params
+
+        if depend and depend.length
+          _n.require _.uniq(depend), run, \Do
+        else
+          run!
+
       /* page route */
       @on \PAGE_STATUS_ROUTING, (data) !~>
-        @router.parse ':controller/:action(/:params)', data,
-        (controller, action, params) !~>
-          if _.has @app, controller
-            @trigger \PAGE_APP_LOADED, @app, controller, action, params
-          else if _n.hasApp controller
-            @require ["ndoo.app.#{controller}"], !->
-              _n.trigger \PAGE_APP_LOADED, _n.app, controller, action, params
+        # @router.parse ':controller/:action(/:params)', data,
+        @router.parse //
+          ^(?:\/?)           # ^[/]
+          (.*?)              # [:namespace]
+          (?:\/?([^/?]+))    # /:block
+          (?:\?(.*?))?$      # [?:params]$
+        //, data, (namespace, action, params) !~>
+          if nsmatch = namespace.match /(.*?)(?:[/.]([^/.]+))$/
+            [null, namespace, controller] = nsmatch
+          else
+            [controller, namespace] = [namespace, null]
+
+          if namespace then pkg = "#namespace.#controller" else pkg = controller
+
+          if _n.app pkg
+            @trigger \PAGE_APP_LOADED, namespace, controller, action, params
+          else if _n.hasApp pkg
+            @require ["ndoo.app.#pkg"], !->
+              _n.trigger \PAGE_APP_LOADED, namespace, controller, action, params
             , \Do
     /* }}} */
-
     /* init {{{ */
     init: !->
       # initial event
-      @event.init()
+      @event.init!
       # initial page status
-      @triggerPageStatus()
+      @triggerPageStatus!
       # module dispatch
-      @dispatch()
+      @dispatch!
     /* }}} */
 
-  _n.init()
+  _n.init!
   _n
 )(@N = @ndoo ||= {}, _: _, $: jQuery)
 /* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */

@@ -43,7 +43,7 @@
     mainAction: (param) !->
       console.log param
       _n.require ['jquery-1.11.1.js', 'jquery-mytest.js'], (a) !->
-        a('body').mytest();
+        a('body').mytest!;
       , \seajs
   /* }}} */
 

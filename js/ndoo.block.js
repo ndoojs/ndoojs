@@ -8,6 +8,7 @@
 " --------------------------------------------------
 */
 (function(_n, depend){
+  "use strict";
   var _, $, _vars, _func, _stor, _core;
   _ = depend['_'];
   $ = depend['$'];
@@ -15,65 +16,9 @@
   _func = _n.func;
   _stor = _n.storage;
   _core = _n.core;
-  /* define block package {{{ */
-  _n._blockData || (_n._blockData = {});
-  _n._block = function(base, namespace, name, block){
-    var data, ref$, nsArr, temp, i$, len$, ns;
-    if (base === 'block') {
-      data = (ref$ = _n._blockData)['_block'] || (ref$['_block'] = {});
-    } else if (base === 'app') {
-      data = (ref$ = _n._blockData)['_app'] || (ref$['_app'] = {});
-    }
-    nsArr = namespace.replace(/^[\/,]|[\/,]$/g, '').split(/[\/,]/);
-    temp = data;
-    if (block) {
-      for (i$ = 0, len$ = nsArr.length; i$ < len$; ++i$) {
-        ns = nsArr[i$];
-        temp = temp[ns] || (temp[ns] = {});
-      }
-      temp[name] || (temp[name] = {});
-      if (_.isObject(block)) {
-        return _.defaults(temp[name], block);
-      } else {
-        return temp[name] = block;
-      }
-    } else {
-      for (i$ = 0, len$ = nsArr.length; i$ < len$; ++i$) {
-        ns = nsArr[i$];
-        if (!_.has(temp, ns)) {
-          false;
-        }
-        temp = temp[ns];
-      }
-      return temp[name];
-    }
-  };
-  _n.block = function(namespace, name, block){
-    namespace == null && (namespace = '_default');
-    return _n._block('block', namespace, name, block);
-  };
-  /*
-  _n.setBlock = (namespace, blocks) ->
-    unless namespace
-      ns = _n._blocks['_default'] ||= {}
-    else
-      ns = _n._blocks[namespace] ||= {}
-  
-    for block in blocks
-      unless ns[block]
-        ns[block] = true
-  
-  _n.hasBlock = (block, namespace) ->
-    unless namespace
-      ns = _n._blocks['_default'] ||= {}
-    else
-      ns = _n._blocks[namespace] ||= {}
-  
-    _.has ns, block
-  */
   _n.on('PAGE_BLOCK_LOADED', function(elem, namespace, name, params){
     var block;
-    namespace == null && (namespace = "_default");
+    namespace == null && (namespace = '_default');
     if (block = _n.block(namespace, name)) {
       if (_.isFunction(block)) {
         return block(elem, params);
@@ -87,7 +32,7 @@
     blockId = $(elem).data('blockId');
     _n.router.parse(/^(?:\/?)(.*?)(?:\/?([^\/?]+))(?:\?(.*?))?$/, blockId, function(namespace, block, params){
       namespace == null && (namespace = '_default');
-      if (_n.block(namespace, block)) {
+      if (_n.hasBlock(namespace, block)) {
         _n.trigger('PAGE_BLOCK_LOADED', elem, namespace, block, params);
       } else {
         this$.require(["ndoo.block." + namespace + "." + block], function(){
@@ -96,7 +41,6 @@
       }
     });
   };
-  _n.trigger('STATUS:PAGE_BLOCK_DEFINE');
   /* }}} */
   _n.block('test', 'main', {
     init: function(elem, params){

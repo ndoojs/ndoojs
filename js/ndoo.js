@@ -7,8 +7,8 @@
 " LastChange: 05/21/2014 15:32
 " --------------------------------------------------
 */
-var slice$ = [].slice;
 (function(_n, depend){
+  "use strict";
   var _, $, _vars, _func, _stor, _core;
   _ = depend['_'];
   $ = depend['$'];
@@ -43,25 +43,81 @@ var slice$ = [].slice;
     }
   };
   /* }}} */
-  /* define app package {{{ */
-  _n.app = function(name, app){
-    var ref$;
-    _.defaults((ref$ = _n.app)[name] || (ref$[name] = {}), app);
-  };
-  _n._apps || (_n._apps = {});
-  _n.setApp = function(){
-    var apps, i$, len$, app, results$ = [];
-    apps = slice$.call(arguments);
-    for (i$ = 0, len$ = apps.length; i$ < len$; ++i$) {
-      app = apps[i$];
-      if (!_n._apps[app]) {
-        results$.push(_n._apps[app] = true);
-      }
+  /* define block module {{{ */
+  _n._blockData || (_n._blockData = {
+    _block: {},
+    _app: {},
+    _exist: {}
+  });
+  _n._block = function(base, namespace, name, block){
+    var data, nsArr, temp, i$, len$, ns;
+    if (base === 'block') {
+      data = _n._blockData['_block'];
+    } else if (base === 'app') {
+      data = _n._blockData['_app'];
     }
-    return results$;
+    if (namespace) {
+      nsArr = namespace.replace(/^[/.]|[/.]$/g, '').split(/[/.]/);
+    } else {
+      nsArr = [];
+    }
+    temp = data;
+    if (block) {
+      if (namespace) {
+        _n._blockData['_exist'][base + "." + namespace + "." + name] = true;
+      } else {
+        _n._blockData['_exist'][base + "." + name] = true;
+      }
+      for (i$ = 0, len$ = nsArr.length; i$ < len$; ++i$) {
+        ns = nsArr[i$];
+        temp = temp[ns] || (temp[ns] = {});
+      }
+      temp[name] || (temp[name] = {});
+      if (_.isObject(block)) {
+        return _.defaults(temp[name], block);
+      } else {
+        return temp[name] = block;
+      }
+    } else {
+      for (i$ = 0, len$ = nsArr.length; i$ < len$; ++i$) {
+        ns = nsArr[i$];
+        if (!_.has(temp, ns)) {
+          false;
+        }
+        temp = temp[ns];
+      }
+      return temp[name];
+    }
   };
-  _n.hasApp = function(app){
-    return _.has(_n._apps, app);
+  _n.hasBlock = function(namespace, name){
+    namespace == null && (namespace = '_default');
+    return _n._blockData['_exist']["block." + namespace + "." + name];
+  };
+  _n.setBlock = function(namespace, name){
+    namespace == null && (namespace = '_default');
+    return _n._blockData['_exist']["block." + namespace + "." + name] = true;
+  };
+  _n.block = function(namespace, name, block){
+    namespace == null && (namespace = '_default');
+    return _n._block('block', namespace, name, block);
+  };
+  _n.trigger('STATUS:PAGE_BLOCK_DEFINE');
+  /* }}} */
+  /* define app module {{{ */
+  _n.hasApp = function(namespace){
+    return _n._blockData['_exist']["app." + namespace];
+  };
+  _n.setApp = function(namespace){
+    return _n._blockData['_exist']["app." + namespace] = true;
+  };
+  _n.app = function(namespace, controller){
+    var nsmatch, controllerName, ref$;
+    if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
+      namespace = nsmatch[0], controllerName = nsmatch[1];
+    } else {
+      ref$ = [namespace, null], controllerName = ref$[0], namespace = ref$[1];
+    }
+    return _n._block('app', namespace, controllerName, controller);
   };
   _n.trigger('STATUS:PAGE_APP_DEFINE');
   /* }}} */
@@ -216,52 +272,62 @@ var slice$ = [].slice;
         }
       });
       /* call action */
-      this.on('PAGE_APP_LOADED', function(app, controller, action, params){
-        var controllerName, actionName, depend, before, after, run;
-        if (_.has(app, controller)) {
-          controllerName = controller;
-          controller = app[controller];
-          if (_.has(controller, action + 'Action')) {
-            actionName = action;
-          } else if (_.has(controller, '_emptyAction')) {
-            actionName = '_empty';
-          }
-          depend || (depend = controller['depend']);
-          depend = (depend || []).concat(controller[actionName + 'Depend'] || []);
-          before = controller.before;
-          after = controller.after;
-          run = function(){
-            if (actionName) {
-              _n.trigger('APP_ACTION_BEFORE', before, controller, actionName, params);
-              _n.trigger("APP_" + controllerName.toUpperCase() + "_ACTION_BEFORE", controller, actionName, params);
-              if (_.has(controller, actionName + 'Before')) {
-                controller[actionName + 'Before'](params);
-              }
-              if (_.has(controller, actionName + 'Action')) {
-                controller[actionName + 'Action'](params);
-              }
-              if (_.has(controller, actionName + 'After')) {
-                controller[actionName + 'After'](params);
-              }
-              _n.trigger("APP_" + controllerName.toUpperCase() + "_ACTION_AFTER", controller, actionName, params);
-              _n.trigger('APP_ACTION_AFTER', after, controller, actionName, params);
+      this.on('PAGE_APP_LOADED', function(namespace, controllerName, actionName, params){
+        var controller, depend, before, after, run;
+        if (namespace) {
+          controller = _n.app(namespace + "." + controllerName);
+        } else {
+          controller = _n.app(controllerName);
+        }
+        if (!_.has(controller, actionName + "Action") && _.has(controller, '_emptyAction')) {
+          actionName = '_empty';
+        }
+        depend || (depend = controller['depend']);
+        depend = (depend || []).concat(controller[actionName + 'Depend'] || []);
+        before = controller.before;
+        after = controller.after;
+        run = function(){
+          if (actionName) {
+            _n.trigger('APP_ACTION_BEFORE', before, controller, actionName, params);
+            _n.trigger("APP_" + controllerName.toUpperCase() + "_ACTION_BEFORE", controller, actionName, params);
+            if (_.has(controller, actionName + 'Before')) {
+              controller[actionName + 'Before'](params);
             }
-          };
-          if (depend && depend.length) {
-            _n.require(_.uniq(depend), run, 'Do');
-          } else {
-            run();
+            if (_.has(controller, actionName + 'Action')) {
+              controller[actionName + 'Action'](params);
+            }
+            if (_.has(controller, actionName + 'After')) {
+              controller[actionName + 'After'](params);
+            }
+            _n.trigger("APP_" + controllerName.toUpperCase() + "_ACTION_AFTER", controller, actionName, params);
+            _n.trigger('APP_ACTION_AFTER', after, controller, actionName, params);
           }
+        };
+        if (depend && depend.length) {
+          _n.require(_.uniq(depend), run, 'Do');
+        } else {
+          run();
         }
       });
       /* page route */
       this.on('PAGE_STATUS_ROUTING', function(data){
-        this$.router.parse(':controller/:action(/:params)', data, function(controller, action, params){
-          if (_.has(this$.app, controller)) {
-            this$.trigger('PAGE_APP_LOADED', this$.app, controller, action, params);
-          } else if (_n.hasApp(controller)) {
-            this$.require(["ndoo.app." + controller], function(){
-              _n.trigger('PAGE_APP_LOADED', _n.app, controller, action, params);
+        this$.router.parse(/^(?:\/?)(.*?)(?:\/?([^\/?]+))(?:\?(.*?))?$/, data, function(namespace, action, params){
+          var nsmatch, controller, ref$, pkg;
+          if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
+            namespace = nsmatch[1], controller = nsmatch[2];
+          } else {
+            ref$ = [namespace, null], controller = ref$[0], namespace = ref$[1];
+          }
+          if (namespace) {
+            pkg = namespace + "." + controller;
+          } else {
+            pkg = controller;
+          }
+          if (_n.app(pkg)) {
+            this$.trigger('PAGE_APP_LOADED', namespace, controller, action, params);
+          } else if (_n.hasApp(pkg)) {
+            this$.require(["ndoo.app." + pkg], function(){
+              _n.trigger('PAGE_APP_LOADED', namespace, controller, action, params);
             }, 'Do');
           }
         });

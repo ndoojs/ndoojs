@@ -8,6 +8,7 @@
 " --------------------------------------------------
 */
 ((_n, depend) ->
+  "use strict"
   _        = depend[\_]
   $        = depend[\$]
 
@@ -19,64 +20,8 @@
   # @TODO
   # - 模块定义
   # - 异步加载
-  #
 
-  /* define block package {{{ */
-  _n._blockData ||= {}
-
-  _n._block = (base, namespace, name, block) ->
-    if base is \block
-      data = _n._blockData[\_block] ||= {}
-    else if base is \app
-      data = _n._blockData[\_app] ||= {}
-
-    nsArr = namespace.replace /^[\/,]|[\/,]$/g, '' .split /[\/,]/
-    temp = data
-
-    if block
-      for ns in nsArr
-        temp = temp[ns] ||= {}
-      temp[name] ||= {}
-      if _.isObject block
-        _.defaults temp[name], block
-      else
-        temp[name] = block
-    else
-      for ns in nsArr
-        unless _.has temp, ns
-          false
-        temp = temp[ns]
-      temp[name]
-
-  _n.block = (namespace=\_default, name, block) ->
-    _n._block \block, namespace, name, block
-
-  # _n.app = (namespace, name, block) ->
-  #   _n._block \app, namespace, name, block
-
-  # _blocks._default
-  # _blocks._app
-  # _blocks.some
-  /*
-  _n.setBlock = (namespace, blocks) ->
-    unless namespace
-      ns = _n._blocks['_default'] ||= {}
-    else
-      ns = _n._blocks[namespace] ||= {}
-
-    for block in blocks
-      unless ns[block]
-        ns[block] = true
-
-  _n.hasBlock = (block, namespace) ->
-    unless namespace
-      ns = _n._blocks['_default'] ||= {}
-    else
-      ns = _n._blocks[namespace] ||= {}
-
-    _.has ns, block
-  */
-  _n.on \PAGE_BLOCK_LOADED, (elem, namespace="_default", name, params) ->
+  _n.on \PAGE_BLOCK_LOADED, (elem, namespace=\_default, name, params) ->
     if block = _n.block namespace, name
       if _.isFunction block
         block elem, params
@@ -90,15 +35,14 @@
       (.*?)              # [:namespace]
       (?:\/?([^/?]+))    # /:block
       (?:\?(.*?))?$      # [?:params]$
-    //, blockId, (namespace = '_default', block, params) !~>
-      if _n.block(namespace, block)
+    //, blockId, (namespace = \_default, block, params) !~>
+      if _n.hasBlock(namespace, block)
         _n.trigger \PAGE_BLOCK_LOADED, elem, namespace, block, params
       else
-        @require ["ndoo.block.#{namespace}.#{block}"], !->
+        @require ["ndoo.block.#namespace.#block"], !->
           _n.trigger \PAGE_BLOCK_LOADED, elem, namespace, block, params
         , \Do
 
-  _n.trigger 'STATUS:PAGE_BLOCK_DEFINE'
   /* }}} */
 
   _n.block \test, \main, do
