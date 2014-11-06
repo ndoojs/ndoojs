@@ -4,7 +4,7 @@
 "       Desc: ndoo.js主文件
 "     Author: chenglf
 "    Version: ndoo.js(v0.1b5)
-" LastChange: 05/21/2014 15:32
+" LastChange: 11/06/2014 23:32
 " --------------------------------------------------
 */
 (function(_n, depend){
@@ -145,7 +145,7 @@
       }
     }
     /* }}} */
-    /* rewrite igger {{{ */,
+    /* rewrite trigger {{{ */,
     trigger: function(eventName, eventType, data){
       var eventHandle;
       eventHandle = this.eventHandle;
@@ -286,17 +286,18 @@
         before = controller.before;
         after = controller.after;
         run = function(){
+          var key$;
           if (actionName) {
             _n.trigger('APP_ACTION_BEFORE', before, controller, actionName, params);
             _n.trigger("APP_" + controllerName.toUpperCase() + "_ACTION_BEFORE", controller, actionName, params);
-            if (_.has(controller, actionName + 'Before')) {
-              controller[actionName + 'Before'](params);
+            if (typeof controller[key$ = actionName + 'Before'] === 'function') {
+              controller[key$](params);
             }
-            if (_.has(controller, actionName + 'Action')) {
-              controller[actionName + 'Action'](params);
+            if (typeof controller[key$ = actionName + 'Action'] === 'function') {
+              controller[key$](params);
             }
-            if (_.has(controller, actionName + 'After')) {
-              controller[actionName + 'After'](params);
+            if (typeof controller[key$ = actionName + 'After'] === 'function') {
+              controller[key$](params);
             }
             _n.trigger("APP_" + controllerName.toUpperCase() + "_ACTION_AFTER", controller, actionName, params);
             _n.trigger('APP_ACTION_AFTER', after, controller, actionName, params);

@@ -4,7 +4,7 @@
 "       Desc: ndoo.js主文件
 "     Author: chenglf
 "    Version: ndoo.js(v0.1b5)
-" LastChange: 05/21/2014 15:32
+" LastChange: 11/06/2014 23:32
 " --------------------------------------------------
 */
 ((_n, depend) ->
@@ -136,7 +136,7 @@
         # 清除非状态事件队列
         # delete eventHandle.events[eventName]
     /* }}} */
-    /* rewrite igger {{{ */
+    /* rewrite trigger {{{ */
     trigger: (eventName, eventType, data) !->
       eventHandle = @eventHandle
       # 处理普通事件
@@ -214,8 +214,8 @@
     /* dispatch {{{ */
     dispatch: !->
       /* before and after filter event */
-      @on 'APP_ACTION_BEFORE APP_ACTION_AFTER', (data, controller, actionName,
-      params) !->
+      @on 'APP_ACTION_BEFORE APP_ACTION_AFTER',
+      (data, controller, actionName, params) !->
         if data
           /* init filter array */
           unless _.isArray(data.filter)
@@ -243,13 +243,15 @@
               # filter.call null, controller
 
       /* call action */
-      @on \PAGE_APP_LOADED, (namespace, controllerName, actionName, params) !->
+      @on \PAGE_APP_LOADED,
+      (namespace, controllerName, actionName, params) !->
         if namespace
           controller = _n.app "#namespace.#controllerName"
         else
           controller = _n.app controllerName
 
-        if !_.has(controller, "#{actionName}Action") and _.has controller, \_emptyAction
+        if !_.has(controller, "#{actionName}Action") and
+        _.has controller, \_emptyAction
           actionName = \_empty
 
         # @TODO 基于模块的依赖定义处理
@@ -267,9 +269,9 @@
             _n.trigger "APP_#{controllerName.toUpperCase!}_ACTION_BEFORE",
               controller, actionName, params
 
-            controller[actionName+\Before](params) if _.has controller, actionName+\Before
-            controller[actionName+\Action](params) if _.has controller, actionName+\Action
-            controller[actionName+\After](params) if _.has controller, actionName+\After
+            controller[actionName+\Before]?(params)
+            controller[actionName+\Action]?(params)
+            controller[actionName+\After]?(params)
 
             _n.trigger "APP_#{controllerName.toUpperCase!}_ACTION_AFTER",
               controller, actionName, params
