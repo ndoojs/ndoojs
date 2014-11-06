@@ -30,6 +30,7 @@
     mainAction: (param) !->
       console.log 'test/main'
       _n.initBlock document.getElementById(\testBlock)
+
   /* }}} */
 
   _n

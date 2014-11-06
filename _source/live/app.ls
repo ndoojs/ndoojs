@@ -46,6 +46,11 @@
         a('body').mytest!;
       , \seajs
   /* }}} */
+  /* [ndoo module] {{{ */
+  _n.app \ndoo.test, do
+    mainAction: (param) !->
+      console.log \ndoo.test.main
+  /* }}} */
 
   _n
 )(@N = @ndoo ||= {}, _: _, $: jQuery)

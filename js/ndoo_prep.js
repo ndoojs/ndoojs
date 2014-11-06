@@ -9,6 +9,7 @@
 */
 var slice$ = [].slice;
 (function(_n){
+  "use strict";
   _n._isDebug = 0;
   /* event module {{{ */
   _n.event = function(name, type){
