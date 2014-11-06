@@ -9,18 +9,18 @@
 */
 (function(_n, depend){
   "use strict";
-  var _, $, _vars, _func, _stor, _core;
+  var _, $, _vars, _func, _stor;
   _ = depend['_'];
   $ = depend['$'];
   _vars = _n.vars;
   _func = _n.func;
   _stor = _n.storage;
-  _core = _n.core;
   /* storage module {{{ */
+  _n._storageData = {};
   _n.storage = function(key, value, force, destroy){
     var data;
-    data = _n['storage'].data;
-    if (value === undefined) {
+    data = _n['_storageDate'];
+    if (value === void 8) {
       return data[key];
     }
     if (destroy) {
@@ -32,7 +32,6 @@
     }
     return data[key] = value;
   };
-  _n.storage.data = {};
   /* }}} */
   /* require module {{{ */
   _n.require = function(depend, callback, type){
@@ -113,7 +112,7 @@
   _n.app = function(namespace, controller){
     var nsmatch, controllerName, ref$;
     if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
-      namespace = nsmatch[0], controllerName = nsmatch[1];
+      namespace = nsmatch[1], controllerName = nsmatch[2];
     } else {
       ref$ = [namespace, null], controllerName = ref$[0], namespace = ref$[1];
     }
@@ -127,7 +126,7 @@
     eventHandle: _.extend({
       events: {},
       listened: {}
-    }, _core.Events)
+    }, _n._lib.Events)
     /* }}} */
     /* rewrite on {{{ */,
     on: function(eventName, callback){
@@ -221,7 +220,7 @@
     }
     /* }}} */
     /* router module {{{ */,
-    router: new (_core.Router.extend({
+    router: new (_n._lib.Router.extend({
       parse: function(route, url, callback){
         var routeMatch;
         if (!_.isRegExp(route)) {
@@ -311,12 +310,12 @@
       });
       /* page route */
       this.on('PAGE_STATUS_ROUTING', function(data){
-        this$.router.parse(/^(?:\/?)(.*?)(?:\/?([^\/?]+))(?:\?(.*?))?$/, data, function(namespace, action, params){
-          var nsmatch, controller, ref$, pkg;
-          if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
+        this$.router.parse(/^(?:\/?)(.*?)(?:\/?([^\/?]+))(?:\?(.*?))?$/, data, function(controller, action, params){
+          var nsmatch, namespace, pkg;
+          if (nsmatch = controller.match(/(.*?)(?:[/.]([^/.]+))$/)) {
             namespace = nsmatch[1], controller = nsmatch[2];
           } else {
-            ref$ = [namespace, null], controller = ref$[0], namespace = ref$[1];
+            namespace = void 8;
           }
           if (namespace) {
             pkg = namespace + "." + controller;

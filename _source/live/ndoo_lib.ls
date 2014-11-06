@@ -10,11 +10,11 @@
 ((root, _n, depend) !->
 
   _        = depend[\_]
-  _core    = _n.core ||  = {}
-  Backbone = _core
+  _lib = _n._lib ||  = {}
+  Backbone = _lib
 
   if root.Backbone
-    _core = root.Backbone
+    _lib = root.Backbone
     return void
 
   array    = []

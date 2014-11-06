@@ -15,13 +15,13 @@
   _vars    = _n.vars
   _func    = _n.func
   _stor    = _n.storage
-  _core    = _n.core
 
   /* storage module {{{ */
+  _n._storageData = {}
   _n.storage = (key, value, force, destroy) ->
-    data = _n[\storage].data
+    data = _n[\_storageDate]
 
-    if value is undefined
+    if value is void
       return data[key]
 
     if destroy
@@ -33,7 +33,6 @@
 
     data[key] = value
 
-  _n.storage.data = {}
   /* }}} */
   /* require module {{{ */
   _n.require = (depend, callback, type) !->
@@ -102,7 +101,7 @@
 
   _n.app = (namespace, controller) ->
     if nsmatch = namespace.match /(.*?)(?:[/.]([^/.]+))$/
-      [namespace, controllerName] = nsmatch
+      [null, namespace, controllerName] = nsmatch
     else
       [controllerName, namespace] = [namespace, null]
 
@@ -116,7 +115,7 @@
     eventHandle: _.extend do
       * events   : {}
         listened : {}
-      _core.Events
+      _n._lib.Events
     /* }}} */
     /* rewrite on {{{ */
     on: (eventName, callback) !->
@@ -203,7 +202,7 @@
           @trigger \STATUS:PAGE_STATUS_ROUTING, @pageId
     /* }}} */
     /* router module {{{ */
-    router: new (_core.Router.extend(
+    router: new (_n._lib.Router.extend(
       parse: (route, url, callback) !->
         if not _.isRegExp route
           route = @_routeToRegExp route
@@ -288,14 +287,14 @@
         # @router.parse ':controller/:action(/:params)', data,
         @router.parse //
           ^(?:\/?)           # ^[/]
-          (.*?)              # [:namespace]
-          (?:\/?([^/?]+))    # /:block
+          (.*?)              # [:controller]
+          (?:\/?([^/?]+))    # /:action
           (?:\?(.*?))?$      # [?:params]$
-        //, data, (namespace, action, params) !~>
-          if nsmatch = namespace.match /(.*?)(?:[/.]([^/.]+))$/
+        //, data, (controller, action, params) !~>
+          if nsmatch = controller.match /(.*?)(?:[/.]([^/.]+))$/
             [null, namespace, controller] = nsmatch
           else
-            [controller, namespace] = [namespace, null]
+            namespace = void
 
           if namespace then pkg = "#namespace.#controller" else pkg = controller
 
