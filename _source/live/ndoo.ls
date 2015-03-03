@@ -217,30 +217,37 @@
       @on 'APP_ACTION_BEFORE, APP_ACTION_AFTER',
       (data, controller, actionName, params) !->
         if data
-          /* init filter array */
-          unless _.isArray(data.filter)
-            data.filter = [].concat data.filter.replace(/\s*/g, '').split \,
+          if _.isObject data
+            _data = [].concat data
 
-          isRun = true
-          /* init only array */
-          if data.only
-            unless _.isArray(data.only)
-              data.only = [].concat data.only.replace(/\s*/g, '').split \,
+          for dataItem in _data
+            /* init filter array */
+            _filter = dataItem.filter
+            unless _.isArray(_filter)
+              _filter = [].concat _filter.replace(/\s*/g, '').split \,
 
-            if _.indexOf(data.only, actionName) < 0
-              isRun = false
-            /* init except array */
-          else if data.except
-            unless _.isArray(data.except)
-              data.except = [].concat data.except.replace(/\s*/g, '').split \,
+            isRun = true
+            /* init only array */
+            if dataItem.only
+              _only = dataItem.only
+              unless _.isArray(_only)
+                _only = [].concat _only.replace(/\s*/g, '').split \,
 
-            if _.indexOf(data.except, actionName) > -1
-              isRun = false
+              if _.indexOf(_only, actionName) < 0
+                isRun = false
+              /* init except array */
+            else if dataItem.except
+              _except = dataItem.except
+              unless _.isArray(_except)
+                _except = [].concat _except.replace(/\s*/g, '').split \,
 
-          if isRun
-            for filter in data.filter
-              controller[filter+'Filter'](params)
-              # filter.call null, controller
+              if _.indexOf(_except, actionName) > -1
+                isRun = false
+
+            if isRun
+              for filter in _filter
+                controller[filter+'Filter'](params)
+                # filter.call null, controller
 
       /* call action */
       @on \PAGE_APP_LOADED,

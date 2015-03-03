@@ -30,16 +30,24 @@
   /* }}} */
   /* [home module] {{{ */
   _n.app('example', {
-    before: {
-      filter: 'test',
-      only: 'main'
-    },
+    before: [
+      {
+        filter: 'test',
+        only: 'main'
+      }, {
+        filter: 'test2',
+        only: 'main'
+      }
+    ],
     after: {
       filter: 'afterTest',
       only: 'main'
     },
     testFilter: function(){
       console.log('filter_before!');
+    },
+    test2Filter: function(){
+      console.log('test2Filter!');
     },
     afterTestFilter: function(){
       console.log('filter_after!');

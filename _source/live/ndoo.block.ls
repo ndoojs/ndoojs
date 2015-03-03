@@ -29,7 +29,7 @@
         block.init elem, params
 
   _n.initBlock = (elem) !->
-    blockId = $(elem).data \blockId
+    blockId = $(elem).data \nblockId
     _n.router.parse //
       ^(?:\/?)           # ^[/]
       (.*?)              # [:namespace]
@@ -49,7 +49,7 @@
     init: (elem, params) !->
       console.log 'init test block'
 
-  # _n.initBlock('[data-ndoo-block]')
+  # _n.initBlock('[data-nblock-id]')
 
   _n
 )(@N = @ndoo ||= {}, _: _, $: jQuery)

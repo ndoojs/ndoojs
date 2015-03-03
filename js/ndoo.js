@@ -238,34 +238,43 @@
       /* before and after filter event */
       var this$ = this;
       this.on('APP_ACTION_BEFORE, APP_ACTION_AFTER', function(data, controller, actionName, params){
-        var isRun, i$, ref$, len$, filter;
+        var _data, i$, len$, dataItem, _filter, isRun, _only, _except, j$, len1$, filter;
         if (data) {
-          /* init filter array */
-          if (!_.isArray(data.filter)) {
-            data.filter = [].concat(data.filter.replace(/\s*/g, '').split(','));
+          if (_.isObject(data)) {
+            _data = [].concat(data);
           }
-          isRun = true;
-          /* init only array */
-          if (data.only) {
-            if (!_.isArray(data.only)) {
-              data.only = [].concat(data.only.replace(/\s*/g, '').split(','));
+          for (i$ = 0, len$ = _data.length; i$ < len$; ++i$) {
+            dataItem = _data[i$];
+            /* init filter array */
+            _filter = dataItem.filter;
+            if (!_.isArray(_filter)) {
+              _filter = [].concat(_filter.replace(/\s*/g, '').split(','));
             }
-            if (_.indexOf(data.only, actionName) < 0) {
-              isRun = false;
+            isRun = true;
+            /* init only array */
+            if (dataItem.only) {
+              _only = dataItem.only;
+              if (!_.isArray(_only)) {
+                _only = [].concat(_only.replace(/\s*/g, '').split(','));
+              }
+              if (_.indexOf(_only, actionName) < 0) {
+                isRun = false;
+              }
+              /* init except array */
+            } else if (dataItem.except) {
+              _except = dataItem.except;
+              if (!_.isArray(_except)) {
+                _except = [].concat(_except.replace(/\s*/g, '').split(','));
+              }
+              if (_.indexOf(_except, actionName) > -1) {
+                isRun = false;
+              }
             }
-            /* init except array */
-          } else if (data.except) {
-            if (!_.isArray(data.except)) {
-              data.except = [].concat(data.except.replace(/\s*/g, '').split(','));
-            }
-            if (_.indexOf(data.except, actionName) > -1) {
-              isRun = false;
-            }
-          }
-          if (isRun) {
-            for (i$ = 0, len$ = (ref$ = data.filter).length; i$ < len$; ++i$) {
-              filter = ref$[i$];
-              controller[filter + 'Filter'](params);
+            if (isRun) {
+              for (j$ = 0, len1$ = _filter.length; j$ < len1$; ++j$) {
+                filter = _filter[j$];
+                controller[filter + 'Filter'](params);
+              }
             }
           }
         }

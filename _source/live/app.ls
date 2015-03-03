@@ -24,17 +24,22 @@
   /* }}} */
 
   /* [home module] {{{ */
-  _n.app \example, do
-    before: do
-      filter: \test
-      only: \main
+  _n.app \example,
+    before:
+      * filter: \test
+        only: \main
+      * filter: \test2
+        only: \main
 
-    after: do
+    after:
       filter: \afterTest
       only: \main
 
     testFilter: !->
       console.log \filter_before!
+
+    test2Filter: !->
+      console.log \test2Filter!
 
     afterTestFilter: !->
       console.log \filter_after!
