@@ -237,18 +237,18 @@
     dispatch: function(){
       /* before and after filter event */
       var this$ = this;
-      this.on('APP_ACTION_BEFORE APP_ACTION_AFTER', function(data, controller, actionName, params){
+      this.on('APP_ACTION_BEFORE, APP_ACTION_AFTER', function(data, controller, actionName, params){
         var isRun, i$, ref$, len$, filter;
         if (data) {
           /* init filter array */
           if (!_.isArray(data.filter)) {
-            data.filter = [].concat(data.filter);
+            data.filter = [].concat(data.filter.replace(/\s*/g, '')).split(',');
           }
           isRun = true;
           /* init only array */
           if (data.only) {
             if (!_.isArray(data.only)) {
-              data.only = [].concat(data.only);
+              data.only = [].concat(data.only.replace(/\s*/g, '')).split(',');
             }
             if (_.indexOf(data.only, actionName) < 0) {
               isRun = false;
@@ -256,7 +256,7 @@
             /* init except array */
           } else if (data.except) {
             if (!_.isArray(data.except)) {
-              data.except = [].concat(data.except);
+              data.except = [].concat(data.except.replace(/\s*/g, '')).split(',');
             }
             if (_.indexOf(data.except, actionName) > -1) {
               isRun = false;
