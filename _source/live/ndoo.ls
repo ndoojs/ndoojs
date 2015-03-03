@@ -219,20 +219,20 @@
         if data
           /* init filter array */
           unless _.isArray(data.filter)
-            data.filter = [].concat data.filter.replace /\s*/g, '' .split \,
+            data.filter = [].concat data.filter.replace(/\s*/g, '').split \,
 
           isRun = true
           /* init only array */
           if data.only
             unless _.isArray(data.only)
-              data.only = [].concat data.only.replace /\s*/g, '' .split \,
+              data.only = [].concat data.only.replace(/\s*/g, '').split \,
 
             if _.indexOf(data.only, actionName) < 0
               isRun = false
             /* init except array */
           else if data.except
             unless _.isArray(data.except)
-              data.except = [].concat data.except.replace /\s*/g, '' .split \,
+              data.except = [].concat data.except.replace(/\s*/g, '').split \,
 
             if _.indexOf(data.except, actionName) > -1
               isRun = false
