@@ -47,7 +47,7 @@
 
   /* global event api */
   _n.on = (eventName, callback) ->
-    eventName = eventName.split ' '
+    eventName = eventName.replace /\s*/g, '' .split ','
     for item in eventName
       @event.on item, callback
 

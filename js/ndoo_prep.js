@@ -49,7 +49,7 @@ var slice$ = [].slice;
   /* global event api */
   _n.on = function(eventName, callback){
     var i$, len$, item, results$ = [];
-    eventName = eventName.split(' ');
+    eventName = eventName.replace(/\s*/g, '').split(',');
     for (i$ = 0, len$ = eventName.length; i$ < len$; ++i$) {
       item = eventName[i$];
       results$.push(this.event.on(item, callback));

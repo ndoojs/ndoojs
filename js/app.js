@@ -7,7 +7,7 @@
   _func = _n.func;
   _stor = _n.storage;
   /* [common prep] {{{ */
-  _n.on('PAGE_STATUS_DOMPREP PAGE_RELOAD', function(){
+  _n.on('PAGE_STATUS_DOMPREP, PAGE_RELOAD', function(){
     var init_tpl;
     init_tpl = function(){
       var $code, text, e;
