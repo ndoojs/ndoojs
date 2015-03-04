@@ -10,7 +10,7 @@
   _n.on('APP_TEST_ACTION_BEFORE', function(controller, actionName, params){
     console.log('APP_TEST_ACTION_BEFORE');
   });
-  _n.app('test', {
+  _n.app('ndoo.test', {
     before: {
       filter: 'test',
       only: 'main'
@@ -27,8 +27,7 @@
     },
     mainDepend: ['jquery'],
     mainAction: function(param){
-      console.log('test/main');
-      _n.initBlock(document.getElementById('testBlock'));
+      console.log("module: ndoo.test action: mainAction");
     }
   });
   /* }}} */

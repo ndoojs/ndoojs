@@ -9,12 +9,12 @@
     type: 'js'
   });
   Do.setLoaded(['jquery']);
-  Do.define('ndoo.app.test', {
+  Do.define('ndoo.app.ndoo.test', {
     path: ndooPathBase + "/ndoo.app.test.js",
     type: 'js'
   });
   return _n.on('PAGE_APP_DEFINE', function(){
-    _n.setApp('test');
+    _n.setApp('ndoo.test');
   });
 })(this.N = this.ndoo || (this.ndoo = {}));
 /* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */

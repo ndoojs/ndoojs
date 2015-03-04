@@ -62,9 +62,12 @@
   });
   /* }}} */
   /* [ndoo module] {{{ */
-  _n.app('ndoo.test', {
+  _n.app('test', {
     mainAction: function(param){
-      console.log('ndoo.test.main');
+      console.log('module: test action: mainAction');
+    },
+    blockTestAction: function(param){
+      console.log('module: test action: blockTestAction');
     }
   });
   /* }}} */

@@ -52,9 +52,12 @@
       , \seajs
   /* }}} */
   /* [ndoo module] {{{ */
-  _n.app \ndoo.test, do
+  _n.app \test, do
     mainAction: (param) !->
-      console.log \ndoo.test.main
+      console.log 'module: test action: mainAction'
+
+    blockTestAction: (param) !->
+      console.log 'module: test action: blockTestAction'
   /* }}} */
 
   _n

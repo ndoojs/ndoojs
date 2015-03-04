@@ -77,7 +77,7 @@
     else
       for ns in nsArr
         unless _.has temp, ns
-          false
+          return false
         temp = temp[ns]
       temp[name]
 

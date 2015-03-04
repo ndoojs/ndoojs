@@ -11,7 +11,7 @@
   _n.on \APP_TEST_ACTION_BEFORE, (controller, actionName, params) !->
     console.log \APP_TEST_ACTION_BEFORE
 
-  _n.app \test, do
+  _n.app \ndoo.test, do
     before: do
       filter: \test
       only: \main
@@ -28,8 +28,7 @@
 
     mainDepend: ['jquery']
     mainAction: (param) !->
-      console.log 'test/main'
-      _n.initBlock document.getElementById(\testBlock)
+      console.log "module: ndoo.test action: mainAction"
 
   /* }}} */
 
