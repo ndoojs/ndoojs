@@ -41,7 +41,19 @@
       }
     });
   };
-  /* }}} */
+  _n.on('PAGE_BLOCK_INIT', function(){
+    var blocks, i$, len$, block, auto;
+    blocks = $('[data-nblock-id]');
+    if (blocks.length) {
+      for (i$ = 0, len$ = blocks.length; i$ < len$; ++i$) {
+        block = blocks[i$];
+        auto = $(block).data('nblockAuto');
+        if (auto === 'true') {
+          _n.initBlock(block);
+        }
+      }
+    }
+  });
   _n.block('test', 'main', {
     init: function(elem, params){
       console.log('init test block');

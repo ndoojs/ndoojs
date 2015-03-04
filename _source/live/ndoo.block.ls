@@ -20,6 +20,7 @@
   # @TODO
   # - 模块定义
   # - 异步加载
+  # - 自动初始化
 
   _n.on \PAGE_BLOCK_LOADED, (elem, namespace=\_default, name, params) ->
     if block = _n.block namespace, name
@@ -43,7 +44,13 @@
           _n.trigger \PAGE_BLOCK_LOADED, elem, namespace, block, params
         , \Do
 
-  /* }}} */
+  _n.on \PAGE_BLOCK_INIT, !->
+    blocks = $ '[data-nblock-id]'
+    if blocks.length
+      for block in blocks
+        auto = $ block .data \nblockAuto
+        if auto is 'true'
+          _n.initBlock block
 
   _n.block \test, \main, do
     init: (elem, params) !->
