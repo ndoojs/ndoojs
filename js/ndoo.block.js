@@ -35,7 +35,7 @@
       if (_n.hasBlock(namespace, block)) {
         _n.trigger('PAGE_BLOCK_LOADED', elem, namespace, block, params);
       } else {
-        this$.require(["ndoo.block." + namespace + "." + block], function(){
+        this$.require([namespace + "." + block], function(){
           _n.trigger('PAGE_BLOCK_LOADED', elem, namespace, block, params);
         }, 'Do');
       }

@@ -12,7 +12,7 @@
 
   Do.setLoaded ['jquery']
 
-  Do.define 'ndoo.app.ndoo.test', do
+  Do.define 'ndoo.test', do
     path: "#{ndooPathBase}/ndoo.app.test.js"
     type: \js
 

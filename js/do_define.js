@@ -9,7 +9,7 @@
     type: 'js'
   });
   Do.setLoaded(['jquery']);
-  Do.define('ndoo.app.ndoo.test', {
+  Do.define('ndoo.test', {
     path: ndooPathBase + "/ndoo.app.test.js",
     type: 'js'
   });

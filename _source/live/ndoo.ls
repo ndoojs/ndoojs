@@ -310,7 +310,7 @@
           if _n.app pkg
             @trigger \PAGE_APP_LOADED, namespace, controller, action, params
           else if _n.hasApp pkg
-            @require ["ndoo.app.#pkg"], !->
+            @require ["#pkg"], !->
               _n.trigger \PAGE_APP_LOADED, namespace, controller, action, params
             , \Do
     /* }}} */

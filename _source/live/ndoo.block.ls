@@ -40,7 +40,7 @@
       if _n.hasBlock(namespace, block)
         _n.trigger \PAGE_BLOCK_LOADED, elem, namespace, block, params
       else
-        @require ["ndoo.block.#namespace.#block"], !->
+        @require ["#namespace.#block"], !->
           _n.trigger \PAGE_BLOCK_LOADED, elem, namespace, block, params
         , \Do
 

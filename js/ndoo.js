@@ -335,7 +335,7 @@
           if (_n.app(pkg)) {
             this$.trigger('PAGE_APP_LOADED', namespace, controller, action, params);
           } else if (_n.hasApp(pkg)) {
-            this$.require(["ndoo.app." + pkg], function(){
+            this$.require([pkg + ""], function(){
               _n.trigger('PAGE_APP_LOADED', namespace, controller, action, params);
             }, 'Do');
           }
