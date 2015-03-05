@@ -22,7 +22,7 @@
   # - 异步加载
   # - 自动初始化
 
-  _n.on \PAGE_BLOCK_LOADED, (elem, namespace=\_default, name, params) ->
+  _n.on \NBLOCK_LOADED, (elem, namespace=\_default, name, params) ->
     if block = _n.block namespace, name
       if _.isFunction block
         block elem, params
@@ -38,13 +38,13 @@
       (?:\?(.*?))?$      # [?:params]$
     //, blockId, (namespace = \_default, block, params) !~>
       if _n.hasBlock(namespace, block)
-        _n.trigger \PAGE_BLOCK_LOADED, elem, namespace, block, params
+        _n.trigger \NBLOCK_LOADED, elem, namespace, block, params
       else
         @require ["#namespace.#block"], !->
-          _n.trigger \PAGE_BLOCK_LOADED, elem, namespace, block, params
+          _n.trigger \NBLOCK_LOADED, elem, namespace, block, params
         , \Do
 
-  _n.on \PAGE_BLOCK_INIT, !->
+  _n.on \NBLOCK_INIT, !->
     blocks = $ '[data-nblock-id]'
     if blocks.length
       for block in blocks

@@ -100,7 +100,7 @@
     namespace == null && (namespace = '_default');
     return _n._block('block', namespace, name, block);
   };
-  _n.trigger('STATUS:PAGE_BLOCK_DEFINE');
+  _n.trigger('STATUS:NBLOCK_DEFINE');
   /* }}} */
   /* define app module {{{ */
   _n.hasApp = function(namespace){
@@ -118,7 +118,7 @@
     }
     return _n._block('app', namespace, controllerName, controller);
   };
-  _n.trigger('STATUS:PAGE_APP_DEFINE');
+  _n.trigger('STATUS:NAPP_DEFINE');
   /* }}} */
   /* event module {{{ */
   _n.event = _.extend(_n.event, {
@@ -200,24 +200,7 @@
       return function(){
         return ++_pk;
       };
-    }(),
-    triggerPageStatus: function(){
-      var this$ = this;
-      this.trigger('STATUS:PAGE_STATUS_FAST');
-      $(function(){
-        this$.trigger('STATUS:PAGE_STATUS_DOMPREP');
-        this$.trigger('STATUS:PAGE_STATUS_DOM');
-        this$.trigger('STATUS:PAGE_STATUS_DOMORLOAD');
-      });
-      $(window).bind('load', function(){
-        return this$.trigger('STATUS:PAGE_STATUS_LOAD');
-      });
-      this.on('PAGE_STATUS_DOM', function(){
-        if (this$.pageId) {
-          this$.trigger('STATUS:PAGE_STATUS_ROUTING', this$.pageId);
-        }
-      });
-    }
+    }()
     /* }}} */
     /* router module {{{ */,
     router: new (_n._lib.Router.extend({
@@ -237,7 +220,7 @@
     dispatch: function(){
       /* before and after filter event */
       var this$ = this;
-      this.on('APP_ACTION_BEFORE, APP_ACTION_AFTER', function(data, controller, actionName, params){
+      this.on('NAPP_ACTION_BEFORE, NAPP_ACTION_AFTER', function(data, controller, actionName, params){
         var _data, i$, len$, dataItem, _filter, isRun, _only, _except, j$, len1$, filter;
         if (data) {
           if (_.isObject(data)) {
@@ -280,7 +263,7 @@
         }
       });
       /* call action */
-      this.on('PAGE_APP_LOADED', function(namespace, controllerName, actionName, params){
+      this.on('NAPP_LOADED', function(namespace, controllerName, actionName, params){
         var controller, depend, before, after, run;
         if (namespace) {
           controller = _n.app(namespace + "." + controllerName);
@@ -297,8 +280,8 @@
         run = function(){
           var key$;
           if (actionName) {
-            _n.trigger('APP_ACTION_BEFORE', before, controller, actionName, params);
-            _n.trigger("APP_" + controllerName.toUpperCase() + "_ACTION_BEFORE", controller, actionName, params);
+            _n.trigger('NAPP_ACTION_BEFORE', before, controller, actionName, params);
+            _n.trigger("NAPP_" + controllerName.toUpperCase() + "_ACTION_BEFORE", controller, actionName, params);
             if (typeof controller[key$ = actionName + 'Before'] === 'function') {
               controller[key$](params);
             }
@@ -308,8 +291,8 @@
             if (typeof controller[key$ = actionName + 'After'] === 'function') {
               controller[key$](params);
             }
-            _n.trigger("APP_" + controllerName.toUpperCase() + "_ACTION_AFTER", controller, actionName, params);
-            _n.trigger('APP_ACTION_AFTER', after, controller, actionName, params);
+            _n.trigger("NAPP_" + controllerName.toUpperCase() + "_ACTION_AFTER", controller, actionName, params);
+            _n.trigger('NAPP_ACTION_AFTER', after, controller, actionName, params);
           }
         };
         if (depend && depend.length) {
@@ -333,21 +316,40 @@
             pkg = controller;
           }
           if (_n.app(pkg)) {
-            this$.trigger('PAGE_APP_LOADED', namespace, controller, action, params);
+            this$.trigger('NAPP_LOADED', namespace, controller, action, params);
           } else if (_n.hasApp(pkg)) {
             this$.require([pkg + ""], function(){
-              _n.trigger('PAGE_APP_LOADED', namespace, controller, action, params);
+              _n.trigger('NAPP_LOADED', namespace, controller, action, params);
             }, 'Do');
           }
         });
       });
     }
     /* }}} */
+    /* trigger {{{ */,
+    triggerPageStatus: function(){
+      var this$ = this;
+      this.trigger('STATUS:PAGE_STATUS_FAST');
+      $(function(){
+        this$.trigger('STATUS:PAGE_STATUS_DOMPREP');
+        this$.trigger('STATUS:PAGE_STATUS_DOM');
+        this$.trigger('STATUS:PAGE_STATUS_DOMORLOAD');
+      });
+      $(window).bind('load', function(){
+        return this$.trigger('STATUS:PAGE_STATUS_LOAD');
+      });
+      this.on('PAGE_STATUS_DOM', function(){
+        if (this$.pageId) {
+          this$.trigger('STATUS:PAGE_STATUS_ROUTING', this$.pageId);
+        }
+      });
+    }
+    /* }}} */
     /* init {{{ */,
     init: function(){
       this.event.init();
-      this.triggerPageStatus();
       this.dispatch();
+      this.triggerPageStatus();
     }
     /* }}} */
   });

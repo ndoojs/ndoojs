@@ -16,7 +16,7 @@
     path: "#{ndooPathBase}/ndoo.app.test.js"
     type: \js
 
-  _n.on 'PAGE_APP_DEFINE', !->
+  _n.on 'NAPP_DEFINE', !->
     _n.setApp 'ndoo.test'
 
 )(@N = @ndoo ||= {})

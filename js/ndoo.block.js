@@ -16,7 +16,7 @@
   _func = _n.func;
   _stor = _n.storage;
   _core = _n.core;
-  _n.on('PAGE_BLOCK_LOADED', function(elem, namespace, name, params){
+  _n.on('NBLOCK_LOADED', function(elem, namespace, name, params){
     var block;
     namespace == null && (namespace = '_default');
     if (block = _n.block(namespace, name)) {
@@ -33,15 +33,15 @@
     _n.router.parse(/^(?:\/?)(.*?)(?:\/?([^\/?]+))(?:\?(.*?))?$/, blockId, function(namespace, block, params){
       namespace == null && (namespace = '_default');
       if (_n.hasBlock(namespace, block)) {
-        _n.trigger('PAGE_BLOCK_LOADED', elem, namespace, block, params);
+        _n.trigger('NBLOCK_LOADED', elem, namespace, block, params);
       } else {
         this$.require([namespace + "." + block], function(){
-          _n.trigger('PAGE_BLOCK_LOADED', elem, namespace, block, params);
+          _n.trigger('NBLOCK_LOADED', elem, namespace, block, params);
         }, 'Do');
       }
     });
   };
-  _n.on('PAGE_BLOCK_INIT', function(){
+  _n.on('NBLOCK_INIT', function(){
     var blocks, i$, len$, block, auto;
     blocks = $('[data-nblock-id]');
     if (blocks.length) {

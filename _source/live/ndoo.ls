@@ -90,7 +90,7 @@
   _n.block = (namespace=\_default, name, block) ->
     _n._block \block, namespace, name, block
 
-  _n.trigger \STATUS:PAGE_BLOCK_DEFINE
+  _n.trigger \STATUS:NBLOCK_DEFINE
   /* }}} */
   /* define app module {{{ */
   _n.hasApp = (namespace) ->
@@ -107,7 +107,7 @@
 
     _n._block \app, namespace, controllerName, controller
 
-  _n.trigger 'STATUS:PAGE_APP_DEFINE'
+  _n.trigger 'STATUS:NAPP_DEFINE'
   /* }}} */
   /* event module {{{ */
   _n.event = _.extend _n.event,
@@ -181,25 +181,6 @@
       _pk = +new Date!
       ->
         ++_pk
-    triggerPageStatus: !->
-      # trigger PAGE_STATUS_FAST
-      @trigger \STATUS:PAGE_STATUS_FAST
-
-      # trigger PAGE_STATUS_DOM and PAGE_STATUS_DOMORLOAD
-      $ !~>
-        @trigger \STATUS:PAGE_STATUS_DOMPREP
-        @trigger \STATUS:PAGE_STATUS_DOM
-        @trigger \STATUS:PAGE_STATUS_DOMORLOAD
-
-      # trigger PAGE_STATUS_LOAD
-      $(window).bind \load, ~>
-        @trigger \STATUS:PAGE_STATUS_LOAD
-
-      # trigger PAGE_STATUS_ROUTING
-      @on \PAGE_STATUS_DOM, !~>
-        if @pageId
-          #Backbone.history.start()
-          @trigger \STATUS:PAGE_STATUS_ROUTING, @pageId
     /* }}} */
     /* router module {{{ */
     router: new (_n._lib.Router.extend(
@@ -214,7 +195,7 @@
     /* dispatch {{{ */
     dispatch: !->
       /* before and after filter event */
-      @on 'APP_ACTION_BEFORE, APP_ACTION_AFTER',
+      @on 'NAPP_ACTION_BEFORE, NAPP_ACTION_AFTER',
       (data, controller, actionName, params) !->
         if data
           if _.isObject data
@@ -250,7 +231,7 @@
                 # filter.call null, controller
 
       /* call action */
-      @on \PAGE_APP_LOADED,
+      @on \NAPP_LOADED,
       (namespace, controllerName, actionName, params) !->
         if namespace
           controller = _n.app "#namespace.#controllerName"
@@ -270,20 +251,20 @@
 
         run = !->
           if actionName
-            _n.trigger \APP_ACTION_BEFORE, before,
+            _n.trigger \NAPP_ACTION_BEFORE, before,
               controller, actionName, params
 
-            _n.trigger "APP_#{controllerName.toUpperCase!}_ACTION_BEFORE",
+            _n.trigger "NAPP_#{controllerName.toUpperCase!}_ACTION_BEFORE",
               controller, actionName, params
 
             controller[actionName+\Before]?(params)
             controller[actionName+\Action]?(params)
             controller[actionName+\After]?(params)
 
-            _n.trigger "APP_#{controllerName.toUpperCase!}_ACTION_AFTER",
+            _n.trigger "NAPP_#{controllerName.toUpperCase!}_ACTION_AFTER",
               controller, actionName, params
 
-            _n.trigger \APP_ACTION_AFTER,
+            _n.trigger \NAPP_ACTION_AFTER,
               after, controller, actionName, params
 
         if depend and depend.length
@@ -308,20 +289,41 @@
           if namespace then pkg = "#namespace.#controller" else pkg = controller
 
           if _n.app pkg
-            @trigger \PAGE_APP_LOADED, namespace, controller, action, params
+            @trigger \NAPP_LOADED, namespace, controller, action, params
           else if _n.hasApp pkg
             @require ["#pkg"], !->
-              _n.trigger \PAGE_APP_LOADED, namespace, controller, action, params
+              _n.trigger \NAPP_LOADED, namespace, controller, action, params
             , \Do
+    /* }}} */
+    /* trigger {{{ */
+    triggerPageStatus: !->
+      # trigger PAGE_STATUS_FAST
+      @trigger \STATUS:PAGE_STATUS_FAST
+
+      # trigger PAGE_STATUS_DOM and PAGE_STATUS_DOMORLOAD
+      $ !~>
+        @trigger \STATUS:PAGE_STATUS_DOMPREP
+        @trigger \STATUS:PAGE_STATUS_DOM
+        @trigger \STATUS:PAGE_STATUS_DOMORLOAD
+
+      # trigger PAGE_STATUS_LOAD
+      $(window).bind \load, ~>
+        @trigger \STATUS:PAGE_STATUS_LOAD
+
+      # trigger PAGE_STATUS_ROUTING
+      @on \PAGE_STATUS_DOM, !~>
+        if @pageId
+          #Backbone.history.start()
+          @trigger \STATUS:PAGE_STATUS_ROUTING, @pageId
     /* }}} */
     /* init {{{ */
     init: !->
-      # initial event
+      # initiation event module
       @event.init!
-      # initial page status
-      @triggerPageStatus!
-      # module dispatch
+      # initiation ndoo event listener
       @dispatch!
+      # trigger status
+      @triggerPageStatus!
     /* }}} */
 
   _n.init!

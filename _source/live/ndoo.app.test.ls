@@ -8,8 +8,8 @@
   _stor    = _n.storage
 
   /* [home module] {{{ */
-  _n.on \APP_TEST_ACTION_BEFORE, (controller, actionName, params) !->
-    console.log \APP_TEST_ACTION_BEFORE
+  _n.on \NAPP_TEST_ACTION_BEFORE, (controller, actionName, params) !->
+    console.log \NAPP_TEST_ACTION_BEFORE
 
   _n.app \ndoo.test, do
     before: do

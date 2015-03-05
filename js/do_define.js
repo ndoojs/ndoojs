@@ -13,7 +13,7 @@
     path: ndooPathBase + "/ndoo.app.test.js",
     type: 'js'
   });
-  return _n.on('PAGE_APP_DEFINE', function(){
+  return _n.on('NAPP_DEFINE', function(){
     _n.setApp('ndoo.test');
   });
 })(this.N = this.ndoo || (this.ndoo = {}));
