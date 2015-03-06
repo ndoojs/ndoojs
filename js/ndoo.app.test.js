@@ -7,8 +7,8 @@
   _func = _n.func;
   _stor = _n.storage;
   /* [home module] {{{ */
-  _n.on('NAPP_TEST_ACTION_BEFORE', function(controller, actionName, params){
-    console.log('NAPP_TEST_ACTION_BEFORE');
+  _n.on('NAPP_NDOO_TEST_ACTION_BEFORE', function(controller, actionName, params){
+    console.log('NAPP_NDOO_TEST_ACTION_BEFORE');
   });
   _n.app('ndoo.test', {
     before: {

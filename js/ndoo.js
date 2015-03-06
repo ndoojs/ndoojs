@@ -264,7 +264,7 @@
       });
       /* call action */
       this.on('NAPP_LOADED', function(namespace, controllerName, actionName, params){
-        var controller, depend, before, after, run;
+        var controller, depend, before, after, filterPrefix, run;
         if (namespace) {
           controller = _n.app(namespace + "." + controllerName);
         } else {
@@ -277,11 +277,16 @@
         depend = (depend || []).concat(controller[actionName + 'Depend'] || []);
         before = controller.before;
         after = controller.after;
+        filterPrefix = controllerName;
+        if (namespace) {
+          filterPrefix = (namespace + "." + controllerName).replace(/\./g, '_');
+        }
+        filterPrefix = filterPrefix.toUpperCase();
         run = function(){
           var key$;
           if (actionName) {
             _n.trigger('NAPP_ACTION_BEFORE', before, controller, actionName, params);
-            _n.trigger("NAPP_" + controllerName.toUpperCase() + "_ACTION_BEFORE", controller, actionName, params);
+            _n.trigger("NAPP_" + filterPrefix + "_ACTION_BEFORE", controller, actionName, params);
             if (typeof controller[key$ = actionName + 'Before'] === 'function') {
               controller[key$](params);
             }
@@ -291,7 +296,7 @@
             if (typeof controller[key$ = actionName + 'After'] === 'function') {
               controller[key$](params);
             }
-            _n.trigger("NAPP_" + controllerName.toUpperCase() + "_ACTION_AFTER", controller, actionName, params);
+            _n.trigger("NAPP_" + filterPrefix + "_ACTION_AFTER", controller, actionName, params);
             _n.trigger('NAPP_ACTION_AFTER', after, controller, actionName, params);
           }
         };

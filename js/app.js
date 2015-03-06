@@ -28,6 +28,9 @@
     /* init template */
   });
   /* }}} */
+  _n.on('NAPP_EXAMPLE_ACTION_BEFORE', function(controller, actionName, params){
+    console.log('NAPP_EXAMPLE_ACTION_BEFORE');
+  });
   /* [home module] {{{ */
   _n.app('example', {
     before: [

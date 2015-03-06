@@ -249,19 +249,24 @@
         before = controller.before
         after = controller.after
 
+        filterPrefix = controllerName
+        if namespace
+          filterPrefix = ("#namespace.#controllerName").replace /\./g, \_
+        filterPrefix = filterPrefix.toUpperCase!
+
         run = !->
           if actionName
             _n.trigger \NAPP_ACTION_BEFORE, before,
               controller, actionName, params
 
-            _n.trigger "NAPP_#{controllerName.toUpperCase!}_ACTION_BEFORE",
+            _n.trigger "NAPP_#{filterPrefix}_ACTION_BEFORE",
               controller, actionName, params
 
             controller[actionName+\Before]?(params)
             controller[actionName+\Action]?(params)
             controller[actionName+\After]?(params)
 
-            _n.trigger "NAPP_#{controllerName.toUpperCase!}_ACTION_AFTER",
+            _n.trigger "NAPP_#{filterPrefix}_ACTION_AFTER",
               controller, actionName, params
 
             _n.trigger \NAPP_ACTION_AFTER,
