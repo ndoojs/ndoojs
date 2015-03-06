@@ -88,19 +88,6 @@
       return temp[name];
     }
   };
-  _n.hasBlock = function(namespace, name){
-    namespace == null && (namespace = '_default');
-    return _n._blockData['_exist']["block." + namespace + "." + name];
-  };
-  _n.setBlock = function(namespace, name){
-    namespace == null && (namespace = '_default');
-    return _n._blockData['_exist']["block." + namespace + "." + name] = true;
-  };
-  _n.block = function(namespace, name, block){
-    namespace == null && (namespace = '_default');
-    return _n._block('block', namespace, name, block);
-  };
-  _n.trigger('STATUS:NBLOCK_DEFINE');
   /* }}} */
   /* define app module {{{ */
   _n.hasApp = function(namespace){
@@ -346,6 +333,7 @@
       this.on('PAGE_STATUS_DOM', function(){
         if (this$.pageId) {
           this$.trigger('STATUS:PAGE_STATUS_ROUTING', this$.pageId);
+          this$.trigger('STATUS:NBLOCK_INIT');
         }
       });
     }

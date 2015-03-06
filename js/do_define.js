@@ -13,8 +13,15 @@
     path: ndooPathBase + "/ndoo.app.test.js",
     type: 'js'
   });
-  return _n.on('NAPP_DEFINE', function(){
+  _n.on('NAPP_DEFINE', function(){
     _n.setApp('ndoo.test');
+  });
+  Do.define('test.main', {
+    path: ndooPathBase + "/ndoo.block.test.js",
+    type: 'js'
+  });
+  return _n.on('NBLOCK_DEFINE', function(){
+    _n.setBlock('test.main');
   });
 })(this.N = this.ndoo || (this.ndoo = {}));
 /* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */

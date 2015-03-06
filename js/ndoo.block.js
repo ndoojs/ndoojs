@@ -16,6 +16,19 @@
   _func = _n.func;
   _stor = _n.storage;
   _core = _n.core;
+  _n.hasBlock = function(namespace, name){
+    namespace == null && (namespace = '_default');
+    return _n._blockData['_exist']["block." + namespace + "." + name];
+  };
+  _n.setBlock = function(namespace, name){
+    namespace == null && (namespace = '_default');
+    return _n._blockData['_exist']["block." + namespace + "." + name] = true;
+  };
+  _n.block = function(namespace, name, block){
+    namespace == null && (namespace = '_default');
+    return _n._block('block', namespace, name, block);
+  };
+  _n.trigger('STATUS:NBLOCK_DEFINE');
   _n.on('NBLOCK_LOADED', function(elem, namespace, name, params){
     var block;
     namespace == null && (namespace = '_default');
@@ -48,15 +61,10 @@
       for (i$ = 0, len$ = blocks.length; i$ < len$; ++i$) {
         block = blocks[i$];
         auto = $(block).data('nblockAuto');
-        if (auto === 'true') {
+        if (auto.toString() === 'true') {
           _n.initBlock(block);
         }
       }
-    }
-  });
-  _n.block('test', 'main', {
-    init: function(elem, params){
-      console.log('init test block');
     }
   });
   return _n;
