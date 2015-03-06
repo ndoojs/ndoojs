@@ -284,7 +284,8 @@
           ^(?:\/?)           # ^[/]
           (.*?)              # [:controller]
           (?:\/?([^/?]+))    # /:action
-          (?:\?(.*?))?$      # [?:params]$
+          (?:\?(.*?))?       # [?:params]
+          (?:\#.*?)?$        # [#:hash]$
         //, data, (controller, action, params) !~>
           if nsmatch = controller.match /(.*?)(?:[/.]([^/.]+))$/
             [null, namespace, controller] = nsmatch

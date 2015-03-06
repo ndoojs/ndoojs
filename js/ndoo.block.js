@@ -30,7 +30,7 @@
   _n.initBlock = function(elem){
     var blockId, this$ = this;
     blockId = $(elem).data('nblockId');
-    _n.router.parse(/^(?:\/?)(.*?)(?:\/?([^\/?]+))(?:\?(.*?))?$/, blockId, function(namespace, block, params){
+    _n.router.parse(/^(?:\/?)(.*?)(?:\/?([^\/?]+))(?:\?(.*?))?(?:\#.*?)?$/, blockId, function(namespace, block, params){
       namespace == null && (namespace = '_default');
       if (_n.hasBlock(namespace, block)) {
         _n.trigger('NBLOCK_LOADED', elem, namespace, block, params);

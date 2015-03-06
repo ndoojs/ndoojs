@@ -35,7 +35,8 @@
       ^(?:\/?)           # ^[/]
       (.*?)              # [:namespace]
       (?:\/?([^/?]+))    # /:block
-      (?:\?(.*?))?$      # [?:params]$
+      (?:\?(.*?))?       # [?:params]
+      (?:\#.*?)?$        # [#:hash]$
     //, blockId, (namespace = \_default, block, params) !~>
       if _n.hasBlock(namespace, block)
         _n.trigger \NBLOCK_LOADED, elem, namespace, block, params
