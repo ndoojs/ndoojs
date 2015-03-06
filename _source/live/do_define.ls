@@ -19,5 +19,13 @@
   _n.on 'NAPP_DEFINE', !->
     _n.setApp 'ndoo.test'
 
+  Do.define 'test.main', do
+    path: "#{ndooPathBase}/ndoo.block.test.js"
+    type: \js
+
+  _n.on 'NBLOCK_DEFINE', !->
+    _n.setBlock 'test.main'
+
+
 )(@N = @ndoo ||= {})
 /* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */

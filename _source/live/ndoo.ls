@@ -81,16 +81,6 @@
         temp = temp[ns]
       temp[name]
 
-  _n.hasBlock = (namespace=\_default, name) ->
-    _n._blockData[\_exist]["block.#namespace.#name"]
-
-  _n.setBlock = (namespace=\_default, name) ->
-    _n._blockData[\_exist]["block.#namespace.#name"] = true
-
-  _n.block = (namespace=\_default, name, block) ->
-    _n._block \block, namespace, name, block
-
-  _n.trigger \STATUS:NBLOCK_DEFINE
   /* }}} */
   /* define app module {{{ */
   _n.hasApp = (namespace) ->
@@ -321,6 +311,7 @@
         if @pageId
           #Backbone.history.start()
           @trigger \STATUS:PAGE_STATUS_ROUTING, @pageId
+          @trigger \STATUS:NBLOCK_INIT
     /* }}} */
     /* init {{{ */
     init: !->

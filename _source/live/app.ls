@@ -29,9 +29,7 @@
   /* [home module] {{{ */
   _n.app \example,
     before:
-      * filter: \test
-        only: \main
-      * filter: \test2
+      * filter: 'test, test2'
         only: \main
 
     after:

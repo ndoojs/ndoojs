@@ -22,6 +22,17 @@
   # - 异步加载
   # - 自动初始化
 
+  _n.hasBlock = (namespace=\_default, name) ->
+    _n._blockData[\_exist]["block.#namespace.#name"]
+
+  _n.setBlock = (namespace=\_default, name) ->
+    _n._blockData[\_exist]["block.#namespace.#name"] = true
+
+  _n.block = (namespace=\_default, name, block) ->
+    _n._block \block, namespace, name, block
+
+  _n.trigger \STATUS:NBLOCK_DEFINE
+
   _n.on \NBLOCK_LOADED, (elem, namespace=\_default, name, params) ->
     if block = _n.block namespace, name
       if _.isFunction block
@@ -50,12 +61,8 @@
     if blocks.length
       for block in blocks
         auto = $ block .data \nblockAuto
-        if auto is 'true'
+        if auto.toString! is 'true'
           _n.initBlock block
-
-  _n.block \test, \main, do
-    init: (elem, params) !->
-      console.log 'init test block'
 
   # _n.initBlock('[data-nblock-id]')
 
