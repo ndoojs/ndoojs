@@ -26,6 +26,5 @@
   _n.on 'NBLOCK_DEFINE', !->
     _n.setBlock 'test.main'
 
-
 )(@N = @ndoo ||= {})
 /* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */
