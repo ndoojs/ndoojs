@@ -44,10 +44,10 @@
     blockId = $(elem).data \nblockId
     _n.router.parse //
       ^(?:\/?)           # ^[/]
-      (.*?)              # [:namespace]
-      (?:\/?([^/?]+))    # /:block
+      (.*?)              # [:controller]
+      (?:\/?([^/?]+))    # /:action
       (?:\?(.*?))?       # [?:params]
-      (?:\#.*?)?$        # [#:hash]$
+      (?:\#(.*?))?$      # [#:hash]$
     //, blockId, (namespace = \_default, block, params) !~>
       if _n.hasBlock(namespace, block)
         _n.trigger \NBLOCK_LOADED, elem, namespace, block, params

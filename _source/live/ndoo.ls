@@ -151,7 +151,7 @@
           eventHandle.events["#eventType:#eventName"] = data
           # 触发已绑定的事件
           if _.has eventHandle.listened, eventName
-            eventHandle.trigger eventName, data
+            eventHandle.trigger.apply eventHandle, [eventName].concat data
     /* }}} */
     /* init {{{ */
     init: !->
@@ -275,7 +275,7 @@
           (.*?)              # [:controller]
           (?:\/?([^/?]+))    # /:action
           (?:\?(.*?))?       # [?:params]
-          (?:\#(.*?))?$        # [#:hash]$
+          (?:\#(.*?))?$      # [#:hash]$
         //, data, (controller, action, params) !~>
           if nsmatch = controller.match /(.*?)(?:[/.]([^/.]+))$/
             [null, namespace, controller] = nsmatch
