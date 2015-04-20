@@ -15,7 +15,6 @@
   _vars    = _n.vars
   _func    = _n.func
   _stor    = _n.storage
-  _core    = _n.core
 
   # @TODO
   # - 模块定义

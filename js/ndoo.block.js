@@ -10,13 +10,12 @@
 */
 (function(_n, depend){
   "use strict";
-  var _, $, _vars, _func, _stor, _core;
+  var _, $, _vars, _func, _stor;
   _ = depend['_'];
   $ = depend['$'];
   _vars = _n.vars;
   _func = _n.func;
   _stor = _n.storage;
-  _core = _n.core;
   _n.hasBlock = function(namespace, name){
     namespace == null && (namespace = '_default');
     return _n._blockData['_exist']["block." + namespace + "." + name];
