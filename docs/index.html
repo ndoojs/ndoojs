@@ -3,16 +3,25 @@
   <head>
     <meta charset="UTF-8">
     <title>index</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
   </head>
   <body>
-    <div class="docs theme1">
-      <h1>基础入门</h1>
-      <h3>1. 引入头文件</h3>
-      <pre><code data-language="html">&lt;script src=&quot;../js/ndoo_prep.js&quot;&gt;&lt;/script&gt;</code></pre>
-      <h3>2. 定义页面id</h3>
-      <pre><code data-language="html">&lt;div id=&quot;scriptArea&quot; data-page-id=&quot;home/index&quot;&gt;</code></pre>
-      <h3>3. 编写对应脚本 example1.js</h3><code>
-        <pre data-language="javascript">(function(_n, depend){
+    <div class="layout">
+      <div class="menu">
+        <h3>基础用法</h3>
+        <ul>
+          <li><a href="index.html">入门</a></li>
+          <li><a href="basic.param.html">参数的使用</a></li>
+        </ul>
+      </div>
+      <div class="docs theme1">
+        <h1>基础入门</h1>
+        <h3>1. 引入头文件</h3>
+        <pre><code data-language="html">&lt;script src=&quot;../js/ndoo_prep.js&quot;&gt;&lt;/script&gt;</code></pre>
+        <h3>2. 定义页面id</h3>
+        <pre><code data-language="html">&lt;div id=&quot;scriptArea&quot; data-page-id=&quot;home/index&quot;&gt;</code></pre>
+        <h3>3. 编写对应脚本 example1.js</h3><code>
+          <pre data-language="javascript">(function(_n, depend){
   var _, $, _vars, _func, _stor;
   _ = depend['_'];
   $ = depend['$'];
@@ -33,16 +42,16 @@
   _: _,
   $: jQuery
 });</pre></code>
-      <h3>4. 引入ndoo脚本及依赖</h3>
-      <pre><code data-language="html">&lt;script src=&quot;../lib/underscore-min.js&quot;&gt;&lt;/script&gt;
+        <h3>4. 引入ndoo脚本及依赖</h3>
+        <pre><code data-language="html">&lt;script src=&quot;../lib/underscore-min.js&quot;&gt;&lt;/script&gt;
 &lt;script src=&quot;../lib/jquery-2.1.1.min.js&quot;&gt;&lt;/script&gt;
 &lt;script src=&quot;../js/ndoo_lib.js&quot;&gt;&lt;/script&gt;
 &lt;script src=&quot;../js/ndoo.js&quot;&gt;&lt;/script&gt;
 &lt;script src=&quot;js/example1.js&quot;&gt;&lt;/script&gt;</code></pre>
-      <p class="notice">为了省事，一般会将 ndoo 的相关的脚本放到 scriptArea 下面。</p>
-      <h5>完整代码如下：</h5>
-      <p>html</p><code>
-        <pre data-language="html">&lt;!DOCTYPE html&gt;
+        <p class="notice">为了省事，一般会将 ndoo 的相关的脚本放到 scriptArea 下面。</p>
+        <h5>完整代码如下：</h5>
+        <p>html</p><code>
+          <pre data-language="html">&lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;head&gt;
     &lt;meta charset=&quot;UTF-8&quot;&gt;
@@ -60,8 +69,8 @@
     &lt;/div&gt;
   &lt;/body&gt;
 &lt;/html&gt;</pre></code>
-      <p>javascript</p><code>
-        <pre data-language="javascript">(function(_n, depend){
+        <p>javascript</p><code>
+          <pre data-language="javascript">(function(_n, depend){
   var _, $, _vars, _func, _stor;
   _ = depend['_'];
   $ = depend['$'];
@@ -82,6 +91,8 @@
   _: _,
   $: jQuery
 });</pre></code>
+        <p class="notice">查看<a href="../example/example1.html">example1.html</a></p>
+      </div>
     </div>
   </body>
 </html>

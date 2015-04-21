@@ -11,7 +11,7 @@
     "path": "~",
     "sass": {
       "command": [
-        "sass --style compact sass/#{$fileName}.sass ../css/#{$fileName}.css"
+        "sass --sourcemap=none --style compact sass/#{$fileName}.sass ../css/#{$fileName}.css"
          /* , "cp -fp ../css/#{$fileName}.css ../../public/css" */
       ]
     }

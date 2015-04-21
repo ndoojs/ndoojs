@@ -1,0 +1,16 @@
+doctype html
+html
+  head
+    meta(charset="UTF-8")
+    block pageTitle
+      title index
+    link(rel="stylesheet", type="text/css", href="css/style.css")
+  body
+    .layout
+      .menu
+        h3 基础用法
+        ul
+          li: a(href="index.html") 入门
+          li: a(href="basic.param.html") 参数的使用
+      .docs.theme1
+        block pageContent

@@ -1,0 +1,7 @@
+body { margin: 0; font-size: 14px; font-family: \5FAE\8F6F\96C5\9ED1; }
+
+.layout { padding-left: 200px; position: relative; }
+.layout .menu { position: fixed; top: 0; left: 0; bottom: 0; background-color: #F1F1F1; border-right: 1px solid #DDD; padding: 0 10px; width: 179px; overflow: auto; }
+
+.docs { padding: 0 10px; }
+.docs pre { padding: 5px; border: 1px solid #DDD; background-color: #F1F1F1; }

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>index</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+  </head>
+  <body>
+    <div class="layout">
+      <div class="menu">
+        <h3>基础用法</h3>
+        <ul>
+          <li><a href="index.html">入门</a></li>
+          <li><a href="basic.param.html">参数的使用</a></li>
+        </ul>
+      </div>
+      <div class="docs theme1">
+        <h1>参数的使用</h1>
+        <h3>1. page id中设置参数</h3>
+        <pre><code data-language="html">&lt;div id=&quot;scriptArea&quot; data-page-id=&quot;home/index?abc&quot;&gt;</code></pre>
+        <h3>2. 获取参数</h3><code>
+          <pre data-language="javascript">indexAction: function(param){
+  var $content;
+  $content = $('#content');
+  $content.html('module: home, action: indexAction param: ' + param);
+}</pre></code>
+        <p class="notice">此处param为字符串abc，ndoojs自运过滤掉了?（问号）</p>
+      </div>
+    </div>
+  </body>
+</html>
