@@ -16,16 +16,17 @@
         </ul>
       </div>
       <div class="docs theme1">
-        <h1>参数的使用</h1>
-        <h3>1. page id中设置参数</h3>
-        <pre><code data-language="html">&lt;div id=&quot;scriptArea&quot; data-page-id=&quot;home/index?abc&quot;&gt;</code></pre>
-        <h3>2. 获取参数</h3><code>
-          <pre data-language="javascript">indexAction: function(param){
-  var $content;
-  $content = $('#content');
-  $content.html('module: home, action: indexAction param: ' + param);
-}</pre></code>
-        <p class="notice">此处param为字符串abc，ndoojs自运过滤掉了?（问号）</p>
+        <h1>名称空间</h1>
+        <h3>1. page id中设置名称空间，如 admin/user/add</h3>
+        <pre><code data-language="html">&lt;div id=&quot;scriptArea&quot; data-page-id=&quot;admin/user/add&quot;&gt;</code></pre>
+        <h3>2. 定义模块名称，使用.(点)分隔</h3><code>
+          <pre data-language="javascript">_n.app('admin.user', {
+  addAction: function(param){
+    var $content;
+    $content = $('#content');
+    $content.html('namespace: admin module: user action: addAction');
+  }
+});</pre></code>
       </div>
     </div>
   </body>
