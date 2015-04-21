@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>index</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+  </head>
+  <body>
+    <div class="layout">
+      <div class="menu">
+        <h3>基础用法</h3>
+        <ul>
+          <li><a href="index.html">入门</a></li>
+          <li><a href="basic.param.html">参数的使用</a></li>
+          <li><a href="basic.namespace.html">名称空间</a></li>
+          <li><a href="basic.autoload.html">自动加载</a></li>
+          <li><a href="basic.block.html">块级组件</a></li>
+          <li><a href="basic.hook.html">hook</a></li>
+          <li><a href="basic.filter.html">过滤器</a></li>
+        </ul>
+        <h3>参考</h3>
+        <ul>
+          <li><a href="ref.event.html">事件参考</a></li>
+        </ul>
+      </div>
+      <div class="docs theme1">
+        <h1>hook</h1>
+        <p>ndoojs支持在action执行之前和执行之后执行指定的操作</p>
+        <h3>1. 前置操作</h3>
+        <p>前置操作由actionName+'Before'组成。例如：</p><code>
+          <pre data-language="javascript">indexBefore: function(params){
+  alert('index before');
+},
+ 
+indexAction: function(params){
+  var $content;
+  $content = $('#content');
+  $content.html('module: home, action: indexAction);
+}</pre></code>
+        <h3>2. 后置操作</h3>
+        <p>后置操作由actionName+'After'组成。例如：</p><code>
+          <pre data-language="javascript">indexAfter: function(params){
+  alert('index after');
+},
+ 
+indexAction: function(params){
+  var $content;
+  $content = $('#content');
+  $content.html('module: home, action: indexAction);
+}</pre></code>
+      </div>
+    </div>
+  </body>
+</html>

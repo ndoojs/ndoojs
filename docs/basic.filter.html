@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>index</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+  </head>
+  <body>
+    <div class="layout">
+      <div class="menu">
+        <h3>基础用法</h3>
+        <ul>
+          <li><a href="index.html">入门</a></li>
+          <li><a href="basic.param.html">参数的使用</a></li>
+          <li><a href="basic.namespace.html">名称空间</a></li>
+          <li><a href="basic.autoload.html">自动加载</a></li>
+          <li><a href="basic.block.html">块级组件</a></li>
+          <li><a href="basic.hook.html">hook</a></li>
+          <li><a href="basic.filter.html">过滤器</a></li>
+        </ul>
+        <h3>参考</h3>
+        <ul>
+          <li><a href="ref.event.html">事件参考</a></li>
+        </ul>
+      </div>
+      <div class="docs theme1">
+        <h1>过滤器</h1>
+        <p>ndoojs支持自定义过滤器，指定全局执行的方法。过滤器有before、after两种情形，过滤器支持only、except修饰。</p>
+        <h3>1. 前置过滤器</h3>
+        <p>使用before声明，例如：</p><code>
+          <pre data-language="javascript">before: {
+  filter: 'before'
+},
+ 
+beforeFilter: function() {
+  alert("before filter");
+},
+ 
+indexAction: function(params){
+  var $content;
+  $content = $('#content');
+  $content.html('module: home, action: indexAction);
+}</pre></code>
+        <h3>2. 后置过滤器</h3>
+        <p>后置过滤器使用after声明，其它同前置过滤器。</p>
+        <h3>3. only修饰</h3>
+        <p>only表示过滤器只针对指定的action。</p><code>
+          <pre data-language="javascript">before: {
+  filter: 'before',
+  only: 'index'
+},
+ 
+beforeFilter: function() {
+  alert("before filter");
+},
+ 
+indexAction: function(params){
+  var $content;
+  $content = $('#content');
+  $content.html('module: home, action: indexAction);
+}</pre></code>
+        <h3>4. except修饰</h3>
+        <p>except表示过滤器针对在除except以外的action上。</p>
+      </div>
+    </div>
+  </body>
+</html>
