@@ -1,23 +1,25 @@
 (function(_n){
-  var libPathBase, jsPathbase, ndooPathBase;
+  var libPathBase, jsPathbase, currLibPath, currJsPath, ndooPathBase;
   libPathBase = '../lib';
   jsPathbase = '../js';
+  currLibPath = 'lib';
+  currJsPath = 'js';
   ndooPathBase = '../js';
   Do.setConfig('autoLoad', false);
   Do.define('jquery', {
-    path: libPathBase + "/jquery-2.1.1.min.js",
+    path: jsPathbase + "/jquery-2.1.1.min.js",
     type: 'js'
   });
   Do.setLoaded(['jquery']);
   Do.define('ndoo.test', {
-    path: ndooPathBase + "/ndoo.app.test.js",
+    path: currJsPath + "/ndoo.app.test.js",
     type: 'js'
   });
   _n.on('NAPP_DEFINE', function(){
     _n.setApp('ndoo.test');
   });
   Do.define('test.main', {
-    path: ndooPathBase + "/ndoo.block.test.js",
+    path: currJsPath + "/ndoo.block.test.js",
     type: 'js'
   });
   return _n.on('NBLOCK_DEFINE', function(){
