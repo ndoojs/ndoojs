@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>index</title>
+  </head>
+  <body>
+    <div class="docs theme1">
+      <h3>基础入门</h3>
+      <p>1. 引入头文件</p>
+      <pre><code data-language="html">&lt;script src=&quot;../js/ndoo_prep.js&quot;&gt;&lt;/script&gt;</code></pre>
+      <p>2. 定义页面id</p>
+      <pre><code data-language="html">&lt;div id=&quot;scriptArea&quot; data-page-id=&quot;example/main&quot;&gt;</code></pre>
+      <p>3. 编写对应脚本</p>
+      <pre><code data-language="javascript">(function(_n, depend){
+  var _, $, _vars, _func, _stor;
+  _ = depend['_'];
+  $ = depend['$'];
+  _vars = _n.vars;
+  _func = _n.func;
+  _stor = _n.storage;
+  /* [home module] {{{ */
+  _n.app('home', {
+    indexAction: function(param){
+      console.log(param);
+      _n.require(['jquery-1.11.1.js', 'jquery-mytest.js'], function(a){
+        a('body').mytest();
+      }, 'seajs');
+    }
+  });
+  /* }}} */
+  return _n;
+})(this.N = this.ndoo || (this.ndoo = {}), {
+  _: _,
+  $: jQuery
+});</code></pre>
+      <p>4. 引入ndoo脚本及依赖</p>
+      <pre><code data-language="html">&lt;script src=&quot;../lib/underscore-min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;../lib/jquery-2.1.1.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;../js/ndoo_lib.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;../js/ndoo.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;../js/app.js&quot;&gt;&lt;/script&gt;</code></pre>
+      <p class="notice">为了省事，一般会将 ndoo 的相关的脚本放到 scriptArea 下面。</p>
+      <p>完整代码如下：</p>
+      <p>html</p><code>
+        <pre data-language="html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;example&lt;/title&gt;
+    &lt;script src=&quot;../js/ndoo_prep.js&quot;&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;p&gt;content&lt;/p&gt;
+    &lt;div id=&quot;scriptArea&quot; data-page-id=&quot;example/main&quot;&gt;
+      &lt;script src=&quot;../lib/sea.js&quot;&gt;&lt;/script&gt;
+      &lt;script src=&quot;../lib/underscore-min.js&quot;&gt;&lt;/script&gt;
+      &lt;script src=&quot;../lib/jquery-2.1.1.min.js&quot;&gt;&lt;/script&gt;
+      &lt;script src=&quot;../lib/Do.js&quot;&gt;&lt;/script&gt;
+      &lt;script src=&quot;../js/do_define.js&quot;&gt;&lt;/script&gt;
+      &lt;script src=&quot;../js/ndoo_lib.js&quot;&gt;&lt;/script&gt;
+      &lt;script src=&quot;../js/ndoo.js&quot;&gt;&lt;/script&gt;
+      &lt;script src=&quot;../js/app.js&quot;&gt;&lt;/script&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre></code>
+      <p>javascript</p><code>
+        <pre data-language="javascript">(function(_n, depend){
+  var _, $, _vars, _func, _stor;
+  _ = depend['_'];
+  $ = depend['$'];
+  _vars = _n.vars;
+  _func = _n.func;
+  _stor = _n.storage;
+  /* [home module] {{{ */
+  _n.app('home', {
+    indexAction: function(param){
+      console.log(param);
+      _n.require(['jquery-1.11.1.js', 'jquery-mytest.js'], function(a){
+        a('body').mytest();
+      }, 'seajs');
+    }
+  });
+  /* }}} */
+  return _n;
+})(this.N = this.ndoo || (this.ndoo = {}), {
+  _: _,
+  $: jQuery
+});</pre></code>
+    </div>
+  </body>
+</html>
