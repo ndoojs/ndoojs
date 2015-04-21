@@ -9,10 +9,10 @@ block pageContent
 
   h3 2. 获取参数
   code: pre(data-language="javascript")
-    | indexAction: function(param){
+    | indexAction: function(params){
     |   var $content;
     |   $content = $('#content');
-    |   $content.html('module: home, action: indexAction param: ' + param);
+    |   $content.html('module: home, action: indexAction param: ' + params);
     | }
   p.notice
-    |此处param为字符串abc，ndoojs自运过滤掉了?（问号）
+    |此处params为字符串abc，ndoojs自运过滤掉了?（问号）

@@ -1,0 +1,27 @@
+doctype html
+html
+  head
+    meta(charset="UTF-8")
+    title example3
+    script(src="../js/ndoo_prep.js")
+  body
+    p#content
+    div#testBlock(data-nblock-id="example3/block", data-nblock-auto="true")
+    #scriptArea(data-page-id="home/index")
+      script(src="../lib/underscore-min.js")
+      script(src="../lib/jquery-2.1.1.min.js")
+      script(src="../lib/Do.js")
+      script(src="../js/ndoo_lib.js")
+      script(src="../js/ndoo.js")
+      script(src="../js/ndoo.block.js")
+      script(src="js/example1.js")
+      script.
+        (function(_n){
+          Do.define('example3.block', {
+            path: 'js/example3.block.js',
+            type: 'js'
+          });
+          _n.on('NBLOCK_DEFINE', function(){
+            _n.setBlock('example3.block');
+          });
+        })(this.N = this.ndoo || (this.ndoo = {}));

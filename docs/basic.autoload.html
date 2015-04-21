@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>index</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+  </head>
+  <body>
+    <div class="layout">
+      <div class="menu">
+        <h3>基础用法</h3>
+        <ul>
+          <li><a href="index.html">入门</a></li>
+          <li><a href="basic.param.html">参数的使用</a></li>
+          <li><a href="basic.namespace.html">名称空间</a></li>
+          <li><a href="basic.autoload.html">自动加载</a></li>
+          <li><a href="basic.block.html">块级组件</a></li>
+        </ul>
+      </div>
+      <div class="docs theme1">
+        <h1>自动加载</h1>
+        <p>ndoojs支持按需加载模块，默认使用Do.js加载需要的模块(Do.js经过修改)。</p>
+        <h3>1. 引入do.js以及模块定义文件</h3>
+        <pre><code data-language="html">&lt;script src=&quot;../lib/Do.js&quot;&gt;&lt;/script&gt;</code></pre>
+        <h3>2. 添加模块定义</h3>
+        <p>此处用到了事件系统，参见<a href="event.html">event。</a></p><code>
+          <pre data-language="javascript">(function(_n){
+  Do.define('home', {
+    path: 'example2.js',
+    type: 'js'
+  });
+  _n.on('NAPP_DEFINE', function(){
+    _n.setApp('home');
+  });
+})(this.N = this.ndoo || (this.ndoo = {}));</pre></code>
+        <h5>完整代码如下：</h5>
+        <p>html</p><code>
+          <pre data-language="html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;example&lt;/title&gt;
+    &lt;script src=&quot;../js/ndoo_prep.js&quot;&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;p id=&quot;content&quot;&gt;&lt;/p&gt;
+    &lt;div id=&quot;scriptArea&quot; data-page-id=&quot;home/index&quot;&gt;
+      &lt;script src=&quot;../lib/underscore-min.js&quot;&gt;&lt;/script&gt;
+      &lt;script src=&quot;../lib/jquery-2.1.1.min.js&quot;&gt;&lt;/script&gt;
+      &lt;script src=&quot;../lib/Do.js&quot;&gt;&lt;/script&gt;
+      &lt;script src=&quot;../js/ndoo_lib.js&quot;&gt;&lt;/script&gt;
+      &lt;script src=&quot;../js/ndoo.js&quot;&gt;&lt;/script&gt;
+      &lt;script&gt;
+        (function(_n){
+          Do.define('home', {
+            path: 'js/example1.js',
+            type: 'js'
+          });
+          _n.on('NAPP_DEFINE', function(){
+            _n.setApp('home');
+          });
+        })(this.N = this.ndoo || (this.ndoo = {}));
+      &lt;/script&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</pre></code>
+        <p class="notice">查看<a href="../example/example2.html">example2.html</a></p>
+      </div>
+    </div>
+  </body>
+</html>
