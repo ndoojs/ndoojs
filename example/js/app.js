@@ -53,7 +53,7 @@
     mainDepend: ['jquery'],
     mainAction: function(param){
       console.log(param);
-      _n.require(['jquery-1.11.1.js', 'jquery-mytest.js'], function(a){
+      _n.require(['../example/lib/jquery-1.11.1.js', '../example/lib/jquery-mytest.js'], function(a){
         a('body').mytest();
       }, 'seajs');
     }
