@@ -123,12 +123,12 @@
       eventHandle.on(eventName, callback);
       eventHandle.listened[eventName] = true;
       if (_.has(eventHandle.events, "STATUS:" + eventName)) {
-        callback(eventHandle.events["STATUS:" + eventName]);
+        callback.apply(eventHandle, eventHandle.events["STATUS:" + eventName]);
       }
       if (_.has(eventHandle.events, eventName)) {
         for (i$ = 0, len$ = (ref$ = eventHandle.events[eventName]).length; i$ < len$; ++i$) {
           item = ref$[i$];
-          callback(item);
+          callback.apply(eventHandle, item);
         }
       }
     }

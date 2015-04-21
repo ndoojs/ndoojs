@@ -116,12 +116,12 @@
       eventHandle.listened[eventName] = true
       # 触发状态事件
       if _.has eventHandle.events, "STATUS:#eventName"
-        callback eventHandle.events["STATUS:#eventName"]
+        callback.apply eventHandle, eventHandle.events["STATUS:#eventName"]
         # eventHandle.trigger eventName, eventHandle.events["STATUS:"+eventName]
       # 触发延迟事件队列
       if _.has eventHandle.events, eventName
         for item in eventHandle.events[eventName]
-          callback item
+          callback.apply eventHandle, item
           # eventHandle.trigger eventName, item
         # 清除非状态事件队列
         # delete eventHandle.events[eventName]
