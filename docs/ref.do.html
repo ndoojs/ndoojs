@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>index</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+  </head>
+  <body>
+    <div class="layout">
+      <div class="menu">
+        <h3>基础用法</h3>
+        <ul>
+          <li><a href="index.html">入门</a></li>
+          <li><a href="basic.param.html">参数的使用</a></li>
+          <li><a href="basic.namespace.html">名称空间</a></li>
+          <li><a href="basic.autoload.html">自动加载</a></li>
+          <li><a href="basic.block.html">块级组件</a></li>
+          <li><a href="basic.hook.html">hook</a></li>
+          <li><a href="basic.filter.html">过滤器</a></li>
+        </ul>
+        <h3>参考</h3>
+        <ul>
+          <li><a href="ref.event.html">事件参考</a></li>
+          <li><a href="ref.do.html">Do.js参考 </a></li>
+        </ul>
+      </div>
+      <div class="docs theme1">
+        <h1>Do.js参考</h1>
+        <p>ndoojs使用Do.js做依赖加载，参见 <a href="http://kejun.github.io/Do/">http://kejun.github.io/Do/</a>。这里对ndoojs里面用到的一些功能进行说明。</p>
+        <h3>1. 定义模块</h3>
+        <p>使用Do.define方法定义一个模块，可以是js或者css类型，可以指定依赖。示例：</p>
+        <pre><code data-language="javascript">Do.define('lightBox-css', {path: '{URL}', type: 'css'});
+Do.define('lightBox', {path: '{URL}', type: 'js', requires: ['lightBox-css']});</code></pre>
+        <h3>2. 设置已加载模块</h3>
+        <p>原则上建议所有模块都在Do.js中进行定义，但有些文件默认已加载(如jQuery)则可设置该模块为已加载。示例：</p>
+        <pre><code data-language="javascript">Do.define('jquery', {path: 'js/jquery', type: 'js'});
+Do.setLoaded('jquery') //参数可以是数组</code></pre>
+        <h3>3. 为ndoojs标识模块</h3>
+        <p>当某些ndoojs模块默认未载入，需要进行按需加载时可以在Do.js中定义该文件，但需要为ndoojs标识出该模块存在。</p>
+        <pre><code data-language="javascript">(function(_n){
+  Do.define('home', {
+    path: 'js/example1.js',
+    type: 'js'
+  });
+  // 在NAPP_DEFINE事件触发以后调用setApp标识module
+  _n.on('NAPP_DEFINE', function(){
+    _n.setApp('home');
+  });
+ 
+  Do.define('example3.block', {
+    path: 'js/example3.block.js',
+    type: 'js'
+  });
+  // 在NBLOCK_DEFINE事件触发以后调用setBlock标识block
+  _n.on('NBLOCK_DEFINE', function(){
+    _n.setBlock('example3.block');
+  });
+})(this.N = this.ndoo || (this.ndoo = {}));</code></pre>
+      </div>
+    </div>
+  </body>
+</html>
