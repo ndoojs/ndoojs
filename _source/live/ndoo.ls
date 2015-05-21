@@ -126,6 +126,12 @@
         # 清除非状态事件队列
         # delete eventHandle.events[eventName]
     /* }}} */
+    /* off api {{{ */
+    off: (eventName) !->
+      eventHandle = @eventHandle
+      eventHandle.off eventHandle
+      delete eventHandle.listened[eventName]
+    /* off }}} */
     /* rewrite trigger {{{ */
     trigger: (eventName, eventType, data) !->
       eventHandle = @eventHandle
