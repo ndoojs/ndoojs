@@ -59,6 +59,18 @@
 
     blockTestAction: (param) !->
       console.log 'module: test action: blockTestAction'
+
+    eventOffAction: (param) !->
+      _n.on 'event_off_test', ->
+        console.log 'event_off_test trigger'
+
+      _n.trigger 'event_off_test'
+
+      _n.off 'event_off_test'
+
+      console.log 'event off'
+      _n.trigger 'event_off_test'
+
   /* }}} */
 
   _n
