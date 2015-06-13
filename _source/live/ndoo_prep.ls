@@ -40,6 +40,8 @@
         eventType : eventType
         data      : data
 
+    e.off = !->
+
     /* short event
     e.default = (name) -> "DEFAULT:#name"
     e.delay   = (name) -> "DELAY:#name"
@@ -58,6 +60,9 @@
     name = eventName.substring _index
 
     @event.trigger name, type, data
+
+  _n.off = (eventName) ->
+    @event.off eventName
   /* }}} */
 
   _n.vars ||= {}

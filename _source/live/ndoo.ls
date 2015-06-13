@@ -129,7 +129,7 @@
     /* off api {{{ */
     off: (eventName) !->
       eventHandle = @eventHandle
-      eventHandle.off eventHandle
+      eventHandle.off eventName
       delete eventHandle.listened[eventName]
     /* off }}} */
     /* rewrite trigger {{{ */
