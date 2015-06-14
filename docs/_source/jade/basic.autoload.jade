@@ -1,0 +1,59 @@
+extends shared/_layout
+
+block pageContent
+  h1 自动加载
+  p ndoojs支持按需加载模块，默认使用Do.js加载需要的模块(Do.js经过修改)。
+  h3 1. 引入do.js以及模块定义文件
+  pre: code(data-language="html")
+    ='<script src="../lib/Do.js"></script>'
+
+  h3 2. 添加模块定义
+  p
+    |此处用到了事件系统，参见
+    a(href="ref.event.html") event
+    |。
+  code: pre(data-language="javascript")
+    | (function(_n){
+    |   Do.define('home', {
+    |     path: 'example2.js',
+    |     type: 'js'
+    |   });
+    |   _n.on('NAPP_DEFINE', function(){
+    |     _n.setApp('home');
+    |   });
+    | })(this.N = this.ndoo || (this.ndoo = {}));
+  h5 完整代码如下：
+  p html
+  code: pre(data-language="html")
+    ='<!DOCTYPE html>\n'
+    ='<html>\n'
+    ='  <head>\n'
+    ='    <meta charset="UTF-8">\n'
+    ='    <title>example</title>\n'
+    ='    <script src="../js/ndoo_prep.js"></script>\n'
+    ='  </head>\n'
+    ='  <body>\n'
+    ='    <p id="content"></p>\n'
+    ='    <div id="scriptArea" data-page-id="home/index">\n'
+    ='      <script src="../lib/underscore-min.js"></script>\n'
+    ='      <script src="../lib/jquery-2.1.1.min.js"></script>\n'
+    ='      <script src="../lib/Do.js"></script>\n'
+    ='      <script src="../js/ndoo_lib.js"></script>\n'
+    ='      <script src="../js/ndoo.js"></script>\n'
+    ="      <script>\n"
+    ="        (function(_n){\n"
+    ="          Do.define('home', {\n"
+    ="            path: 'js/example1.js',\n"
+    ="            type: 'js'\n"
+    ="          });\n"
+    ="          _n.on('NAPP_DEFINE', function(){\n"
+    ="            _n.setApp('home');\n"
+    ="          });\n"
+    ="        })(this.N = this.ndoo || (this.ndoo = {}));\n"
+    ='      </script>\n'
+    ='    </div>\n'
+    ='  </body>\n'
+    ='</html>\n'
+  p.notice
+    |查看
+    a(href="../example/example2.html") example2.html

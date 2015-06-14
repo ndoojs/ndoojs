@@ -2,49 +2,7 @@ extends shared/_layout
 
 block pageContent
   h1 基础入门
-  h3 1. 引入头文件
-  pre: code(data-language="html")
-    ='<script src="../js/ndoo_prep.js"></script>'
-
-  h3 2. 定义页面id
-  pre: code(data-language="html")
-    ='<div id="scriptArea" data-page-id="home/index">'
-
-  h3 3. 编写对应脚本 example1.js
-  code: pre(data-language="javascript")
-    | (function(_n, depend){
-    |   var _, $, _vars, _func, _stor;
-    |   _ = depend['_'];
-    |   $ = depend['$'];
-    |   _vars = _n.vars;
-    |   _func = _n.func;
-    |   _stor = _n.storage;
-    |   /* [home module] {{{ */
-    |   _n.app('home', {
-    |     indexAction: function(param){
-    |       var $content;
-    |       $content = $('#content');
-    |       $content.html('module: home, action: indexAction');
-    |     }
-    |   });
-    |   /* }}} */
-    |   return _n;
-    | })(this.N = this.ndoo || (this.ndoo = {}), {
-    |   _: _,
-    |   $: jQuery
-    | });
-
-  h3 4. 引入ndoo脚本及依赖
-  pre: code(data-language="html")
-    ='<script src="../lib/underscore-min.js"></script>\n'
-    ='<script src="../lib/jquery-2.1.1.min.js"></script>\n'
-    ='<script src="../js/ndoo_lib.js"></script>\n'
-    ='<script src="../js/ndoo.js"></script>\n'
-    ='<script src="js/example1.js"></script>'
-
-  p.notice 为了省事，一般会将 ndoo 的相关的脚本放到 scriptArea 下面。
-
-  h5 完整代码如下：
+  p 这里从一个基础示例介绍ndoojs的使用。示例如下：
   p html
   code: pre(data-language="html")
     ='<!DOCTYPE html>\n'
@@ -71,9 +29,11 @@ block pageContent
     |   var _, $, _vars, _func, _stor;
     |   _ = depend['_'];
     |   $ = depend['$'];
+    | 
     |   _vars = _n.vars;
     |   _func = _n.func;
     |   _stor = _n.storage;
+    | 
     |   /* [home module] {{{ */
     |   _n.app('home', {
     |     indexAction: function(param){
@@ -83,6 +43,7 @@ block pageContent
     |     }
     |   });
     |   /* }}} */
+    | 
     |   return _n;
     | })(this.N = this.ndoo || (this.ndoo = {}), {
     |   _: _,
@@ -91,3 +52,49 @@ block pageContent
   p.notice
     |查看
     a(href="../example/example1.html") example1.html
+
+  h3 1. 引入头文件
+  p ndoojs 需要在head处引用一个头文件，ndoo_prep.js。主要用来预定义变量，暂存事件回调等。这个文件体积非常小巧，不会对页面加载造成影响。
+  pre: code(data-language="html")
+    ='<script src="../js/ndoo_prep.js"></script>'
+
+  h3 2. 定义页面id
+  p ndoojs的核心概念即每个页面有一个唯一的id，有一个唯一的入口函数，在该函数内处理该页面的所有逻辑。
+  pre: code(data-language="html")
+    ='<div id="scriptArea" data-page-id="home/index">'
+
+  h3 3. 编写对应脚本 example1.js
+  code: pre(data-language="javascript")
+    | (function(_n, depend){
+    |   var _, $, _vars, _func, _stor;
+    |   _ = depend['_'];
+    |   $ = depend['$'];
+    |   _vars = _n.vars;
+    |   _func = _n.func;
+    |   _stor = _n.storage;
+    | 
+    |   /* [home module] {{{ */
+    |   _n.app('home', {
+    |     indexAction: function(param){
+    |       var $content;
+    |       $content = $('#content');
+    |       $content.html('module: home, action: indexAction');
+    |     }
+    |   });
+    |   /* }}} */
+    | 
+    |   return _n;
+    | })(this.N = this.ndoo || (this.ndoo = {}), {
+    |   _: _,
+    |   $: jQuery
+    | });
+
+  h3 4. 引入ndoo脚本及依赖
+  p ndoojs依赖underscore，使用到jQuery的ready函数(可以使其它库的ready代替)。ndoo_lib提供事件和路由支持。
+  pre: code(data-language="html")
+    ='<script src="../lib/underscore-min.js"></script>\n'
+    ='<script src="../lib/jquery-2.1.1.min.js"></script>\n'
+    ='<script src="../js/ndoo_lib.js"></script>\n'
+    ='<script src="../js/ndoo.js"></script>\n'
+    ='<script src="js/example1.js"></script>'
+  p.notice 为了省事，一般会将 ndoo 的相关脚本放到 scriptArea 下面。

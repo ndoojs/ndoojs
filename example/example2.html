@@ -6,17 +6,24 @@
     <script src="../js/ndoo_prep.js"></script>
   </head>
   <body>
-    <div id="testBlock" data-nblock-id="test/main?abc=1" data-nblock-auto="true"></div>
-    <p>content</p>
-    <div id="scriptArea" data-page-id="test/blockTest">
+    <p id="content"></p>
+    <div id="scriptArea" data-page-id="home/index">
       <script src="../lib/underscore-min.js"></script>
       <script src="../lib/jquery-2.1.1.min.js"></script>
       <script src="../lib/Do.js"></script>
       <script src="../js/ndoo_lib.js"></script>
       <script src="../js/ndoo.js"></script>
-      <script src="../js/ndoo.block.js"></script>
-      <script src="js/do_define.js"></script>
-      <script src="js/app.js"></script>
+      <script>
+        (function(_n){
+          Do.define('home', {
+            path: 'js/example1.js',
+            type: 'js'
+          });
+          _n.on('NAPP_DEFINE', function(){
+            _n.setApp('home');
+          });
+        })(this.N = this.ndoo || (this.ndoo = {}));
+      </script>
     </div>
   </body>
 </html>

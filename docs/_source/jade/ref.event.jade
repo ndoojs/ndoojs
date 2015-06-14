@@ -1,0 +1,68 @@
+extends shared/_layout
+
+block pageContent
+  h1 事件
+  p ndoojs采用一种定制的事件机制来完成组件之间模块之间的衔接。
+
+  h3 1. 事件api
+  pre: code(data-language="javascript")
+    | ndoo.on(
+    |   (string) eventName, // 事件名称
+    |   (fn) callback       // 回调函数
+    | )
+    | &nbsp;
+    | ndoo.trigger(
+    |   (string)eventName  // 事件名称
+    |   [, data...]        // 传递参数
+    | )
+
+  h3 2. 事件类型
+  p ndoojs的事件分为三种，分别为 default, delay, status，对应三种情况。声明时不区分事件类型，触发时在事件前缀 DEFAULT:、DELAY、STATUS或触发不同事件。default事件为默认事件，可以省略前缀。
+  h4 2.1 default 事件
+  p default事件是普通事件，通过on绑定，trigger触发。示例：
+  pre: code(data-language="javascript")
+    | ndoo.on('customEvent', function(foo, bar) {
+    |   alert(foo + bar);
+    | });
+    | &nbsp;
+    | ndoo.trigger('customEvent');
+  h4 2.2 delay 事件
+  p delay为延迟事件，即先用trigger触发的事件，可以引发后面用on绑定的回调。示例：
+  pre: code(data-language="javascript")
+    | ndoo.trigger('DELAY:customDelayEvent');
+    | &nbsp;
+    | ndoo.on('customDelayEvent', function(foo, bar) {
+    |   alert(foo + bar);
+    | });
+  h4 2.3 status 事件
+  p status 为状态事件，当一个状态事件触发后，在事件触发前绑定的回调会执行，之后绑定的回调也会执行。示例：
+  pre: code(data-language="javascript")
+    | ndoo.on('customStatusEvent', function(foo, bar) {
+    |   alert(foo + bar);
+    | });
+    | &nbsp;
+    | ndoo.trigger('STATUS:customStatusEvent');
+    | &nbsp;
+    | ndoo.on('customStatusEvent', function(foo, bar) {
+    |   alert(foo + bar);
+    | });
+  h3 3. 系统事件
+  p ndoojs自身实现了一件事件，具体如下：
+  pre: code(data-language="javascript")
+    | STATUS:PAGE_STATUS_FAST      // 最行被执行的事件
+    | STATUS:PAGE_STATUS_DOMPREP   // DOMLOADED事件之前触发
+    | STATUS:PAGE_STATUS_DOM       // DOMLOADED事件时触发
+    | STATUS:PAGE_STATUS_DOMORLOAD // DOMLOADED事件之后触发
+    | STATUS:PAGE_STATUS_LOAD      // ONLOAD事件后触发
+    | &nbsp;
+    | STATUS:PAGE_STATUS_ROUTING   // 页面路由事件
+    | &nbsp;
+    | STATUS:NAPP_DEFINE           // 模块定义事件
+    | NAPP_LOADED                  // 模块加载完成
+    | STATUS:NBLOCK_INIT           // 块组件定义事件
+    | NBLOCK_LOADED                // 块组件加载完成
+    | &nbsp;
+    | NAPP_ACTION_BEFORE           // 全局 action 前置事件
+    | NAPP_ACTION_AFTER            // 全局 action 后置事件
+    | NAPP_[PREFIX]_ACTION_BEFORE  // 针对特定模块的 action 前置事件
+    | NAPP_[PREFIX]_ACTION_AFTER   // 针对特定模块的 action 后置事件

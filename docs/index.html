@@ -12,44 +12,22 @@
         <ul>
           <li><a href="index.html">入门</a></li>
           <li><a href="basic.param.html">参数的使用</a></li>
+          <li><a href="basic.namespace.html">名称空间</a></li>
+          <li><a href="basic.autoload.html">自动加载</a></li>
+          <li><a href="basic.block.html">块级组件</a></li>
+          <li><a href="basic.hook.html">hook</a></li>
+          <li><a href="basic.filter.html">过滤器</a></li>
+          <li><a href="basic.moduleevent.html">模块事件</a></li>
+        </ul>
+        <h3>参考</h3>
+        <ul>
+          <li><a href="ref.event.html">事件参考</a></li>
+          <li><a href="ref.do.html">Do.js参考</a></li>
         </ul>
       </div>
       <div class="docs theme1">
         <h1>基础入门</h1>
-        <h3>1. 引入头文件</h3>
-        <pre><code data-language="html">&lt;script src=&quot;../js/ndoo_prep.js&quot;&gt;&lt;/script&gt;</code></pre>
-        <h3>2. 定义页面id</h3>
-        <pre><code data-language="html">&lt;div id=&quot;scriptArea&quot; data-page-id=&quot;home/index&quot;&gt;</code></pre>
-        <h3>3. 编写对应脚本 example1.js</h3><code>
-          <pre data-language="javascript">(function(_n, depend){
-  var _, $, _vars, _func, _stor;
-  _ = depend['_'];
-  $ = depend['$'];
-  _vars = _n.vars;
-  _func = _n.func;
-  _stor = _n.storage;
-  /* [home module] {{{ */
-  _n.app('home', {
-    indexAction: function(param){
-      var $content;
-      $content = $('#content');
-      $content.html('module: home, action: indexAction');
-    }
-  });
-  /* }}} */
-  return _n;
-})(this.N = this.ndoo || (this.ndoo = {}), {
-  _: _,
-  $: jQuery
-});</pre></code>
-        <h3>4. 引入ndoo脚本及依赖</h3>
-        <pre><code data-language="html">&lt;script src=&quot;../lib/underscore-min.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;../lib/jquery-2.1.1.min.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;../js/ndoo_lib.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;../js/ndoo.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;js/example1.js&quot;&gt;&lt;/script&gt;</code></pre>
-        <p class="notice">为了省事，一般会将 ndoo 的相关的脚本放到 scriptArea 下面。</p>
-        <h5>完整代码如下：</h5>
+        <p>这里从一个基础示例介绍ndoojs的使用。示例如下：</p>
         <p>html</p><code>
           <pre data-language="html">&lt;!DOCTYPE html&gt;
 &lt;html&gt;
@@ -74,9 +52,11 @@
   var _, $, _vars, _func, _stor;
   _ = depend['_'];
   $ = depend['$'];
+ 
   _vars = _n.vars;
   _func = _n.func;
   _stor = _n.storage;
+ 
   /* [home module] {{{ */
   _n.app('home', {
     indexAction: function(param){
@@ -86,12 +66,51 @@
     }
   });
   /* }}} */
+ 
   return _n;
 })(this.N = this.ndoo || (this.ndoo = {}), {
   _: _,
   $: jQuery
 });</pre></code>
         <p class="notice">查看<a href="../example/example1.html">example1.html</a></p>
+        <h3>1. 引入头文件</h3>
+        <p>ndoojs 需要在head处引用一个头文件，ndoo_prep.js。主要用来预定义变量，暂存事件回调等。这个文件体积非常小巧，不会对页面加载造成影响。</p>
+        <pre><code data-language="html">&lt;script src=&quot;../js/ndoo_prep.js&quot;&gt;&lt;/script&gt;</code></pre>
+        <h3>2. 定义页面id</h3>
+        <p>ndoojs的核心概念即每个页面有一个唯一的id，有一个唯一的入口函数，在该函数内处理该页面的所有逻辑。</p>
+        <pre><code data-language="html">&lt;div id=&quot;scriptArea&quot; data-page-id=&quot;home/index&quot;&gt;</code></pre>
+        <h3>3. 编写对应脚本 example1.js</h3><code>
+          <pre data-language="javascript">(function(_n, depend){
+  var _, $, _vars, _func, _stor;
+  _ = depend['_'];
+  $ = depend['$'];
+  _vars = _n.vars;
+  _func = _n.func;
+  _stor = _n.storage;
+ 
+  /* [home module] {{{ */
+  _n.app('home', {
+    indexAction: function(param){
+      var $content;
+      $content = $('#content');
+      $content.html('module: home, action: indexAction');
+    }
+  });
+  /* }}} */
+ 
+  return _n;
+})(this.N = this.ndoo || (this.ndoo = {}), {
+  _: _,
+  $: jQuery
+});</pre></code>
+        <h3>4. 引入ndoo脚本及依赖</h3>
+        <p>ndoojs依赖underscore，使用到jQuery的ready函数(可以使其它库的ready代替)。ndoo_lib提供事件和路由支持。</p>
+        <pre><code data-language="html">&lt;script src=&quot;../lib/underscore-min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;../lib/jquery-2.1.1.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;../js/ndoo_lib.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;../js/ndoo.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;js/example1.js&quot;&gt;&lt;/script&gt;</code></pre>
+        <p class="notice">为了省事，一般会将 ndoo 的相关脚本放到 scriptArea 下面。</p>
       </div>
     </div>
   </body>

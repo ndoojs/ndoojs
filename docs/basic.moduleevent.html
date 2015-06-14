@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>index</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+  </head>
+  <body>
+    <div class="layout">
+      <div class="menu">
+        <h3>基础用法</h3>
+        <ul>
+          <li><a href="index.html">入门</a></li>
+          <li><a href="basic.param.html">参数的使用</a></li>
+          <li><a href="basic.namespace.html">名称空间</a></li>
+          <li><a href="basic.autoload.html">自动加载</a></li>
+          <li><a href="basic.block.html">块级组件</a></li>
+          <li><a href="basic.hook.html">hook</a></li>
+          <li><a href="basic.filter.html">过滤器</a></li>
+          <li><a href="basic.moduleevent.html">模块事件</a></li>
+        </ul>
+        <h3>参考</h3>
+        <ul>
+          <li><a href="ref.event.html">事件参考</a></li>
+          <li><a href="ref.do.html">Do.js参考</a></li>
+        </ul>
+      </div>
+      <div class="docs theme1">
+        <h1>模块事件</h1>
+        <p>ndoojs支持给模块定义事件，在指定模块的action调用前和调用后触发事件。</p>
+        <h3>1. 前置事件</h3>
+        <p>事件名 NAPP_[moduleName]_ACTION_BEFORE，回调函数接受3个参数，分别是 controller、actionName、params。示例：</p>
+        <pre><code data-language="javascript">_n.on('NAPP_HOME_ACTION_BEFORE', function(controller, actionName, params){
+  console.log('controller:' + controller + "\n actionName:" + actionName + "\n params" + params);
+});
+ 
+/* [home module] {{{ */
+_n.app('home', {
+  indexAction: function(param){
+    var $content;
+    $content = $('#content');
+    $content.html('module: home, action: indexAction');
+  }
+});
+/* }}} */</code></pre>
+        <h3>2. 后置事件</h3>
+        <p>事件名 NAPP_[moduleName]_ACTION_AFTER，回调函数接受3个参数，分别是 controller、actionName、params。示例：</p>
+        <pre><code data-language="javascript">_n.on('NAPP_HOME_ACTION_AFTER', function(controller, actionName, params){
+  console.log('controller:' + controller + "\n actionName:" + actionName + "\n params" + params);
+});
+ 
+/* [home module] {{{ */
+_n.app('home', {
+  indexAction: function(param){
+    var $content;
+    $content = $('#content');
+    $content.html('module: home, action: indexAction');
+  }
+});
+/* }}} */</code></pre>
+      </div>
+    </div>
+  </body>
+</html>

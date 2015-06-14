@@ -1,0 +1,18 @@
+extends shared/_layout
+
+block pageContent
+  h1 名称空间
+
+  h3 1. page id中设置名称空间，如 admin/user/add
+  pre: code(data-language="html")
+    ='<div id="scriptArea" data-page-id="admin/user/add">'
+
+  h3 2. 定义模块名称，使用.(点)分隔
+  code: pre(data-language="javascript")
+    | _n.app('admin.user', {
+    |   addAction: function(param){
+    |     var $content;
+    |     $content = $('#content');
+    |     $content.html('namespace: admin module: user action: addAction');
+    |   }
+    | });
