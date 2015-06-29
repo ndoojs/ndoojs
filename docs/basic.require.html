@@ -27,16 +27,34 @@
         </ul>
       </div>
       <div class="docs theme1">
-        <h1>参数的使用</h1>
-        <h3>1. page id中设置参数</h3>
-        <pre><code data-language="html">&lt;div id=&quot;scriptArea&quot; data-page-id=&quot;home/index?abc&quot;&gt;</code></pre>
-        <h3>2. 获取参数</h3><code>
-          <pre data-language="javascript">indexAction: function(params){
-  var $content;
-  $content = $('#content');
-  $content.html('module: home, action: indexAction param: ' + params);
+        <h1>require</h1>
+        <p>ndoojs提供require方法来按需加载自定义模块，支付do.js和seajs两种加载器。<br>do.js 参考<a href="ref.do.html">do.js</a></p>
+        <h3>1. 参数说明</h3><code>
+          <pre data-language="javascript">ndoo.require(
+  (array|string) depend, // 需要加载的依赖
+  (function) callback,   // 另载完成的回调
+  (string) type          // 类型,支持Do.js和seajs
 }</pre></code>
-        <p class="notice">此处params为字符串abc，ndoojs自运过滤掉了?（问号）</p>
+        <h3>2. 示例</h3>
+        <p>加载seajs类型的包，和依赖插件</p><code>
+          <pre data-language="javascript">// file jquery-1.11.1.js
+define(function(require, exports, module) {
+  ...
+});
+// file jquery-mytest.js
+define(function(require, exports, module) {
+    var $ = require('./jquery-1.11.1.js');
+    $.fn.mytest = function () {
+        console.log($.version);
+    }
+});
+// file app.js
+mainAction: function(param){
+  console.log(param);
+  _n.require(['../example/lib/jquery-1.11.1.js', '../example/lib/jquery-mytest.js'], function(a){
+    a('body').mytest();
+  }, 'seajs');
+}</pre></code>
       </div>
     </div>
   </body>

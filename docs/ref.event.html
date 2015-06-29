@@ -18,6 +18,7 @@
           <li><a href="basic.hook.html">hook</a></li>
           <li><a href="basic.filter.html">过滤器</a></li>
           <li><a href="basic.moduleevent.html">模块事件</a></li>
+          <li><a href="basic.require.html">按需加载</a></li>
         </ul>
         <h3>参考</h3>
         <ul>
@@ -29,16 +30,17 @@
         <h1>事件</h1>
         <p>ndoojs采用一种定制的事件机制来完成组件之间模块之间的衔接。</p>
         <h3>1. 事件api</h3>
-        <pre><code data-language="javascript">ndoo.on(
+        <pre><code data-language="javascript">// 注册事件绑定
+ndoo.on(
   (string) eventName, // 事件名称
   (fn) callback       // 回调函数
 )
-&nbsp;
+// 触发事件
 ndoo.trigger(
   (string)eventName  // 事件名称
   [, data...]        // 传递参数
 )
-&nbsp;
+// 移除事件
 ndoo.off(
   (string)eventName  // 事件名称
 )</code></pre>

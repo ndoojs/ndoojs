@@ -1,0 +1,40 @@
+extends shared/_layout
+
+block pageContent
+  h1 require
+  p
+    |ndoojs提供require方法来按需加载自定义模块，支付do.js和seajs两种加载器。
+    br
+    |do.js 参考
+    a(href="ref.do.html") do.js
+
+
+  h3 1. 参数说明
+  code: pre(data-language="javascript")
+    | ndoo.require(
+    |   (array|string) depend, // 需要加载的依赖
+    |   (function) callback,   // 另载完成的回调
+    |   (string) type          // 类型,支持Do.js和seajs
+    | }
+
+  h3 2. 示例
+  p 加载seajs类型的包，和依赖插件
+  code: pre(data-language="javascript")
+    | // file jquery-1.11.1.js
+    | define(function(require, exports, module) {
+    |   ...
+    | });
+    | // file jquery-mytest.js
+    | define(function(require, exports, module) {
+    |     var $ = require('./jquery-1.11.1.js');
+    |     $.fn.mytest = function () {
+    |         console.log($.version);
+    |     }
+    | });
+    | // file app.js
+    | mainAction: function(param){
+    |   console.log(param);
+    |   _n.require(['../example/lib/jquery-1.11.1.js', '../example/lib/jquery-mytest.js'], function(a){
+    |     a('body').mytest();
+    |   }, 'seajs');
+    | }
