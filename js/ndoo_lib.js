@@ -4,7 +4,7 @@
 "   FileName: ndoo_lib.ls
 "       Desc: ndoo.js库文件
 "     Author: chenglf
-"    Version: ndoo.js(v0.1b4)
+"    Version: ndoo.js(v0.1b5)
 " LastChange: 05/21/2014 14:24
 " --------------------------------------------------
 */
