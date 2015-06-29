@@ -37,6 +37,10 @@
 ndoo.trigger(
   (string)eventName  // 事件名称
   [, data...]        // 传递参数
+)
+&nbsp;
+ndoo.off(
+  (string)eventName  // 事件名称
 )</code></pre>
         <h3>2. 事件类型</h3>
         <p>ndoojs的事件分为三种，分别为 default, delay, status，对应三种情况。声明时不区分事件类型，触发时在事件前缀 DEFAULT:、DELAY、STATUS或触发不同事件。default事件为默认事件，可以省略前缀。</p>

@@ -6,14 +6,19 @@ block pageContent
 
   h3 1. 事件api
   pre: code(data-language="javascript")
+    | // 注册事件绑定
     | ndoo.on(
     |   (string) eventName, // 事件名称
     |   (fn) callback       // 回调函数
     | )
-    | &nbsp;
+    | // 触发事件
     | ndoo.trigger(
     |   (string)eventName  // 事件名称
     |   [, data...]        // 传递参数
+    | )
+    | // 移除事件
+    | ndoo.off(
+    |   (string)eventName  // 事件名称
     | )
 
   h3 2. 事件类型
