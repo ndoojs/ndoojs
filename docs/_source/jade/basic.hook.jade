@@ -1,31 +1,38 @@
 extends shared/_layout
 
-block pageContent
+block pageTitle
+  include shared/_variable
+  include shared/_mixin
+  title 前置和后置操作#{titleSuffix}
+
+block pageHeader
   h1 前置和后置操作
   p ndoojs支持在action执行之前和执行之后执行指定的操作
 
+block pageContent
   h3 1. 前置操作
   p 前置操作由actionName+'Before'组成。例如：
-  code: pre(data-language="javascript")
-    | indexBefore: function(params){
-    |   alert('index before');
-    | },
-    | 
-    | indexAction: function(params){
-    |   var $content;
-    |   $content = $('#content');
-    |   $content.html('module: home, action: indexAction);
-    | }
+  +renderCode('javascript')
+    ="indexBefore: function(params){\n"
+    ="  alert('index before');\n"
+    ="},\n"
+    ="\n"
+    ="indexAction: function(params){\n"
+    ="  var $content;\n"
+    ="  $content = $('#content');\n"
+    ="  $content.html('module: home, action: indexAction);\n"
+    ="}"
 
   h3 2. 后置操作
   p 后置操作由actionName+'After'组成。例如：
   code: pre(data-language="javascript")
-    | indexAfter: function(params){
-    |   alert('index after');
-    | },
-    | 
-    | indexAction: function(params){
-    |   var $content;
-    |   $content = $('#content');
-    |   $content.html('module: home, action: indexAction);
-    | }
+  +renderCode('javascript')
+    ="indexAfter: function(params){\n"
+    ="  alert('index after');\n"
+    ="},\n"
+    ="\n"
+    ="indexAction: function(params){\n"
+    ="  var $content;\n"
+    ="  $content = $('#content');\n"
+    ="  $content.html('module: home, action: indexAction);\n"
+    ="}"

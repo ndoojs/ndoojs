@@ -1,46 +1,52 @@
 extends shared/_layout
 
-block pageContent
+block pageTitle
+  include shared/_variable
+  include shared/_mixin
+  title 过滤器#{titleSuffix}
+
+block pageHeader
   h1 过滤器
   p ndoojs支持自定义过滤器，指定全局执行的方法。过滤器有before、after两种情形，过滤器支持only、except修饰。
 
+block pageContent
   h3 1. 前置过滤器
   p 使用before声明，例如：
-  code: pre(data-language="javascript")
-    | before: {
-    |   filter: 'before'
-    | },
-    | 
-    | beforeFilter: function() {
-    |   alert("before filter");
-    | },
-    | 
-    | indexAction: function(params){
-    |   var $content;
-    |   $content = $('#content');
-    |   $content.html('module: home, action: indexAction);
-    | }
+  +renderCode('javascript')
+    ="before: {\n"
+    ="  filter: 'before'\n"
+    ="},\n"
+    ="\n"
+    ="beforeFilter: function() {\n"
+    ="  alert(\'before filter\');\n"
+    ="},\n"
+    ="\n"
+    ="indexAction: function(params){\n"
+    ="  var $content;\n"
+    ="  $content = $('#content');\n"
+    ="  $content.html('module: home, action: indexAction);\n"
+    ="}"
 
   h3 2. 后置过滤器
   p 后置过滤器使用after声明，其它同前置过滤器。
 
   h3 3. only修饰
   p only表示过滤器只针对指定的action。
-  code: pre(data-language="javascript")
-    | before: {
-    |   filter: 'before',
-    |   only: 'index'
-    | },
-    | 
-    | beforeFilter: function() {
-    |   alert("before filter");
-    | },
-    | 
-    | indexAction: function(params){
-    |   var $content;
-    |   $content = $('#content');
-    |   $content.html('module: home, action: indexAction);
-    | }
+  +renderCode('javascript')
+    ="before: {\n"
+    ="  filter: 'before',\n"
+    ="  only: 'index'\n"
+    ="},\n"
+    ="\n"
+    ="beforeFilter: function() {\n"
+    ="  alert('before filter');\n"
+    ="},\n"
+    ="\n"
+    ="indexAction: function(params){\n"
+    ="  var $content;\n"
+    ="  $content = $('#content');\n"
+    ="  $content.html('module: home, action: indexAction);\n"
+    ="}"
 
   h3 4. except修饰
   p except表示过滤器针对在除except以外的action上。

@@ -1,6 +1,11 @@
 extends shared/_layout
 
-block pageContent
+block pageTitle
+  include shared/_variable
+  include shared/_mixin
+  title 手动加载#{titleSuffix}
+
+block pageHeader
   h1 手动加载
   p
     |ndoojs提供require方法来手动加载自定义模块，支持do.js和seajs两种加载方式。
@@ -8,33 +13,33 @@ block pageContent
     |do.js 参考
     a(href="ref.do.html") do.js
 
-
+block pageContent
   h3 1. 参数说明
-  code: pre(data-language="javascript")
-    | ndoo.require(
-    |   (array|string) depend, // 需要加载的依赖
-    |   (function) callback,   // 另载完成的回调
-    |   (string) type          // 类型,支持Do.js和seajs
-    | }
+  +renderCode('javascript')
+    ="ndoo.require(\n"
+    ="  (array|string) depend, // 需要加载的依赖\n"
+    ="  (function) callback,   // 另载完成的回调\n"
+    ="  (string) type          // 类型,支持Do.js和seajs\n"
+    ="}"
 
   h3 2. 示例
   p 加载seajs类型的包，和依赖插件
-  code: pre(data-language="javascript")
-    | // file jquery-1.11.1.js
-    | define(function(require, exports, module) {
-    |   ...
-    | });
-    | // file jquery-mytest.js
-    | define(function(require, exports, module) {
-    |     var $ = require('./jquery-1.11.1.js');
-    |     $.fn.mytest = function () {
-    |         console.log($.version);
-    |     }
-    | });
-    | // file app.js
-    | mainAction: function(param){
-    |   console.log(param);
-    |   _n.require(['../example/lib/jquery-1.11.1.js', '../example/lib/jquery-mytest.js'], function(a){
-    |     a('body').mytest();
-    |   }, 'seajs');
-    | }
+  +renderCode('javascript')
+    ="// file jquery-1.11.1.js\n"
+    ="define(function(require, exports, module) {\n"
+    ="  ...\n"
+    ="});\n"
+    ="// file jquery-mytest.js\n"
+    ="define(function(require, exports, module) {\n"
+    ="    var $ = require('./jquery-1.11.1.js');\n"
+    ="    $.fn.mytest = function () {\n"
+    ="        console.log($.version);\n"
+    ="    }\n"
+    ="});\n"
+    ="// file app.js\n"
+    ="mainAction: function(param){\n"
+    ="  console.log(param);\n"
+    ="  _n.require(['../example/lib/jquery-1.11.1.js', '../example/lib/jquery-mytest.js'], function(a){\n"
+    ="    a('body').mytest();\n"
+    ="  }, 'seajs');\n"
+    ="}"

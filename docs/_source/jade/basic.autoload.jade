@@ -1,10 +1,17 @@
 extends shared/_layout
 
-block pageContent
+block pageTitle
+  include shared/_variable
+  include shared/_mixin
+  title 自动加载#{titleSuffix}
+
+block pageHeader
   h1 自动加载
   p ndoojs支持自动加载模块，默认使用Do.js加载模块(Do.js经过修改)。
+
+block pageContent
   h3 1. 引入do.js以及模块定义文件
-  pre: code(data-language="html")
+  +renderCode('html')
     ='<script src="../lib/Do.js"></script>'
 
   h3 2. 添加模块定义
@@ -12,19 +19,19 @@ block pageContent
     |此处用到了事件系统，参见
     a(href="ref.event.html") event
     |。
-  code: pre(data-language="javascript")
-    | (function(_n){
-    |   Do.define('home', {
-    |     path: 'example2.js',
-    |     type: 'js'
-    |   });
-    |   _n.on('NAPP_DEFINE', function(){
-    |     _n.setApp('home');
-    |   });
-    | })(this.N = this.ndoo || (this.ndoo = {}));
+  +renderCode('javascript')
+    ="(function(_n){\n"
+    ="  Do.define('home', {\n"
+    ="    path: 'example2.js',\n"
+    ="    type: 'js'\n"
+    ="  });\n"
+    ="  _n.on('NAPP_DEFINE', function(){\n"
+    ="    _n.setApp('home');\n"
+    ="  });\n"
+    ="})(this.N = this.ndoo || (this.ndoo = {}));"
   h5 完整代码如下：
   p html
-  code: pre(data-language="html")
+  +renderCode('html')
     ='<!DOCTYPE html>\n'
     ='<html>\n'
     ='  <head>\n'
@@ -53,7 +60,7 @@ block pageContent
     ='      </script>\n'
     ='    </div>\n'
     ='  </body>\n'
-    ='</html>\n'
+    ='</html>'
   p.notice
     |示例中定义了home模块的文件js/example1.js，但未载入该文件。当前页面的模块属于home模块，执行action时会自动加载home模块。
     span

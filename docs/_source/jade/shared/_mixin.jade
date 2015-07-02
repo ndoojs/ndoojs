@@ -1,0 +1,6 @@
+mixin renderCode(language)
+  if language == 'html'
+    -var language = 'markup'
+  pre.line-numbers(data-start="1"): code(class="language-#{language}")
+    if block
+      block

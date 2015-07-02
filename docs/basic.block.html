@@ -2,39 +2,49 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>index</title>
+    <title>块级组件-ndoojs文档-ndoojs</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/pure-min.css">
+    <link rel="stylesheet" type="text/css" href="css/prism.css">
   </head>
   <body>
-    <div class="layout">
-      <div class="menu">
-        <h3>基础用法</h3>
-        <ul>
-          <li><a href="index.html">入门</a></li>
-          <li><a href="basic.param.html">参数的使用</a></li>
-          <li><a href="basic.namespace.html">名称空间</a></li>
-          <li><a href="basic.autoload.html">自动加载</a></li>
-          <li><a href="basic.block.html">块级组件</a></li>
-          <li><a href="basic.hook.html">前置和后置操作</a></li>
-          <li><a href="basic.filter.html">过滤器</a></li>
-          <li><a href="basic.moduleevent.html">模块事件</a></li>
-          <li><a href="basic.require.html">手动加载</a></li>
-          <li><a href="basic.depend.html">依赖加载</a></li>
-        </ul>
-        <h3>参考</h3>
-        <ul>
-          <li><a href="ref.event.html">事件参考</a></li>
-          <li><a href="ref.do.html">Do.js参考</a></li>
-        </ul>
+    <div id="layout" class="layout"><a id="menuLink" href="#menu" class="menu-link">
+        <!-- Hamburger icon--><span></span></a>
+      <div id="menu">
+        <div class="menu pure-menu">
+          <h3 class="pure-menu-heading">ndoojs文档</h3>
+          <h3 class="pure-menu-heading menu-item-divided">基础用法</h3>
+          <ul class="pure-menu-list">
+            <li class="pure-menu-item"><a href="index.html" class="pure-menu-link">入门</a></li>
+            <li class="pure-menu-item"><a href="basic.param.html" class="pure-menu-link">参数的使用</a></li>
+            <li class="pure-menu-item"><a href="basic.namespace.html" class="pure-menu-link">名称空间</a></li>
+            <li class="pure-menu-item"><a href="basic.autoload.html" class="pure-menu-link">自动加载</a></li>
+            <li class="pure-menu-item"><a href="basic.block.html" class="pure-menu-link">块级组件</a></li>
+            <li class="pure-menu-item"><a href="basic.hook.html" class="pure-menu-link">前置和后置操作</a></li>
+            <li class="pure-menu-item"><a href="basic.filter.html" class="pure-menu-link">过滤器</a></li>
+            <li class="pure-menu-item"><a href="basic.moduleevent.html" class="pure-menu-link">模块事件</a></li>
+            <li class="pure-menu-item"><a href="basic.require.html" class="pure-menu-link">手动加载</a></li>
+            <li class="pure-menu-item"><a href="basic.depend.html" class="pure-menu-link">依赖加载</a></li>
+          </ul>
+          <h3 class="pure-menu-heading menu-item-divided">参考</h3>
+          <ul class="pure-menu-list">
+            <li class="pure-menu-item"><a href="ref.event.html" class="pure-menu-link">事件参考</a></li>
+            <li class="pure-menu-item"><a href="ref.do.html" class="pure-menu-link">Do.js参考</a></li>
+          </ul>
+        </div>
       </div>
-      <div class="docs theme1">
-        <h1>块级组件</h1>
-        <p>ndoojs支持块级组件，可以方便的定义一些按需载入自执行组件。</p>
-        <h3>1. 引入do.js以及模块定义文件</h3>
-        <pre><code data-language="html">&lt;script src=&quot;../lib/Do.js&quot;&gt;&lt;/script&gt;</code></pre>
-        <h3>2. 添加模块定义</h3>
-        <p>此处用到了事件系统，参见<a href="event.html">event。</a></p><code>
-          <pre data-language="javascript">(function(_n){
+      <div id="main">
+        <div class="docs theme1">
+          <div class="header">
+            <h1>块级组件</h1>
+            <p>ndoojs支持块级组件，可以方便的定义一些按需载入自执行组件。</p>
+          </div>
+          <div class="content">
+            <h3>1. 引入do.js以及模块定义文件</h3>
+                <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;script src=&quot;../lib/Do.js&quot;&gt;&lt;/script&gt;</code></pre>
+            <h3>2. 添加模块定义</h3>
+            <p>此处用到了事件系统，参见<a href="event.html">event。</a></p>
+                <pre data-start="1" class="line-numbers"><code class="language-javascript">(function(_n){
   Do.define('home', {
     path: 'example2.js',
     type: 'js'
@@ -42,10 +52,10 @@
   _n.on('NAPP_DEFINE', function(){
     _n.setApp('home');
   });
-})(this.N = this.ndoo || (this.ndoo = {}));</pre></code>
-        <h5>完整代码如下：</h5>
-        <p>html</p><code>
-          <pre data-language="html">&lt;!DOCTYPE html&gt;
+})(this.N = this.ndoo || (this.ndoo = {}));</code></pre>
+            <h5>完整代码如下：</h5>
+            <p>html</p>
+                <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;head&gt;
     &lt;meta charset=&quot;UTF-8&quot;&gt;
@@ -73,10 +83,13 @@
       &lt;/script&gt;
     &lt;/div&gt;
   &lt;/body&gt;
-&lt;/html&gt;
-</pre></code>
-        <p class="notice">查看<a href="../example/example2.html">example2.html</a></p>
+&lt;/html&gt;</code></pre>
+            <p class="notice">查看<a href="../example/example2.html">example2.html</a></p>
+          </div>
+        </div>
       </div>
     </div>
+    <script src="js/ui.js"></script>
+    <script src="js/prism.js"></script>
   </body>
 </html>

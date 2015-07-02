@@ -2,44 +2,58 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>index</title>
+    <title>名称空间-ndoojs文档-ndoojs</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/pure-min.css">
+    <link rel="stylesheet" type="text/css" href="css/prism.css">
   </head>
   <body>
-    <div class="layout">
-      <div class="menu">
-        <h3>基础用法</h3>
-        <ul>
-          <li><a href="index.html">入门</a></li>
-          <li><a href="basic.param.html">参数的使用</a></li>
-          <li><a href="basic.namespace.html">名称空间</a></li>
-          <li><a href="basic.autoload.html">自动加载</a></li>
-          <li><a href="basic.block.html">块级组件</a></li>
-          <li><a href="basic.hook.html">前置和后置操作</a></li>
-          <li><a href="basic.filter.html">过滤器</a></li>
-          <li><a href="basic.moduleevent.html">模块事件</a></li>
-          <li><a href="basic.require.html">手动加载</a></li>
-          <li><a href="basic.depend.html">依赖加载</a></li>
-        </ul>
-        <h3>参考</h3>
-        <ul>
-          <li><a href="ref.event.html">事件参考</a></li>
-          <li><a href="ref.do.html">Do.js参考</a></li>
-        </ul>
+    <div id="layout" class="layout"><a id="menuLink" href="#menu" class="menu-link">
+        <!-- Hamburger icon--><span></span></a>
+      <div id="menu">
+        <div class="menu pure-menu">
+          <h3 class="pure-menu-heading">ndoojs文档</h3>
+          <h3 class="pure-menu-heading menu-item-divided">基础用法</h3>
+          <ul class="pure-menu-list">
+            <li class="pure-menu-item"><a href="index.html" class="pure-menu-link">入门</a></li>
+            <li class="pure-menu-item"><a href="basic.param.html" class="pure-menu-link">参数的使用</a></li>
+            <li class="pure-menu-item"><a href="basic.namespace.html" class="pure-menu-link">名称空间</a></li>
+            <li class="pure-menu-item"><a href="basic.autoload.html" class="pure-menu-link">自动加载</a></li>
+            <li class="pure-menu-item"><a href="basic.block.html" class="pure-menu-link">块级组件</a></li>
+            <li class="pure-menu-item"><a href="basic.hook.html" class="pure-menu-link">前置和后置操作</a></li>
+            <li class="pure-menu-item"><a href="basic.filter.html" class="pure-menu-link">过滤器</a></li>
+            <li class="pure-menu-item"><a href="basic.moduleevent.html" class="pure-menu-link">模块事件</a></li>
+            <li class="pure-menu-item"><a href="basic.require.html" class="pure-menu-link">手动加载</a></li>
+            <li class="pure-menu-item"><a href="basic.depend.html" class="pure-menu-link">依赖加载</a></li>
+          </ul>
+          <h3 class="pure-menu-heading menu-item-divided">参考</h3>
+          <ul class="pure-menu-list">
+            <li class="pure-menu-item"><a href="ref.event.html" class="pure-menu-link">事件参考</a></li>
+            <li class="pure-menu-item"><a href="ref.do.html" class="pure-menu-link">Do.js参考</a></li>
+          </ul>
+        </div>
       </div>
-      <div class="docs theme1">
-        <h1>名称空间</h1>
-        <h3>1. page id中设置名称空间，如 admin/user/add</h3>
-        <pre><code data-language="html">&lt;div id=&quot;scriptArea&quot; data-page-id=&quot;admin/user/add&quot;&gt;</code></pre>
-        <h3>2. 定义模块名称，使用.(点)分隔</h3><code>
-          <pre data-language="javascript">_n.app('admin.user', {
+      <div id="main">
+        <div class="docs theme1">
+          <div class="header">
+            <h1>名称空间</h1>
+          </div>
+          <div class="content">
+            <h3>1. page id中设置名称空间，如 admin/user/add</h3>
+                <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;div id=&quot;scriptArea&quot; data-page-id=&quot;admin/user/add&quot;&gt;</code></pre>
+            <h3>2. 定义模块名称，使用.(点)分隔</h3>
+                <pre data-start="1" class="line-numbers"><code class="language-javascript">_n.app('admin.user', {
   addAction: function(param){
     var $content;
     $content = $('#content');
     $content.html('namespace: admin module: user action: addAction');
   }
-});</pre></code>
+});</code></pre>
+          </div>
+        </div>
       </div>
     </div>
+    <script src="js/ui.js"></script>
+    <script src="js/prism.js"></script>
   </body>
 </html>

@@ -1,6 +1,11 @@
 extends shared/_layout
 
-block pageContent
+block pageTitle
+  include shared/_variable
+  include shared/_mixin
+  title 依赖加载#{titleSuffix}
+
+block pageHeader
   h1 依赖加载
   p
     |ndoojs可以为action定义依赖，当执行到action时会先加载需要的依赖(使用do.js加载)。
@@ -8,18 +13,18 @@ block pageContent
     |do.js 参考
     a(href="ref.do.html") do.js
 
-
+block pageContent
   h3 1. 示例：
-  code: pre(data-language="javascript")
-    | // jquery模块定义
-    | Do.define('jquery', {
-    |   path: jsPathbase + "/jquery-2.1.1.min.js",
-    |   type: 'js'
-    | });
-    | // 设置jquery为默认已加载
-    | Do.setLoaded(['jquery']);
-    | // 声明依赖
-    | mainDepend: ['jquery'],
-    | mainAction: function(param){
-    |   console.log(typeof jQuery);
-    | }
+  +renderCode('javascript')
+    ="// jquery模块定义\n"
+    ="Do.define('jquery', {\n"
+    ="  path: jsPathbase + '/jquery-2.1.1.min.js',\n"
+    ="  type: 'js'\n"
+    ="});\n"
+    ="// 设置jquery为默认已加载\n"
+    ="Do.setLoaded(['jquery']);\n"
+    ="// 声明依赖\n"
+    ="mainDepend: ['jquery'],\n"
+    ="mainAction: function(param){\n"
+    ="  console.log(typeof jQuery);\n"
+    ="}"

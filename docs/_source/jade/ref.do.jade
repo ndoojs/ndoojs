@@ -1,45 +1,49 @@
 extends shared/_layout
 
-block pageContent
+block pageTitle
+  include shared/_variable
+  include shared/_mixin
+  title Do.js参考#{titleSuffix}
+
+block pageHeader
   h1 Do.js参考
   p
     |ndoojs使用Do.js做依赖加载，参见 
     a(href="http://kejun.github.io/Do/") http://kejun.github.io/Do/
     |。这里对ndoojs里面用到的一些功能进行说明。
 
+block pageContent
   h3 1. 定义模块
   p 使用Do.define方法定义一个模块，可以是js或者css类型，可以指定依赖。示例：
-  pre: code(data-language="javascript")
-    | Do.define('lightBox-css', {path: '{URL}', type: 'css'});
-    | Do.define('lightBox', {path: '{URL}', type: 'js', requires: ['lightBox-css']});
+  +renderCode('javascript')
+    ="Do.define('lightBox-css', {path: '{URL}', type: 'css'});\n"
+    ="Do.define('lightBox', {path: '{URL}', type: 'js', requires: ['lightBox-css']});"
 
   h3 2. 设置已加载模块
   p 原则上建议所有模块都在Do.js中进行定义，但有些文件默认已加载(如jQuery)则可设置该模块为已加载。示例：
-  pre: code(data-language="javascript")
-    | Do.define('jquery', {path: 'js/jquery', type: 'js'});
-    | Do.setLoaded('jquery') //参数可以是数组
+  +renderCode('javascript')
+    ="Do.define('jquery', {path: 'js/jquery', type: 'js'});\n"
+    ="Do.setLoaded('jquery') //参数可以是数组"
 
   h3 3. 为ndoojs标识模块
   p 当某些ndoojs模块默认未载入，需要进行按需加载时可以在Do.js中定义该文件，但需要为ndoojs标识出该模块存在。
-  pre: code(data-language="javascript")
-    | (function(_n){
-    |   Do.define('home', {
-    |     path: 'js/example1.js',
-    |     type: 'js'
-    |   });
-    |   // 在NAPP_DEFINE事件触发以后调用setApp标识module
-    |   _n.on('NAPP_DEFINE', function(){
-    |     _n.setApp('home');
-    |   });
-    | 
-    |   Do.define('example3.block', {
-    |     path: 'js/example3.block.js',
-    |     type: 'js'
-    |   });
-    |   // 在NBLOCK_DEFINE事件触发以后调用setBlock标识block
-    |   _n.on('NBLOCK_DEFINE', function(){
-    |     _n.setBlock('example3.block');
-    |   });
-    | })(this.N = this.ndoo || (this.ndoo = {}));
-
-
+  +renderCode('javascript')
+    ="(function(_n){\n"
+    ="  Do.define('home', {\n"
+    ="    path: 'js/example1.js',\n"
+    ="    type: 'js'\n"
+    ="  });\n"
+    ="  // 在NAPP_DEFINE事件触发以后调用setApp标识module\n"
+    ="  _n.on('NAPP_DEFINE', function(){\n"
+    ="    _n.setApp('home');\n"
+    ="  });\n"
+    ="\n"
+    ="  Do.define('example3.block', {\n"
+    ="    path: 'js/example3.block.js',\n"
+    ="    type: 'js'\n"
+    ="  });\n"
+    ="  // 在NBLOCK_DEFINE事件触发以后调用setBlock标识block\n"
+    ="  _n.on('NBLOCK_DEFINE', function(){\n"
+    ="    _n.setBlock('example3.block');\n"
+    ="  });\n"
+    ="})(this.N = this.ndoo || (this.ndoo = {}));"
