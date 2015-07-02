@@ -28,16 +28,21 @@
         </ul>
       </div>
       <div class="docs theme1">
-        <h1>参数的使用</h1>
-        <h3>1. page id中设置参数</h3>
-        <pre><code data-language="html">&lt;div id=&quot;scriptArea&quot; data-page-id=&quot;home/index?abc&quot;&gt;</code></pre>
-        <h3>2. 获取参数</h3><code>
-          <pre data-language="javascript">indexAction: function(params){
-  var $content;
-  $content = $('#content');
-  $content.html('module: home, action: indexAction param: ' + params);
+        <h1>依赖加载</h1>
+        <p>ndoojs可以为action定义依赖，当执行到action时会先加载需要的依赖(使用do.js加载)。<br>do.js 参考<a href="ref.do.html">do.js</a></p>
+        <h3>1. 示例：</h3><code>
+          <pre data-language="javascript">// jquery模块定义
+Do.define('jquery', {
+  path: jsPathbase + "/jquery-2.1.1.min.js",
+  type: 'js'
+});
+// 设置jquery为默认已加载
+Do.setLoaded(['jquery']);
+// 声明依赖
+mainDepend: ['jquery'],
+mainAction: function(param){
+  console.log(typeof jQuery);
 }</pre></code>
-        <p class="notice">此处params为字符串abc，ndoojs自运过滤掉了?（问号）</p>
       </div>
     </div>
   </body>

@@ -15,10 +15,11 @@
           <li><a href="basic.namespace.html">名称空间</a></li>
           <li><a href="basic.autoload.html">自动加载</a></li>
           <li><a href="basic.block.html">块级组件</a></li>
-          <li><a href="basic.hook.html">hook</a></li>
+          <li><a href="basic.hook.html">前置和后置操作</a></li>
           <li><a href="basic.filter.html">过滤器</a></li>
           <li><a href="basic.moduleevent.html">模块事件</a></li>
-          <li><a href="basic.require.html">按需加载</a></li>
+          <li><a href="basic.require.html">手动加载</a></li>
+          <li><a href="basic.depend.html">依赖加载</a></li>
         </ul>
         <h3>参考</h3>
         <ul>
@@ -28,7 +29,7 @@
       </div>
       <div class="docs theme1">
         <h1>自动加载</h1>
-        <p>ndoojs支持按需加载模块，默认使用Do.js加载需要的模块(Do.js经过修改)。</p>
+        <p>ndoojs支持自动加载模块，默认使用Do.js加载模块(Do.js经过修改)。</p>
         <h3>1. 引入do.js以及模块定义文件</h3>
         <pre><code data-language="html">&lt;script src=&quot;../lib/Do.js&quot;&gt;&lt;/script&gt;</code></pre>
         <h3>2. 添加模块定义</h3>
@@ -74,7 +75,7 @@
   &lt;/body&gt;
 &lt;/html&gt;
 </pre></code>
-        <p class="notice">查看<a href="../example/example2.html">example2.html</a></p>
+        <p class="notice">示例中定义了home模块的文件js/example1.js，但未载入该文件。当前页面的模块属于home模块，执行action时会自动加载home模块。<span>查看<a href="../example/example2.html">example2.html</a></span></p>
       </div>
     </div>
   </body>

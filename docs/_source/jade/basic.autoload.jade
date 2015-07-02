@@ -2,7 +2,7 @@ extends shared/_layout
 
 block pageContent
   h1 自动加载
-  p ndoojs支持按需加载模块，默认使用Do.js加载需要的模块(Do.js经过修改)。
+  p ndoojs支持自动加载模块，默认使用Do.js加载模块(Do.js经过修改)。
   h3 1. 引入do.js以及模块定义文件
   pre: code(data-language="html")
     ='<script src="../lib/Do.js"></script>'
@@ -55,5 +55,7 @@ block pageContent
     ='  </body>\n'
     ='</html>\n'
   p.notice
-    |查看
-    a(href="../example/example2.html") example2.html
+    |示例中定义了home模块的文件js/example1.js，但未载入该文件。当前页面的模块属于home模块，执行action时会自动加载home模块。
+    span
+      |查看
+      a(href="../example/example2.html") example2.html

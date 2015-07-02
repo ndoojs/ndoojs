@@ -15,10 +15,11 @@
           <li><a href="basic.namespace.html">名称空间</a></li>
           <li><a href="basic.autoload.html">自动加载</a></li>
           <li><a href="basic.block.html">块级组件</a></li>
-          <li><a href="basic.hook.html">hook</a></li>
+          <li><a href="basic.hook.html">前置和后置操作</a></li>
           <li><a href="basic.filter.html">过滤器</a></li>
           <li><a href="basic.moduleevent.html">模块事件</a></li>
-          <li><a href="basic.require.html">按需加载</a></li>
+          <li><a href="basic.require.html">手动加载</a></li>
+          <li><a href="basic.depend.html">依赖加载</a></li>
         </ul>
         <h3>参考</h3>
         <ul>
@@ -27,8 +28,8 @@
         </ul>
       </div>
       <div class="docs theme1">
-        <h1>require</h1>
-        <p>ndoojs提供require方法来按需加载自定义模块，支付do.js和seajs两种加载器。<br>do.js 参考<a href="ref.do.html">do.js</a></p>
+        <h1>手动加载</h1>
+        <p>ndoojs提供require方法来手动加载自定义模块，支持do.js和seajs两种加载方式。<br>do.js 参考<a href="ref.do.html">do.js</a></p>
         <h3>1. 参数说明</h3><code>
           <pre data-language="javascript">ndoo.require(
   (array|string) depend, // 需要加载的依赖

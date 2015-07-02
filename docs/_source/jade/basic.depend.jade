@@ -1,0 +1,25 @@
+extends shared/_layout
+
+block pageContent
+  h1 依赖加载
+  p
+    |ndoojs可以为action定义依赖，当执行到action时会先加载需要的依赖(使用do.js加载)。
+    br
+    |do.js 参考
+    a(href="ref.do.html") do.js
+
+
+  h3 1. 示例：
+  code: pre(data-language="javascript")
+    | // jquery模块定义
+    | Do.define('jquery', {
+    |   path: jsPathbase + "/jquery-2.1.1.min.js",
+    |   type: 'js'
+    | });
+    | // 设置jquery为默认已加载
+    | Do.setLoaded(['jquery']);
+    | // 声明依赖
+    | mainDepend: ['jquery'],
+    | mainAction: function(param){
+    |   console.log(typeof jQuery);
+    | }
