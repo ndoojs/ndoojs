@@ -20,12 +20,12 @@ block pageContent
     a(href="event.html") event。
   +renderCode('javascript')
     ="(function(_n){\n"
-    ="  Do.define('home', {\n"
-    ="    path: 'example2.js',\n"
+    ="  Do.define('test.main', {\n"
+    ="    path: currJsPath + '/ndoo.block.test.js',\n"
     ="    type: 'js'\n"
     ="  });\n"
-    ="  _n.on('NAPP_DEFINE', function(){\n"
-    ="    _n.setApp('home');\n"
+    ="  _n.on('NBLOCK_DEFINE', function(){\n"
+    ="    _n.setBlock('test.main');\n"
     ="  });\n"
     ="})(this.N = this.ndoo || (this.ndoo = {}));"
   h5 完整代码如下：
@@ -39,6 +39,7 @@ block pageContent
     ='    <script src="../js/ndoo_prep.js"></script>\n'
     ='  </head>\n'
     ='  <body>\n'
+    ='    <div id="testBlock" data-nblock-id="test/main?abc=1" data-nblock-auto="true"></div>\n'
     ='    <p id="content"></p>\n'
     ='    <div id="scriptArea" data-page-id="home/index">\n'
     ='      <script src="../lib/underscore-min.js"></script>\n'
@@ -48,12 +49,12 @@ block pageContent
     ='      <script src="../js/ndoo.js"></script>\n'
     ="      <script>\n"
     ="        (function(_n){\n"
-    ="          Do.define('home', {\n"
-    ="            path: 'js/example1.js',\n"
+    ="          Do.define('test.main', {\n"
+    ="            path: currJsPath + '/ndoo.block.test.js',\n"
     ="            type: 'js'\n"
     ="          });\n"
-    ="          _n.on('NAPP_DEFINE', function(){\n"
-    ="            _n.setApp('home');\n"
+    ="          _n.on('NBLOCK_DEFINE', function(){\n"
+    ="            _n.setBlock('test.main');\n"
     ="          });\n"
     ="        })(this.N = this.ndoo || (this.ndoo = {}));\n"
     ='      </script>\n'
@@ -62,4 +63,4 @@ block pageContent
     ='</html>'
   p.notice
     |查看
-    a(href="../example/example2.html") example2.html
+    a(href="../example/test.block.html") test.block.html

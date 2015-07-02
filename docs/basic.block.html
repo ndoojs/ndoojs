@@ -46,12 +46,12 @@
             <h3>2. 添加模块定义</h3>
             <p>此处用到了事件系统，参见<a href="event.html">event。</a></p>
                 <pre data-start="1" class="line-numbers"><code class="language-javascript">(function(_n){
-  Do.define('home', {
-    path: 'example2.js',
+  Do.define('test.main', {
+    path: currJsPath + '/ndoo.block.test.js',
     type: 'js'
   });
-  _n.on('NAPP_DEFINE', function(){
-    _n.setApp('home');
+  _n.on('NBLOCK_DEFINE', function(){
+    _n.setBlock('test.main');
   });
 })(this.N = this.ndoo || (this.ndoo = {}));</code></pre>
             <h5>完整代码如下：</h5>
@@ -64,6 +64,7 @@
     &lt;script src=&quot;../js/ndoo_prep.js&quot;&gt;&lt;/script&gt;
   &lt;/head&gt;
   &lt;body&gt;
+    &lt;div id=&quot;testBlock&quot; data-nblock-id=&quot;test/main?abc=1&quot; data-nblock-auto=&quot;true&quot;&gt;&lt;/div&gt;
     &lt;p id=&quot;content&quot;&gt;&lt;/p&gt;
     &lt;div id=&quot;scriptArea&quot; data-page-id=&quot;home/index&quot;&gt;
       &lt;script src=&quot;../lib/underscore-min.js&quot;&gt;&lt;/script&gt;
@@ -73,19 +74,19 @@
       &lt;script src=&quot;../js/ndoo.js&quot;&gt;&lt;/script&gt;
       &lt;script&gt;
         (function(_n){
-          Do.define('home', {
-            path: 'js/example1.js',
+          Do.define('test.main', {
+            path: currJsPath + '/ndoo.block.test.js',
             type: 'js'
           });
-          _n.on('NAPP_DEFINE', function(){
-            _n.setApp('home');
+          _n.on('NBLOCK_DEFINE', function(){
+            _n.setBlock('test.main');
           });
         })(this.N = this.ndoo || (this.ndoo = {}));
       &lt;/script&gt;
     &lt;/div&gt;
   &lt;/body&gt;
 &lt;/html&gt;</code></pre>
-            <p class="notice">查看<a href="../example/example2.html">example2.html</a></p>
+            <p class="notice">查看<a href="../example/test.block.html">test.block.html</a></p>
           </div>
         </div>
       </div>
