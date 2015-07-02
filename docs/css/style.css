@@ -1,4 +1,4 @@
-body { margin: 0; font-size: 14px; font-family: \5FAE\8F6F\96C5\9ED1; }
+body { margin: 0; font-size: 14px; /* font-family: "\5FAE\8F6F\96C5\9ED1", "Heiti SC"; */ }
 
 /* .layout { padding-left: 200px; position: relative; }
 .layout .menu { position: fixed; top: 0; left: 0; bottom: 0; background-color: #F1F1F1; border-right: 1px solid #DDD; padding: 0 10px; width: 179px; overflow: auto; }
@@ -255,6 +255,9 @@ Hides the menu at `48em`, but modify this based on your app's needs.
 }
 
 /*---- custom ----*/
+#menu .menu-title {
+  padding: 1em;
+}
 #layout.active #menu {
     left: 180px;
     width: 180px;
