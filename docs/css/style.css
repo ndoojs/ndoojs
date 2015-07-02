@@ -255,6 +255,13 @@ Hides the menu at `48em`, but modify this based on your app's needs.
 }
 
 /*---- custom ----*/
+#layout.active #menu {
+    left: 180px;
+    width: 180px;
+}
+#layout.active .menu-link {
+    left: 180px;
+}
 #menu .pure-menu-selected,
 #menu .pure-menu-heading {
     background: transparent;
