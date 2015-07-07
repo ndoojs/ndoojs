@@ -8,16 +8,28 @@
 " LastChange: 11/06/2014 23:32
 " --------------------------------------------------
 */
-(function(_n, depend){
+(function(){
   "use strict";
-  var _, $, _vars, _func, _stor;
-  _ = depend['_'];
-  $ = depend['$'];
+  var _, $, _n, _vars, _func, _stor;
+  _ = this['_'];
+  $ = this['jQuery'] || this['Zepto'];
+  this.N = this.ndoo || (this.ndoo = {});
+  _n = this.ndoo;
   _vars = _n.vars;
   _func = _n.func;
   _stor = _n.storage;
   /* storage module {{{ */
   _n._storageData = {};
+  /**
+   * 全局存储
+   * @name storage
+   * @memberof ndoo
+   * @alias _stor
+   * @param {string} key 存储键名
+   * @param {any} value 存储值
+   * @param {boolean} force 强制删除
+   * @param {boolean} destroy 是否删除
+   */
   _n.storage = function(key, value, force, destroy){
     var data;
     data = _n['_storageDate'];
@@ -356,9 +368,5 @@
     /* }}} */
   });
   _n.init();
-  return _n;
-})(this.N = this.ndoo || (this.ndoo = {}), {
-  _: _,
-  $: jQuery
-});
-/* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */
+  /* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */
+}).call(this);

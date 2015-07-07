@@ -8,13 +8,15 @@
 " LastChange: 05/21/2014 14:24
 " --------------------------------------------------
 */
-(function(root, _n, depend){
-  var _, _lib, Backbone, array, slice;
-  _ = depend['_'];
+(function(){
+  var _, _n, _lib, Backbone, array, slice;
+  _ = this['_'];
+  this.N = this.ndoo || (this.ndoo = {});
+  _n = this.ndoo;
   _lib = _n._lib || (_n._lib = {});
   Backbone = _lib;
-  if (root.Backbone) {
-    _lib = root.Backbone;
+  if (this.Backbone) {
+    _lib = this.Backbone;
     return;
   }
   array = [];
@@ -352,8 +354,6 @@
   // Set up inheritance for the model, collection, router, view and history.
   // Model.extend = Collection.extend = Router.extend = View.extend = History.extend = extend;
   Router.extend = extend;
-
-
-})(this, this.N = this.ndoo || (this.ndoo = {}), {
-  _: _
-});
+  
+  
+}).call(this);
