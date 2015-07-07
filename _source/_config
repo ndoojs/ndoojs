@@ -29,7 +29,7 @@
     "path": "~",
     "ls": {
       "command": [
-        "lsc -cbp live/#{$fileName}.ls>../js/#{$fileName}.js"
+        "lsc -cp live/#{$fileName}.ls>../js/#{$fileName}.js"
          /* , "cp -fp ../js/#{$fileName}.js ../../../statics/web/africa/js" */
       ]
     }
