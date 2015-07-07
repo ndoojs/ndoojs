@@ -8,47 +8,111 @@
 " LastChange: 03/07/2014 00:31
 " --------------------------------------------------
 */
-var slice$ = [].slice;
-(function(_n){
+(function(){
   "use strict";
+  var _n, slice$ = [].slice;
+  this.N = this.ndoo || (this.ndoo = {});
+  /**
+   * @namespace ndoo
+   */
+  _n = this.ndoo;
+  /**
+   * _isDebug 是否开启调试模式
+   * @name _isDebug
+   * @memberof ndoo
+   * @type {boolean}
+   */
   _n._isDebug = 0;
-  /* event module {{{ */
+  /**
+   * event module 事件模块
+   * @namespace
+   * @name event
+   * @memberof ndoo
+   * @param {string} name 事件名称
+   * @param {string} type 事件类型
+   */
   _n.event = function(name, type){
     return type + ":" + name;
   };
   (function(e){
-    /* const */
+    /**
+     * 暂存数据类型
+     * @name TYPE_ON
+     * @memberof ndoo.event
+     * @type {number}
+     */
     e == null && (e = _n.event);
-    e.TEMP_ON = 1;
-    e.TEMP_TRIGGER = 2;
-    /* init token */
+    e.TYPE_ON = 1;
+    /**
+     * 暂存数据类型
+     * @name TYPE_TRIGGER
+     * @memberof ndoo.event
+     * @type {number}
+     */
+    e.TYPE_TRIGGER = 2;
+    /**
+     * init token
+     * @name inited
+     * @memberof ndoo.event
+     * @type {boolean}
+     */
     e.inited = false;
-    /* event stack */
+    /**
+     * event stack
+     * @private
+     * @name _temp
+     * @memberof ndoo.event
+     * @type {array}
+     */
     e._temp = [];
-    /* on api */
+    /**
+     * on api
+     * @name on
+     * @memberof ndoo.event
+     * @param {string} eventName 事件名称
+     * @param {callback} callback 回调函数
+     */
     e.on = function(eventName, callback){
       this._temp.push({
-        type: this.TEMP_ON,
+        type: this.TYPE_ON,
         eventName: eventName,
         callback: callback
       });
     };
-    /* trigger api */
+    /**
+     * trigger api
+     * @name trigger
+     * @memberof ndoo.event
+     * @param eventName {string} 事件名称
+     * @param eventType {string} 事件类型
+     * @param data {any} 数据类型
+     */
     e.trigger = function(eventName, eventType, data){
       this._temp.push({
-        type: this.TEMP_TRIGGER,
+        type: this.TYPE_TRIGGER,
         eventName: eventName,
         eventType: eventType,
         data: data
       });
     };
+    /**
+     * off api
+     * @name off
+     * @memberof ndoo.event
+     */
     e.off = function(){};
     /* short event
     e.default = (name) -> "DEFAULT:#name"
     e.delay   = (name) -> "DELAY:#name"
     e.status  = (name) -> "STATUS:#name" */
   })();
-  /* global event api */
+  /**
+   * global on
+   * @name on
+   * @memberof ndoo
+   * @param {string} eventName 事件名称
+   * @param {string} callback 事件回调
+   */
   _n.on = function(eventName, callback){
     var i$, len$, item, results$ = [];
     eventName = eventName.replace(/\s*/g, '').split(',');
@@ -58,6 +122,13 @@ var slice$ = [].slice;
     }
     return results$;
   };
+  /**
+   * global trigger
+   * @name trigger
+   * @memberof ndoo
+   * @param {string} eventName 事件名称
+   * @param {array} data 数据
+   */
   _n.trigger = function(eventName){
     var data, _index, type, name;
     data = slice$.call(arguments, 1);
@@ -67,12 +138,31 @@ var slice$ = [].slice;
     name = eventName.substring(_index);
     return this.event.trigger(name, type, data);
   };
+  /**
+   * global off
+   * @name off
+   * @memberof ndoo
+   * @param {string} eventName 事件名称
+   */
   _n.off = function(eventName){
     return this.event.off(eventName);
   };
   /* }}} */
+  /**
+   * 变量存储名称空间
+   * @namespace
+   * @name vars
+   * @memberof ndoo
+   * @type {object}
+   */
   _n.vars || (_n.vars = {});
+  /**
+   * 函数存储名称空间
+   * @namespace
+   * @name func
+   * @memberof ndoo
+   * @type {object}
+   */
   _n.func || (_n.func = {});
-  return _n;
-})(this.N = this.ndoo || (this.ndoo = {}));
-/* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */
+  /* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */
+}).call(this);
