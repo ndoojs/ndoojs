@@ -310,3 +310,8 @@ Hides the menu at `48em`, but modify this based on your app's needs.
         left: 180px;
     }
 }
+@media (min-width: 75em) {
+    .content {
+        max-width: 944px;
+    }
+}
