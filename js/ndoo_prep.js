@@ -23,17 +23,18 @@
    * @type {boolean}
    */
   _n._isDebug = 0;
+  /* event module {{{ */
+  _n.event = function(name, type){
+    return type + ":" + name;
+  };
   /**
-   * event module 事件模块
+   * 事件模块
    * @namespace
    * @name event
    * @memberof ndoo
    * @param {string} name 事件名称
    * @param {string} type 事件类型
    */
-  _n.event = function(name, type){
-    return type + ":" + name;
-  };
   (function(e){
     /**
      * 暂存数据类型
@@ -67,6 +68,7 @@
     e._temp = [];
     /**
      * on api
+     * @method
      * @name on
      * @memberof ndoo.event
      * @param {string} eventName 事件名称
@@ -81,6 +83,7 @@
     };
     /**
      * trigger api
+     * @method
      * @name trigger
      * @memberof ndoo.event
      * @param eventName {string} 事件名称
@@ -97,6 +100,7 @@
     };
     /**
      * off api
+     * @method
      * @name off
      * @memberof ndoo.event
      */
@@ -108,6 +112,7 @@
   })();
   /**
    * global on
+   * @method
    * @name on
    * @memberof ndoo
    * @param {string} eventName 事件名称
@@ -124,6 +129,7 @@
   };
   /**
    * global trigger
+   * @method
    * @name trigger
    * @memberof ndoo
    * @param {string} eventName 事件名称
@@ -140,6 +146,7 @@
   };
   /**
    * global off
+   * @method
    * @name off
    * @memberof ndoo
    * @param {string} eventName 事件名称

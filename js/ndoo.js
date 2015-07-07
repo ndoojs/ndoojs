@@ -22,9 +22,9 @@
   _n._storageData = {};
   /**
    * 全局存储
+   * @method
    * @name storage
    * @memberof ndoo
-   * @alias _stor
    * @param {string} key 存储键名
    * @param {any} value 存储值
    * @param {boolean} force 强制删除
@@ -47,6 +47,14 @@
   };
   /* }}} */
   /* require module {{{ */
+  /**
+   * 依赖加载
+   * @method
+   * @name require
+   * @memberof ndoo
+   * @param {array} depend 依赖
+   * @param {function} callback 回调函数
+   */
   _n.require = function(depend, callback, type){
     if (type === 'Do') {
       Do.apply(null, depend.concat(callback));
@@ -103,12 +111,34 @@
   };
   /* }}} */
   /* define app module {{{ */
+  /**
+   * 是否存在指定app
+   * @method
+   * @name hasApp
+   * @memberof ndoo
+   * @param {string} namespace 名称空间
+   */
   _n.hasApp = function(namespace){
     return _n._blockData['_exist']["app." + namespace];
   };
+  /**
+   * 设定指定app
+   * @method
+   * @name setApp
+   * @memberof ndoo
+   * @param {string} namespace 名称空间
+   */
   _n.setApp = function(namespace){
     return _n._blockData['_exist']["app." + namespace] = true;
   };
+  /**
+   * 设定指定app
+   * @method
+   * @name app
+   * @memberof ndoo
+   * @param {string} namespace 名称空间
+   * @param {object} controller 控制器
+   */
   _n.app = function(namespace, controller){
     var nsmatch, controllerName, ref$;
     if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
@@ -201,7 +231,20 @@
   /* }}} */
   _.extend(_n, {
     /* base {{{ */
-    pageId: $('#scriptArea').data('pageId'),
+    /**
+     * page id
+     * @name pageId
+     * @memberof pageId
+     * @type {string}
+     */
+    pageId: $('#scriptArea').data('pageId')
+    /**
+     * 获取唯一key
+     * @method
+     * @name getPk
+     * @memberof ndoo
+     * @return {number}
+     */,
     getPk: function(){
       var _pk;
       _pk = +new Date();

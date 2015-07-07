@@ -21,11 +21,12 @@ _stor    = _n.storage
 
 /* storage module {{{ */
 _n._storageData = {}
+
 /**
  * 全局存储
+ * @method
  * @name storage
  * @memberof ndoo
- * @alias _stor
  * @param {string} key 存储键名
  * @param {any} value 存储值
  * @param {boolean} force 强制删除
@@ -48,6 +49,14 @@ _n.storage = (key, value, force, destroy) ->
 
 /* }}} */
 /* require module {{{ */
+/**
+ * 依赖加载
+ * @method
+ * @name require
+ * @memberof ndoo
+ * @param {array} depend 依赖
+ * @param {function} callback 回调函数
+ */
 _n.require = (depend, callback, type) !->
   if type is \Do
     Do.apply null, depend.concat callback
@@ -96,12 +105,34 @@ _n._block = (base, namespace, name, block) ->
 
 /* }}} */
 /* define app module {{{ */
+/**
+ * 是否存在指定app
+ * @method
+ * @name hasApp
+ * @memberof ndoo
+ * @param {string} namespace 名称空间
+ */
 _n.hasApp = (namespace) ->
   _n._blockData[\_exist]["app.#namespace"]
 
+/**
+ * 设定指定app
+ * @method
+ * @name setApp
+ * @memberof ndoo
+ * @param {string} namespace 名称空间
+ */
 _n.setApp = (namespace) ->
   _n._blockData[\_exist]["app.#namespace"] = true
 
+/**
+ * 设定指定app
+ * @method
+ * @name app
+ * @memberof ndoo
+ * @param {string} namespace 名称空间
+ * @param {object} controller 控制器
+ */
 _n.app = (namespace, controller) ->
   if nsmatch = namespace.match /(.*?)(?:[/.]([^/.]+))$/
     [null, namespace, controllerName] = nsmatch
@@ -185,7 +216,20 @@ _n.event = _.extend _n.event,
 /* }}} */
 _.extend _n,
   /* base {{{ */
+  /**
+   * page id
+   * @name pageId
+   * @memberof pageId
+   * @type {string}
+   */
   pageId: $(\#scriptArea).data(\pageId)
+  /**
+   * 获取唯一key
+   * @method
+   * @name getPk
+   * @memberof ndoo
+   * @return {number}
+   */
   getPk: do ->
     _pk = +new Date!
     ->

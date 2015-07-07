@@ -24,17 +24,18 @@ _n = @ndoo
  */
 _n._isDebug        = 0
 
+/* event module {{{ */
+_n.event = (name, type) ->
+  "#type:#name"
+
 /**
- * event module 事件模块
+ * 事件模块
  * @namespace
  * @name event
  * @memberof ndoo
  * @param {string} name 事件名称
  * @param {string} type 事件类型
  */
-_n.event = (name, type) ->
-  "#type:#name"
-
 do (e = _n.event) !->
 
   /**
@@ -72,6 +73,7 @@ do (e = _n.event) !->
 
   /**
    * on api
+   * @method
    * @name on
    * @memberof ndoo.event
    * @param {string} eventName 事件名称
@@ -85,6 +87,7 @@ do (e = _n.event) !->
 
   /**
    * trigger api
+   * @method
    * @name trigger
    * @memberof ndoo.event
    * @param eventName {string} 事件名称
@@ -100,6 +103,7 @@ do (e = _n.event) !->
 
   /**
    * off api
+   * @method
    * @name off
    * @memberof ndoo.event
    */
@@ -112,6 +116,7 @@ do (e = _n.event) !->
 
 /**
  * global on
+ * @method
  * @name on
  * @memberof ndoo
  * @param {string} eventName 事件名称
@@ -124,6 +129,7 @@ _n.on = (eventName, callback) ->
 
 /**
  * global trigger
+ * @method
  * @name trigger
  * @memberof ndoo
  * @param {string} eventName 事件名称
@@ -139,6 +145,7 @@ _n.trigger = (eventName, ...data) ->
 
 /**
  * global off
+ * @method
  * @name off
  * @memberof ndoo
  * @param {string} eventName 事件名称
