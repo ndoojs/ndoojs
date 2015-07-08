@@ -21,10 +21,10 @@
   }
   array = [];
   slice = array.slice;
-
+  
   // Backbone.Events
   // ---------------
-
+  
   // A module that can be mixed in to *any object* in order to provide it with
   // custom events. You may bind with 'on' or remove with 'off' callback
   // functions to an event; 'trigger'-ing an event fires all callbacks in
@@ -36,7 +36,7 @@
   //     object.trigger('expand');
   //
   var Events = Backbone.Events = {
-
+  
     // Bind an event to a 'callback' function. Passing '"all"' will bind
     // the callback to all events fired.
     on: function(name, callback, context) {
@@ -46,7 +46,7 @@
       events.push({callback: callback, context: context, ctx: context || this});
       return this;
     },
-
+  
     // Bind an event to only be triggered a single time. After the first time
     // the callback is invoked, it will be removed.
     once: function(name, callback, context) {
@@ -59,34 +59,34 @@
       once._callback = callback;
       return this.on(name, once, context);
     },
-
+  
     // Remove one or many callbacks. If 'context' is null, removes all
     // callbacks with that function. If 'callback' is null, removes all
     // callbacks for the event. If 'name' is null, removes all bound
     // callbacks for all events.
     off: function(name, callback, context) {
       if (!this._events || !eventsApi(this, 'off', name, [callback, context])) return this;
-
+  
       // Remove all callbacks for all events.
       if (!name && !callback && !context) {
         this._events = void 0;
         return this;
       }
-
+  
       var names = name ? [name] : _.keys(this._events);
       for (var i = 0, length = names.length; i < length; i++) {
         name = names[i];
-
+  
         // Bail out if there are no events stored.
         var events = this._events[name];
         if (!events) continue;
-
+  
         // Remove all callbacks for this event.
         if (!callback && !context) {
           delete this._events[name];
           continue;
         }
-
+  
         // Find any remaining events.
         var remaining = [];
         for (var j = 0, k = events.length; j < k; j++) {
@@ -99,7 +99,7 @@
             remaining.push(event);
           }
         }
-
+  
         // Replace events if there are any remaining.  Otherwise, clean up.
         if (remaining.length) {
           this._events[name] = remaining;
@@ -107,10 +107,10 @@
           delete this._events[name];
         }
       }
-
+  
       return this;
     },
-
+  
     // Trigger one or many events, firing all bound callbacks. Callbacks are
     // passed the same arguments as 'trigger' is, apart from the event name
     // (unless you're listening on '"all"', which will cause your callback to
@@ -125,7 +125,7 @@
       if (allEvents) triggerEvents(allEvents, arguments);
       return this;
     },
-
+  
     // Tell this object to stop listening to either specific events ... or
     // to every object it's currently listening to.
     stopListening: function(obj, name, callback) {
@@ -141,18 +141,18 @@
       }
       return this;
     }
-
+  
   };
-
+  
   // Regular expression used to split event strings.
   var eventSplitter = /\s+/;
-
+  
   // Implement fancy features of the Events API such as multiple event
   // names '"change blur"' and jQuery-style event maps '{change: action}'
   // in terms of the existing API.
   var eventsApi = function(obj, action, name, rest) {
     if (!name) return true;
-
+  
     // Handle event maps.
     if (typeof name === 'object') {
       for (var key in name) {
@@ -160,7 +160,7 @@
       }
       return false;
     }
-
+  
     // Handle space separated event names.
     if (eventSplitter.test(name)) {
       var names = name.split(eventSplitter);
@@ -169,10 +169,10 @@
       }
       return false;
     }
-
+  
     return true;
   };
-
+  
   // A difficult-to-believe, but optimized internal dispatch function for
   // triggering events. Tries to keep the usual cases speedy (most internal
   // Backbone events have 3 arguments).
@@ -186,9 +186,9 @@
       default: while (++i < l) (ev = events[i]).callback.apply(ev.ctx, args); return;
     }
   };
-
+  
   var listenMethods = {listenTo: 'on', listenToOnce: 'once'};
-
+  
   // Inversion-of-control versions of 'on' and 'once'. Tell *this* object to
   // listen to an event in another object ... keeping track of what it's
   // listening to.
@@ -202,18 +202,18 @@
       return this;
     };
   });
-
+  
   // Aliases for backwards compatibility.
   Events.bind   = Events.on;
   Events.unbind = Events.off;
-
+  
   // Allow the 'Backbone' object to serve as a global event bus, for folks who
   // want global "pubsub" in a convenient place.
   _.extend(Backbone, Events);
-
+  
   // Backbone.Router
   // ---------------
-
+  
   // Routers map faux-URLs to actions, and fire events when routes are
   // matched. Creating a new one sets its 'routes' hash, if not set statically.
   var Router = Backbone.Router = function(options) {
@@ -222,21 +222,21 @@
     this._bindRoutes();
     this.initialize.apply(this, arguments);
   };
-
+  
   // Cached regular expressions for matching named param parts and splatted
   // parts of route strings.
   var optionalParam = /\((.*?)\)/g;
   var namedParam    = /(\(\?)?:\w+/g;
   var splatParam    = /\*\w+/g;
   var escapeRegExp  = /[\-{}\[\]+?.,\\\^$|#\s]/g;
-
+  
   // Set up all inheritable **Backbone.Router** properties and methods.
   _.extend(Router.prototype, Events, {
-
+  
     // Initialize is an empty function by default. Override it with your own
     // initialization logic.
     initialize: function(){},
-
+  
     // Manually bind a single named route to a callback. For example:
     //
     //     this.route('search/:query/p:num', 'search', function(query, num) {
@@ -261,19 +261,19 @@
       });
       return this;
     },
-
+  
     // Execute a route handler with the provided parameters.  This is an
     // excellent place to do pre-route setup or post-route cleanup.
     execute: function(callback, args, name) {
       if (callback) callback.apply(this, args);
     },
-
+  
     // Simple proxy to 'Backbone.history' to save a fragment into the history.
     navigate: function(fragment, options) {
       Backbone.history.navigate(fragment, options);
       return this;
     },
-
+  
     // Bind all defined routes to 'Backbone.history'. We have to reverse the
     // order of the routes here to support behavior where the most general
     // routes can be defined at the bottom of the route map.
@@ -285,7 +285,7 @@
         this.route(route, this.routes[route]);
       }
     },
-
+  
     // Convert a route string into a regular expression, suitable for matching
     // against the current location hash.
     _routeToRegExp: function(route) {
@@ -297,7 +297,7 @@
                    .replace(splatParam, '([^?]*?)');
       return new RegExp('^' + route + '(?:\\?([\\s\\S]*))?$');
     },
-
+  
     // Given a route, and a URL fragment that it matches, return the array of
     // extracted decoded parameters. Empty or unmatched parameters will be
     // treated as 'null' to normalize cross-browser behavior.
@@ -309,19 +309,19 @@
         return param ? decodeURIComponent(param) : null;
       });
     }
-
+  
   });
-
+  
   // Helpers
   // -------
-
+  
   // Helper function to correctly set up the prototype chain, for subclasses.
   // Similar to 'goog.inherits', but uses a hash of prototype properties and
   // class properties to be extended.
   var extend = function(protoProps, staticProps) {
     var parent = this;
     var child;
-
+  
     // The constructor function for the new subclass is either defined by you
     // (the "constructor" property in your 'extend' definition), or defaulted
     // by us to simply call the parent's constructor.
@@ -330,27 +330,27 @@
     } else {
       child = function(){ return parent.apply(this, arguments); };
     }
-
+  
     // Add static properties to the constructor function, if supplied.
     _.extend(child, parent, staticProps);
-
+  
     // Set the prototype chain to inherit from 'parent', without calling
     // 'parent''s constructor function.
     var Surrogate = function(){ this.constructor = child; };
     Surrogate.prototype = parent.prototype;
     child.prototype = new Surrogate;
-
+  
     // Add prototype properties (instance properties) to the subclass,
     // if supplied.
     if (protoProps) _.extend(child.prototype, protoProps);
-
+  
     // Set a convenience property in case the parent's prototype is needed
     // later.
     child.__super__ = parent.prototype;
-
+  
     return child;
   };
-
+  
   // Set up inheritance for the model, collection, router, view and history.
   // Model.extend = Collection.extend = Router.extend = View.extend = History.extend = extend;
   Router.extend = extend;

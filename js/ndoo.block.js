@@ -20,6 +20,7 @@
   _stor = _n.storage;
   /**
    * 检测是否存在指定block
+   *
    * @method
    * @name hasBlock
    * @memberof ndoo
@@ -32,6 +33,7 @@
   };
   /**
    * 标识指定block
+   *
    * @method
    * @name setBlock
    * @memberof ndoo
@@ -44,6 +46,7 @@
   };
   /**
    * 添加block实现
+   *
    * @method
    * @name block
    * @memberof ndoo
@@ -68,6 +71,7 @@
   });
   /**
    * 初始化模块
+   *
    * @method
    * @name initBlock
    * @memberof ndoo

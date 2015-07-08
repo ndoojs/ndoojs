@@ -12,12 +12,15 @@
 @N = @ndoo ||= {}
 
 /**
+ * ndoojs 全局名称空间，短名称N
+ *
  * @namespace ndoo
  */
 _n = @ndoo
 
 /**
  * _isDebug 是否开启调试模式
+ *
  * @name _isDebug
  * @memberof ndoo
  * @type {boolean}
@@ -30,6 +33,7 @@ _n.event = (name, type) ->
 
 /**
  * 事件模块
+ *
  * @namespace
  * @name event
  * @memberof ndoo
@@ -40,6 +44,7 @@ do (e = _n.event) !->
 
   /**
    * 暂存数据类型
+   *
    * @name TYPE_ON
    * @memberof ndoo.event
    * @type {number}
@@ -48,6 +53,7 @@ do (e = _n.event) !->
 
   /**
    * 暂存数据类型
+   *
    * @name TYPE_TRIGGER
    * @memberof ndoo.event
    * @type {number}
@@ -56,6 +62,7 @@ do (e = _n.event) !->
 
   /**
    * init token
+   *
    * @name inited
    * @memberof ndoo.event
    * @type {boolean}
@@ -64,6 +71,7 @@ do (e = _n.event) !->
 
   /**
    * event stack
+   *
    * @private
    * @name _temp
    * @memberof ndoo.event
@@ -73,6 +81,7 @@ do (e = _n.event) !->
 
   /**
    * on api
+   *
    * @method
    * @name on
    * @memberof ndoo.event
@@ -87,6 +96,7 @@ do (e = _n.event) !->
 
   /**
    * trigger api
+   *
    * @method
    * @name trigger
    * @memberof ndoo.event
@@ -103,6 +113,7 @@ do (e = _n.event) !->
 
   /**
    * off api
+   *
    * @method
    * @name off
    * @memberof ndoo.event
@@ -116,6 +127,7 @@ do (e = _n.event) !->
 
 /**
  * global on
+ *
  * @method
  * @name on
  * @memberof ndoo
@@ -129,6 +141,7 @@ _n.on = (eventName, callback) ->
 
 /**
  * global trigger
+ *
  * @method
  * @name trigger
  * @memberof ndoo
@@ -145,6 +158,7 @@ _n.trigger = (eventName, ...data) ->
 
 /**
  * global off
+ *
  * @method
  * @name off
  * @memberof ndoo
@@ -157,6 +171,7 @@ _n.off = (eventName) ->
 
 /**
  * 变量存储名称空间
+ *
  * @namespace
  * @name vars
  * @memberof ndoo
@@ -166,6 +181,7 @@ _n.vars ||= {}
 
 /**
  * 函数存储名称空间
+ *
  * @namespace
  * @name func
  * @memberof ndoo

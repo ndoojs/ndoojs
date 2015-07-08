@@ -22,6 +22,7 @@
   _n._storageData = {};
   /**
    * 全局存储
+   *
    * @method
    * @name storage
    * @memberof ndoo
@@ -49,6 +50,7 @@
   /* require module {{{ */
   /**
    * 依赖加载
+   *
    * @method
    * @name require
    * @memberof ndoo
@@ -113,6 +115,7 @@
   /* define app module {{{ */
   /**
    * 检测是否存在指定app
+   *
    * @method
    * @name hasApp
    * @memberof ndoo
@@ -123,6 +126,7 @@
   };
   /**
    * 标识指定app
+   *
    * @method
    * @name setApp
    * @memberof ndoo
@@ -133,6 +137,7 @@
   };
   /**
    * 添加app实现
+   *
    * @method
    * @name app
    * @memberof ndoo
@@ -211,7 +216,14 @@
       }
     }
     /* }}} */
-    /* init {{{ */,
+    /* init {{{ */
+    /**
+     * init 事件初始化
+     *
+     * @private
+     * @name init
+     * @memberof ndoo.event
+     */,
     init: function(){
       var i$, ref$, len$, item;
       if (!this.inited) {
@@ -233,6 +245,7 @@
     /* base {{{ */
     /**
      * page id
+     *
      * @name pageId
      * @memberof pageId
      * @type {string}
@@ -240,6 +253,7 @@
     pageId: $('#scriptArea').data('pageId')
     /**
      * 获取唯一key
+     *
      * @method
      * @name getPk
      * @memberof ndoo
@@ -256,6 +270,7 @@
     /* router module {{{ */
     /**
      * backbone风格的路由解析器
+     *
      * @private
      * @name router
      * @memberof ndoo
@@ -277,6 +292,7 @@
     /* dispatch {{{ */
     /**
      * 路由函数
+     *
      * @private
      * @method
      * @name dispatch
@@ -399,6 +415,7 @@
     /* trigger {{{ */
     /**
      * 触发页面状态
+     *
      * @private
      * @method
      * @name triggerPageStatus
@@ -426,6 +443,7 @@
     /* init {{{ */
     /**
      * 触发页面状态
+     *
      * @private
      * @method
      * @name init

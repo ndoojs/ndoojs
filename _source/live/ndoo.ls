@@ -24,6 +24,7 @@ _n._storageData = {}
 
 /**
  * 全局存储
+ *
  * @method
  * @name storage
  * @memberof ndoo
@@ -51,6 +52,7 @@ _n.storage = (key, value, force, destroy) ->
 /* require module {{{ */
 /**
  * 依赖加载
+ *
  * @method
  * @name require
  * @memberof ndoo
@@ -107,6 +109,7 @@ _n._block = (base, namespace, name, block) ->
 /* define app module {{{ */
 /**
  * 检测是否存在指定app
+ *
  * @method
  * @name hasApp
  * @memberof ndoo
@@ -117,6 +120,7 @@ _n.hasApp = (namespace) ->
 
 /**
  * 标识指定app
+ *
  * @method
  * @name setApp
  * @memberof ndoo
@@ -127,6 +131,7 @@ _n.setApp = (namespace) ->
 
 /**
  * 添加app实现
+ *
  * @method
  * @name app
  * @memberof ndoo
@@ -204,6 +209,13 @@ _n.event = _.extend _n.event,
           eventHandle.trigger.apply eventHandle, [eventName].concat data
   /* }}} */
   /* init {{{ */
+  /**
+   * init 事件初始化
+   *
+   * @private
+   * @name init
+   * @memberof ndoo.event
+   */
   init: !->
     if not @inited
       for item in @_temp
@@ -218,6 +230,7 @@ _.extend _n,
   /* base {{{ */
   /**
    * page id
+   *
    * @name pageId
    * @memberof pageId
    * @type {string}
@@ -225,6 +238,7 @@ _.extend _n,
   pageId: $(\#scriptArea).data(\pageId)
   /**
    * 获取唯一key
+   *
    * @method
    * @name getPk
    * @memberof ndoo
@@ -238,6 +252,7 @@ _.extend _n,
   /* router module {{{ */
   /**
    * backbone风格的路由解析器
+   *
    * @private
    * @name router
    * @memberof ndoo
@@ -255,6 +270,7 @@ _.extend _n,
   /* dispatch {{{ */
   /**
    * 路由函数
+   *
    * @private
    * @method
    * @name dispatch
@@ -371,6 +387,7 @@ _.extend _n,
   /* trigger {{{ */
   /**
    * 触发页面状态
+   *
    * @private
    * @method
    * @name triggerPageStatus
@@ -400,6 +417,7 @@ _.extend _n,
   /* init {{{ */
   /**
    * 触发页面状态
+   *
    * @private
    * @method
    * @name init

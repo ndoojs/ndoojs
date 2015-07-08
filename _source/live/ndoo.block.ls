@@ -25,6 +25,7 @@ _stor    = _n.storage
 
 /**
  * 检测是否存在指定block
+ *
  * @method
  * @name hasBlock
  * @memberof ndoo
@@ -36,6 +37,7 @@ _n.hasBlock = (namespace=\_default, name) ->
 
 /**
  * 标识指定block
+ *
  * @method
  * @name setBlock
  * @memberof ndoo
@@ -47,6 +49,7 @@ _n.setBlock = (namespace=\_default, name) ->
 
 /**
  * 添加block实现
+ *
  * @method
  * @name block
  * @memberof ndoo
@@ -67,6 +70,7 @@ _n.on \NBLOCK_LOADED, (elem, namespace=\_default, name, params) ->
 
 /**
  * 初始化模块
+ *
  * @method
  * @name initBlock
  * @memberof ndoo

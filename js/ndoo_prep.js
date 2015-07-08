@@ -13,11 +13,14 @@
   var _n, slice$ = [].slice;
   this.N = this.ndoo || (this.ndoo = {});
   /**
+   * ndoojs 全局名称空间，短名称N
+   *
    * @namespace ndoo
    */
   _n = this.ndoo;
   /**
    * _isDebug 是否开启调试模式
+   *
    * @name _isDebug
    * @memberof ndoo
    * @type {boolean}
@@ -29,6 +32,7 @@
   };
   /**
    * 事件模块
+   *
    * @namespace
    * @name event
    * @memberof ndoo
@@ -38,6 +42,7 @@
   (function(e){
     /**
      * 暂存数据类型
+     *
      * @name TYPE_ON
      * @memberof ndoo.event
      * @type {number}
@@ -46,6 +51,7 @@
     e.TYPE_ON = 1;
     /**
      * 暂存数据类型
+     *
      * @name TYPE_TRIGGER
      * @memberof ndoo.event
      * @type {number}
@@ -53,6 +59,7 @@
     e.TYPE_TRIGGER = 2;
     /**
      * init token
+     *
      * @name inited
      * @memberof ndoo.event
      * @type {boolean}
@@ -60,6 +67,7 @@
     e.inited = false;
     /**
      * event stack
+     *
      * @private
      * @name _temp
      * @memberof ndoo.event
@@ -68,6 +76,7 @@
     e._temp = [];
     /**
      * on api
+     *
      * @method
      * @name on
      * @memberof ndoo.event
@@ -83,6 +92,7 @@
     };
     /**
      * trigger api
+     *
      * @method
      * @name trigger
      * @memberof ndoo.event
@@ -100,6 +110,7 @@
     };
     /**
      * off api
+     *
      * @method
      * @name off
      * @memberof ndoo.event
@@ -112,6 +123,7 @@
   })();
   /**
    * global on
+   *
    * @method
    * @name on
    * @memberof ndoo
@@ -129,6 +141,7 @@
   };
   /**
    * global trigger
+   *
    * @method
    * @name trigger
    * @memberof ndoo
@@ -146,6 +159,7 @@
   };
   /**
    * global off
+   *
    * @method
    * @name off
    * @memberof ndoo
@@ -157,6 +171,7 @@
   /* }}} */
   /**
    * 变量存储名称空间
+   *
    * @namespace
    * @name vars
    * @memberof ndoo
@@ -165,6 +180,7 @@
   _n.vars || (_n.vars = {});
   /**
    * 函数存储名称空间
+   *
    * @namespace
    * @name func
    * @memberof ndoo
