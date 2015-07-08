@@ -112,7 +112,7 @@
   /* }}} */
   /* define app module {{{ */
   /**
-   * 是否存在指定app
+   * 检测是否存在指定app
    * @method
    * @name hasApp
    * @memberof ndoo
@@ -122,7 +122,7 @@
     return _n._blockData['_exist']["app." + namespace];
   };
   /**
-   * 设定指定app
+   * 标识指定app
    * @method
    * @name setApp
    * @memberof ndoo
@@ -132,7 +132,7 @@
     return _n._blockData['_exist']["app." + namespace] = true;
   };
   /**
-   * 设定指定app
+   * 添加app实现
    * @method
    * @name app
    * @memberof ndoo
@@ -253,7 +253,14 @@
       };
     }()
     /* }}} */
-    /* router module {{{ */,
+    /* router module {{{ */
+    /**
+     * backbone风格的路由解析器
+     * @private
+     * @name router
+     * @memberof ndoo
+     * @type {object}
+     */,
     router: new (_n._lib.Router.extend({
       parse: function(route, url, callback){
         var routeMatch;
@@ -267,7 +274,14 @@
       }
     }))
     /* }}} */
-    /* dispatch {{{ */,
+    /* dispatch {{{ */
+    /**
+     * 路由函数
+     * @private
+     * @method
+     * @name dispatch
+     * @memberof ndoo
+     */,
     dispatch: function(){
       /* before and after filter event */
       var this$ = this;
@@ -382,7 +396,14 @@
       });
     }
     /* }}} */
-    /* trigger {{{ */,
+    /* trigger {{{ */
+    /**
+     * 触发页面状态
+     * @private
+     * @method
+     * @name triggerPageStatus
+     * @memberof ndoo
+     */,
     triggerPageStatus: function(){
       var this$ = this;
       this.trigger('STATUS:PAGE_STATUS_FAST');
@@ -402,7 +423,14 @@
       });
     }
     /* }}} */
-    /* init {{{ */,
+    /* init {{{ */
+    /**
+     * 触发页面状态
+     * @private
+     * @method
+     * @name init
+     * @memberof ndoo
+     */,
     init: function(){
       this.event.init();
       this.dispatch();

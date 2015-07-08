@@ -18,14 +18,38 @@
   _vars = _n.vars;
   _func = _n.func;
   _stor = _n.storage;
+  /**
+   * 检测是否存在指定block
+   * @method
+   * @name hasBlock
+   * @memberof ndoo
+   * @param {string} namespace 名称空间
+   * @param {string} name 名称
+   */
   _n.hasBlock = function(namespace, name){
     namespace == null && (namespace = '_default');
     return _n._blockData['_exist']["block." + namespace + "." + name];
   };
+  /**
+   * 标识指定block
+   * @method
+   * @name setBlock
+   * @memberof ndoo
+   * @param {string} namespace 名称空间
+   * @param {string} name 名称
+   */
   _n.setBlock = function(namespace, name){
     namespace == null && (namespace = '_default');
     return _n._blockData['_exist']["block." + namespace + "." + name] = true;
   };
+  /**
+   * 添加block实现
+   * @method
+   * @name block
+   * @memberof ndoo
+   * @param {string} namespace 名称空间
+   * @param {string} name 名称
+   */
   _n.block = function(namespace, name, block){
     namespace == null && (namespace = '_default');
     return _n._block('block', namespace, name, block);
@@ -42,6 +66,13 @@
       }
     }
   });
+  /**
+   * 初始化模块
+   * @method
+   * @name initBlock
+   * @memberof ndoo
+   * @param {object} elem 初始化的元素
+   */
   _n.initBlock = function(elem){
     var blockId, this$ = this;
     blockId = $(elem).data('nblockId');

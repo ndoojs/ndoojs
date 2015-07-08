@@ -23,12 +23,36 @@ _stor    = _n.storage
 # - 异步加载
 # - 自动初始化
 
+/**
+ * 检测是否存在指定block
+ * @method
+ * @name hasBlock
+ * @memberof ndoo
+ * @param {string} namespace 名称空间
+ * @param {string} name 名称
+ */
 _n.hasBlock = (namespace=\_default, name) ->
   _n._blockData[\_exist]["block.#namespace.#name"]
 
+/**
+ * 标识指定block
+ * @method
+ * @name setBlock
+ * @memberof ndoo
+ * @param {string} namespace 名称空间
+ * @param {string} name 名称
+ */
 _n.setBlock = (namespace=\_default, name) ->
   _n._blockData[\_exist]["block.#namespace.#name"] = true
 
+/**
+ * 添加block实现
+ * @method
+ * @name block
+ * @memberof ndoo
+ * @param {string} namespace 名称空间
+ * @param {string} name 名称
+ */
 _n.block = (namespace=\_default, name, block) ->
   _n._block \block, namespace, name, block
 
@@ -41,6 +65,13 @@ _n.on \NBLOCK_LOADED, (elem, namespace=\_default, name, params) ->
     else if _.isObject block
       block.init elem, params
 
+/**
+ * 初始化模块
+ * @method
+ * @name initBlock
+ * @memberof ndoo
+ * @param {object} elem 初始化的元素
+ */
 _n.initBlock = (elem) !->
   blockId = $(elem).data \nblockId
   _n.router.parse //

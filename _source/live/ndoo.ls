@@ -106,7 +106,7 @@ _n._block = (base, namespace, name, block) ->
 /* }}} */
 /* define app module {{{ */
 /**
- * 是否存在指定app
+ * 检测是否存在指定app
  * @method
  * @name hasApp
  * @memberof ndoo
@@ -116,7 +116,7 @@ _n.hasApp = (namespace) ->
   _n._blockData[\_exist]["app.#namespace"]
 
 /**
- * 设定指定app
+ * 标识指定app
  * @method
  * @name setApp
  * @memberof ndoo
@@ -126,7 +126,7 @@ _n.setApp = (namespace) ->
   _n._blockData[\_exist]["app.#namespace"] = true
 
 /**
- * 设定指定app
+ * 添加app实现
  * @method
  * @name app
  * @memberof ndoo
@@ -236,6 +236,13 @@ _.extend _n,
       ++_pk
   /* }}} */
   /* router module {{{ */
+  /**
+   * backbone风格的路由解析器
+   * @private
+   * @name router
+   * @memberof ndoo
+   * @type {object}
+   */
   router: new (_n._lib.Router.extend(
     parse: (route, url, callback) !->
       if not _.isRegExp route
@@ -246,6 +253,13 @@ _.extend _n,
   ))
   /* }}} */
   /* dispatch {{{ */
+  /**
+   * 路由函数
+   * @private
+   * @method
+   * @name dispatch
+   * @memberof ndoo
+   */
   dispatch: !->
     /* before and after filter event */
     @on 'NAPP_ACTION_BEFORE, NAPP_ACTION_AFTER',
@@ -355,6 +369,13 @@ _.extend _n,
           , \Do
   /* }}} */
   /* trigger {{{ */
+  /**
+   * 触发页面状态
+   * @private
+   * @method
+   * @name triggerPageStatus
+   * @memberof ndoo
+   */
   triggerPageStatus: !->
     # trigger PAGE_STATUS_FAST
     @trigger \STATUS:PAGE_STATUS_FAST
@@ -377,6 +398,13 @@ _.extend _n,
         @trigger \STATUS:NBLOCK_INIT
   /* }}} */
   /* init {{{ */
+  /**
+   * 触发页面状态
+   * @private
+   * @method
+   * @name init
+   * @memberof ndoo
+   */
   init: !->
     # initiation event module
     @event.init!
