@@ -1,4 +1,4 @@
-body { margin: 0; font-size: 14px; /* font-family: "\5FAE\8F6F\96C5\9ED1", "Heiti SC"; */ }
+body { margin: 0; font-size: 14px; font-family: arial,"microsoft yahei",simsun,sans-self;/* font-family: "\5FAE\8F6F\96C5\9ED1", "Heiti SC"; */ }
 
 /* .layout { padding-left: 200px; position: relative; }
 .layout .menu { position: fixed; top: 0; left: 0; bottom: 0; background-color: #F1F1F1; border-right: 1px solid #DDD; padding: 0 10px; width: 179px; overflow: auto; }
@@ -256,7 +256,8 @@ Hides the menu at `48em`, but modify this based on your app's needs.
 
 /*---- custom ----*/
 #menu .menu-title {
-  padding: 1em;
+  padding: 1em 0;
+  font-size: 1.2em;
 }
 #layout.active #menu {
     left: 180px;
@@ -269,20 +270,25 @@ Hides the menu at `48em`, but modify this based on your app's needs.
 #menu .pure-menu-heading {
     background: transparent;
 }
-#menu .pure-menu-list {
-    text-indent: 20px;
-}
+/* #menu .pure-menu-list { */
+/*     text-indent: 10px; */
+/* } */
 #menu {
-    margin-left: -180px; /* "#menu" width */
-    width: 180px;
+    margin-left: -250px; /* "#menu" width */
+    width: 250px;
     position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
     z-index: 1000; /* so the menu or its navicon stays above all content */
-    background: #191818;
+    background: #1a1a1a;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+}
+#menu .pure-menu {
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 13px;
 }
 @media (min-width: 48em) {
 
@@ -293,25 +299,28 @@ Hides the menu at `48em`, but modify this based on your app's needs.
     }
 
     #layout {
-        padding-left: 180px; /* left col width "#menu" */
+        padding-left: 250px; /* left col width "#menu" */
         left: 0;
     }
     #menu {
-        left: 180px;
+        left: 250px;
     }
 
     .menu-link {
         position: fixed;
-        left: 180px;
+        left: 250px;
         display: none;
     }
 
     #layout.active .menu-link {
-        left: 180px;
+        left: 250px;
     }
 }
 @media (min-width: 75em) {
     .content {
         max-width: 944px;
     }
+}
+.pure-menu-link, .pure-menu-disabled, .pure-menu-heading {
+    padding: 8px 0;
 }
