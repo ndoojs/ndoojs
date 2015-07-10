@@ -255,16 +255,22 @@ Hides the menu at `48em`, but modify this based on your app's needs.
 }
 
 /*---- custom ----*/
+.content img {
+    max-width: 100%;
+}
+.header {
+    padding-top: 1.2em;
+}
 #menu .menu-title {
   padding: 1em 0;
   font-size: 1.2em;
 }
 #layout.active #menu {
-    left: 180px;
-    width: 180px;
+    left: 250px;
+    width: 250px;
 }
 #layout.active .menu-link {
-    left: 180px;
+    left: 250px;
 }
 #menu .pure-menu-selected,
 #menu .pure-menu-heading {
@@ -323,4 +329,33 @@ Hides the menu at `48em`, but modify this based on your app's needs.
 }
 .pure-menu-link, .pure-menu-disabled, .pure-menu-heading {
     padding: 8px 0;
+}
+@media (max-width: 48em) {
+    #menu {
+        width: 190px;
+        margin-left: -190px;
+    }
+    #menu .pure-menu {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    #layout.active .menu-link {
+        left: 190px;
+    }
+    #layout.active #menu {
+        left: 190px;
+        width: 190px;
+    }
+    .pure-menu-link, .pure-menu-disabled, .pure-menu-heading {
+        padding-left: .6em;
+    }
+    #menu .menu-title {
+        padding-left: .6em;
+    }
+    #layout.active {
+        left: 190px;
+    }
+}
+.menu-link:hover, .menu-link:focus {
+    background-color: #1a1a1a;
 }
