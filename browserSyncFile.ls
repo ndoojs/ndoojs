@@ -44,6 +44,7 @@ getCompileCmdAndFileName = (file, ext) ->
   relativePath = path.relative baseDir, path.dirname(file)
   if path.sep isnt \/
     relativePath = relativePath.split path.sep .join \/
+    file = file.split path.sep .join \/
 
   switch ext
   case '.jade' then
@@ -67,7 +68,7 @@ getCompileCmdAndFileName = (file, ext) ->
     switch relativePath
     case '_source/live'
       compileFileName = "#baseDir/js/#{filename}.js"
-      cmd = "lsc --no-header -co #baseDir/js #file"
+      cmd = "lsc --no-header -cp #file>#{compileFileName}"
     case 'example/_source/live'
       compileFileName = "#baseDir/example/js/#{filename}.js"
       cmd = "lsc --no-header -bco #baseDir/example/js #file"
