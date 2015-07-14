@@ -67,7 +67,7 @@ getCompileCmdAndFileName = (file, ext) ->
     switch relativePath
     case '_source/live'
       compileFileName = "#baseDir/js/#{filename}.js"
-      cmd = "lsc --no-header -bco #baseDir/js #file"
+      cmd = "lsc --no-header -co #baseDir/js #file"
     case 'example/_source/live'
       compileFileName = "#baseDir/example/js/#{filename}.js"
       cmd = "lsc --no-header -bco #baseDir/example/js #file"
