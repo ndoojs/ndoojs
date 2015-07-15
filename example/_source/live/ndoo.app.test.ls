@@ -1,39 +1,38 @@
-((_n, depend) ->
-  _        = depend[\_]
-  Backbone = depend[\Backbone]
-  $        = depend[\$]
+"use strict"
+_        = @[\_]
+$        = @[\jQuery] || @[\Zepto]
 
-  _vars    = _n.vars
-  _func    = _n.func
-  _stor    = _n.storage
+@N = @ndoo ||= {}
+_n = @ndoo
 
-  /* [home module] {{{ */
-  _n.on \NAPP_NDOO_TEST_ACTION_BEFORE, (controller, actionName, params) !->
-    console.log \NAPP_NDOO_TEST_ACTION_BEFORE
+_vars    = _n.vars
+_func    = _n.func
+_stor    = _n.storage
 
-  _n.app \ndoo.test, do
-    before: do
-      filter: \test
-      only: \main
+/* [home module] {{{ */
+_n.on \NAPP_NDOO_TEST_ACTION_BEFORE, (controller, actionName, params) !->
+  console.log \NAPP_NDOO_TEST_ACTION_BEFORE
 
-    after: do
-      filter: \afterTest
-      only: \main
+_n.app \ndoo.test, do
+  before: do
+    filter: \test
+    only: \main
 
-    testFilter: !->
-      console.log \filter_before!
+  after: do
+    filter: \afterTest
+    only: \main
 
-    afterTestFilter: !->
-      console.log \filter_after!
+  testFilter: !->
+    console.log \filter_before!
 
-    mainDepend: ['jquery']
-    mainAction: (param) !->
-      console.log "module: ndoo.test action: mainAction"
+  afterTestFilter: !->
+    console.log \filter_after!
 
-  /* }}} */
+  mainDepend: ['jquery']
+  mainAction: (param) !->
+    console.log "module: ndoo.test action: mainAction"
 
-  _n
-)(@N = @ndoo ||= {}, _: _, $: jQuery)
+/* }}} */
 
 # vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et:
 

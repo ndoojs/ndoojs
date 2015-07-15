@@ -68,13 +68,13 @@ getCompileCmdAndFileName = (file, ext) ->
     switch relativePath
     case '_source/live'
       compileFileName = "#baseDir/js/#{filename}.js"
-      cmd = "lsc --no-header -cp #file>#{compileFileName}"
+      cmd = "lsc --no-header -cp #file>#compileFileName"
     case 'example/_source/live'
       compileFileName = "#baseDir/example/js/#{filename}.js"
-      cmd = "lsc --no-header -bco #baseDir/example/js #file"
+      cmd = "lsc --no-header -cp #file>#compileFileName"
     default
       compileFileName = "#jsOutputDir/#{filename}.js"
-      cmd = "lsc --no-header -bco #jsOutputDir #file"
+      cmd = "lsc --no-header -co #jsOutputDir #file"
   default
     compileFileName = cmd = ''
   [cmd, compileFileName]

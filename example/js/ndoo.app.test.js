@@ -1,8 +1,10 @@
-(function(_n, depend){
-  var _, Backbone, $, _vars, _func, _stor;
-  _ = depend['_'];
-  Backbone = depend['Backbone'];
-  $ = depend['$'];
+(function(){
+  "use strict";
+  var _, $, _n, _vars, _func, _stor;
+  _ = this['_'];
+  $ = this['jQuery'] || this['Zepto'];
+  this.N = this.ndoo || (this.ndoo = {});
+  _n = this.ndoo;
   _vars = _n.vars;
   _func = _n.func;
   _stor = _n.storage;
@@ -31,8 +33,4 @@
     }
   });
   /* }}} */
-  return _n;
-})(this.N = this.ndoo || (this.ndoo = {}), {
-  _: _,
-  $: jQuery
-});
+}).call(this);

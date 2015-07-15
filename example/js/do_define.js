@@ -1,5 +1,7 @@
-(function(_n){
-  var libPathBase, jsPathbase, currLibPath, currJsPath, ndooPathBase;
+(function(){
+  var _n, libPathBase, jsPathbase, currLibPath, currJsPath, ndooPathBase;
+  this.N = this.ndoo || (this.ndoo = {});
+  _n = this.ndoo;
   libPathBase = '../lib';
   jsPathbase = '../js';
   currLibPath = 'lib';
@@ -22,8 +24,8 @@
     path: currJsPath + "/ndoo.block.test.js",
     type: 'js'
   });
-  return _n.on('NBLOCK_DEFINE', function(){
+  _n.on('NBLOCK_DEFINE', function(){
     _n.setBlock('test.main');
   });
-})(this.N = this.ndoo || (this.ndoo = {}));
-/* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */
+  /* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */
+}).call(this);

@@ -7,21 +7,21 @@
 " LastChange: 05/21/2014 15:32
 " --------------------------------------------------
 */
-((_n, depend) ->
-  "use strict"
-  _        = depend[\_]
-  $        = depend[\$]
+"use strict"
+_        = @[\_]
+$        = @[\jQuery] || @[\Zepto]
 
-  _vars    = _n.vars
-  _func    = _n.func
-  _stor    = _n.storage
+@N = @ndoo ||= {}
+_n = @ndoo
 
-  _n.block \test, \main, do
-    init: (elem, params) !->
-      console.log 'init test block'
+_vars    = _n.vars
+_func    = _n.func
+_stor    = _n.storage
 
-  # _n.initBlock('[data-nblock-id]')
+_n.block \test, \main, do
+  init: (elem, params) !->
+    console.log 'init test block'
 
-  _n
-)(@N = @ndoo ||= {}, _: _, $: jQuery)
+# _n.initBlock('[data-nblock-id]')
+
 /* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */
