@@ -39,7 +39,7 @@
    * _stor('abc', null, _stor.DESTROY); // true
    */
   _n.storage = function(key, value, option){
-    var destroy, rewrite, data;
+    var destroy, rewrite, data, e;
     destroy = option & _n.storage.DESTROY;
     rewrite = option & _n.storage.REWRITE;
     data = _n.storage._data;
@@ -54,12 +54,17 @@
       return false;
     }
     if (Object.defineProperty) {
-      Object.defineProperty(data, key, {
-        value: value,
-        write: true,
-        enumerable: true,
-        configurable: true
-      });
+      try {
+        Object.defineProperty(data, key, {
+          value: value,
+          write: true,
+          enumerable: true,
+          configurable: true
+        });
+      } catch (e$) {
+        e = e$;
+        data[key] = value;
+      }
     } else {
       data[key] = value;
     }

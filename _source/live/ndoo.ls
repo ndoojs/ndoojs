@@ -56,11 +56,14 @@ _n.storage = (key, value, option) ->
     return false
 
   if Object.defineProperty
-    Object.defineProperty data, key, do
-      value: value
-      write: true
-      enumerable: true
-      configurable: true
+    try
+      Object.defineProperty data, key, do
+        value: value
+        write: true
+        enumerable: true
+        configurable: true
+    catch
+      data[key] = value
   else
     data[key] = value
 
