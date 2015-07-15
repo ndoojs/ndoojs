@@ -18,33 +18,68 @@
   _func = _n.func;
   _stor = _n.storage;
   /* storage module {{{ */
-  _n._storageData = {};
   /**
-   * 全局存储
+   * 变量存储
    *
    * @method
    * @name storage
    * @memberof ndoo
    * @param {string} key 存储键名
    * @param {any} value 存储值
-   * @param {boolean} force 强制删除
-   * @param {boolean} destroy 是否删除
+   * @param {const} option 选项，覆盖或删除
+   * @example // alias _stor
+   * var _stor = ndoo.storage;
+   * // set abc vlaue 1
+   * _stor('abc', 1); // 1
+   * // set abc value 2 failed
+   * _stor('abc', 2); // false
+   * // set abc value 2
+   * _stor('abc', 2, _stor.REWRITE); // 2
+   * // delete abc
+   * _stor('abc', null, _stor.DESTROY); // true
    */
-  _n.storage = function(key, value, force, destroy){
-    var data;
-    data = _n['_storageDate'];
-    if (value === void 8) {
+  _n.storage = function(key, value, option){
+    var destroy, rewrite, data;
+    destroy = option & _n.storage.DESTROY;
+    rewrite = option & _n.storage.REWRITE;
+    data = _n.storage._data;
+    if (value === undefined) {
       return data[key];
     }
     if (destroy) {
       delete data[key];
       return true;
     }
-    if (!force && _.has(data, key)) {
+    if (!rewrite && data.hasOwnProperty(key)) {
       return false;
     }
-    return data[key] = value;
+    if (Object.defineProperty) {
+      Object.defineProperty(data, key, {
+        value: value,
+        write: true,
+        enumerable: true,
+        configurable: true
+      });
+    } else {
+      data[key] = value;
+    }
+    return data[key];
   };
+  _n.storage._data = {};
+  /**
+   * storage重写常量
+   *
+   * @name REWRITE
+   * @memberof ndoo.storage
+   */
+  _n.storage.REWRITE = 1;
+  /**
+   * storage删除常量
+   *
+   * @name DESTROY
+   * @memberof ndoo.storage
+   */
+  _n.storage.DESTROY = 2;
   /* }}} */
   /* require module {{{ */
   /**
@@ -55,6 +90,12 @@
    * @memberof ndoo
    * @param {array} depend 依赖
    * @param {function} callback 回调函数
+   * @param {string} type 加载器类型
+   * @example // ndoo alias _n
+   * var _n = ndoo;
+   * _n.require(['../example/lib/jquery-1.11.1.js', '../example/lib/jquery-mytest.js'], function(a){
+   *   a('body').mytest();
+   * }, 'seajs');
    */
   _n.require = function(depend, callback, type){
     if (type === 'Do') {

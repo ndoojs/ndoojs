@@ -128,6 +128,13 @@
    * @memberof ndoo
    * @param {string} eventName 事件名称
    * @param {string} callback 事件回调
+   * @example // ndoo alias _n
+   * var _n = ndoo;
+   * _n.on('testEvent', function(data, data2){
+   *   console.log(data);
+   *   console.log(data2);
+   * });
+   * _n.trigger('testEvent', 'testEvent', 'kkk');
    */
   _n.on = function(eventName, callback){
     var i$, len$, item, results$ = [];
@@ -175,6 +182,9 @@
    * @name vars
    * @memberof ndoo
    * @type {object}
+   * @example // alias _vars
+   * var _vars = ndoo.vars;
+   * vars.bar = 'bar';
    */
   _n.vars || (_n.vars = {});
   /**
@@ -184,6 +194,11 @@
    * @name func
    * @memberof ndoo
    * @type {object}
+   * @example // alias _func
+   * var _func = ndoo.func;
+   * _func.foo = function() {
+   *   console.log('foo');
+   * }
    */
   _n.func || (_n.func = {});
   /* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */

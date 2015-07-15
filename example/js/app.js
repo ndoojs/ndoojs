@@ -54,6 +54,19 @@
     },
     mainDepend: ['jquery'],
     mainAction: function(param){
+      _stor('abc', 1);
+      _stor('bac', 2);
+      console.log(_stor('abc'));
+      _stor('abc', 2, _stor.REWRITE);
+      console.log(_stor('abc'));
+      _stor('abc', null, _stor.DESTROY);
+      console.log(_stor('abc'));
+      console.log('test event');
+      _n.on('testEvent', function(data, data2){
+        console.log(data);
+        console.log(data2);
+      });
+      _n.trigger('testEvent', 'testEvent', 'kkk');
       console.log(param);
       _n.require(['../example/lib/jquery-1.11.1.js', '../example/lib/jquery-mytest.js'], function(a){
         a('body').mytest();

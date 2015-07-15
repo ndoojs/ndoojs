@@ -49,6 +49,18 @@ _n.app \example,
 
   mainDepend: ['jquery']
   mainAction: (param) !->
+    _stor('abc', 1);
+    _stor('bac', 2);
+    console.log _stor('abc')
+    _stor('abc', 2, _stor.REWRITE)
+    console.log _stor('abc')
+    _stor('abc', null, _stor.DESTROY)
+    console.log _stor('abc')
+    console.log 'test event'
+    _n.on 'testEvent', (data, data2) !->
+      console.log data
+      console.log data2
+    _n.trigger 'testEvent', 'testEvent', 'kkk'
     console.log param
     _n.require ['../example/lib/jquery-1.11.1.js', '../example/lib/jquery-mytest.js'], (a) !->
       a('body').mytest!;
