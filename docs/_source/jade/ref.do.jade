@@ -28,7 +28,11 @@ block pageContent
   h3 3. 为ndoojs标识模块
   p 当某些ndoojs模块默认未载入，需要进行按需加载时可以在Do.js中定义该文件，但需要为ndoojs标识出该模块存在。
   +renderCode('javascript')
-    ="(function(_n){\n"
+    ="(function(){\n"
+    ="  var _n;\n"
+    ="  this.N = this.ndoo || (this.ndoo = {});\n"
+    ="  _n = this.ndoo;\n"
+    ="\n"
     ="  Do.define('home', {\n"
     ="    path: 'js/example1.js',\n"
     ="    type: 'js'\n"
@@ -46,4 +50,5 @@ block pageContent
     ="  _n.on('NBLOCK_DEFINE', function(){\n"
     ="    _n.setBlock('example3.block');\n"
     ="  });\n"
-    ="})(this.N = this.ndoo || (this.ndoo = {}));"
+    ="\n"
+    ="})(this);"

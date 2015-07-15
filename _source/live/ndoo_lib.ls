@@ -15,8 +15,8 @@ _n = @ndoo
 _lib = _n._lib ||  = {}
 Backbone = _lib
 
-if @.Backbone
-  _lib = @.Backbone
+if @[\Backbone]
+  _lib = @[\Backbone]
   return void
 
 array    = []

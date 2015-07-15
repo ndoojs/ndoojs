@@ -46,7 +46,11 @@
                 <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;script src=&quot;../lib/Do.js&quot;&gt;&lt;/script&gt;</code></pre>
             <h3>2. 添加模块定义</h3>
             <p>此处用到了事件系统，参见<a href="ref.event.html">event</a>。</p>
-                <pre data-start="1" class="line-numbers"><code class="language-javascript">(function(_n){
+                <pre data-start="1" class="line-numbers"><code class="language-javascript">(function(){
+  var _n;
+  this.N = this.ndoo || (this.ndoo = {});
+  _n = this.ndoo;
+
   Do.define('home', {
     path: 'example2.js',
     type: 'js'
@@ -54,7 +58,8 @@
   _n.on('NAPP_DEFINE', function(){
     _n.setApp('home');
   });
-})(this.N = this.ndoo || (this.ndoo = {}));</code></pre>
+
+}).call(this);</code></pre>
             <h5>完整代码如下：</h5>
             <p>html</p>
                 <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
@@ -73,7 +78,11 @@
       &lt;script src=&quot;../js/ndoo_lib.js&quot;&gt;&lt;/script&gt;
       &lt;script src=&quot;../js/ndoo.js&quot;&gt;&lt;/script&gt;
       &lt;script&gt;
-        (function(_n){
+        (function(){
+          var _n;
+          this.N = this.ndoo || (this.ndoo = {});
+          _n = this.ndoo;
+
           Do.define('home', {
             path: 'js/example1.js',
             type: 'js'
@@ -81,7 +90,8 @@
           _n.on('NAPP_DEFINE', function(){
             _n.setApp('home');
           });
-        })(this.N = this.ndoo || (this.ndoo = {}));
+
+        })(this);
       &lt;/script&gt;
     &lt;/div&gt;
   &lt;/body&gt;

@@ -52,7 +52,11 @@ Do.define('lightBox', {path: '{URL}', type: 'js', requires: ['lightBox-css']});<
 Do.setLoaded('jquery') //参数可以是数组</code></pre>
             <h3>3. 为ndoojs标识模块</h3>
             <p>当某些ndoojs模块默认未载入，需要进行按需加载时可以在Do.js中定义该文件，但需要为ndoojs标识出该模块存在。</p>
-                <pre data-start="1" class="line-numbers"><code class="language-javascript">(function(_n){
+                <pre data-start="1" class="line-numbers"><code class="language-javascript">(function(){
+  var _n;
+  this.N = this.ndoo || (this.ndoo = {});
+  _n = this.ndoo;
+
   Do.define('home', {
     path: 'js/example1.js',
     type: 'js'
@@ -70,7 +74,8 @@ Do.setLoaded('jquery') //参数可以是数组</code></pre>
   _n.on('NBLOCK_DEFINE', function(){
     _n.setBlock('example3.block');
   });
-})(this.N = this.ndoo || (this.ndoo = {}));</code></pre>
+
+})(this);</code></pre>
           </div>
         </div>
       </div>

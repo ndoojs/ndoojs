@@ -14,8 +14,8 @@
   _n = this.ndoo;
   _lib = _n._lib || (_n._lib = {});
   Backbone = _lib;
-  if (this.Backbone) {
-    _lib = this.Backbone;
+  if (this['Backbone']) {
+    _lib = this['Backbone'];
     return;
   }
   array = [];

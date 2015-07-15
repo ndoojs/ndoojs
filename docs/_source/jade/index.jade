@@ -33,11 +33,13 @@ block pageContent
     ='</html>'
   p javascript
   +renderCode('javascript')
-    ="(function(_n, depend){\n"
-    ="  var _, $, _vars, _func, _stor;\n"
-    ="  _ = depend['_'];\n"
-    ="  $ = depend['$'];\n"
-    ="\n"
+    ="(function(){\n"
+    ="  'use strict';\n"
+    ="  var _, $, _n, _vars, _func, _stor;\n"
+    ="  _ = this['_'];\n"
+    ="  $ = this['jQuery'] || this['Zepto'];\n"
+    ="  this.N = this.ndoo || (this.ndoo = {});\n"
+    ="  _n = this.ndoo;\n"
     ="  _vars = _n.vars;\n"
     ="  _func = _n.func;\n"
     ="  _stor = _n.storage;\n"
@@ -52,11 +54,7 @@ block pageContent
     ="  });\n"
     ="  /* }}} */\n"
     ="\n"
-    ="  return _n;\n"
-    ="})(this.N = this.ndoo || (this.ndoo = {}), {\n"
-    ="  _: _,\n"
-    ="  $: jQuery\n"
-    ="});"
+    ="}).call(this);"
   p.notice
     |查看
     a(href="../example/example1.html") example1.html
@@ -73,10 +71,13 @@ block pageContent
 
   h3 3. 编写对应脚本 example1.js
   +renderCode('javascript')
-    ="(function(_n, depend){\n"
-    ="  var _, $, _vars, _func, _stor;\n"
-    ="  _ = depend['_'];\n"
-    ="  $ = depend['$'];\n"
+    ="(function(){\n"
+    ="  'use strict';\n"
+    ="  var _, $, _n, _vars, _func, _stor;\n"
+    ="  _ = this['_'];\n"
+    ="  $ = this['jQuery'] || this['Zepto'];\n"
+    ="  this.N = this.ndoo || (this.ndoo = {});\n"
+    ="  _n = this.ndoo;\n"
     ="  _vars = _n.vars;\n"
     ="  _func = _n.func;\n"
     ="  _stor = _n.storage;\n"
@@ -91,11 +92,7 @@ block pageContent
     ="  });\n"
     ="  /* }}} */\n"
     ="\n"
-    ="  return _n;\n"
-    ="})(this.N = this.ndoo || (this.ndoo = {}), {\n"
-    ="  _: _,\n"
-    ="  $: jQuery\n"
-    ="});"
+    ="}).call(this);"
 
   h3 4. 引入ndoo脚本及依赖
   p ndoojs依赖underscore，使用到jQuery的ready函数(可以使其它库的ready代替)。ndoo_lib提供事件和路由支持。

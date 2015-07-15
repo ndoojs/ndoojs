@@ -37,13 +37,13 @@ block pageContent
     ="ndoo.on('customEvent', function(foo, bar) {\n"
     ="  alert(foo + bar);\n"
     ="});\n"
-    ="&nbsp;\n"
+    ="\n"
     ="ndoo.trigger('customEvent');"
   h4 2.2 delay 事件
   p delay为延迟事件，即先用trigger触发的事件，可以引发后面用on绑定的回调。示例：
   +renderCode('javascript')
     ="ndoo.trigger('DELAY:customDelayEvent');\n"
-    ="&nbsp;\n"
+    ="\n"
     ="ndoo.on('customDelayEvent', function(foo, bar) {\n"
     ="  alert(foo + bar);\n"
     ="});"

@@ -63,11 +63,13 @@
   &lt;/body&gt;
 &lt;/html&gt;</code></pre>
             <p>javascript</p>
-                <pre data-start="1" class="line-numbers"><code class="language-javascript">(function(_n, depend){
-  var _, $, _vars, _func, _stor;
-  _ = depend['_'];
-  $ = depend['$'];
-
+                <pre data-start="1" class="line-numbers"><code class="language-javascript">(function(){
+  'use strict';
+  var _, $, _n, _vars, _func, _stor;
+  _ = this['_'];
+  $ = this['jQuery'] || this['Zepto'];
+  this.N = this.ndoo || (this.ndoo = {});
+  _n = this.ndoo;
   _vars = _n.vars;
   _func = _n.func;
   _stor = _n.storage;
@@ -82,11 +84,7 @@
   });
   /* }}} */
 
-  return _n;
-})(this.N = this.ndoo || (this.ndoo = {}), {
-  _: _,
-  $: jQuery
-});</code></pre>
+}).call(this);</code></pre>
             <p class="notice">查看<a href="../example/example1.html">example1.html</a></p>
             <h3>1. 引入头文件</h3>
             <p>ndoojs 需要在head处引用一个头文件，ndoo_prep.js。主要用来预定义变量，暂存事件回调等。这个文件体积非常小巧，不会对页面加载造成影响。</p>
@@ -95,10 +93,13 @@
             <p>ndoojs的核心概念即每个页面有一个唯一的id，有一个唯一的入口函数，在该函数内处理该页面的所有逻辑。</p>
                 <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;div id=&quot;scriptArea&quot; data-page-id=&quot;home/index&quot;&gt;</code></pre>
             <h3>3. 编写对应脚本 example1.js</h3>
-                <pre data-start="1" class="line-numbers"><code class="language-javascript">(function(_n, depend){
-  var _, $, _vars, _func, _stor;
-  _ = depend['_'];
-  $ = depend['$'];
+                <pre data-start="1" class="line-numbers"><code class="language-javascript">(function(){
+  'use strict';
+  var _, $, _n, _vars, _func, _stor;
+  _ = this['_'];
+  $ = this['jQuery'] || this['Zepto'];
+  this.N = this.ndoo || (this.ndoo = {});
+  _n = this.ndoo;
   _vars = _n.vars;
   _func = _n.func;
   _stor = _n.storage;
@@ -113,11 +114,7 @@
   });
   /* }}} */
 
-  return _n;
-})(this.N = this.ndoo || (this.ndoo = {}), {
-  _: _,
-  $: jQuery
-});</code></pre>
+}).call(this);</code></pre>
             <h3>4. 引入ndoo脚本及依赖</h3>
             <p>ndoojs依赖underscore，使用到jQuery的ready函数(可以使其它库的ready代替)。ndoo_lib提供事件和路由支持。</p>
                 <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;script src=&quot;../lib/underscore-min.js&quot;&gt;&lt;/script&gt;

@@ -20,7 +20,11 @@ block pageContent
     a(href="ref.event.html") event
     |。
   +renderCode('javascript')
-    ="(function(_n){\n"
+    ="(function(){\n"
+    ="  var _n;\n"
+    ="  this.N = this.ndoo || (this.ndoo = {});\n"
+    ="  _n = this.ndoo;\n"
+    ="\n"
     ="  Do.define('home', {\n"
     ="    path: 'example2.js',\n"
     ="    type: 'js'\n"
@@ -28,7 +32,8 @@ block pageContent
     ="  _n.on('NAPP_DEFINE', function(){\n"
     ="    _n.setApp('home');\n"
     ="  });\n"
-    ="})(this.N = this.ndoo || (this.ndoo = {}));"
+    ="\n"
+    ="}).call(this);"
   h5 完整代码如下：
   p html
   +renderCode('html')
@@ -48,7 +53,11 @@ block pageContent
     ='      <script src="../js/ndoo_lib.js"></script>\n'
     ='      <script src="../js/ndoo.js"></script>\n'
     ="      <script>\n"
-    ="        (function(_n){\n"
+    ="        (function(){\n"
+    ="          var _n;\n"
+    ="          this.N = this.ndoo || (this.ndoo = {});\n"
+    ="          _n = this.ndoo;\n"
+    ="\n"
     ="          Do.define('home', {\n"
     ="            path: 'js/example1.js',\n"
     ="            type: 'js'\n"
@@ -56,7 +65,8 @@ block pageContent
     ="          _n.on('NAPP_DEFINE', function(){\n"
     ="            _n.setApp('home');\n"
     ="          });\n"
-    ="        })(this.N = this.ndoo || (this.ndoo = {}));\n"
+    ="\n"
+    ="        })(this);\n"
     ='      </script>\n'
     ='    </div>\n'
     ='  </body>\n'

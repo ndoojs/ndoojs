@@ -66,12 +66,12 @@ ndoo.off(
                 <pre data-start="1" class="line-numbers"><code class="language-javascript">ndoo.on('customEvent', function(foo, bar) {
   alert(foo + bar);
 });
-&amp;nbsp;
+
 ndoo.trigger('customEvent');</code></pre>
             <h4>2.2 delay 事件</h4>
             <p>delay为延迟事件，即先用trigger触发的事件，可以引发后面用on绑定的回调。示例：</p>
                 <pre data-start="1" class="line-numbers"><code class="language-javascript">ndoo.trigger('DELAY:customDelayEvent');
-&amp;nbsp;
+
 ndoo.on('customDelayEvent', function(foo, bar) {
   alert(foo + bar);
 });</code></pre>

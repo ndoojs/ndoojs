@@ -19,7 +19,11 @@ block pageContent
     |此处用到了事件系统，参见
     a(href="event.html") event。
   +renderCode('javascript')
-    ="(function(_n){\n"
+    ="(function(){\n"
+    ="  var _n;\n"
+    ="  this.N = this.ndoo || (this.ndoo = {});\n"
+    ="  _n = this.ndoo;\n"
+    ="\n"
     ="  Do.define('test.main', {\n"
     ="    path: currJsPath + '/ndoo.block.test.js',\n"
     ="    type: 'js'\n"
@@ -27,7 +31,8 @@ block pageContent
     ="  _n.on('NBLOCK_DEFINE', function(){\n"
     ="    _n.setBlock('test.main');\n"
     ="  });\n"
-    ="})(this.N = this.ndoo || (this.ndoo = {}));"
+    ="\n"
+    ="}).call(this);"
   h5 完整代码如下：
   p html
   +renderCode('html')
@@ -48,7 +53,11 @@ block pageContent
     ='      <script src="../js/ndoo_lib.js"></script>\n'
     ='      <script src="../js/ndoo.js"></script>\n'
     ="      <script>\n"
-    ="        (function(_n){\n"
+    ="        (function(){\n"
+    ="          var _n;\n"
+    ="          this.N = this.ndoo || (this.ndoo = {});\n"
+    ="          _n = this.ndoo;\n"
+    ="\n"
     ="          Do.define('test.main', {\n"
     ="            path: currJsPath + '/ndoo.block.test.js',\n"
     ="            type: 'js'\n"
@@ -56,7 +65,8 @@ block pageContent
     ="          _n.on('NBLOCK_DEFINE', function(){\n"
     ="            _n.setBlock('test.main');\n"
     ="          });\n"
-    ="        })(this.N = this.ndoo || (this.ndoo = {}));\n"
+    ="\n"
+    ="        }).call(this);\n"
     ='      </script>\n'
     ='    </div>\n'
     ='  </body>\n'
