@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Do.js参考-ndoojs文档-ndoojs</title>
+    <link rel="stylesheet" type="text/css" href="css/pure-min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/prism.css">
+  </head>
+  <body>
+    <div id="layout" class="layout"><a id="menuLink" href="#menu" class="menu-link">
+        <!-- Hamburger icon--><span></span></a>
+      <div id="menu">
+        <div class="menu pure-menu">
+          <h1 class="pure-menu-heading menu-title">ndoojs文档</h1>
+          <h3 class="pure-menu-heading menu-item-divided">基础用法</h3>
+          <ul class="pure-menu-list">
+            <li class="pure-menu-item"><a href="index.html" class="pure-menu-link">入门</a></li>
+            <li class="pure-menu-item"><a href="basic.param.html" class="pure-menu-link">参数的使用</a></li>
+            <li class="pure-menu-item"><a href="basic.namespace.html" class="pure-menu-link">名称空间</a></li>
+            <li class="pure-menu-item"><a href="basic.autoload.html" class="pure-menu-link">自动加载</a></li>
+            <li class="pure-menu-item"><a href="basic.block.html" class="pure-menu-link">块级组件</a></li>
+            <li class="pure-menu-item"><a href="basic.hook.html" class="pure-menu-link">前置和后置操作</a></li>
+            <li class="pure-menu-item"><a href="basic.filter.html" class="pure-menu-link">过滤器</a></li>
+            <li class="pure-menu-item"><a href="basic.moduleevent.html" class="pure-menu-link">模块事件</a></li>
+            <li class="pure-menu-item"><a href="basic.require.html" class="pure-menu-link">手动加载</a></li>
+            <li class="pure-menu-item"><a href="basic.depend.html" class="pure-menu-link">依赖加载</a></li>
+          </ul>
+          <h3 class="pure-menu-heading menu-item-divided">参考</h3>
+          <ul class="pure-menu-list">
+            <li class="pure-menu-item"><a href="ref.event.html" class="pure-menu-link">事件参考</a></li>
+            <li class="pure-menu-item"><a href="ref.do.html" class="pure-menu-link">Do.js参考</a></li>
+            <li class="pure-menu-item"><a href="api/" class="pure-menu-link">API</a></li>
+          </ul>
+        </div>
+      </div>
+      <div id="main">
+        <div class="docs theme1">
+          <div class="header">
+            <h1>Do.js参考</h1>
+            <p>ndoojs使用Do.js做依赖加载，参见 <a href="http://kejun.github.io/Do/">http://kejun.github.io/Do/</a>。这里对ndoojs里面用到的一些功能进行说明。</p>
+          </div>
+          <div class="content">
+            <h3>1. 定义模块</h3>
+            <p>使用Do.define方法定义一个模块，可以是js或者css类型，可以指定依赖。示例：</p>
+                <pre data-start="1" class="line-numbers"><code class="language-javascript">Do.define('lightBox-css', {path: '{URL}', type: 'css'});
+Do.define('lightBox', {path: '{URL}', type: 'js', requires: ['lightBox-css']});</code></pre>
+            <h3>2. 设置已加载模块</h3>
+            <p>原则上建议所有模块都在Do.js中进行定义，但有些文件默认已加载(如jQuery)则可设置该模块为已加载。示例：</p>
+                <pre data-start="1" class="line-numbers"><code class="language-javascript">Do.define('jquery', {path: 'js/jquery', type: 'js'});
+Do.setLoaded('jquery') //参数可以是数组</code></pre>
+            <h3>3. 为ndoojs标识模块</h3>
+            <p>当某些ndoojs模块默认未载入，需要进行按需加载时可以在Do.js中定义该文件，但需要为ndoojs标识出该模块存在。</p>
+                <pre data-start="1" class="line-numbers"><code class="language-javascript">(function(){
+  var _n;
+  this.N = this.ndoo || (this.ndoo = {});
+  _n = this.ndoo;
+
+  Do.define('home', {
+    path: 'js/example1.js',
+    type: 'js'
+  });
+  // 在NAPP_DEFINE事件触发以后调用setApp标识module
+  _n.on('NAPP_DEFINE', function(){
+    _n.setApp('home');
+  });
+
+  Do.define('example3.block', {
+    path: 'js/example3.block.js',
+    type: 'js'
+  });
+  // 在NBLOCK_DEFINE事件触发以后调用setBlock标识block
+  _n.on('NBLOCK_DEFINE', function(){
+    _n.setBlock('example3.block');
+  });
+
+})(this);</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/ui.js"></script>
+    <script src="js/prism.js"></script>
+  </body>
+</html>

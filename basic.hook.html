@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>前置和后置操作-ndoojs文档-ndoojs</title>
+    <link rel="stylesheet" type="text/css" href="css/pure-min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/prism.css">
+  </head>
+  <body>
+    <div id="layout" class="layout"><a id="menuLink" href="#menu" class="menu-link">
+        <!-- Hamburger icon--><span></span></a>
+      <div id="menu">
+        <div class="menu pure-menu">
+          <h1 class="pure-menu-heading menu-title">ndoojs文档</h1>
+          <h3 class="pure-menu-heading menu-item-divided">基础用法</h3>
+          <ul class="pure-menu-list">
+            <li class="pure-menu-item"><a href="index.html" class="pure-menu-link">入门</a></li>
+            <li class="pure-menu-item"><a href="basic.param.html" class="pure-menu-link">参数的使用</a></li>
+            <li class="pure-menu-item"><a href="basic.namespace.html" class="pure-menu-link">名称空间</a></li>
+            <li class="pure-menu-item"><a href="basic.autoload.html" class="pure-menu-link">自动加载</a></li>
+            <li class="pure-menu-item"><a href="basic.block.html" class="pure-menu-link">块级组件</a></li>
+            <li class="pure-menu-item"><a href="basic.hook.html" class="pure-menu-link">前置和后置操作</a></li>
+            <li class="pure-menu-item"><a href="basic.filter.html" class="pure-menu-link">过滤器</a></li>
+            <li class="pure-menu-item"><a href="basic.moduleevent.html" class="pure-menu-link">模块事件</a></li>
+            <li class="pure-menu-item"><a href="basic.require.html" class="pure-menu-link">手动加载</a></li>
+            <li class="pure-menu-item"><a href="basic.depend.html" class="pure-menu-link">依赖加载</a></li>
+          </ul>
+          <h3 class="pure-menu-heading menu-item-divided">参考</h3>
+          <ul class="pure-menu-list">
+            <li class="pure-menu-item"><a href="ref.event.html" class="pure-menu-link">事件参考</a></li>
+            <li class="pure-menu-item"><a href="ref.do.html" class="pure-menu-link">Do.js参考</a></li>
+            <li class="pure-menu-item"><a href="api/" class="pure-menu-link">API</a></li>
+          </ul>
+        </div>
+      </div>
+      <div id="main">
+        <div class="docs theme1">
+          <div class="header">
+            <h1>前置和后置操作</h1>
+            <p>ndoojs支持在action执行之前和执行之后执行指定的操作</p>
+          </div>
+          <div class="content">
+            <h3>1. 前置操作</h3>
+            <p>前置操作由actionName+'Before'组成。例如：</p>
+                <pre data-start="1" class="line-numbers"><code class="language-javascript">indexBefore: function(params){
+  alert('index before');
+},
+
+indexAction: function(params){
+  var $content;
+  $content = $('#content');
+  $content.html('module: home, action: indexAction);
+}</code></pre>
+            <h3>2. 后置操作</h3>
+            <p>后置操作由actionName+'After'组成。例如：</p><code>
+              <pre data-language="javascript"></pre></code>
+                <pre data-start="1" class="line-numbers"><code class="language-javascript">indexAfter: function(params){
+  alert('index after');
+},
+
+indexAction: function(params){
+  var $content;
+  $content = $('#content');
+  $content.html('module: home, action: indexAction);
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/ui.js"></script>
+    <script src="js/prism.js"></script>
+  </body>
+</html>

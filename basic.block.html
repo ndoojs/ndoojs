@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>块级组件-ndoojs文档-ndoojs</title>
+    <link rel="stylesheet" type="text/css" href="css/pure-min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/prism.css">
+  </head>
+  <body>
+    <div id="layout" class="layout"><a id="menuLink" href="#menu" class="menu-link">
+        <!-- Hamburger icon--><span></span></a>
+      <div id="menu">
+        <div class="menu pure-menu">
+          <h1 class="pure-menu-heading menu-title">ndoojs文档</h1>
+          <h3 class="pure-menu-heading menu-item-divided">基础用法</h3>
+          <ul class="pure-menu-list">
+            <li class="pure-menu-item"><a href="index.html" class="pure-menu-link">入门</a></li>
+            <li class="pure-menu-item"><a href="basic.param.html" class="pure-menu-link">参数的使用</a></li>
+            <li class="pure-menu-item"><a href="basic.namespace.html" class="pure-menu-link">名称空间</a></li>
+            <li class="pure-menu-item"><a href="basic.autoload.html" class="pure-menu-link">自动加载</a></li>
+            <li class="pure-menu-item"><a href="basic.block.html" class="pure-menu-link">块级组件</a></li>
+            <li class="pure-menu-item"><a href="basic.hook.html" class="pure-menu-link">前置和后置操作</a></li>
+            <li class="pure-menu-item"><a href="basic.filter.html" class="pure-menu-link">过滤器</a></li>
+            <li class="pure-menu-item"><a href="basic.moduleevent.html" class="pure-menu-link">模块事件</a></li>
+            <li class="pure-menu-item"><a href="basic.require.html" class="pure-menu-link">手动加载</a></li>
+            <li class="pure-menu-item"><a href="basic.depend.html" class="pure-menu-link">依赖加载</a></li>
+          </ul>
+          <h3 class="pure-menu-heading menu-item-divided">参考</h3>
+          <ul class="pure-menu-list">
+            <li class="pure-menu-item"><a href="ref.event.html" class="pure-menu-link">事件参考</a></li>
+            <li class="pure-menu-item"><a href="ref.do.html" class="pure-menu-link">Do.js参考</a></li>
+            <li class="pure-menu-item"><a href="api/" class="pure-menu-link">API</a></li>
+          </ul>
+        </div>
+      </div>
+      <div id="main">
+        <div class="docs theme1">
+          <div class="header">
+            <h1>块级组件</h1>
+            <p>ndoojs支持块级组件，可以方便的定义一些按需载入自执行组件。</p>
+          </div>
+          <div class="content">
+            <h3>1. 引入do.js以及模块定义文件</h3>
+                <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;script src=&quot;../lib/Do.js&quot;&gt;&lt;/script&gt;</code></pre>
+            <h3>2. 添加模块定义</h3>
+            <p>此处用到了事件系统，参见<a href="event.html">event。</a></p>
+                <pre data-start="1" class="line-numbers"><code class="language-javascript">(function(){
+  var _n;
+  this.N = this.ndoo || (this.ndoo = {});
+  _n = this.ndoo;
+
+  Do.define('test.main', {
+    path: currJsPath + '/ndoo.block.test.js',
+    type: 'js'
+  });
+  _n.on('NBLOCK_DEFINE', function(){
+    _n.setBlock('test.main');
+  });
+
+}).call(this);</code></pre>
+            <h5>完整代码如下：</h5>
+            <p>html</p>
+                <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;example&lt;/title&gt;
+    &lt;script src=&quot;../js/ndoo_prep.js&quot;&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id=&quot;testBlock&quot; data-nblock-id=&quot;test/main?abc=1&quot; data-nblock-auto=&quot;true&quot;&gt;&lt;/div&gt;
+    &lt;p id=&quot;content&quot;&gt;&lt;/p&gt;
+    &lt;div id=&quot;scriptArea&quot; data-page-id=&quot;home/index&quot;&gt;
+      &lt;script src=&quot;../lib/underscore-min.js&quot;&gt;&lt;/script&gt;
+      &lt;script src=&quot;../lib/jquery-2.1.1.min.js&quot;&gt;&lt;/script&gt;
+      &lt;script src=&quot;../lib/Do.js&quot;&gt;&lt;/script&gt;
+      &lt;script src=&quot;../js/ndoo_lib.js&quot;&gt;&lt;/script&gt;
+      &lt;script src=&quot;../js/ndoo.js&quot;&gt;&lt;/script&gt;
+      &lt;script&gt;
+        (function(){
+          var _n;
+          this.N = this.ndoo || (this.ndoo = {});
+          _n = this.ndoo;
+
+          Do.define('test.main', {
+            path: currJsPath + '/ndoo.block.test.js',
+            type: 'js'
+          });
+          _n.on('NBLOCK_DEFINE', function(){
+            _n.setBlock('test.main');
+          });
+
+        }).call(this);
+      &lt;/script&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            <p class="notice">查看<a href="../example/test.block.html">test.block.html</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/ui.js"></script>
+    <script src="js/prism.js"></script>
+  </body>
+</html>
