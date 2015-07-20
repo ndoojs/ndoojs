@@ -17,6 +17,11 @@
   _vars = _n.vars;
   _func = _n.func;
   _stor = _n.storage;
+  /* default _lib {{{ */
+  if (!(_n._lib && this['Backbone'])) {
+    _n._lib = this['Backbone'];
+  }
+  /* }}} */
   /* storage module {{{ */
   /**
    * 变量存储
@@ -57,7 +62,7 @@
       try {
         Object.defineProperty(data, key, {
           value: value,
-          write: true,
+          writable: true,
           enumerable: true,
           configurable: true
         });
@@ -501,6 +506,5 @@
     }
     /* }}} */
   });
-  _n.init();
   /* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */
 }).call(this);

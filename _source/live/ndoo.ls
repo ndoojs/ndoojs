@@ -19,6 +19,11 @@ _vars    = _n.vars
 _func    = _n.func
 _stor    = _n.storage
 
+/* default _lib {{{ */
+unless _n._lib && @[\Backbone]
+  _n._lib = @[\Backbone]
+/* }}} */
+
 /* storage module {{{ */
 /**
  * 变量存储
@@ -59,7 +64,7 @@ _n.storage = (key, value, option) ->
     try
       Object.defineProperty data, key, do
         value: value
-        write: true
+        writable: true
         enumerable: true
         configurable: true
     catch
@@ -474,6 +479,6 @@ _.extend _n,
     @triggerPageStatus!
   /* }}} */
 
-_n.init!
+# _n.init!
 
 /* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */
