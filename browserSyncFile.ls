@@ -9,6 +9,9 @@ outputDir = '.'
 cssOutputDir = "./css"
 jsOutputDir = "./js"
 
+docsDir = "#baseDir/docs"
+exampleDir = "#docsDir/example"
+
 
 reloadWatchFile = ''
   # "#outputDir/*.html"
@@ -17,9 +20,9 @@ reloadWatchFile = ''
 
 compileWatchFile =
   "_source/live/*.ls"
-  "docs/_source/jade/*.jade"
-  "example/_source/jade/*.jade"
-  "example/_source/live/*.ls"
+  "#docsDir/_source/jade/*.jade"
+  "#exampleDir/_source/jade/*.jade"
+  "#exampleDir/_source/live/*.ls"
 
 autoCompileFile = false
 #autoCompileFile = true
@@ -52,9 +55,9 @@ getCompileCmdAndFileName = (file, ext) ->
     case 'docs/_source/jade'
       compileFileName = "#baseDir/docs/#{filename}.html"
       cmd = "jade -Po #baseDir/docs #file"
-    case 'example/_source/jade'
-      compileFileName = "#baseDir/example/#{filename}.html"
-      cmd = "jade -Po #baseDir/example #file"
+    case 'docs/example/_source/jade'
+      compileFileName = "#exampleDir/#{filename}.html"
+      cmd = "jade -Po #exampleDir #file"
     default
       compileFileName = "#outputDir/#{filename}.html"
       cmd = "jade -Po #outputDir #file"
@@ -69,8 +72,8 @@ getCompileCmdAndFileName = (file, ext) ->
     case '_source/live'
       compileFileName = "#baseDir/js/#{filename}.js"
       cmd = "lsc --no-header -cp #file>#compileFileName"
-    case 'example/_source/live'
-      compileFileName = "#baseDir/example/js/#{filename}.js"
+    case 'docs/example/_source/live'
+      compileFileName = "#exampleDir/js/#{filename}.js"
       cmd = "lsc --no-header -cp #file>#compileFileName"
     default
       compileFileName = "#jsOutputDir/#{filename}.js"
