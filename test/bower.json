@@ -1,0 +1,12 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "authors": [
+    "chenglifu <chenglifu@huazhu.com>"
+  ],
+  "description": "frontend test",
+  "license": "MIT",
+  "dependencies": {
+    "jasmine": "~2.3.4"
+  }
+}
