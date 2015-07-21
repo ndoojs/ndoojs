@@ -20,7 +20,7 @@ _func    = _n.func
 _stor    = _n.storage
 
 /* default _lib {{{ */
-unless _n._lib && @[\Backbone]
+if not _n._lib && @[\Backbone]
   _n._lib = @[\Backbone]
 /* }}} */
 

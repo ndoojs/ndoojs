@@ -18,7 +18,7 @@
   _func = _n.func;
   _stor = _n.storage;
   /* default _lib {{{ */
-  if (!(_n._lib && this['Backbone'])) {
+  if (!_n._lib && this['Backbone']) {
     _n._lib = this['Backbone'];
   }
   /* }}} */
