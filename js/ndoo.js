@@ -279,9 +279,9 @@
       if (!this.inited) {
         for (i$ = 0, len$ = (ref$ = this._temp).length; i$ < len$; ++i$) {
           item = ref$[i$];
-          if (item.type === this.TEMP_ON) {
+          if (item.type === this.TYPE_ON) {
             this.on(item.eventName, item.callback);
-          } else if (item.type === this.TEMP_TRIGGER) {
+          } else if (item.type === this.TYPE_TRIGGER) {
             this.trigger(item.eventName, item.eventType, item.data);
           }
         }
