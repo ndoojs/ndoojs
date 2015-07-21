@@ -1,7 +1,8 @@
 // Karma configuration
 // Generated on Tue Jul 21 2015 10:34:37 GMT+0800 (中国标准时间)
 //
-var contentPath = '../../../src/HZ.HworldPortal.Hotels/HZ.HworldPortal.Hotels/Content';
+var jsPath = '../../js'
+var libPath = '../../docs/example/lib'
 
 module.exports = function(config) {
   config.set({
@@ -37,11 +38,11 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      contentPath + '/lib/ndoo/ndoo_prep.js',
-      contentPath + '/lib/backbone/underscore-min.js',
-      contentPath + '/lib/ndoo/ndoo_lib.js',
+      jsPath + '/ndoo_prep.js',
+      libPath + '/underscore-min.js',
+      jsPath + '/ndoo_lib.js',
       '../mock/jquery.mock.js',
-      contentPath + '/lib/ndoo/ndoo.js',
+      jsPath + '/ndoo.js',
       '../unit/*Spec.coffee'
     ],
 

@@ -3,12 +3,14 @@ html
   head
     meta(charset="UTF-8")
     title example1
-    script(src="../js/ndoo_prep.js")
+    script(src="js/ndoo_prep.js")
   body
     p#content
     #scriptArea(data-page-id="home/index")
-      script(src="../lib/underscore-min.js")
-      script(src="../lib/jquery-2.1.1.min.js")
-      script(src="../js/ndoo_lib.js")
-      script(src="../js/ndoo.js")
+      script(src="lib/underscore-min.js")
+      script(src="lib/jquery-2.1.1.min.js")
+      script(src="js/ndoo_lib.js")
+      script(src="js/ndoo.js")
       script(src="js/example1.js")
+      script.
+        ndoo.init();

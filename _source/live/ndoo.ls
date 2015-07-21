@@ -266,9 +266,9 @@ _n.event = _.extend _n.event,
   init: !->
     if not @inited
       for item in @_temp
-        if item.type is @TEMP_ON
+        if item.type is @TYPE_ON
           @on item.eventName, item.callback
-        else if item.type is @TEMP_TRIGGER
+        else if item.type is @TYPE_TRIGGER
           @trigger item.eventName, item.eventType, item.data
     @inited = true
   /* }}} */
