@@ -140,7 +140,7 @@ _n._block = (base, namespace, name, block) ->
       temp = temp[ns] ||= {}
     temp[name] ||= {}
 
-    if _.isObject block
+    if _.isObject(block) and typeof block is 'object'
       _.defaults temp[name], block
     else
       temp[name] = block
@@ -328,7 +328,7 @@ _.extend _n,
     @on 'NAPP_ACTION_BEFORE, NAPP_ACTION_AFTER',
     (data, controller, actionName, params) !->
       if data
-        if _.isObject data
+        if _.isObject(data) and typeof data is 'object'
           _data = [].concat data
 
         for dataItem in _data

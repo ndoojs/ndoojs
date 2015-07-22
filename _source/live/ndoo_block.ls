@@ -33,7 +33,12 @@ _stor    = _n.storage
  * @param {string} namespace 名称空间
  * @param {string} name 名称
  */
-_n.hasBlock = (namespace=\_default, name) ->
+_n.hasBlock = (namespace) ->
+  if nsmatch = namespace.match /(.*?)(?:[/.]([^/.]+))$/
+    [null, namespace, name] = nsmatch
+  else
+    [namespace, name] = [\_default, name]
+
   _n._blockData[\_exist]["block.#namespace.#name"]
 
 /**
@@ -45,7 +50,12 @@ _n.hasBlock = (namespace=\_default, name) ->
  * @param {string} namespace 名称空间
  * @param {string} name 名称
  */
-_n.setBlock = (namespace=\_default, name) ->
+_n.setBlock = (namespace) ->
+  if nsmatch = namespace.match /(.*?)(?:[/.]([^/.]+))$/
+    [null, namespace, name] = nsmatch
+  else
+    [namespace, name] = [\_default, name]
+
   _n._blockData[\_exist]["block.#namespace.#name"] = true
 
 /**
@@ -57,16 +67,21 @@ _n.setBlock = (namespace=\_default, name) ->
  * @param {string} namespace 名称空间
  * @param {string} name 名称
  */
-_n.block = (namespace=\_default, name, block) ->
+_n.block = (namespace, block) ->
+  if nsmatch = namespace.match /(.*?)(?:[/.]([^/.]+))$/
+    [null, namespace, name] = nsmatch
+  else
+    [namespace, name] = [\_default, name]
+
   _n._block \block, namespace, name, block
 
 _n.trigger \STATUS:NBLOCK_DEFINE
 
 _n.on \NBLOCK_LOADED, (elem, namespace=\_default, name, params) ->
-  if block = _n.block namespace, name
+  if block = _n.block "#namespace.#name"
     if _.isFunction block
       block elem, params
-    else if _.isObject block
+    else if _.isObject(block) and typeof block is 'object'
       block.init elem, params
 
 /**
@@ -86,9 +101,10 @@ _n.initBlock = (elem) !->
     (?:\?(.*?))?       # [?:params]
     (?:\#(.*?))?$      # [#:hash]$
   //, blockId, (namespace = \_default, block, params) !~>
-    if _n.hasBlock(namespace, block)
+    pkg = "#namespace.#block"
+    if _n.block pkg
       _n.trigger \NBLOCK_LOADED, elem, namespace, block, params
-    else
+    else if _n.hasBlock pkg
       @require ["#namespace.#block"], !->
         _n.trigger \NBLOCK_LOADED, elem, namespace, block, params
       , \Do
