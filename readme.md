@@ -56,7 +56,7 @@ app.js
 ndoojs 需要在head处引用一个头文件，ndoo_prep.js。主要用来预定义变量，暂存事件回调等。这个文件体积非常小巧，不会对页面加载造成影响。
 
 ```html
-<script src="../js/ndoo_prep.js"></script>
+<script src="js/ndoo_prep.js"></script>
 ```
 
 ### 2. 定义页面id
