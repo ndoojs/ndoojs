@@ -114,7 +114,7 @@
       for (i$ = 0, len$ = blocks.length; i$ < len$; ++i$) {
         block = blocks[i$];
         auto = $(block).data('nblockAuto');
-        if (auto.toString() === 'true') {
+        if (auto === undefined || auto.toString() !== 'false') {
           _n.initBlock(block);
         }
       }

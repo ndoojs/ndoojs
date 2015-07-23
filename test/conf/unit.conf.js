@@ -43,6 +43,7 @@ module.exports = function(config) {
       jsPath + '/ndoo_lib.js',
       '../mock/jquery.mock.js',
       jsPath + '/ndoo.js',
+      jsPath+ '/ndoo_block.js',
       '../unit/*Spec.coffee'
     ],
 

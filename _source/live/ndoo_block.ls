@@ -114,7 +114,7 @@ _n.on \NBLOCK_INIT, !->
   if blocks.length
     for block in blocks
       auto = $ block .data \nblockAuto
-      if auto.toString! is 'true'
+      if auto is undefined or auto.toString! isnt 'false'
         _n.initBlock block
 
 # _n.initBlock('[data-nblock-id]')
