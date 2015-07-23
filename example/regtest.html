@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>regtest</title>
+  </head>
+  <body>
+    <style>
+      html, body { padding: 0; margin: 0; }
+      #container {padding: 20px; }
+      .regtable { border-collapse: collapse; }
+      .regtable td, .regtable th { padding: 5px 10px; border: 1px solid #DDD;}
+      .regtable th { background-color: #E7E7E7; }
+      .regtable td { color: green; }
+      .regtable .failure td { color: red; }
+    </style>
+    <div id="container">
+      <table class="regtable">
+        <thead>
+          <th>result</th>
+          <th>controller</th>
+          <th>action</th>
+          <th>param</th>
+          <th>input</th>
+        </thead>
+        <tr>
+          <td>success</td>
+          <td></td>
+          <td>test</td>
+          <td></td>
+          <td>test</td>
+        </tr>
+      </table>
+    </div>
+    <script>
+      (function () {
+        var test = function(str) {
+          console.log(str);
+          console.log(str.match(/^(?:\/?)(.*?)(?:\/([^/?]+))?(?:\?(.*))?$/))
+        }
+        var test2 = function(str) {
+          console.log(str);
+          console.log(str.match(/^(?:\/?)(.*?)(?:\/?([^/?]+))(?:\?(.*?))?$/))
+        }
+        var strarr = ['test', '/test', 'test?abc=1', '/test?abc=1',
+        'block/test', 'block/test?abc=1', '/block/test', '/block/test?abc=1',
+        'utils/block/test', '/utils/block/block', 'utils/block/test?abc=1', '/utils/block/test?abc=1',
+        'block/utils/block/test', '/block/utils/block/block', 'block/utils/block/test?abc=1', '/block/utils/block/test?abc=1'
+        ]
+        console.log("Test Suit 1");
+        for (var i=0, j=strarr.length; i<j; i++ ) {
+          test( strarr[i] );
+        }
+        console.log("Test Suit 2");
+        for (var i=0, j=strarr.length; i<j; i++ ) {
+          test2( strarr[i] );
+        }
+      })();
+      (function() {
+        var testArr = [
+          ['test', ['', 'test', undefined]],
+          ['/test', ['', 'test', undefined]],
+          ['test?abc=1', ['', 'test', 'abc=1']],
+          ['/test?abc=1', ['', 'test', 'abc=1']],
+          ['block/test', ['block', 'test', undefined]],
+          ['/block/test', ['block', 'test', undefined]],
+          ['block/test?abc=1', ['block', 'test', 'abc=1']],
+          ['/block/test?abc=1', ['block', 'test', 'abc=1']],
+          ['utils/block/test', ['utils/block', 'test', undefined]],
+          ['/utils/block/test', ['utils/block', 'test', undefined]],
+          ['utils/block/test?abc=1', ['utils/block', 'test', 'abc=1']],
+          ['utils/block/test?abc=1', ['utils/block', 'test', 'abc=1']],
+          ['ndoo/utils/block/test', ['ndoo/utils/block', 'test', undefined]],
+          ['/ndoo/utils/block/test', ['ndoo/utils/block', 'test', undefined]],
+          ['ndoo/utils/block/test?abc=1', ['ndoo/utils/block', 'test', 'abc=1']],
+          ['/ndoo/utils/block/test?abc=1', ['ndoo/utils/block', 'test', 'abc=1']],
+          ['test#abc', ['', 'test', undefined]],
+          ['/test#abc', ['', 'test', undefined]],
+          ['test?abc=1#abc', ['', 'test', 'abc=1']],
+          ['/test?abc=1#abc', ['', 'test', 'abc=1']],
+          ''
+        ]
+        var html = '', successHtml = '', failureHtml = '', result = false;
+        var testItem = function (input) {
+          var machresult = input[0].match(/^(?:\/?)(.*?)(?:\/?([^/?#]+))(?:\?(.*?))?(?:#.*?)?$/);
+          var rowSylte = 'failure';
+          if (machresult[1] === input[1][0] && machresult[2] === input[1][1] && machresult[3] === input[1][2]) {
+            rowSylte = 'success';
+          }
+          var html = '<tr class="'+rowSylte+'"><td>'+rowSylte+'</td><td>'+machresult[1]+'</td> <td>'+machresult[2]+'</td> <td>'+machresult[3]+'</td> <td>'+machresult[0]+'</td></tr>';
+          return { style: rowSylte, html: html };
+        }
+      
+        for (var i=0, j=testArr.length; i<j; i++) {
+          if (testArr[i]) {
+            result = testItem(testArr[i]);
+            if (result.style === 'failure') {
+              failureHtml += result.html;
+            }
+            else {
+              successHtml += result.html;
+            }
+          }
+        }
+        if (failureHtml) {
+          html += '<h1>Failure</h1>';
+          html += '<table class="regtable"><thead> <th>result</th> <th>controller</th> <th>action</th> <th>param</th> <th>input</th> </thead>';
+          html += failureHtml;
+          html += '</table>'
+        }
+        html += '<h1>Success</h1>';
+        html += '<table class="regtable"><thead> <th>result</th> <th>controller</th> <th>action</th> <th>param</th> <th>input</th> </thead>';
+        html += successHtml;
+        html += '</table>'
+        document.getElementById('container').innerHTML = html;
+      })();
+    </script>
+  </body>
+</html>
