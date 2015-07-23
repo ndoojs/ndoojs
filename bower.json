@@ -7,6 +7,7 @@
   "description": "frontend test",
   "license": "MIT",
   "dependencies": {
-    "jasmine": "~2.3.4"
+    "jasmine": "~2.3.4",
+    "jaguarjs-jsdoc": "https://github.com/davidshimjs/jaguarjs-jsdoc.git"
   }
 }
