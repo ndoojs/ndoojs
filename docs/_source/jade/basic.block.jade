@@ -10,11 +10,11 @@ block pageHeader
   p ndoojs支持块级组件，可以方便的定义一些按需载入自执行组件。
 
 block pageContent
-  h3 1. 引入do.js以及模块定义文件
+  h3 1.引入do.js以及模块定义文件
   +renderCode('html')
     ='<script src="../lib/Do.js"></script>'
 
-  h3 2. 添加模块定义
+  h3 2.添加模块定义
   p
     |此处用到了事件系统，参见
     a(href="event.html") event。
@@ -33,7 +33,21 @@ block pageContent
     ="  });\n"
     ="\n"
     ="}).call(this);"
-  h5 完整代码如下：
+  h3 3.实现块组件
+  +renderCode('javascript')
+    ="_n.block('test.main', {\n"
+    ="  init: function(elem, params){\n"
+    ="    console.log('init test block');\n"
+    ="  }\n"
+    ="});"
+  p.notice 如果是一个对象，则以init函数为入口，如果是一个函数则直接被调用。
+
+  h3 4.页面中上添加组件标识
+  +renderCode('html')
+    ='<div id="testBlock" data-nblock-id="test/main?abc=1"></div>'
+  p.notice 组件会被自动实例化，如果希望组件在后面手动运行，需要设置一行属性 data-nblock-auto="false"。
+
+  h3 5.完整代码如下：
   p html
   +renderCode('html')
     ='<!DOCTYPE html>\n'
@@ -52,6 +66,7 @@ block pageContent
     ='      <script src="../lib/Do.js"></script>\n'
     ='      <script src="../js/ndoo_lib.js"></script>\n'
     ='      <script src="../js/ndoo.js"></script>\n'
+    ='      <script src="../js/ndoo_block.js"></script>\n'
     ="      <script>\n"
     ="        (function(){\n"
     ="          var _n;\n"
@@ -71,6 +86,26 @@ block pageContent
     ='    </div>\n'
     ='  </body>\n'
     ='</html>'
+  p ndoo.block.test.js
+  +renderCode('javascript')
+    ="(function(){\n"
+    ="  'use strict';\n"
+    ="  var _, $, _n, _vars, _func, _stor;\n"
+    ="  _ = this['_'];\n"
+    ="  $ = this['jQuery'] || this['Zepto'];\n"
+    ="  this.N = this.ndoo || (this.ndoo = {});\n"
+    ="  _n = this.ndoo;\n"
+    ="  _vars = _n.vars;\n"
+    ="  _func = _n.func;\n"
+    ="  _stor = _n.storage;\n"
+    ="  _n.block('test.main', {\n"
+    ="    init: function(elem, params){\n"
+    ="      console.log('init test block');\n"
+    ="    }\n"
+    ="  });\n"
+    ="  /* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */\n"
+    ="}).call(this);"
+
   p.notice
     |查看
-    a(href="../example/test.block.html") test.block.html
+    a(href="#{exampleBaes}/example/test.block.html") test.block.html

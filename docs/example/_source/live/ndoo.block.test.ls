@@ -18,7 +18,7 @@ _vars    = _n.vars
 _func    = _n.func
 _stor    = _n.storage
 
-_n.block \test, \main, do
+_n.block \test.main, do
   init: (elem, params) !->
     console.log 'init test block'
 

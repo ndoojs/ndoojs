@@ -42,9 +42,9 @@
             <p>ndoojs支持块级组件，可以方便的定义一些按需载入自执行组件。</p>
           </div>
           <div class="content">
-            <h3>1. 引入do.js以及模块定义文件</h3>
+            <h3>1.引入do.js以及模块定义文件</h3>
                 <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;script src=&quot;../lib/Do.js&quot;&gt;&lt;/script&gt;</code></pre>
-            <h3>2. 添加模块定义</h3>
+            <h3>2.添加模块定义</h3>
             <p>此处用到了事件系统，参见<a href="event.html">event。</a></p>
                 <pre data-start="1" class="line-numbers"><code class="language-javascript">(function(){
   var _n;
@@ -60,7 +60,17 @@
   });
 
 }).call(this);</code></pre>
-            <h5>完整代码如下：</h5>
+            <h3>3.实现块组件</h3>
+                <pre data-start="1" class="line-numbers"><code class="language-javascript">_n.block('test.main', {
+  init: function(elem, params){
+    console.log('init test block');
+  }
+});</code></pre>
+            <p class="notice">如果是一个对象，则以init函数为入口，如果是一个函数则直接被调用。</p>
+            <h3>4.页面中上添加组件标识</h3>
+                <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;div id=&quot;testBlock&quot; data-nblock-id=&quot;test/main?abc=1&quot;&gt;&lt;/div&gt;</code></pre>
+            <p class="notice">组件会被自动实例化，如果希望组件在后面手动运行，需要设置一行属性 data-nblock-auto="false"。</p>
+            <h3>5.完整代码如下：</h3>
             <p>html</p>
                 <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
 &lt;html&gt;
@@ -78,6 +88,7 @@
       &lt;script src=&quot;../lib/Do.js&quot;&gt;&lt;/script&gt;
       &lt;script src=&quot;../js/ndoo_lib.js&quot;&gt;&lt;/script&gt;
       &lt;script src=&quot;../js/ndoo.js&quot;&gt;&lt;/script&gt;
+      &lt;script src=&quot;../js/ndoo_block.js&quot;&gt;&lt;/script&gt;
       &lt;script&gt;
         (function(){
           var _n;
@@ -97,7 +108,25 @@
     &lt;/div&gt;
   &lt;/body&gt;
 &lt;/html&gt;</code></pre>
-            <p class="notice">查看<a href="../example/test.block.html">test.block.html</a></p>
+            <p>ndoo.block.test.js</p>
+                <pre data-start="1" class="line-numbers"><code class="language-javascript">(function(){
+  'use strict';
+  var _, $, _n, _vars, _func, _stor;
+  _ = this['_'];
+  $ = this['jQuery'] || this['Zepto'];
+  this.N = this.ndoo || (this.ndoo = {});
+  _n = this.ndoo;
+  _vars = _n.vars;
+  _func = _n.func;
+  _stor = _n.storage;
+  _n.block('test.main', {
+    init: function(elem, params){
+      console.log('init test block');
+    }
+  });
+  /* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */
+}).call(this);</code></pre>
+            <p class="notice">查看<a href="./example/test.block.html">test.block.html</a></p>
           </div>
         </div>
       </div>
