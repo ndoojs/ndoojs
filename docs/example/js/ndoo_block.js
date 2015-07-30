@@ -26,8 +26,13 @@
    * @param {string} namespace 名称空间
    * @param {string} name 名称
    */
-  _n.hasBlock = function(namespace, name){
-    namespace == null && (namespace = '_default');
+  _n.hasBlock = function(namespace){
+    var nsmatch, name, ref$;
+    if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
+      namespace = nsmatch[1], name = nsmatch[2];
+    } else {
+      ref$ = ['_default', name], namespace = ref$[0], name = ref$[1];
+    }
     return _n._blockData['_exist']["block." + namespace + "." + name];
   };
   /**
@@ -39,8 +44,13 @@
    * @param {string} namespace 名称空间
    * @param {string} name 名称
    */
-  _n.setBlock = function(namespace, name){
-    namespace == null && (namespace = '_default');
+  _n.setBlock = function(namespace){
+    var nsmatch, name, ref$;
+    if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
+      namespace = nsmatch[1], name = nsmatch[2];
+    } else {
+      ref$ = ['_default', name], namespace = ref$[0], name = ref$[1];
+    }
     return _n._blockData['_exist']["block." + namespace + "." + name] = true;
   };
   /**
@@ -52,18 +62,23 @@
    * @param {string} namespace 名称空间
    * @param {string} name 名称
    */
-  _n.block = function(namespace, name, block){
-    namespace == null && (namespace = '_default');
+  _n.block = function(namespace, block){
+    var nsmatch, name, ref$;
+    if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
+      namespace = nsmatch[1], name = nsmatch[2];
+    } else {
+      ref$ = ['_default', name], namespace = ref$[0], name = ref$[1];
+    }
     return _n._block('block', namespace, name, block);
   };
   _n.trigger('STATUS:NBLOCK_DEFINE');
   _n.on('NBLOCK_LOADED', function(elem, namespace, name, params){
     var block;
     namespace == null && (namespace = '_default');
-    if (block = _n.block(namespace, name)) {
+    if (block = _n.block(namespace + "." + name)) {
       if (_.isFunction(block)) {
         return block(elem, params);
-      } else if (_.isObject(block)) {
+      } else if (_.isObject(block) && typeof block === 'object') {
         return block.init(elem, params);
       }
     }
@@ -80,10 +95,12 @@
     var blockId, this$ = this;
     blockId = $(elem).data('nblockId');
     _n.router.parse(/^(?:\/?)(.*?)(?:\/?([^\/?]+))(?:\?(.*?))?(?:\#(.*?))?$/, blockId, function(namespace, block, params){
+      var pkg;
       namespace == null && (namespace = '_default');
-      if (_n.hasBlock(namespace, block)) {
+      pkg = namespace + "." + block;
+      if (_n.block(pkg)) {
         _n.trigger('NBLOCK_LOADED', elem, namespace, block, params);
-      } else {
+      } else if (_n.hasBlock(pkg)) {
         this$.require([namespace + "." + block], function(){
           _n.trigger('NBLOCK_LOADED', elem, namespace, block, params);
         }, 'Do');
@@ -97,7 +114,7 @@
       for (i$ = 0, len$ = blocks.length; i$ < len$; ++i$) {
         block = blocks[i$];
         auto = $(block).data('nblockAuto');
-        if (auto.toString() === 'true') {
+        if (auto === undefined || auto.toString() !== 'false') {
           _n.initBlock(block);
         }
       }

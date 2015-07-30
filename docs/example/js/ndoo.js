@@ -145,7 +145,7 @@
         temp = temp[ns] || (temp[ns] = {});
       }
       temp[name] || (temp[name] = {});
-      if (_.isObject(block)) {
+      if (_.isObject(block) && typeof block === 'object') {
         return _.defaults(temp[name], block);
       } else {
         return temp[name] = block;
@@ -354,7 +354,7 @@
       this.on('NAPP_ACTION_BEFORE, NAPP_ACTION_AFTER', function(data, controller, actionName, params){
         var _data, i$, len$, dataItem, _filter, isRun, _only, _except, j$, len1$, filter;
         if (data) {
-          if (_.isObject(data)) {
+          if (_.isObject(data) && typeof data === 'object') {
             _data = [].concat(data);
           }
           for (i$ = 0, len$ = _data.length; i$ < len$; ++i$) {
