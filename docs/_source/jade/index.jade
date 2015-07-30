@@ -11,7 +11,6 @@ block pageHeader
 block pageContent
   h3 基础入门
   p 从一个示例介绍ndoojs的使用。示例如下：
-  p html
   +renderCode('markup')
     ='<!DOCTYPE html>\n'
     ='<html>\n'
@@ -47,7 +46,7 @@ block pageContent
     a(href="#{exampleBaes}/example/started.html") started.html
 
   h3 1.定义页面id
-  p ndoojs需要为页面分配一个id，每个id对应的一个入口函数，在该函数内初始化该页面的所有逻辑，使用data-page-id属性指定id。
+  p ndoojs需要为页面分配一个id，每个id有一个对应的入口函数，在入口函数内初始化该页面的所有逻辑。给id为scriptArea的标签设置data-page-id属性分配id。
   +renderCode('html')
     ='<div id="scriptArea" data-page-id="home/index">'
     ='...'
@@ -55,7 +54,7 @@ block pageContent
 
 
   h3 2.引入ndoo脚本及依赖
-  p ndoojs依赖underscore，使用jQuery的ready函数(可以使其它库的ready代替)。为了省事，一般会将 ndoo 的相关脚本放到 scriptArea 下面。
+  p ndoojs依赖underscore，使用jQuery的ready函数(可使用zepto替代)。为了整齐美观，一般将脚本放到页面底部scriptArea下面加载。
   +renderCode('html')
     ='<script src="lib/underscore-min.js"></script>\n'
     ='<script src="lib/jquery-2.1.1.min.js"></script>\n'

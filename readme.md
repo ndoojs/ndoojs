@@ -37,9 +37,7 @@ ndoojs是一款轻量级javascript框架，框架的功能主要由个人项目�
 ```
 
 ### 1.定义页面id
-
-ndoojs需要为页面分配一个id，每个id对应的一个入口函数，在该函数内初始化该页面的所有逻辑，使用data-page-id属性指定id。
-ndoojs的核心概念即每个页面有一个唯一的id，有一个唯一的入口函数，在该函数内处理该页面的所有逻辑。
+ndoojs需要为页面定义一个id，每个id有一个对应的入口函数，在入口函数内初始化该页面的所有逻辑。给id为scriptArea的标签设置data-page-id属性定义页面id。
 
 ```html
 <div id="scriptArea" data-page-id="home/index">
@@ -49,8 +47,7 @@ ndoojs的核心概念即每个页面有一个唯一的id，有一个唯一的入
 
 
 ### 2.引入ndoo脚本及依赖
-
-ndoojs依赖underscore，使用jQuery的ready函数(可以使其它库的ready代替)。为了省事，一般会将 ndoo 的相关脚本放到 scriptArea 下面。
+ndoojs依赖underscore，使用jQuery的ready函数(可使用zepto替代)。为了整齐美观，一般将脚本放到页面底部scriptArea下面加载。
 
 ```html
 <script src="lib/underscore-min.js"></script>
@@ -59,7 +56,6 @@ ndoojs依赖underscore，使用jQuery的ready函数(可以使其它库的ready�
 ```
 
 ### 3.编写对应脚本
-
 为home/index编写对应的入口函数，定义home下名为indexAction的入口函数。
 
 ```javascript
