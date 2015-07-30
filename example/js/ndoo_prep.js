@@ -10,6 +10,9 @@
 (function(){
   "use strict";
   var _n, slice$ = [].slice;
+  if (this.ndoo) {
+    return;
+  }
   this.N = this.ndoo || (this.ndoo = {});
   /**
    * ndoojs 全局名称空间，短名称N

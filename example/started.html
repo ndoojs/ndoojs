@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>started-ndoojs</title>
+  </head>
+  <body>
+    <p id="container"></p>
+    <div id="scriptArea" data-page-id="home/index">
+      <script src="lib/underscore-min.js"></script>
+      <script src="lib/jquery-2.1.1.min.js"></script>
+      <script src="js/ndoo_all.js"></script>
+      <script>(function() {
+  var $, _n;
+
+  $ = this['jQuery'] || this['Zepto'];
+
+  _n = this.ndoo;
+
+  _n.app('home', {
+    indexAction: function() {
+      return $('#container').html('hello ndoojs!');
+    }
+  });
+
+  _n.init();
+
+}).call(this);
+
+      </script>
+    </div>
+  </body>
+</html>

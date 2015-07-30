@@ -8,6 +8,7 @@
 " --------------------------------------------------
 */
 (function(){
+  "use strict";
   var _, _n, _lib, Backbone, array, slice;
   _ = this['_'];
   this.N = this.ndoo || (this.ndoo = {});
