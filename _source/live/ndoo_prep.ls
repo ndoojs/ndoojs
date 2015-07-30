@@ -9,6 +9,10 @@
 */
 
 "use strict"
+
+if @ndoo
+  return
+
 @N = @ndoo ||= {}
 
 /**

@@ -71,7 +71,13 @@ getCompileCmdAndFileName = (file, ext) ->
     switch relativePath
     case '_source/live'
       compileFileName = "#baseDir/js/#{filename}.js"
-      cmd = "lsc --no-header -cp #file>#compileFileName"
+      if filename.indexOf \all < -1
+        cmd =
+          "lsc --no-header -cp #file>#compileFileName",
+          "cat #baseDir/js/ndoo_prep.js #baseDir/js/ndoo_lib.js 
+          #baseDir/js/ndoo_block.js #baseDir/js/ndoo.js > #baseDir/js/ndoo_all.js"
+      else
+        cmd = "lsc --no-header -cp #file>#compileFileName"
     case 'docs/example/_source/live'
       compileFileName = "#exampleDir/js/#{filename}.js"
       cmd = "lsc --no-header -cp #file>#compileFileName"
@@ -80,6 +86,7 @@ getCompileCmdAndFileName = (file, ext) ->
       cmd = "lsc --no-header -co #jsOutputDir #file"
   default
     compileFileName = cmd = ''
+
   [cmd, compileFileName]
 
 compileTask = (file, ext, reload) !->
