@@ -17,89 +17,59 @@ block pageContent
     ='<html>\n'
     ='  <head>\n'
     ='    <meta charset="UTF-8">\n'
-    ='    <title>example</title>\n'
-    ='    <script src="../js/ndoo_prep.js"></script>\n'
+    ='    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n'
+    ='    <title>started-ndoojs</title>\n'
     ='  </head>\n'
     ='  <body>\n'
-    ='    <p id="content"></p>\n'
+    ='    <p id="container"></p>\n'
     ='    <div id="scriptArea" data-page-id="home/index">\n'
-    ='      <script src="../lib/underscore-min.js"></script>\n'
-    ='      <script src="../lib/jquery-2.1.1.min.js"></script>\n'
-    ='      <script src="../js/ndoo_lib.js"></script>\n'
-    ='      <script src="../js/ndoo.js"></script>\n'
-    ='      <script src="js/example1.js"></script>\n'
+    ='      <script src="lib/underscore-min.js"></script>\n'
+    ='      <script src="lib/jquery-2.1.1.min.js"></script>\n'
+    ='      <script src="js/ndoo_all.js"></script>\n'
+    ='      <script>\n'
+    ="      (function() {\n"
+    ="        var $, _n;\n"
+    ="        $ = this['jQuery'] || this['Zepto'];\n"
+    ="        _n = this.ndoo;\n"
+    ="        _n.app('home', {\n"
+    ="          indexAction: function() {\n"
+    ="            return $('#container').html('hello ndoojs!');\n"
+    ="          }\n"
+    ="        });\n"
+    ="        _n.init();\n"
+    ="      }).call(this);\n"
+    ='      </script>\n'
     ='    </div>\n'
     ='  </body>\n'
     ='</html>'
-  p javascript
-  +renderCode('javascript')
-    ="(function(){\n"
-    ="  'use strict';\n"
-    ="  var _, $, _n, _vars, _func, _stor;\n"
-    ="  _ = this['_'];\n"
-    ="  $ = this['jQuery'] || this['Zepto'];\n"
-    ="  this.N = this.ndoo || (this.ndoo = {});\n"
-    ="  _n = this.ndoo;\n"
-    ="  _vars = _n.vars;\n"
-    ="  _func = _n.func;\n"
-    ="  _stor = _n.storage;\n"
-    ="\n"
-    ="  /* [home module] {{{ */\n"
-    ="  _n.app('home', {\n"
-    ="    indexAction: function(param){\n"
-    ="      var $content;\n"
-    ="      $content = $('#content');\n"
-    ="      $content.html('module: home, action: indexAction');\n"
-    ="    }\n"
-    ="  });\n"
-    ="  /* }}} */\n"
-    ="\n"
-    ="}).call(this);"
   p.notice
     |查看
-    a(href="#{exampleBaes}/example/example1.html") example1.html
+    a(href="#{exampleBaes}/example/started.html") started.html
 
-  h3 1. 引入头文件
-  p ndoojs 需要在head处引用一个头文件，ndoo_prep.js。主要用来预定义变量，暂存事件回调等。这个文件体积非常小巧，不会对页面加载造成影响。
-  +renderCode('html')
-    ='<script src="../js/ndoo_prep.js"></script>'
-
-  h3 2. 定义页面id
-  p ndoojs的核心概念即每个页面有一个唯一的id，有一个唯一的入口函数，在该函数内处理该页面的所有逻辑。
+  h3 1.定义页面id
+  p ndoojs需要为页面分配一个id，每个id对应的一个入口函数，在该函数内初始化该页面的所有逻辑，使用data-page-id属性指定id。
   +renderCode('html')
     ='<div id="scriptArea" data-page-id="home/index">'
+    ='...'
+    ='</div>'
 
-  h3 3. 编写对应脚本 example1.js
-  +renderCode('javascript')
-    ="(function(){\n"
-    ="  'use strict';\n"
-    ="  var _, $, _n, _vars, _func, _stor;\n"
-    ="  _ = this['_'];\n"
-    ="  $ = this['jQuery'] || this['Zepto'];\n"
-    ="  this.N = this.ndoo || (this.ndoo = {});\n"
-    ="  _n = this.ndoo;\n"
-    ="  _vars = _n.vars;\n"
-    ="  _func = _n.func;\n"
-    ="  _stor = _n.storage;\n"
-    ="\n"
-    ="  /* [home module] {{{ */\n"
-    ="  _n.app('home', {\n"
-    ="    indexAction: function(param){\n"
-    ="      var $content;\n"
-    ="      $content = $('#content');\n"
-    ="      $content.html('module: home, action: indexAction');\n"
-    ="    }\n"
-    ="  });\n"
-    ="  /* }}} */\n"
-    ="\n"
-    ="}).call(this);"
 
-  h3 4. 引入ndoo脚本及依赖
-  p ndoojs依赖underscore，使用到jQuery的ready函数(可以使其它库的ready代替)。ndoo_lib提供事件和路由支持。
+  h3 2.引入ndoo脚本及依赖
+  p ndoojs依赖underscore，使用jQuery的ready函数(可以使其它库的ready代替)。为了省事，一般会将 ndoo 的相关脚本放到 scriptArea 下面。
   +renderCode('html')
-    ='<script src="../lib/underscore-min.js"></script>\n'
-    ='<script src="../lib/jquery-2.1.1.min.js"></script>\n'
-    ='<script src="../js/ndoo_lib.js"></script>\n'
-    ='<script src="../js/ndoo.js"></script>\n'
-    ='<script src="js/example1.js"></script>'
-  p.notice 为了省事，一般会将 ndoo 的相关脚本放到 scriptArea 下面。
+    ='<script src="lib/underscore-min.js"></script>\n'
+    ='<script src="lib/jquery-2.1.1.min.js"></script>\n'
+    ='<script src="js/ndoo_all.js"></script>'
+
+  h3 3.编写对应脚本
+  p 为home/index编写对应的入口函数，定义home下名为indexAction的入口函数。
+  +renderCode('javascript')
+    ="_n.app('home', {\n"
+    ="  indexAction: function() {\n"
+    ="    return $('#container').html('hello ndoojs!');\n"
+    ="  }\n"
+    ="});"
+
+  h3 4.启动脚本
+  +renderCode('javascript')
+    ="_n.init()"

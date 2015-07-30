@@ -48,81 +48,49 @@
 &lt;html&gt;
   &lt;head&gt;
     &lt;meta charset=&quot;UTF-8&quot;&gt;
-    &lt;title&gt;example&lt;/title&gt;
-    &lt;script src=&quot;../js/ndoo_prep.js&quot;&gt;&lt;/script&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;started-ndoojs&lt;/title&gt;
   &lt;/head&gt;
   &lt;body&gt;
-    &lt;p id=&quot;content&quot;&gt;&lt;/p&gt;
+    &lt;p id=&quot;container&quot;&gt;&lt;/p&gt;
     &lt;div id=&quot;scriptArea&quot; data-page-id=&quot;home/index&quot;&gt;
-      &lt;script src=&quot;../lib/underscore-min.js&quot;&gt;&lt;/script&gt;
-      &lt;script src=&quot;../lib/jquery-2.1.1.min.js&quot;&gt;&lt;/script&gt;
-      &lt;script src=&quot;../js/ndoo_lib.js&quot;&gt;&lt;/script&gt;
-      &lt;script src=&quot;../js/ndoo.js&quot;&gt;&lt;/script&gt;
-      &lt;script src=&quot;js/example1.js&quot;&gt;&lt;/script&gt;
+      &lt;script src=&quot;lib/underscore-min.js&quot;&gt;&lt;/script&gt;
+      &lt;script src=&quot;lib/jquery-2.1.1.min.js&quot;&gt;&lt;/script&gt;
+      &lt;script src=&quot;js/ndoo_all.js&quot;&gt;&lt;/script&gt;
+      &lt;script&gt;
+      (function() {
+        var $, _n;
+        $ = this['jQuery'] || this['Zepto'];
+        _n = this.ndoo;
+        _n.app('home', {
+          indexAction: function() {
+            return $('#container').html('hello ndoojs!');
+          }
+        });
+        _n.init();
+      }).call(this);
+      &lt;/script&gt;
     &lt;/div&gt;
   &lt;/body&gt;
 &lt;/html&gt;</code></pre>
-            <p>javascript</p>
-                <pre data-start="1" class="line-numbers"><code class="language-javascript">(function(){
-  'use strict';
-  var _, $, _n, _vars, _func, _stor;
-  _ = this['_'];
-  $ = this['jQuery'] || this['Zepto'];
-  this.N = this.ndoo || (this.ndoo = {});
-  _n = this.ndoo;
-  _vars = _n.vars;
-  _func = _n.func;
-  _stor = _n.storage;
-
-  /* [home module] {{{ */
-  _n.app('home', {
-    indexAction: function(param){
-      var $content;
-      $content = $('#content');
-      $content.html('module: home, action: indexAction');
-    }
-  });
-  /* }}} */
-
-}).call(this);</code></pre>
-            <p class="notice">查看<a href="./example/example1.html">example1.html</a></p>
-            <h3>1. 引入头文件</h3>
-            <p>ndoojs 需要在head处引用一个头文件，ndoo_prep.js。主要用来预定义变量，暂存事件回调等。这个文件体积非常小巧，不会对页面加载造成影响。</p>
-                <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;script src=&quot;../js/ndoo_prep.js&quot;&gt;&lt;/script&gt;</code></pre>
-            <h3>2. 定义页面id</h3>
-            <p>ndoojs的核心概念即每个页面有一个唯一的id，有一个唯一的入口函数，在该函数内处理该页面的所有逻辑。</p>
-                <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;div id=&quot;scriptArea&quot; data-page-id=&quot;home/index&quot;&gt;</code></pre>
-            <h3>3. 编写对应脚本 example1.js</h3>
-                <pre data-start="1" class="line-numbers"><code class="language-javascript">(function(){
-  'use strict';
-  var _, $, _n, _vars, _func, _stor;
-  _ = this['_'];
-  $ = this['jQuery'] || this['Zepto'];
-  this.N = this.ndoo || (this.ndoo = {});
-  _n = this.ndoo;
-  _vars = _n.vars;
-  _func = _n.func;
-  _stor = _n.storage;
-
-  /* [home module] {{{ */
-  _n.app('home', {
-    indexAction: function(param){
-      var $content;
-      $content = $('#content');
-      $content.html('module: home, action: indexAction');
-    }
-  });
-  /* }}} */
-
-}).call(this);</code></pre>
-            <h3>4. 引入ndoo脚本及依赖</h3>
-            <p>ndoojs依赖underscore，使用到jQuery的ready函数(可以使其它库的ready代替)。ndoo_lib提供事件和路由支持。</p>
-                <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;script src=&quot;../lib/underscore-min.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;../lib/jquery-2.1.1.min.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;../js/ndoo_lib.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;../js/ndoo.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;js/example1.js&quot;&gt;&lt;/script&gt;</code></pre>
-            <p class="notice">为了省事，一般会将 ndoo 的相关脚本放到 scriptArea 下面。</p>
+            <p class="notice">查看<a href="./example/started.html">started.html</a></p>
+            <h3>1.定义页面id</h3>
+            <p>ndoojs需要为页面分配一个id，每个id对应的一个入口函数，在该函数内初始化该页面的所有逻辑，使用data-page-id属性指定id。</p>
+                <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;div id=&quot;scriptArea&quot; data-page-id=&quot;home/index&quot;&gt;...&lt;/div&gt;</code></pre>
+            <h3>2.引入ndoo脚本及依赖</h3>
+            <p>ndoojs依赖underscore，使用jQuery的ready函数(可以使其它库的ready代替)。为了省事，一般会将 ndoo 的相关脚本放到 scriptArea 下面。</p>
+                <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;script src=&quot;lib/underscore-min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;lib/jquery-2.1.1.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;js/ndoo_all.js&quot;&gt;&lt;/script&gt;</code></pre>
+            <h3>3.编写对应脚本</h3>
+            <p>为home/index编写对应的入口函数，定义home下名为indexAction的入口函数。</p>
+                <pre data-start="1" class="line-numbers"><code class="language-javascript">_n.app('home', {
+  indexAction: function() {
+    return $('#container').html('hello ndoojs!');
+  }
+});</code></pre>
+            <h3>4.启动脚本</h3>
+                <pre data-start="1" class="line-numbers"><code class="language-javascript">_n.init()</code></pre>
           </div>
         </div>
       </div>
