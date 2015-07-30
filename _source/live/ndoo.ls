@@ -17,7 +17,6 @@ _n = @ndoo
 
 _vars    = _n.vars
 _func    = _n.func
-_stor    = _n.storage
 
 /* default _lib {{{ */
 if not _n._lib && @[\Backbone]
@@ -73,6 +72,12 @@ _n.storage = (key, value, option) ->
     data[key] = value
 
   data[key]
+
+/**
+ * alias ndoo.storage
+ *
+ */
+_stor    = _n.storage
 
 _n.storage._data = {}
 /**
