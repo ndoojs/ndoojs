@@ -287,7 +287,7 @@ _.extend _n,
    * @memberof pageId
    * @type {string}
    */
-  pageId: $(\#scriptArea).data(\pageId)
+  pageId: ''
   /**
    * 获取唯一key
    *
@@ -475,13 +475,17 @@ _.extend _n,
    * @name init
    * @memberof ndoo
    */
-  init: !->
+  init: (id=\scriptArea) ->
+    # initiation page id
+    @pageId = document.getElementById(id).getAttribute('data-page-id')
     # initiation event module
     @event.init!
     # initiation ndoo event listener
     @dispatch!
     # trigger status
     @triggerPageStatus!
+
+    @
   /* }}} */
 
 # _n.init!

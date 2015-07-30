@@ -16,7 +16,6 @@
   _n = this.ndoo;
   _vars = _n.vars;
   _func = _n.func;
-  _stor = _n.storage;
   /* default _lib {{{ */
   if (!_n._lib && this['Backbone']) {
     _n._lib = this['Backbone'];
@@ -75,6 +74,11 @@
     }
     return data[key];
   };
+  /**
+   * alias ndoo.storage
+   *
+   */
+  _stor = _n.storage;
   _n.storage._data = {};
   /**
    * storage重写常量
@@ -300,7 +304,7 @@
      * @memberof pageId
      * @type {string}
      */
-    pageId: $('#scriptArea').data('pageId')
+    pageId: ''
     /**
      * 获取唯一key
      *
@@ -499,10 +503,13 @@
      * @name init
      * @memberof ndoo
      */,
-    init: function(){
+    init: function(id){
+      id == null && (id = 'scriptArea');
+      this.pageId = document.getElementById(id).getAttribute('data-page-id');
       this.event.init();
       this.dispatch();
       this.triggerPageStatus();
+      return this;
     }
     /* }}} */
   });
