@@ -284,10 +284,27 @@ _.extend _n,
    * page id
    *
    * @name pageId
-   * @memberof pageId
+   * @memberof ndoo
    * @type {string}
    */
   pageId: ''
+  /**
+   * initPageId 初始化 pageId
+   *
+   * @private
+   * @name initPageId
+   * @memberof ndoo
+   */
+  initPageId: (id) !->
+    if @pageId
+      return
+
+    if typeof document isnt 'undefined'
+      if el = document.getElementById id || \scriptArea
+        @pageId = el.getAttribute('data-page-id') || ''
+
+    if not @pageId and id
+      @pageId = id
   /**
    * 获取唯一key
    *
@@ -475,9 +492,10 @@ _.extend _n,
    * @name init
    * @memberof ndoo
    */
-  init: (id=\scriptArea) ->
+  init: (id) ->
     # initiation page id
-    @pageId = document.getElementById(id).getAttribute('data-page-id')
+    @initPageId id
+
     # initiation event module
     @event.init!
     # initiation ndoo event listener
