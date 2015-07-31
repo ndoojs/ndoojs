@@ -992,10 +992,31 @@
      * page id
      *
      * @name pageId
-     * @memberof pageId
+     * @memberof ndoo
      * @type {string}
      */
     pageId: ''
+    /**
+     * initPageId 初始化 pageId
+     *
+     * @private
+     * @name initPageId
+     * @memberof ndoo
+     */,
+    initPageId: function(id){
+      var el;
+      if (this.pageId) {
+        return;
+      }
+      if (typeof document !== 'undefined') {
+        if (el = document.getElementById(id || 'scriptArea')) {
+          this.pageId = el.getAttribute('data-page-id') || '';
+        }
+      }
+      if (!this.pageId && id) {
+        this.pageId = id;
+      }
+    }
     /**
      * 获取唯一key
      *
@@ -1195,8 +1216,7 @@
      * @memberof ndoo
      */,
     init: function(id){
-      id == null && (id = 'scriptArea');
-      this.pageId = document.getElementById(id).getAttribute('data-page-id');
+      this.initPageId(id);
       this.event.init();
       this.dispatch();
       this.triggerPageStatus();
