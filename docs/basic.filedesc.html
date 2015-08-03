@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>模块事件-ndoojs文档-ndoojs</title>
+    <title>文件说明-ndoojs文档-ndoojs</title>
     <link rel="stylesheet" type="text/css" href="css/pure-min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/prism.css">
@@ -43,41 +43,22 @@
       <div id="main">
         <div class="docs theme1">
           <div class="header">
-            <h1>模块事件</h1>
-            <p>ndoojs支持给模块定义事件，在指定模块的action调用前和调用后触发事件。</p>
+            <h1>文件说明</h1>
           </div>
           <div class="content">
-            <h3>1. 前置事件</h3>
-            <p>事件名 NAPP_[moduleName]_ACTION_BEFORE，回调函数接受3个参数，分别是 controller、actionName、params。示例：</p>
-                <pre data-start="1" class="line-numbers"><code class="language-javascript">_n.on('NAPP_HOME_ACTION_BEFORE', function(controller, actionName, params){
-  console.log('controller:' + controller + '\n actionName:' + actionName + '\n params' + params);
-});
-
-/* [home module] {{{ */
-_n.app('home', {
-  indexAction: function(param){
-    var $content;
-    $content = $('#content');
-    $content.html('module: home, action: indexAction');
-  }
-});
-/* }}} */</code></pre>
-            <h3>2. 后置事件</h3>
-            <p>事件名 NAPP_[moduleName]_ACTION_AFTER，回调函数接受3个参数，分别是 controller、actionName、params。示例：</p>
-            <pre><code data-language="javascript"></code></pre>
-                <pre data-start="1" class="line-numbers"><code class="language-javascript">_n.on('NAPP_HOME_ACTION_AFTER', function(controller, actionName, params){
-  console.log('controller:' + controller + '\n actionName:' + actionName + '\n params' + params);
-});
-
-/* [home module] {{{ */
-_n.app('home', {
-  indexAction: function(param){
-    var $content;
-    $content = $('#content');
-    $content.html('module: home, action: indexAction');
-  }
-});
-/* }}} */</code></pre>
+            <h3>文件说明</h3>
+            <p>js目录中包含多个js文件，以下对各个文件进行简要说明。</p>
+            <h3>1.ndoo_prep.js</h3>
+            <p>ndoo_prep.js为头文件，包含ndoo变量声明，事件暂存等。在head中用script标签引用ndoo_prep.js后可以：<br>1)可以在页面任何位置使用ndoo.vars名称空间进行赋值，在后面的脚本中使用。一般作用服务端向前端输出数据。<br>2)可以在页面任何位置使用ndoo.on进行事件定义，定义的事件会被暂存，ndoo主文件加载完成后，自动将事件从暂存中取出进行绑定。</p>
+            <p> </p>
+            <h3>2.ndoo_lib.js</h3>
+            <p>ndoo_lib.js为库文件，包含ndoojs的事件实现。ndoojs的事件使用backbone来实现，但考虑到用户可能不使用backbone，所以将backbone中的事件子集精简出来，存放在ndoo_lib.js中。引用backbone时可以不引用此文件。同时引用backbone和ndoo_lib不会发生冲突，当检测到backbone全局变量时，会自动使用Backbone来代替ndoo_lib。</p>
+            <h3>3.ndoo_block.js</h3>
+            <p>ndoo_block.js为block功能主文件，不使用block功能时可省略此文件。block具体说明参见<a href="./basic.block.html">block说明</a></p>
+            <h3>4.ndoo.js</h3>
+            <p>ndoo.js为主文件，必须引用此文件才能使用ndoojs所提供的功能。</p>
+            <h3>5.ndoo_all.js</h3>
+            <p>一个包含ndoo_prep.js、ndoo_lib.js、ndoo_block.js、ndoo.js的整合版本。直接在尾部引用此文件即可使用ndoojs，在头部引用ndoo_prep.js和此文件不冲突。</p>
           </div>
         </div>
       </div>
