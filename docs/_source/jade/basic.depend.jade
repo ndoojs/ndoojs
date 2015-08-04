@@ -14,7 +14,8 @@ block pageHeader
     a(href="ref.do.html") do.js
 
 block pageContent
-  h3 1. 示例：
+  h3 Action依赖
+  p ndoojs支持为单个Action定义依赖，格式为ActionName+Depend。示例：
   +renderCode('javascript')
     ="// jquery模块定义\n"
     ="Do.define('jquery', {\n"
@@ -24,7 +25,18 @@ block pageContent
     ="// 设置jquery为默认已加载\n"
     ="Do.setLoaded(['jquery']);\n"
     ="// 声明依赖\n"
-    ="mainDepend: ['jquery'],\n"
-    ="mainAction: function(param){\n"
-    ="  console.log(typeof jQuery);\n"
-    ="}"
+    ="_n.app('home', {\n"
+    ="  indexDepend: ['jquery'], \n"
+    ="  indexAction: function() {\n"
+    ="    console.log(typeof jQuery);\n"
+    ="  }\n"
+    ="});"
+  h3 App依赖
+  p 可以直接为一个App定义依赖，在App中定义一个名为depend的属性即可。示例：
+  +renderCode('javascript')
+    ="_n.app('home', {\n"
+    ="  depend: ['jquery'], \n"
+    ="  indexAction: function() {\n"
+    ="    console.log(typeof jQuery);\n"
+    ="  }\n"
+    ="});"
