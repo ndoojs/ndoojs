@@ -31,3 +31,13 @@ block pageContent
   p ndoo.js为主文件，必须引用此文件才能使用ndoojs所提供的功能。
   h3 5.ndoo_all.js
   p 一个包含ndoo_prep.js、ndoo_lib.js、ndoo_block.js、ndoo.js的整合版本。直接在尾部引用此文件即可使用ndoojs，在头部引用ndoo_prep.js和此文件不冲突。
+  h3 lib目录
+  p lib中包含一些用到的库。
+  h3 1.underscore-min.js
+  p ndoo.js依赖库，ndoojs中大量使用underscore提供的扩展方法。ndoojs的事件模型为Backbone的子集，也依赖于underscore。
+  h3 2.jquery
+  p 大名鼎鼎的js库，用来实现dom操作。ndoojs中用到了ready方法。block功能中使用了选择器来找到block。可以使用zepto.js来替代。
+  h3 3.Do.js
+  p 实现包管理，此了标识模块已加载，此处的do.js进行过定制，请务必使用此版本。参改内容参照commit id:dc1f963的变更。如需更新版本请使用diff工具进行比较，应用改动。
+  h3 4.sea.js
+  p 国产cmd模块加载器，需要使用cmd进行冲突隔离时可选用。
