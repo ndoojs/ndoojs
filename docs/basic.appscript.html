@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>前置和后置操作-ndoojs文档-ndoojs</title>
+    <title>编定应用脚本-ndoojs文档-ndoojs</title>
     <link rel="stylesheet" type="text/css" href="css/pure-min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/prism.css">
@@ -45,33 +45,65 @@
       <div id="main">
         <div class="docs theme1">
           <div class="header">
-            <h1>前置和后置操作</h1>
-            <p>ndoojs支持在action执行之前和执行之后执行指定的操作</p>
+            <h1>编写应用脚本</h1>
           </div>
           <div class="content">
-            <h3>1. 前置操作</h3>
-            <p>前置操作由actionName+'Before'组成。例如：</p>
-                <pre data-start="1" class="line-numbers"><code class="language-javascript">indexBefore: function(params){
-  alert('index before');
-},
+            <h3>编写应用脚本</h3>
+            <p>我们通过<a href="./example/started.html">started</a>了解了如何使用ndoojs编写一个应用，但示例中应用脚本编写在页面中，实际应用中我们需要将编写大量代码，这时就需要将代码编写到一个单独的脚本文件中。我们对started的代码进行一些调整，代码如下：</p>
+            <p>basic.appscript.html</p>
+                <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;started-ndoojs&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;p id=&quot;container&quot;&gt;&lt;/p&gt;
+    &lt;div id=&quot;scriptArea&quot; data-page-id=&quot;home/index&quot;&gt;
+      &lt;script src=&quot;lib/underscore-min.js&quot;&gt;&lt;/script&gt;
+      &lt;script src=&quot;lib/jquery-2.1.1.min.js&quot;&gt;&lt;/script&gt;
+      &lt;script src=&quot;js/ndoo_all.js&quot;&gt;&lt;/script&gt;
+      &lt;script src=&quot;js/homeApp.js&quot;&gt;&lt;/script&gt;
+      &lt;script&gt;ndoo.init()&lt;/script&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            <p>js/homeApp.js</p>
+                <pre data-start="1" class="line-numbers"><code class="language-javascript">(function(){
+  var _, $, _n, _vars, _func, _stor;
+  _ = this['_'];
+  $ = this['jQuery'] || this['Zepto'];
+  this.N = this.ndoo || (this.ndoo = {});
+  _n = this.ndoo;
+  _vars = _n.vars;
+  _func = _n.func;
+  _stor = _n.storage;
+  /* [home module] {{{ */
+  _n.app('home', {
+    indexAction: function(){
+      return $('#container').html('hello ndoojs!');
+    }
+  });
+  /* }}} */
+}).call(this);</code></pre>
+            <p>homeApp.js使用<a href="http://livescript.net/" target="_blank">LiveScript</a>生成，或者你也可以使用等价的<a href="http://coffeescript.org/" target="_blank">CoffeeScript</a>来表示它，(function(){...}).call(this);由LiveScript自动生成。为了减少代码，ndoojs将一些常用操作在闭包内用一个简短的别名表示，_n表示ndoo、_vars表示ndoo.vars、_func表示ndoo.func、_stor表示ndoo.storage。可以将上面的代码拷贝，作为一个通用的模板代码使用。</p>
+            <p>LiveScript源码</p>
+                <pre data-start="1" class="line-numbers"><code class="language-coffeescript">_     = @[_]
+$     = @[jQuery] || @[Zepto]
 
-indexAction: function(params){
-  var $content;
-  $content = $('#content');
-  $content.html('module: home, action: indexAction);
-}</code></pre>
-            <h3>2. 后置操作</h3>
-            <p>后置操作由actionName+'After'组成。例如：</p><code>
-              <pre data-language="javascript"></pre></code>
-                <pre data-start="1" class="line-numbers"><code class="language-javascript">indexAfter: function(params){
-  alert('index after');
-},
+_n    = @ndoo
 
-indexAction: function(params){
-  var $content;
-  $content = $('#content');
-  $content.html('module: home, action: indexAction);
-}</code></pre>
+_vars = _n.vars
+_func = _n.func
+_stor = _n.storage
+
+/* [home module] {{{ */
+_n.app home,
+  indexAction: -&gt;
+    $('#container').html('hello ndoojs!')
+/* }}} */</code></pre>
+            <p>示例<a href="./example/basic.appscript.html">app script</a></p>
           </div>
         </div>
       </div>

@@ -1,0 +1,82 @@
+extends shared/_layout
+
+block pageTitle
+  include shared/_variable
+  include shared/_mixin
+  title 编定应用脚本#{titleSuffix}
+
+block pageHeader
+    h1 编写应用脚本
+
+block pageContent
+  h3 编写应用脚本
+
+  p
+    |我们通过
+    a(href="#{exampleBaes}/started.html") started
+    |了解了如何使用ndoojs编写一个应用，但示例中应用脚本编写在页面中，实际应用中我们需要将编写大量代码，这时就需要将代码编写到一个单独的脚本文件中。我们对started的代码进行一些调整，代码如下：
+
+  p basic.appscript.html
+  +renderCode('html')
+    ='<!DOCTYPE html>\n'
+    ='<html>\n'
+    ='  <head>\n'
+    ='    <meta charset="UTF-8">\n'
+    ='    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n'
+    ='    <title>started-ndoojs</title>\n'
+    ='  </head>\n'
+    ='  <body>\n'
+    ='    <p id="container"></p>\n'
+    ='    <div id="scriptArea" data-page-id="home/index">\n'
+    ='      <script src="lib/underscore-min.js"></script>\n'
+    ='      <script src="lib/jquery-2.1.1.min.js"></script>\n'
+    ='      <script src="js/ndoo_all.js"></script>\n'
+    ='      <script src="js/homeApp.js"></script>\n'
+    ='      <script>ndoo.init()</script>\n'
+    ='    </div>\n'
+    ='  </body>\n'
+    ='</html>'
+  p js/homeApp.js
+  +renderCode('javascript')
+    ="(function(){\n"
+    ="  var _, $, _n, _vars, _func, _stor;\n"
+    ="  _ = this['_'];\n"
+    ="  $ = this['jQuery'] || this['Zepto'];\n"
+    ="  this.N = this.ndoo || (this.ndoo = {});\n"
+    ="  _n = this.ndoo;\n"
+    ="  _vars = _n.vars;\n"
+    ="  _func = _n.func;\n"
+    ="  _stor = _n.storage;\n"
+    ="  /* [home module] {{{ */\n"
+    ="  _n.app('home', {\n"
+    ="    indexAction: function(){\n"
+    ="      return $('#container').html('hello ndoojs!');\n"
+    ="    }\n"
+    ="  });\n"
+    ="  /* }}} */\n"
+    ="}).call(this);"
+  p
+    |homeApp.js使用
+    a(href="http://livescript.net/" target="_blank") LiveScript
+    |生成，或者你也可以使用等价的
+    a(href="http://coffeescript.org/" target="_blank") CoffeeScript
+    |来表示它，(function(){...}).call(this);由LiveScript自动生成。为了减少代码，ndoojs将一些常用操作在闭包内用一个简短的别名表示，_n表示ndoo、_vars表示ndoo.vars、_func表示ndoo.func、_stor表示ndoo.storage。可以将上面的代码拷贝，作为一个通用的模板代码使用。
+  p LiveScript源码
+  +renderCode('coffeescript')
+    ="_     = @[\_]\n"
+    ="$     = @[\jQuery] || @[\Zepto]\n"
+    ="\n"
+    ="_n    = @ndoo\n"
+    ="\n"
+    ="_vars = _n.vars\n"
+    ="_func = _n.func\n"
+    ="_stor = _n.storage\n"
+    ="\n"
+    ="/* [home module] {{{ */\n"
+    ="_n.app \home,\n"
+    ="  indexAction: ->\n"
+    ="    $('#container').html('hello ndoojs!')\n"
+    ="/* }}} */"
+  p
+    |示例
+    a(href="#{exampleBaes}/basic.appscript.html") app script

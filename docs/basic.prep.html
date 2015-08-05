@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>前置和后置操作-ndoojs文档-ndoojs</title>
+    <title>头文件的使用-ndoojs文档-ndoojs</title>
     <link rel="stylesheet" type="text/css" href="css/pure-min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/prism.css">
@@ -45,33 +45,17 @@
       <div id="main">
         <div class="docs theme1">
           <div class="header">
-            <h1>前置和后置操作</h1>
-            <p>ndoojs支持在action执行之前和执行之后执行指定的操作</p>
+            <h1>头文件的使用</h1>
           </div>
           <div class="content">
-            <h3>1. 前置操作</h3>
-            <p>前置操作由actionName+'Before'组成。例如：</p>
-                <pre data-start="1" class="line-numbers"><code class="language-javascript">indexBefore: function(params){
-  alert('index before');
-},
-
-indexAction: function(params){
-  var $content;
-  $content = $('#content');
-  $content.html('module: home, action: indexAction);
-}</code></pre>
-            <h3>2. 后置操作</h3>
-            <p>后置操作由actionName+'After'组成。例如：</p><code>
-              <pre data-language="javascript"></pre></code>
-                <pre data-start="1" class="line-numbers"><code class="language-javascript">indexAfter: function(params){
-  alert('index after');
-},
-
-indexAction: function(params){
-  var $content;
-  $content = $('#content');
-  $content.html('module: home, action: indexAction);
-}</code></pre>
+            <h3>说明</h3>
+            <p>ndoo_prep.js 为头文件，其中对ndoojs的变量进行了预定义，同时支持提供事件暂存功能。</p>
+            <h3>1.页面传值</h3>
+            <p>服务端在调用一些分布视图时，需要对向前端传入一些数据。ndoo.vars名称空间用来存放交换变量，js一般在页面底部加载，ndoo.vars尚未定义，在head标签中引入ndoo_prep.js文件，可以使用ndoo.vars进行变量赋值。</p>
+            <p>示例：</p>
+            <h3>2.页面调用</h3>
+            <p>服务端调用分布视图时，需要执行某些操作。依赖于jquery或者某些第三方库，js一般在页面底部加载，在head标签中引入ndoo_prep.js文件，使用ndoojs的事件暂存功能，让脚本在依赖加载后调用。</p>
+            <p>示例：</p>
           </div>
         </div>
       </div>

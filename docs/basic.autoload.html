@@ -17,7 +17,8 @@
           <h3 class="pure-menu-heading menu-item-divided">基础用法</h3>
           <ul class="pure-menu-list">
             <li class="pure-menu-item"><a href="index.html" class="pure-menu-link">入门</a></li>
-            <li class="pure-menu-item"><a href="basic.filedesc.html" class="pure-menu-link">文件说明</a></li>
+            <li class="pure-menu-item"><a href="basic.appscript.html" class="pure-menu-link">编写应用脚本</a></li>
+            <!-- li.pure-menu-item: a.pure-menu-link(href="basic.prep.html") 变量和事件暂存-->
             <li class="pure-menu-item"><a href="basic.param.html" class="pure-menu-link">参数的使用</a></li>
             <li class="pure-menu-item"><a href="basic.namespace.html" class="pure-menu-link">名称空间</a></li>
             <li class="pure-menu-item"><a href="basic.autoload.html" class="pure-menu-link">自动加载</a></li>
@@ -30,6 +31,7 @@
           </ul>
           <h3 class="pure-menu-heading menu-item-divided">参考</h3>
           <ul class="pure-menu-list">
+            <li class="pure-menu-item"><a href="ref.filedesc.html" class="pure-menu-link">文件参考</a></li>
             <li class="pure-menu-item"><a href="ref.event.html" class="pure-menu-link">事件参考</a></li>
             <li class="pure-menu-item"><a href="ref.do.html" class="pure-menu-link">Do.js参考</a></li>
             <li class="pure-menu-item"><a href="api/" class="pure-menu-link">API</a></li>
@@ -48,7 +50,7 @@
           </div>
           <div class="content">
             <h3>1. 引入do.js以及模块定义文件</h3>
-                <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;script src=&quot;../lib/Do.js&quot;&gt;&lt;/script&gt;</code></pre>
+                <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;script src=&quot;lib/Do.js&quot;&gt;&lt;/script&gt;</code></pre>
             <h3>2. 添加模块定义</h3>
             <p>此处用到了事件系统，参见<a href="ref.event.html">event</a>。</p>
                 <pre data-start="1" class="line-numbers"><code class="language-javascript">(function(){
@@ -57,7 +59,7 @@
   _n = this.ndoo;
 
   Do.define('home', {
-    path: 'example2.js',
+    path: 'homeApp.js',
     type: 'js'
   });
   _n.on('NAPP_DEFINE', function(){
@@ -71,37 +73,31 @@
 &lt;html&gt;
   &lt;head&gt;
     &lt;meta charset=&quot;UTF-8&quot;&gt;
-    &lt;title&gt;example&lt;/title&gt;
-    &lt;script src=&quot;../js/ndoo_prep.js&quot;&gt;&lt;/script&gt;
+    &lt;title&gt;autoload&lt;/title&gt;
   &lt;/head&gt;
   &lt;body&gt;
     &lt;p id=&quot;content&quot;&gt;&lt;/p&gt;
-    &lt;div id=&quot;scriptArea&quot; data-page-id=&quot;home/index&quot;&gt;
-      &lt;script src=&quot;../lib/underscore-min.js&quot;&gt;&lt;/script&gt;
-      &lt;script src=&quot;../lib/jquery-2.1.1.min.js&quot;&gt;&lt;/script&gt;
-      &lt;script src=&quot;../lib/Do.js&quot;&gt;&lt;/script&gt;
-      &lt;script src=&quot;../js/ndoo_lib.js&quot;&gt;&lt;/script&gt;
-      &lt;script src=&quot;../js/ndoo.js&quot;&gt;&lt;/script&gt;
+    &lt;div id=&quot;scriptArea&quot; data-page-id=&quot;home/autoload&quot;&gt;
+      &lt;script src=&quot;lib/underscore-min.js&quot;&gt;&lt;/script&gt;
+      &lt;script src=&quot;lib/jquery-2.1.1.min.js&quot;&gt;&lt;/script&gt;
+      &lt;script src=&quot;lib/Do.js&quot;&gt;&lt;/script&gt;
+      &lt;script src=&quot;js/ndoo_all.js&quot;&gt;&lt;/script&gt;
       &lt;script&gt;
-        (function(){
-          var _n;
-          this.N = this.ndoo || (this.ndoo = {});
-          _n = this.ndoo;
-
+        (function(_n){
           Do.define('home', {
-            path: 'js/example1.js',
+            path: 'js/homeApp.js',
             type: 'js'
           });
           _n.on('NAPP_DEFINE', function(){
             _n.setApp('home');
           });
-
-        })(this);
+        })(this.N = this.ndoo || (this.ndoo = {}));
+        ndoo.init();
       &lt;/script&gt;
     &lt;/div&gt;
   &lt;/body&gt;
 &lt;/html&gt;</code></pre>
-            <p class="notice">示例中定义了home模块的文件js/example1.js，但未载入该文件。当前页面的模块属于home模块，执行action时会自动加载home模块。<span>查看<a href="./example/example2.html">example2.html</a></span></p>
+            <p class="notice">示例中定义了home模块的文件js/example1.js，但未载入该文件。当前页面的模块属于home模块，执行action时会自动加载home模块。<span>查看<a href="./example/basic.appautoload.html">app autoload</a></span></p>
           </div>
         </div>
       </div>

@@ -1,0 +1,20 @@
+extends shared/_layout
+
+block pageTitle
+  include shared/_variable
+  include shared/_mixin
+  title 头文件的使用#{titleSuffix}
+
+block pageHeader
+    h1 头文件的使用
+
+block pageContent
+  h3 说明
+  p ndoo_prep.js 为头文件，其中对ndoojs的变量进行了预定义，同时支持提供事件暂存功能。
+
+  h3 1.页面传值
+  p 服务端在调用一些分布视图时，需要对向前端传入一些数据。ndoo.vars名称空间用来存放交换变量，js一般在页面底部加载，ndoo.vars尚未定义，在head标签中引入ndoo_prep.js文件，可以使用ndoo.vars进行变量赋值。
+  p 示例：
+  h3 2.页面调用
+  p 服务端调用分布视图时，需要执行某些操作。依赖于jquery或者某些第三方库，js一般在页面底部加载，在head标签中引入ndoo_prep.js文件，使用ndoojs的事件暂存功能，让脚本在依赖加载后调用。
+  p 示例：

@@ -1,16 +1,18 @@
-_        = @[\_]
-$        = @[\jQuery] || @[\Zepto]
+_     = @[\_]
+$     = @[\jQuery] || @[\Zepto]
 
-@N = @ndoo ||= {}
-_n = @ndoo
+_n    = @ndoo
 
-_vars    = _n.vars
-_func    = _n.func
-_stor    = _n.storage
+_vars = _n.vars
+_func = _n.func
+_stor = _n.storage
 
 /* [home module] {{{ */
 _n.app \home,
-  indexAction: (param) !->
+  indexAction: ->
+    $('#container').html('hello ndoojs!')
+
+  autoloadAction: (param) !->
     $content = $ '#content'
     $content.html 'module: home, action: indexAction'
 

@@ -1,0 +1,17 @@
+extends shared/_layout
+
+block pageTitle
+  include shared/_variable
+  title started-ndoojs
+
+block pageContent
+  p#container
+
+block pageScript
+  #scriptArea(data-page-id="home/index")
+    script(src="#{libPath}/underscore-min.js")
+    script(src="#{libPath}/jquery-2.1.1.min.js")
+    script(src="#{jsPath}/ndoo_all.js")
+    script(src="#{jsPath}/homeApp.js")
+    script.
+      ndoo.init()
