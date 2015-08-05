@@ -2,8 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>example2</title>
-    <script src="js/ndoo_prep.js"></script>
+    <title>autoload</title>
   </head>
   <body>
     <p id="content"></p>
@@ -11,12 +10,11 @@
       <script src="lib/underscore-min.js"></script>
       <script src="lib/jquery-2.1.1.min.js"></script>
       <script src="lib/Do.js"></script>
-      <script src="js/ndoo_lib.js"></script>
-      <script src="js/ndoo.js"></script>
+      <script src="js/ndoo_all.js"></script>
       <script>
         (function(_n){
           Do.define('home', {
-            path: 'js/example1.js',
+            path: 'js/homeApp.js',
             type: 'js'
           });
           _n.on('NAPP_DEFINE', function(){
