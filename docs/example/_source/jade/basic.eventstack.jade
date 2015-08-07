@@ -1,0 +1,23 @@
+extend shared/_layout
+
+block pageTitle
+  include shared/_variable
+  title event
+  script(src="#{jsPath}/ndoo_prep.js")
+
+block pageContent
+  #content(style="width: 300px; height: 300px;")
+  script.
+    ndoo.on('PAGE_STATUS_DOMPREP', function() {
+      $('#content').css('background-color', '#DDD');
+    });
+
+block pageScript
+  #scriptArea(data-page-id="home/eventStack")
+    script(src="lib/underscore-min.js")
+    script(src="lib/jquery-2.1.1.min.js")
+    script(src="lib/Do.js")
+    script(src="js/ndoo_all.js")
+    script(src="js/homeApp.js")
+    script.
+      ndoo.init();

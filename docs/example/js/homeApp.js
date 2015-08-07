@@ -15,6 +15,16 @@
       var $content;
       $content = $('#content');
       $content.html('module: home, action: indexAction');
+    },
+    varsAction: function(param){
+      var $content;
+      $content = $('#content');
+      $content.html("getListUrl: " + _vars.getListUrl);
+    },
+    eventStackAction: function(param){
+      var $content;
+      $content = $('#content');
+      $content.html('通过事件暂存改变方块颜色');
     }
   });
   /* }}} */

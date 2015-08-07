@@ -1,0 +1,21 @@
+extend shared/_layout
+
+block pageTitle
+  include shared/_variable
+  title vars
+  script(src="#{jsPath}/ndoo_prep.js")
+
+block pageContent
+  #content
+  script.
+    ndoo.vars.getListUrl = '/list';
+
+block pageScript
+  #scriptArea(data-page-id="home/vars")
+    script(src="lib/underscore-min.js")
+    script(src="lib/jquery-2.1.1.min.js")
+    script(src="lib/Do.js")
+    script(src="js/ndoo_all.js")
+    script(src="js/homeApp.js")
+    script.
+      ndoo.init();

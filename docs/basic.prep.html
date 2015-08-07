@@ -50,11 +50,65 @@
           </div>
           <div class="content">
             <h3>说明</h3>
-            <p>ndoojs支持在页面中间暂存数据，和事件。在页面底部基础库加载完成后调用。使用变量或事件暂存，需要在head标签处引入ndoo_prep.js。</p>
+            <p>ndoojs支持在页面中间暂存数据和事件，在页面底部基础库加载完成后调用。使用变量或事件暂存，需要在head标签处引入ndoo_prep.js。</p>
             <h3>1.变量暂存</h3>
             <p>通过ndoo.vars名称空间来进行变量赋值，在应中中使用。示例：</p>
+                <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;vars&lt;/title&gt;
+    &lt;script src=&quot;js/ndoo_prep.js&quot;&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id=&quot;content&quot;&gt;&lt;/div&gt;
+    &lt;script&gt;
+      ndoo.vars.getListUrl = '/list';
+    &lt;/script&gt;
+    &lt;div id=&quot;scriptArea&quot; data-page-id=&quot;home/vars&quot;&gt;
+      &lt;script src=&quot;lib/underscore-min.js&quot;&gt;&lt;/script&gt;
+      &lt;script src=&quot;lib/jquery-2.1.1.min.js&quot;&gt;&lt;/script&gt;
+      &lt;script src=&quot;lib/Do.js&quot;&gt;&lt;/script&gt;
+      &lt;script src=&quot;js/ndoo_all.js&quot;&gt;&lt;/script&gt;
+      &lt;script src=&quot;js/homeApp.js&quot;&gt;&lt;/script&gt;
+      &lt;script&gt;
+        ndoo.init();
+      &lt;/script&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            <p>js/homeApp.js 部分</p>
+                <pre data-start="1" class="line-numbers"><code class="language-javascript">varsAction: function(param){
+  var $content;
+  $content = $('#content');
+  $content.html('getListUrl: ' + _vars.getListUrl);
+}</code></pre>
+            <p>一个普遍的应用场景，服务端需要向前端代码传入动态生成的值(比如一个根据路由规则生成的API地址)，而且是在页面中间直接输出js代码。</p>
             <h3>2.事件暂存</h3>
             <p>通过ndoo.on API注册事件，等到页面底部时触发。示例：</p>
+                <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;div id=&quot;content&quot; style=&quot;width: 300px; height: 300px;&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+  ndoo.on('PAGE_STATUS_DOMPREP', function() {
+    $('#content').css('background-color', '#DDD');
+  });
+&lt;/script&gt;&lt;div id=&quot;scriptArea&quot; data-page-id=&quot;home/vars&quot;&gt;
+  &lt;script src=&quot;lib/underscore-min.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;lib/jquery-2.1.1.min.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;lib/Do.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;js/ndoo_all.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;js/homeApp.js&quot;&gt;&lt;/script&gt;
+  &lt;script&gt;
+    ndoo.init();
+  &lt;/script&gt;
+&lt;/div&gt;
+</code></pre>
+                <pre data-start="1" class="line-numbers"><code class="language-javascript">eventStackAction: function(param){
+  var $content;
+  $content = $('#content');
+  $content.html('通过事件暂存改变方块颜色');
+}</code></pre>
+            <p>示例代码：<a href="./example/basic.eventstack.html">event stack</a><br>上例在页面中间使用了事件暂存，监听PAGE_STATUS_DOMPREP事件，并在其中使用jQuery方法。jQuery库在底部加载，上例中ndoo会将事件暂存起来，等到执行ndoo.init以后PAGE_STATUS_DOMPREP事件触发时调用监听代码。<br>PAGE_STATUS_DOMPREP是ndoojs的一项默认事件，参见：<a href="./ref.event.html">事件参考</a></p>
           </div>
         </div>
       </div>
