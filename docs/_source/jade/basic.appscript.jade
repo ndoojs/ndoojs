@@ -14,7 +14,7 @@ block pageContent
   p
     |我们通过
     a(href="#{exampleBaes}/started.html") started
-    |了解了如何使用ndoojs编写一个应用，但示例中应用脚本编写在页面中，实际应用中我们需要将编写大量代码，这时就需要将代码编写到一个单独的脚本文件中。我们对started的代码进行一些调整，代码如下：
+    |了解了如何使用ndoojs编写一个应用，示例中应用脚本编写在页面中，实际开发中我们需要编写大量代码，这时就需要将代码编写到一个单独的脚本文件中。我们对started的代码进行一些调整，代码如下：
 
   p basic.appscript.html
   +renderCode('html')
@@ -36,7 +36,7 @@ block pageContent
     ='    </div>\n'
     ='  </body>\n'
     ='</html>'
-  p js/homeApp.js
+  p 将原来页面中的脚本放到js/homeApp.js文件中。
   +renderCode('javascript')
     ="(function(){\n"
     ="  var _, $, _n, _vars, _func, _stor;\n"
@@ -56,11 +56,9 @@ block pageContent
     ="  /* }}} */\n"
     ="}).call(this);"
   p
-    |homeApp.js使用
+    |(function(){...}).call(this)由
     a(href="http://livescript.net/" target="_blank") LiveScript
-    |生成，或者你也可以使用等价的
-    a(href="http://coffeescript.org/" target="_blank") CoffeeScript
-    |来表示它，(function(){...}).call(this);由LiveScript自动生成。为了减少代码，ndoojs将一些常用操作在闭包内用一个简短的别名表示，_n表示ndoo、_vars表示ndoo.vars、_func表示ndoo.func、_stor表示ndoo.storage。可以将上面的代码拷贝，作为一个通用的模板代码使用。
+    |自动生成。为了减少代码，ndoojs在闭包内使用一些简短的别名。_n表示ndoo、_vars表示ndoo.vars、_func表示ndoo.func、_stor表示ndoo.storage。可以将上面的代码拷贝，作为一个通用的模板代码使用。
   p LiveScript源码
   +renderCode('coffeescript')
     ="_     = @[\_]\n"
