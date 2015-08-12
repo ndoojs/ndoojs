@@ -978,8 +978,8 @@
         if (!_.has(controller, actionName + "Action") && _.has(controller, '_emptyAction')) {
           actionName = '_empty';
         }
-        depend || (depend = controller['depend']);
-        depend = (depend || []).concat(controller[actionName + 'Depend'] || []);
+        depend = controller['depend'] || [];
+        depend = depend.concat(controller[actionName + 'Depend'] || []);
         before = controller.before;
         after = controller.after;
         filterPrefix = controllerName;
@@ -1005,7 +1005,7 @@
             _n.trigger('NAPP_ACTION_AFTER', after, controller, actionName, params);
           }
         };
-        if (depend && depend.length) {
+        if (depend.length) {
           _n.require(_.uniq(depend), run, 'Do');
         } else {
           run();

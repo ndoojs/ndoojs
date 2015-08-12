@@ -10,7 +10,7 @@
 
 "use strict"
 _        = @[\_]
-$        = @[\jQuery] || @[\Zepto]
+$        = @[\jQuery] or @[\Zepto]
 
 @N = @ndoo ||= {}
 _n = @ndoo
@@ -384,8 +384,8 @@ _.extend _n,
         actionName = \_empty
 
       # @TODO 基于模块的依赖定义处理
-      depend ||= controller[\depend]
-      depend = (depend || []).concat controller[actionName+\Depend] || []
+      depend = controller[\depend] or []
+      depend = depend.concat controller[actionName+\Depend] || []
 
       before = controller.before
       after = controller.after
@@ -413,7 +413,7 @@ _.extend _n,
           _n.trigger \NAPP_ACTION_AFTER,
             after, controller, actionName, params
 
-      if depend and depend.length
+      if depend.length
         _n.require _.uniq(depend), run, \Do
       else
         run!

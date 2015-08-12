@@ -978,8 +978,8 @@
         if (!_.has(controller, actionName + "Action") && _.has(controller, '_emptyAction')) {
           actionName = '_empty';
         }
-        depend || (depend = controller['depend']);
-        depend = (depend || []).concat(controller[actionName + 'Depend'] || []);
+        depend = controller['depend'] || [];
+        depend = depend.concat(controller[actionName + 'Depend'] || []);
         before = controller.before;
         after = controller.after;
         filterPrefix = controllerName;
@@ -1005,7 +1005,7 @@
             _n.trigger('NAPP_ACTION_AFTER', after, controller, actionName, params);
           }
         };
-        if (depend && depend.length) {
+        if (depend.length) {
           _n.require(_.uniq(depend), run, 'Do');
         } else {
           run();
@@ -1171,13 +1171,20 @@
   };
   _n.trigger('STATUS:NBLOCK_DEFINE');
   _n.on('NBLOCK_LOADED', function(elem, namespace, name, params){
-    var block;
+    var block, call;
     namespace == null && (namespace = '_default');
     if (block = _n.block(namespace + "." + name)) {
       if (_.isFunction(block)) {
         return block(elem, params);
-      } else if (_.isObject(block) && typeof block === 'object') {
-        return block.init(elem, params);
+      } else if (typeof block === 'object' && _.isObject(block) && block.init) {
+        call = function(){
+          block.init(elem, params);
+        };
+        if (block.depend) {
+          return _n.require([].concat(block.depend), call, 'Do');
+        } else {
+          return call();
+        }
       }
     }
   });
