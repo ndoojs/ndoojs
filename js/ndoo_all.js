@@ -621,7 +621,7 @@
       delete data[key];
       return true;
     }
-    if (!rewrite && data.hasOwnProperty(key)) {
+    if (!rewrite && _.has(data, key)) {
       return false;
     }
     data[key] = value;
@@ -665,9 +665,9 @@
    * }, 'seajs');
    */
   _n.require = function(depend, callback, type){
-    if (type === 'Do') {
+    if (type.toLowerCase() === 'do') {
       Do.apply(null, depend.concat(callback));
-    } else if (type === 'seajs') {
+    } else if (type.toLowerCase() === 'seajs') {
       seajs.use(depend, callback);
     }
   };

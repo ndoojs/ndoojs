@@ -56,7 +56,7 @@ _n.storage = (key, value, option) ->
     delete data[key]
     return true
 
-  if not rewrite and data.hasOwnProperty(key)
+  if not rewrite and _.has data, key
     return false
 
   data[key] = value
@@ -102,9 +102,9 @@ _n.storage.DESTROY = 2
  * }, 'seajs');
  */
 _n.require = (depend, callback, type) !->
-  if type is \Do
+  if type.toLowerCase! is \do
     Do.apply null, depend.concat callback
-  else if type is \seajs
+  else if type.toLowerCase! is \seajs
     seajs.use depend, callback
 /* }}} */
 /* define block module {{{ */
