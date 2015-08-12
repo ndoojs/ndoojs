@@ -55,18 +55,15 @@ block pageContent
     ='  <head>\n'
     ='    <meta charset="UTF-8">\n'
     ='    <title>example</title>\n'
-    ='    <script src="../js/ndoo_prep.js"></script>\n'
     ='  </head>\n'
     ='  <body>\n'
     ='    <div id="testBlock" data-nblock-id="test/main?abc=1"></div>\n'
     ='    <p id="content"></p>\n'
     ='    <div id="scriptArea" data-page-id="home/index">\n'
-    ='      <script src="../lib/underscore-min.js"></script>\n'
-    ='      <script src="../lib/jquery-2.1.1.min.js"></script>\n'
-    ='      <script src="../lib/Do.js"></script>\n'
-    ='      <script src="../js/ndoo_lib.js"></script>\n'
-    ='      <script src="../js/ndoo.js"></script>\n'
-    ='      <script src="../js/ndoo_block.js"></script>\n'
+    ='      <script src="lib/underscore-min.js"></script>\n'
+    ='      <script src="lib/jquery-2.1.1.min.js"></script>\n'
+    ='      <script src="lib/Do.js"></script>\n'
+    ='      <script src="js/ndoo_all.js"></script>\n'
     ="      <script>\n"
     ="        (function(){\n"
     ="          var _n;\n"
@@ -80,6 +77,7 @@ block pageContent
     ="          _n.on('NBLOCK_DEFINE', function(){\n"
     ="            _n.setBlock('test.main');\n"
     ="          });\n"
+    ="          _n.init();\n"
     ="\n"
     ="        }).call(this);\n"
     ='      </script>\n'

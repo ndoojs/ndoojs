@@ -485,12 +485,12 @@ _.extend _n,
   /* }}} */
   /* init {{{ */
   /**
-   * 触发页面状态
+   * 初始化页面
    *
-   * @private
    * @method
    * @name init
    * @memberof ndoo
+   * @param {string} id DOM的ID或指定ID
    */
   init: (id) ->
     # initiation page id
