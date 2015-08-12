@@ -59,17 +59,7 @@ _n.storage = (key, value, option) ->
   if not rewrite and data.hasOwnProperty(key)
     return false
 
-  if Object.defineProperty
-    try
-      Object.defineProperty data, key, do
-        value: value
-        writable: true
-        enumerable: true
-        configurable: true
-    catch
-      data[key] = value
-  else
-    data[key] = value
+  data[key] = value
 
   data[key]
 
@@ -245,11 +235,10 @@ _n.event = _.extend _n.event,
       if _.has eventHandle.listened, eventName
         eventHandle.trigger.apply eventHandle, [eventName].concat data
       # 暂存队列
-      if _.has eventHandle.events, eventName
-        return void if eventType is \STATUS
-        eventHandle.events[eventName].push data
-      else
-        eventHandle.events[eventName] = [data]
+      unless _.has eventHandle.events, eventName
+        eventHandle.events[eventName] = []
+
+      eventHandle.events[eventName].push = data
 
     # 状态仅可触发一次
     else if eventType is \STATUS

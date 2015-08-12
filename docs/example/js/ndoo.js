@@ -43,7 +43,7 @@
    * _stor('abc', null, _stor.DESTROY); // true
    */
   _n.storage = function(key, value, option){
-    var destroy, rewrite, data, e;
+    var destroy, rewrite, data;
     destroy = option & _n.storage.DESTROY;
     rewrite = option & _n.storage.REWRITE;
     data = _n.storage._data;
@@ -57,21 +57,7 @@
     if (!rewrite && data.hasOwnProperty(key)) {
       return false;
     }
-    if (Object.defineProperty) {
-      try {
-        Object.defineProperty(data, key, {
-          value: value,
-          writable: true,
-          enumerable: true,
-          configurable: true
-        });
-      } catch (e$) {
-        e = e$;
-        data[key] = value;
-      }
-    } else {
-      data[key] = value;
-    }
+    data[key] = value;
     return data[key];
   };
   /**
@@ -252,14 +238,10 @@
         if (_.has(eventHandle.listened, eventName)) {
           eventHandle.trigger.apply(eventHandle, [eventName].concat(data));
         }
-        if (_.has(eventHandle.events, eventName)) {
-          if (eventType === 'STATUS') {
-            return;
-          }
-          eventHandle.events[eventName].push(data);
-        } else {
-          eventHandle.events[eventName] = [data];
+        if (!_.has(eventHandle.events, eventName)) {
+          eventHandle.events[eventName] = [];
         }
+        eventHandle.events[eventName].push = data;
       } else if (eventType === 'STATUS') {
         if (!_.has(eventHandle.events, eventType + ":" + eventName)) {
           eventHandle.events[eventType + ":" + eventName] = data;
@@ -517,12 +499,12 @@
     /* }}} */
     /* init {{{ */
     /**
-     * 触发页面状态
+     * 初始化页面
      *
-     * @private
      * @method
      * @name init
      * @memberof ndoo
+     * @param {string} id DOM的ID或指定ID
      */,
     init: function(id){
       this.initPageId(id);

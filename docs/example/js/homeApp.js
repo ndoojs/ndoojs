@@ -1,4 +1,5 @@
 (function(){
+  'use strict';
   var _, $, _n, _vars, _func, _stor;
   _ = this['_'];
   $ = this['jQuery'] || this['Zepto'];

@@ -567,130 +567,6 @@
 }).call(this);
 /*
 " --------------------------------------------------
-"   FileName: ndoo.block.ls
-"       Desc: ndoo.js block模块
-"     Author: chenglf
-"    Version: ndoo.js(v0.1b5)
-" LastChange: 05/21/2014 15:32
-" --------------------------------------------------
-*/
-(function(){
-  "use strict";
-  var _, $, _n, _vars, _func, _stor;
-  _ = this['_'];
-  $ = this['jQuery'] || this['Zepto'];
-  this.N = this.ndoo || (this.ndoo = {});
-  _n = this.ndoo;
-  _vars = _n.vars;
-  _func = _n.func;
-  _stor = _n.storage;
-  /**
-   * 检测是否存在指定block
-   *
-   * @method
-   * @name hasBlock
-   * @memberof ndoo
-   * @param {string} namespace 名称空间
-   * @param {string} name 名称
-   */
-  _n.hasBlock = function(namespace){
-    var nsmatch, name, ref$;
-    if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
-      namespace = nsmatch[1], name = nsmatch[2];
-    } else {
-      ref$ = ['_default', name], namespace = ref$[0], name = ref$[1];
-    }
-    return _n._blockData['_exist']["block." + namespace + "." + name];
-  };
-  /**
-   * 标识指定block
-   *
-   * @method
-   * @name setBlock
-   * @memberof ndoo
-   * @param {string} namespace 名称空间
-   * @param {string} name 名称
-   */
-  _n.setBlock = function(namespace){
-    var nsmatch, name, ref$;
-    if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
-      namespace = nsmatch[1], name = nsmatch[2];
-    } else {
-      ref$ = ['_default', name], namespace = ref$[0], name = ref$[1];
-    }
-    return _n._blockData['_exist']["block." + namespace + "." + name] = true;
-  };
-  /**
-   * 添加block实现
-   *
-   * @method
-   * @name block
-   * @memberof ndoo
-   * @param {string} namespace 名称空间
-   * @param {string} name 名称
-   */
-  _n.block = function(namespace, block){
-    var nsmatch, name, ref$;
-    if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
-      namespace = nsmatch[1], name = nsmatch[2];
-    } else {
-      ref$ = ['_default', name], namespace = ref$[0], name = ref$[1];
-    }
-    return _n._block('block', namespace, name, block);
-  };
-  _n.trigger('STATUS:NBLOCK_DEFINE');
-  _n.on('NBLOCK_LOADED', function(elem, namespace, name, params){
-    var block;
-    namespace == null && (namespace = '_default');
-    if (block = _n.block(namespace + "." + name)) {
-      if (_.isFunction(block)) {
-        return block(elem, params);
-      } else if (_.isObject(block) && typeof block === 'object') {
-        return block.init(elem, params);
-      }
-    }
-  });
-  /**
-   * 初始化模块
-   *
-   * @method
-   * @name initBlock
-   * @memberof ndoo
-   * @param {object} elem 初始化的元素
-   */
-  _n.initBlock = function(elem){
-    var blockId, this$ = this;
-    blockId = $(elem).data('nblockId');
-    _n.router.parse(/^(?:\/?)(.*?)(?:\/?([^\/?]+))(?:\?(.*?))?(?:\#(.*?))?$/, blockId, function(namespace, block, params){
-      var pkg;
-      namespace == null && (namespace = '_default');
-      pkg = namespace + "." + block;
-      if (_n.block(pkg)) {
-        _n.trigger('NBLOCK_LOADED', elem, namespace, block, params);
-      } else if (_n.hasBlock(pkg)) {
-        this$.require([namespace + "." + block], function(){
-          _n.trigger('NBLOCK_LOADED', elem, namespace, block, params);
-        }, 'Do');
-      }
-    });
-  };
-  _n.on('NBLOCK_INIT', function(){
-    var blocks, i$, len$, block, auto;
-    blocks = $('[data-nblock-id]');
-    if (blocks.length) {
-      for (i$ = 0, len$ = blocks.length; i$ < len$; ++i$) {
-        block = blocks[i$];
-        auto = $(block).data('nblockAuto');
-        if (auto === undefined || auto.toString() !== 'false') {
-          _n.initBlock(block);
-        }
-      }
-    }
-  });
-  /* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */
-}).call(this);
-/*
-" --------------------------------------------------
 "   FileName: ndoo.ls
 "       Desc: ndoo.js主文件
 "     Author: chenglf
@@ -734,7 +610,7 @@
    * _stor('abc', null, _stor.DESTROY); // true
    */
   _n.storage = function(key, value, option){
-    var destroy, rewrite, data, e;
+    var destroy, rewrite, data;
     destroy = option & _n.storage.DESTROY;
     rewrite = option & _n.storage.REWRITE;
     data = _n.storage._data;
@@ -748,21 +624,7 @@
     if (!rewrite && data.hasOwnProperty(key)) {
       return false;
     }
-    if (Object.defineProperty) {
-      try {
-        Object.defineProperty(data, key, {
-          value: value,
-          writable: true,
-          enumerable: true,
-          configurable: true
-        });
-      } catch (e$) {
-        e = e$;
-        data[key] = value;
-      }
-    } else {
-      data[key] = value;
-    }
+    data[key] = value;
     return data[key];
   };
   /**
@@ -943,14 +805,10 @@
         if (_.has(eventHandle.listened, eventName)) {
           eventHandle.trigger.apply(eventHandle, [eventName].concat(data));
         }
-        if (_.has(eventHandle.events, eventName)) {
-          if (eventType === 'STATUS') {
-            return;
-          }
-          eventHandle.events[eventName].push(data);
-        } else {
-          eventHandle.events[eventName] = [data];
+        if (!_.has(eventHandle.events, eventName)) {
+          eventHandle.events[eventName] = [];
         }
+        eventHandle.events[eventName].push = data;
       } else if (eventType === 'STATUS') {
         if (!_.has(eventHandle.events, eventType + ":" + eventName)) {
           eventHandle.events[eventType + ":" + eventName] = data;
@@ -1208,12 +1066,12 @@
     /* }}} */
     /* init {{{ */
     /**
-     * 触发页面状态
+     * 初始化页面
      *
-     * @private
      * @method
      * @name init
      * @memberof ndoo
+     * @param {string} id DOM的ID或指定ID
      */,
     init: function(id){
       this.initPageId(id);
@@ -1223,6 +1081,130 @@
       return this;
     }
     /* }}} */
+  });
+  /* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */
+}).call(this);
+/*
+" --------------------------------------------------
+"   FileName: ndoo.block.ls
+"       Desc: ndoo.js block模块
+"     Author: chenglf
+"    Version: ndoo.js(v0.1b5)
+" LastChange: 05/21/2014 15:32
+" --------------------------------------------------
+*/
+(function(){
+  "use strict";
+  var _, $, _n, _vars, _func, _stor;
+  _ = this['_'];
+  $ = this['jQuery'] || this['Zepto'];
+  this.N = this.ndoo || (this.ndoo = {});
+  _n = this.ndoo;
+  _vars = _n.vars;
+  _func = _n.func;
+  _stor = _n.storage;
+  /**
+   * 检测是否存在指定block
+   *
+   * @method
+   * @name hasBlock
+   * @memberof ndoo
+   * @param {string} namespace 名称空间
+   * @param {string} name 名称
+   */
+  _n.hasBlock = function(namespace){
+    var nsmatch, name, ref$;
+    if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
+      namespace = nsmatch[1], name = nsmatch[2];
+    } else {
+      ref$ = ['_default', name], namespace = ref$[0], name = ref$[1];
+    }
+    return _n._blockData['_exist']["block." + namespace + "." + name];
+  };
+  /**
+   * 标识指定block
+   *
+   * @method
+   * @name setBlock
+   * @memberof ndoo
+   * @param {string} namespace 名称空间
+   * @param {string} name 名称
+   */
+  _n.setBlock = function(namespace){
+    var nsmatch, name, ref$;
+    if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
+      namespace = nsmatch[1], name = nsmatch[2];
+    } else {
+      ref$ = ['_default', name], namespace = ref$[0], name = ref$[1];
+    }
+    return _n._blockData['_exist']["block." + namespace + "." + name] = true;
+  };
+  /**
+   * 添加block实现
+   *
+   * @method
+   * @name block
+   * @memberof ndoo
+   * @param {string} namespace 名称空间
+   * @param {string} name 名称
+   */
+  _n.block = function(namespace, block){
+    var nsmatch, name, ref$;
+    if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
+      namespace = nsmatch[1], name = nsmatch[2];
+    } else {
+      ref$ = ['_default', name], namespace = ref$[0], name = ref$[1];
+    }
+    return _n._block('block', namespace, name, block);
+  };
+  _n.trigger('STATUS:NBLOCK_DEFINE');
+  _n.on('NBLOCK_LOADED', function(elem, namespace, name, params){
+    var block;
+    namespace == null && (namespace = '_default');
+    if (block = _n.block(namespace + "." + name)) {
+      if (_.isFunction(block)) {
+        return block(elem, params);
+      } else if (_.isObject(block) && typeof block === 'object') {
+        return block.init(elem, params);
+      }
+    }
+  });
+  /**
+   * 初始化模块
+   *
+   * @method
+   * @name initBlock
+   * @memberof ndoo
+   * @param {object} elem 初始化的元素
+   */
+  _n.initBlock = function(elem){
+    var blockId, this$ = this;
+    blockId = $(elem).data('nblockId');
+    _n.router.parse(/^(?:\/?)(.*?)(?:\/?([^\/?]+))(?:\?(.*?))?(?:\#(.*?))?$/, blockId, function(namespace, block, params){
+      var pkg;
+      namespace == null && (namespace = '_default');
+      pkg = namespace + "." + block;
+      if (_n.block(pkg)) {
+        _n.trigger('NBLOCK_LOADED', elem, namespace, block, params);
+      } else if (_n.hasBlock(pkg)) {
+        this$.require([namespace + "." + block], function(){
+          _n.trigger('NBLOCK_LOADED', elem, namespace, block, params);
+        }, 'Do');
+      }
+    });
+  };
+  _n.on('NBLOCK_INIT', function(){
+    var blocks, i$, len$, block, auto;
+    blocks = $('[data-nblock-id]');
+    if (blocks.length) {
+      for (i$ = 0, len$ = blocks.length; i$ < len$; ++i$) {
+        block = blocks[i$];
+        auto = $(block).data('nblockAuto');
+        if (auto === undefined || auto.toString() !== 'false') {
+          _n.initBlock(block);
+        }
+      }
+    }
   });
   /* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */
 }).call(this);

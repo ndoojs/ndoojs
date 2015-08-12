@@ -1,3 +1,4 @@
+'use strict'
 _     = @[\_]
 $     = @[\jQuery] || @[\Zepto]
 
