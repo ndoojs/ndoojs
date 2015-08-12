@@ -1045,23 +1045,30 @@
      * @name triggerPageStatus
      * @memberof ndoo
      */,
-    triggerPageStatus: function(){
-      var this$ = this;
-      this.trigger('STATUS:PAGE_STATUS_FAST');
-      $(function(){
-        this$.trigger('STATUS:PAGE_STATUS_DOMPREP');
-        this$.trigger('STATUS:PAGE_STATUS_DOM');
-        this$.trigger('STATUS:PAGE_STATUS_DOMORLOAD');
-      });
-      $(window).bind('load', function(){
-        return this$.trigger('STATUS:PAGE_STATUS_LOAD');
-      });
-      this.on('PAGE_STATUS_DOM', function(){
-        if (this$.pageId) {
-          this$.trigger('STATUS:PAGE_STATUS_ROUTING', this$.pageId);
-          this$.trigger('STATUS:NBLOCK_INIT');
-        }
-      });
+    triggerPageStatus: function(depend){
+      var call, this$ = this;
+      call = function(){
+        this$.trigger('STATUS:PAGE_STATUS_FAST');
+        $(function(){
+          this$.trigger('STATUS:PAGE_STATUS_DOMPREP');
+          this$.trigger('STATUS:PAGE_STATUS_DOM');
+          this$.trigger('STATUS:PAGE_STATUS_DOMORLOAD');
+        });
+        $(window).bind('load', function(){
+          return this$.trigger('STATUS:PAGE_STATUS_LOAD');
+        });
+        this$.on('PAGE_STATUS_DOM', function(){
+          if (this$.pageId) {
+            this$.trigger('STATUS:PAGE_STATUS_ROUTING', this$.pageId);
+            this$.trigger('STATUS:NBLOCK_INIT');
+          }
+        });
+      };
+      if (depend && depend.length) {
+        this.require(depend, call, 'Do');
+      } else {
+        call();
+      }
     }
     /* }}} */
     /* init {{{ */
@@ -1072,12 +1079,17 @@
      * @name init
      * @memberof ndoo
      * @param {string} id DOM的ID或指定ID
+     * @param {array} depend 依赖
      */,
-    init: function(id){
+    init: function(id, depend){
+      var ref$;
+      if (_.isArray(id)) {
+        ref$ = ['', id], id = ref$[0], depend = ref$[1];
+      }
       this.initPageId(id);
       this.event.init();
       this.dispatch();
-      this.triggerPageStatus();
+      this.triggerPageStatus(depend);
       return this;
     }
     /* }}} */

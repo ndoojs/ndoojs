@@ -451,26 +451,33 @@ _.extend _n,
    * @name triggerPageStatus
    * @memberof ndoo
    */
-  triggerPageStatus: !->
-    # trigger PAGE_STATUS_FAST
-    @trigger \STATUS:PAGE_STATUS_FAST
+  triggerPageStatus: (depend) !->
+    call = !~>
+      # trigger PAGE_STATUS_FAST
+      @trigger \STATUS:PAGE_STATUS_FAST
 
-    # trigger PAGE_STATUS_DOM and PAGE_STATUS_DOMORLOAD
-    $ !~>
-      @trigger \STATUS:PAGE_STATUS_DOMPREP
-      @trigger \STATUS:PAGE_STATUS_DOM
-      @trigger \STATUS:PAGE_STATUS_DOMORLOAD
+      # trigger PAGE_STATUS_DOM and PAGE_STATUS_DOMORLOAD
+      $ !~>
+        @trigger \STATUS:PAGE_STATUS_DOMPREP
+        @trigger \STATUS:PAGE_STATUS_DOM
+        @trigger \STATUS:PAGE_STATUS_DOMORLOAD
 
-    # trigger PAGE_STATUS_LOAD
-    $(window).bind \load, ~>
-      @trigger \STATUS:PAGE_STATUS_LOAD
+      # trigger PAGE_STATUS_LOAD
+      $(window).bind \load, ~>
+        @trigger \STATUS:PAGE_STATUS_LOAD
 
-    # trigger PAGE_STATUS_ROUTING
-    @on \PAGE_STATUS_DOM, !~>
-      if @pageId
-        #Backbone.history.start()
-        @trigger \STATUS:PAGE_STATUS_ROUTING, @pageId
-        @trigger \STATUS:NBLOCK_INIT
+      # trigger PAGE_STATUS_ROUTING
+      @on \PAGE_STATUS_DOM, !~>
+        if @pageId
+          #Backbone.history.start()
+          @trigger \STATUS:PAGE_STATUS_ROUTING, @pageId
+          @trigger \STATUS:NBLOCK_INIT
+
+    ###loading depend###
+    if depend and depend.length
+      @require depend, call, \Do
+    else
+      call!
   /* }}} */
   /* init {{{ */
   /**
@@ -480,17 +487,20 @@ _.extend _n,
    * @name init
    * @memberof ndoo
    * @param {string} id DOM的ID或指定ID
+   * @param {array} depend 依赖
    */
-  init: (id) ->
+  init: (id, depend) ->
+    if _.isArray id
+      [id, depend] = ['', id]
+
     # initiation page id
     @initPageId id
-
     # initiation event module
     @event.init!
     # initiation ndoo event listener
     @dispatch!
     # trigger status
-    @triggerPageStatus!
+    @triggerPageStatus depend
 
     @
   /* }}} */
