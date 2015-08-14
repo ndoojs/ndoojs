@@ -7,13 +7,11 @@ block pageTitle
 
 block pageHeader
   h1 依赖加载
-  p
-    |ndoojs可以为action定义依赖，当执行到action时会先加载需要的依赖(使用do.js加载)。
-    br
-    |do.js 参考
-    a(href="ref.do.html") do.js
 
 block pageContent
+  p
+    |ndoojs可以为action定义依赖，当执行到action时会先加载需要的依赖(使用do.js加载)。do.js 参考
+    a(href="ref.do.html") do.js
   h3 Action依赖
   p ndoojs支持为单个Action定义依赖，格式为ActionName+Depend。示例：
   +renderCode('javascript')
