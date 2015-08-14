@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>依赖加载-ndoojs文档-ndoojs</title>
+    <title>初始化-ndoojs文档-ndoojs</title>
     <link rel="stylesheet" type="text/css" href="css/pure-min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/prism.css">
@@ -49,34 +49,28 @@
       <div id="main">
         <div class="docs theme1">
           <div class="header">
-            <h1>依赖加载</h1>
+            <h1>初始化</h1>
           </div>
           <div class="content">
-            <p>ndoojs可以为action定义依赖，当执行到action时会先加载需要的依赖(使用do.js加载)。do.js 参考<a href="ref.do.html">do.js</a></p>
-            <h3>Action依赖</h3>
-            <p>ndoojs支持为单个Action定义依赖，格式为ActionName+Depend。示例：</p>
-                <pre data-start="1" class="line-numbers"><code class="language-javascript">// jquery模块定义
-Do.define('jquery', {
-  path: jsPathbase + '/jquery-2.1.1.min.js',
-  type: 'js'
-});
-// 设置jquery为默认已加载
-Do.setLoaded(['jquery']);
-// 声明依赖
-_n.app('home', {
-  indexDepend: ['jquery'], 
-  indexAction: function() {
-    console.log(typeof jQuery);
-  }
-});</code></pre>
-            <h3>App依赖</h3>
-            <p>可以直接为一个App定义依赖，在App中定义一个名为depend的属性即可。示例：</p>
-                <pre data-start="1" class="line-numbers"><code class="language-javascript">_n.app('home', {
-  depend: ['jquery'], 
-  indexAction: function() {
-    console.log(typeof jQuery);
-  }
-});</code></pre>
+            <p>直接调用ndoo.init()即可完成初始化，但init还有另外两种用法，在这里进行说明。</p>
+            <h3>1.指定pageId</h3>
+            <p>ndoojs默认查找id为scriptArea的标签上取data-page-id属性作为页面id，但在某种场合需要进行定制，这时可以手动指定。</p>
+            <p>如果你觉得scriptArea这个名字不太贴合，可以直接指定id名。示例：</p>
+                <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;div id=&quot;myApp&quot; data-page-id=&quot;home/index&quot;&gt;
+...
+&lt;script&gt;
+  ndoo.init('myAppId');
+&lt;/div&gt;</code></pre>
+            <p>某些情况下无法从dom标签指定(在非浏览器环境运行单元测试)，这时可以直接指定。示例：</p>
+                <pre data-start="1" class="line-numbers"><code class="language-javascript">ndoo.init('home/index');
+</code></pre>
+            <p>ndoojs会先判断能否取到DOM，如果没有找到对应的DOM则直接将参数赋值给pageId。</p>
+            <h3>2.全局依赖</h3>
+            <p>某些库我们需要全局加载，这时可以在ndoo.init中传入。示例：</p>
+                <pre data-start="1" class="line-numbers"><code class="language-javascript">ndoo.init(['myApp']);</code></pre>
+            <p>依赖的库需提前通过do.js定义。</p>
+            <p>ndoojs使用变量类型来判断pageId和依赖，可以同时指定pageId和依赖。示例：</p>
+                <pre data-start="1" class="line-numbers"><code class="language-javascript">ndoo.init('home/index', ['myApp']);</code></pre>
           </div>
         </div>
       </div>
