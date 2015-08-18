@@ -10,6 +10,9 @@
         return 'home/index';
       }
     }
+    this.bind = function(event) {
+
+    }
   }
   this.jQuery = this.$ = fn;
 }).call(this);

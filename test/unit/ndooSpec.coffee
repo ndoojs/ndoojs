@@ -47,6 +47,19 @@ describe 'ndoo framework test >', ->
     it 'get block should false', ->
       expect(_n.block 'test').toBe false
 
+  describe 'page id test >', ->
+    _n = undefined
+    beforeAll ->
+      _n = ndoo
+
+    it 'get page id should be empty', ->
+      expect(_n.pageId).toBe ''
+
+    it 'init page id', ->
+      _n.init 'home/index'
+      expect(_n.pageId).toBe 'home/index'
+
+
     # describe 'main block >', ->
     #
     #   describe 'ui.checkinDate >', ->
