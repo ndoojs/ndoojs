@@ -53,22 +53,28 @@ describe 'ndoo framework test >', ->
     it 'get page id should be empty', ->
       expect(_n.pageId).toBe ''
 
-    it 'init page id', ->
-      _n.init 'home/index'
-      expect(_n.pageId).toBe 'home/index'
+    describe 'init call', ->
+      beforeAll ->
+        spyOn(_n, 'initPageId').and.callThrough()
+        _n.init 'home/index'
 
-    it 'initPageId shoud be call', ->
-      spyOn _n, 'initPageId'
-      _n.init 'home/index'
-      expect(_n.initPageId).toHaveBeenCalled()
+      it 'initPageId shoud be call', ->
+        expect(_n.initPageId).toHaveBeenCalled()
 
+      it 'initPageId param shoud be home/index', ->
+        expect(_n.initPageId).toHaveBeenCalledWith 'home/index'
+
+      it 'pageId shoud be home/index', ->
+        expect(_n.pageId).toBe 'home/index'
 
   xdescribe 'ndoo call test >', ->
     _n = ndoo
+
     it 'initPageId shoud be call', ->
       spyOn _n, 'initPageId'
-      _n.init 'home/index'
-      console.log _n.pageId
+      # spyOn _n, 'init'
+      # _n.init 'home/index'
+      # console.log _n.pageId
       expect(_n.initPageId).toHaveBeenCalled()
 
     # describe 'main block >', ->
