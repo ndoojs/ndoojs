@@ -38,10 +38,10 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      jsPath + '/ndoo_prep.js',
       libPath + '/underscore-min.js',
-      jsPath + '/ndoo_lib.js',
       '../mock/jquery.mock.js',
+      jsPath + '/ndoo_prep.js',
+      jsPath + '/ndoo_lib.js',
       jsPath + '/ndoo.js',
       jsPath+ '/ndoo_block.js',
       '../unit/*Spec.coffee'
