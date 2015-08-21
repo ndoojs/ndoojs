@@ -97,7 +97,7 @@ _n.storage.DESTROY = 2
  * @param {string} type 加载器类型
  * @example // ndoo alias _n
  * var _n = ndoo;
- * _n.require(['../example/lib/jquery-1.11.1.js', '../example/lib/jquery-mytest.js'], function(a){
+ * _n.require(['lib/jquery-1.11.1.js', 'lib/jquery-mytest.js'], function(a){
  *   a('body').mytest();
  * }, 'seajs');
  */
@@ -304,8 +304,7 @@ _.extend _n,
    */
   getPk: do ->
     _pk = +new Date!
-    ->
-      ++_pk
+    (prefix='')-> prefix+(++_pk)
   /* }}} */
   /* router module {{{ */
   /**
@@ -384,8 +383,7 @@ _.extend _n,
       filterHaldner.apply null, ['after'].concat params
 
     /* call action */
-    @on \NAPP_LOADED,
-    (namespace, controllerName, actionName, params) !->
+    @on \NAPP_LOADED, (namespace, controllerName, actionName, params) !->
       if namespace
         controller = _n.app "#namespace.#controllerName"
       else

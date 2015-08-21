@@ -737,7 +737,7 @@
    * @param {string} type 加载器类型
    * @example // ndoo alias _n
    * var _n = ndoo;
-   * _n.require(['../example/lib/jquery-1.11.1.js', '../example/lib/jquery-mytest.js'], function(a){
+   * _n.require(['lib/jquery-1.11.1.js', 'lib/jquery-mytest.js'], function(a){
    *   a('body').mytest();
    * }, 'seajs');
    */
@@ -963,8 +963,9 @@
     getPk: function(){
       var _pk;
       _pk = +new Date();
-      return function(){
-        return ++_pk;
+      return function(prefix){
+        prefix == null && (prefix = '');
+        return prefix + (++_pk);
       };
     }()
     /* }}} */
