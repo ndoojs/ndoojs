@@ -368,7 +368,7 @@
         if (!data) {
           return;
         }
-        if (_.isObject(data) && typeof data === 'object') {
+        if (typeof data === 'object') {
           _data = [].concat(data);
         }
         for (i$ = 0, len$ = _data.length; i$ < len$; ++i$) {

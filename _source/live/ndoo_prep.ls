@@ -146,7 +146,9 @@ do (e = _n.event) !->
  * _n.trigger('testEvent', 'testEvent', 'kkk');
  */
 _n.on = (eventName, callback) ->
-  eventName = eventName.replace /\s*/g, '' .split \,
+  /* split 'a, b, c' to ['a', 'b', 'c']
+     split 'a b c' to ['a' ,'b', 'c'] */
+  eventName = eventName.replace /\s*/g, '' .split /\s?,\s?|\s/
   for item in eventName
     @event.on item, callback
 

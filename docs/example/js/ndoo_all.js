@@ -140,8 +140,10 @@
    * _n.trigger('testEvent', 'testEvent', 'kkk');
    */
   _n.on = function(eventName, callback){
+    /* split 'a, b, c' to ['a', 'b', 'c']
+       split 'a b c' to ['a' ,'b', 'c'] */
     var i$, len$, item, results$ = [];
-    eventName = eventName.replace(/\s*/g, '').split(',');
+    eventName = eventName.replace(/\s*/g, '').split(/\s?,\s?|\s/);
     for (i$ = 0, len$ = eventName.length; i$ < len$; ++i$) {
       item = eventName[i$];
       results$.push(this.event.on(item, callback));
@@ -935,7 +937,7 @@
         if (!data) {
           return;
         }
-        if (_.isObject(data) && typeof data === 'object') {
+        if (typeof data === 'object') {
           _data = [].concat(data);
         }
         for (i$ = 0, len$ = _data.length; i$ < len$; ++i$) {
