@@ -570,7 +570,7 @@
       /* before and after filter event */
       var filterHaldner, this$ = this;
       filterHaldner = function(type, controller, actionName, params){
-        var data, _data, i$, len$, dataItem, lresult$, _filter, isRun, _only, _except, j$, len1$, filter, results$ = [];
+        var data, _data, i$, len$, dataItem, _filter, isRun, _only, _except, j$, len1$, filter;
         if (type === 'before') {
           data = controller.before;
         } else if (type === 'after') {
@@ -584,7 +584,6 @@
         }
         for (i$ = 0, len$ = _data.length; i$ < len$; ++i$) {
           dataItem = _data[i$];
-          lresult$ = [];
           /* init filter array */
           _filter = dataItem.filter;
           if (!_.isArray(_filter)) {
@@ -613,12 +612,10 @@
           if (isRun) {
             for (j$ = 0, len1$ = _filter.length; j$ < len1$; ++j$) {
               filter = _filter[j$];
-              lresult$.push(controller[filter + 'Filter'].apply(controller, [actionName, params]));
+              controller[filter + 'Filter'](actionName, params);
             }
           }
-          results$.push(lresult$);
         }
-        return results$;
       };
       this.on('NAPP_ACTION_BEFORE', function(){
         var params;

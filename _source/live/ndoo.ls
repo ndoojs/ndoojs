@@ -335,7 +335,7 @@ _.extend _n,
    */
   dispatch: !->
     /* before and after filter event */
-    filterHaldner = (type, controller, actionName, params) ->
+    filterHaldner = (type, controller, actionName, params) !->
       if type is \before
         data = controller.before
       else if type is \after
@@ -374,7 +374,8 @@ _.extend _n,
 
         if isRun
           for filter in _filter
-            controller[filter+'Filter'].apply controller, [actionName, params]
+            controller[filter+\Filter](actionName, params)
+            # controller[filter+'Filter'].apply controller, [actionName, params]
             # filter.call null, controller
 
     @on 'NAPP_ACTION_BEFORE', (...params) ->
