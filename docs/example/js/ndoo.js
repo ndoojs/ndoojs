@@ -377,14 +377,14 @@
           /* init filter array */
           _filter = dataItem.filter;
           if (!_.isArray(_filter)) {
-            _filter = [].concat(_filter.replace(/\s*/g, '').split(','));
+            _filter = [].concat(_filter.split(/\s*,\s*|\s+/));
           }
           isRun = true;
           /* init only array */
           if (dataItem.only) {
             _only = dataItem.only;
             if (!_.isArray(_only)) {
-              _only = [].concat(_only.replace(/\s*/g, '').split(','));
+              _only = [].concat(_only.split(/\s*,\s*|\s+/));
             }
             if (_.indexOf(_only, actionName) < 0) {
               isRun = false;
@@ -393,7 +393,7 @@
           } else if (dataItem.except) {
             _except = dataItem.except;
             if (!_.isArray(_except)) {
-              _except = [].concat(_except.replace(/\s*/g, '').split(','));
+              _except = [].concat(_except.split(/\s*,\s*|\s+/));
             }
             if (_.indexOf(_except, actionName) > -1) {
               isRun = false;
@@ -402,7 +402,7 @@
           if (isRun) {
             for (j$ = 0, len1$ = _filter.length; j$ < len1$; ++j$) {
               filter = _filter[j$];
-              lresult$.push(controller[filter + 'Filter'](params));
+              lresult$.push(controller[filter + 'Filter'].apply(controller, [actionName, params]));
             }
           }
           results$.push(lresult$);

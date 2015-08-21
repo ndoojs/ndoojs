@@ -352,14 +352,15 @@ _.extend _n,
         /* init filter array */
         _filter = dataItem.filter
         unless _.isArray(_filter)
-          _filter = [].concat _filter.replace(/\s*/g, '').split \,
+          _filter = [].concat _filter.split /\s*,\s*|\s+/
 
         isRun = true
         /* init only array */
         if dataItem.only
           _only = dataItem.only
           unless _.isArray(_only)
-            _only = [].concat _only.replace(/\s*/g, '').split \,
+            _only = [].concat _only.split /\s*,\s*|\s+/
+
 
           if _.indexOf(_only, actionName) < 0
             isRun = false
@@ -367,14 +368,14 @@ _.extend _n,
         else if dataItem.except
           _except = dataItem.except
           unless _.isArray(_except)
-            _except = [].concat _except.replace(/\s*/g, '').split \,
+            _except = [].concat _except.split /\s*,\s*|\s+/
 
           if _.indexOf(_except, actionName) > -1
             isRun = false
 
         if isRun
           for filter in _filter
-            controller[filter+'Filter'](params)
+            controller[filter+'Filter'].apply controller, [actionName, params]
             # filter.call null, controller
 
     @on 'NAPP_ACTION_BEFORE', (...params) ->

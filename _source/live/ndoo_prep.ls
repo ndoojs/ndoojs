@@ -148,7 +148,7 @@ do (e = _n.event) !->
 _n.on = (eventName, callback) ->
   /* split 'a, b, c' to ['a', 'b', 'c']
      split 'a b c' to ['a' ,'b', 'c'] */
-  eventName = eventName.replace /\s*/g, '' .split /\s?,\s?|\s/
+  eventName = eventName.split /\s*,\s*|\s+/
   for item in eventName
     @event.on item, callback
 
