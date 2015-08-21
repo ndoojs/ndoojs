@@ -576,7 +576,7 @@
 */
 (function(){
   "use strict";
-  var _, $, _n, _vars, _func, _stor;
+  var _, $, _n, _vars, _func, _stor, slice$ = [].slice;
   _ = this['_'];
   $ = this['jQuery'] || this['Zepto'];
   this.N = this.ndoo || (this.ndoo = {});
@@ -924,52 +924,71 @@
      */,
     dispatch: function(){
       /* before and after filter event */
-      var this$ = this;
-      this.on('NAPP_ACTION_BEFORE, NAPP_ACTION_AFTER', function(data, controller, actionName, params){
-        var _data, i$, len$, dataItem, _filter, isRun, _only, _except, j$, len1$, filter;
-        if (data) {
-          if (_.isObject(data) && typeof data === 'object') {
-            _data = [].concat(data);
-          }
-          for (i$ = 0, len$ = _data.length; i$ < len$; ++i$) {
-            dataItem = _data[i$];
-            /* init filter array */
-            _filter = dataItem.filter;
-            if (!_.isArray(_filter)) {
-              _filter = [].concat(_filter.replace(/\s*/g, '').split(','));
-            }
-            isRun = true;
-            /* init only array */
-            if (dataItem.only) {
-              _only = dataItem.only;
-              if (!_.isArray(_only)) {
-                _only = [].concat(_only.replace(/\s*/g, '').split(','));
-              }
-              if (_.indexOf(_only, actionName) < 0) {
-                isRun = false;
-              }
-              /* init except array */
-            } else if (dataItem.except) {
-              _except = dataItem.except;
-              if (!_.isArray(_except)) {
-                _except = [].concat(_except.replace(/\s*/g, '').split(','));
-              }
-              if (_.indexOf(_except, actionName) > -1) {
-                isRun = false;
-              }
-            }
-            if (isRun) {
-              for (j$ = 0, len1$ = _filter.length; j$ < len1$; ++j$) {
-                filter = _filter[j$];
-                controller[filter + 'Filter'](params);
-              }
-            }
-          }
+      var filterHaldner, this$ = this;
+      filterHaldner = function(type, controller, actionName, params){
+        var data, _data, i$, len$, dataItem, lresult$, _filter, isRun, _only, _except, j$, len1$, filter, results$ = [];
+        if (type === 'before') {
+          data = controller.before;
+        } else if (type === 'after') {
+          data = controller.after;
         }
+        if (!data) {
+          return;
+        }
+        if (typeof data === 'object') {
+          _data = [].concat(data);
+        }
+        for (i$ = 0, len$ = _data.length; i$ < len$; ++i$) {
+          dataItem = _data[i$];
+          lresult$ = [];
+          /* init filter array */
+          _filter = dataItem.filter;
+          if (!_.isArray(_filter)) {
+            _filter = [].concat(_filter.replace(/\s*/g, '').split(','));
+          }
+          isRun = true;
+          /* init only array */
+          if (dataItem.only) {
+            _only = dataItem.only;
+            if (!_.isArray(_only)) {
+              _only = [].concat(_only.replace(/\s*/g, '').split(','));
+            }
+            if (_.indexOf(_only, actionName) < 0) {
+              isRun = false;
+            }
+            /* init except array */
+          } else if (dataItem.except) {
+            _except = dataItem.except;
+            if (!_.isArray(_except)) {
+              _except = [].concat(_except.replace(/\s*/g, '').split(','));
+            }
+            if (_.indexOf(_except, actionName) > -1) {
+              isRun = false;
+            }
+          }
+          if (isRun) {
+            for (j$ = 0, len1$ = _filter.length; j$ < len1$; ++j$) {
+              filter = _filter[j$];
+              lresult$.push(controller[filter + 'Filter'](params));
+            }
+          }
+          results$.push(lresult$);
+        }
+        return results$;
+      };
+      this.on('NAPP_ACTION_BEFORE', function(){
+        var params;
+        params = slice$.call(arguments);
+        return filterHaldner.apply(null, ['before'].concat(params));
+      });
+      this.on('NAPP_ACTION_AFTER', function(){
+        var params;
+        params = slice$.call(arguments);
+        return filterHaldner.apply(null, ['after'].concat(params));
       });
       /* call action */
       this.on('NAPP_LOADED', function(namespace, controllerName, actionName, params){
-        var controller, depend, before, after, filterPrefix, run;
+        var controller, depend, filterPrefix, run;
         if (namespace) {
           controller = _n.app(namespace + "." + controllerName);
         } else {
@@ -980,8 +999,6 @@
         }
         depend = controller['depend'] || [];
         depend = depend.concat(controller[actionName + 'Depend'] || []);
-        before = controller.before;
-        after = controller.after;
         filterPrefix = controllerName;
         if (namespace) {
           filterPrefix = (namespace + "." + controllerName).replace(/\./g, '_');
@@ -990,7 +1007,7 @@
         run = function(){
           var key$;
           if (actionName) {
-            _n.trigger('NAPP_ACTION_BEFORE', before, controller, actionName, params);
+            _n.trigger('NAPP_ACTION_BEFORE', controller, actionName, params);
             _n.trigger("NAPP_" + filterPrefix + "_ACTION_BEFORE", controller, actionName, params);
             if (typeof controller[key$ = actionName + 'Before'] == 'function') {
               controller[key$](params);
@@ -1002,7 +1019,7 @@
               controller[key$](params);
             }
             _n.trigger("NAPP_" + filterPrefix + "_ACTION_AFTER", controller, actionName, params);
-            _n.trigger('NAPP_ACTION_AFTER', after, controller, actionName, params);
+            _n.trigger('NAPP_ACTION_AFTER', controller, actionName, params);
           }
         };
         if (depend.length) {

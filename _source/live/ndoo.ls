@@ -336,40 +336,51 @@ _.extend _n,
    */
   dispatch: !->
     /* before and after filter event */
-    @on 'NAPP_ACTION_BEFORE, NAPP_ACTION_AFTER',
-    (data, controller, actionName, params) !->
-      if data
-        if _.isObject(data) and typeof data is 'object'
-          _data = [].concat data
+    filterHaldner = (type, controller, actionName, params) ->
+      if type is \before
+        data = controller.before
+      else if type is \after
+        data = controller.after
 
-        for dataItem in _data
-          /* init filter array */
-          _filter = dataItem.filter
-          unless _.isArray(_filter)
-            _filter = [].concat _filter.replace(/\s*/g, '').split \,
+      unless data
+        return
 
-          isRun = true
-          /* init only array */
-          if dataItem.only
-            _only = dataItem.only
-            unless _.isArray(_only)
-              _only = [].concat _only.replace(/\s*/g, '').split \,
+      if typeof data is 'object'
+        _data = [].concat data
 
-            if _.indexOf(_only, actionName) < 0
-              isRun = false
-            /* init except array */
-          else if dataItem.except
-            _except = dataItem.except
-            unless _.isArray(_except)
-              _except = [].concat _except.replace(/\s*/g, '').split \,
+      for dataItem in _data
+        /* init filter array */
+        _filter = dataItem.filter
+        unless _.isArray(_filter)
+          _filter = [].concat _filter.replace(/\s*/g, '').split \,
 
-            if _.indexOf(_except, actionName) > -1
-              isRun = false
+        isRun = true
+        /* init only array */
+        if dataItem.only
+          _only = dataItem.only
+          unless _.isArray(_only)
+            _only = [].concat _only.replace(/\s*/g, '').split \,
 
-          if isRun
-            for filter in _filter
-              controller[filter+'Filter'](params)
-              # filter.call null, controller
+          if _.indexOf(_only, actionName) < 0
+            isRun = false
+          /* init except array */
+        else if dataItem.except
+          _except = dataItem.except
+          unless _.isArray(_except)
+            _except = [].concat _except.replace(/\s*/g, '').split \,
+
+          if _.indexOf(_except, actionName) > -1
+            isRun = false
+
+        if isRun
+          for filter in _filter
+            controller[filter+'Filter'](params)
+            # filter.call null, controller
+
+    @on 'NAPP_ACTION_BEFORE', (...params) ->
+      filterHaldner.apply null, ['before'].concat params
+    @on 'NAPP_ACTION_AFTER', (...params) ->
+      filterHaldner.apply null, ['after'].concat params
 
     /* call action */
     @on \NAPP_LOADED,
@@ -387,9 +398,6 @@ _.extend _n,
       depend = controller[\depend] or []
       depend = depend.concat controller[actionName+\Depend] || []
 
-      before = controller.before
-      after = controller.after
-
       filterPrefix = controllerName
       if namespace
         filterPrefix = ("#namespace.#controllerName").replace /\./g, \_
@@ -397,8 +405,7 @@ _.extend _n,
 
       run = !->
         if actionName
-          _n.trigger \NAPP_ACTION_BEFORE, before,
-            controller, actionName, params
+          _n.trigger \NAPP_ACTION_BEFORE, controller, actionName, params
 
           _n.trigger "NAPP_#{filterPrefix}_ACTION_BEFORE",
             controller, actionName, params
@@ -410,8 +417,7 @@ _.extend _n,
           _n.trigger "NAPP_#{filterPrefix}_ACTION_AFTER",
             controller, actionName, params
 
-          _n.trigger \NAPP_ACTION_AFTER,
-            after, controller, actionName, params
+          _n.trigger \NAPP_ACTION_AFTER, controller, actionName, params
 
       if depend.length
         _n.require _.uniq(depend), run, \Do
