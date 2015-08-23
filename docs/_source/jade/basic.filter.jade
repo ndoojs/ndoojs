@@ -11,13 +11,13 @@ block pageHeader
 block pageContent
   p ndoojs支持自定义过滤器，指定全局执行的方法。过滤器有before、after两种情形，过滤器支持only、except修饰。
   h3 1. 前置过滤器 beforeFilter
-  p 使用before声明，过滤器方法后缀为Filter。例如：
+  p 使用before声明，过滤器方法后缀为Filter。过滤器方法接受两个参数，actionName为当前action的名称，params为传递的参数。例：
   +renderCode('javascript')
     ="before: {\n"
     ="  filter: 'before'\n"
     ="},\n"
     ="\n"
-    ="beforeFilter: function() {\n"
+    ="beforeFilter: function(actionName, params) {\n"
     ="  alert(\'before filter\');\n"
     ="},\n"
     ="\n"
