@@ -67,6 +67,18 @@ describe 'ndoo framework test >', ->
       it 'pageId shoud be home/index', ->
         expect(_n.pageId).toBe 'home/index'
 
+  describe 'getPk test >', ->
+    _n = undefined
+
+    beforeAll ->
+      _n = ndoo
+
+    it 'getPk shoud match num', ->
+      expect(_n.getPk()).toMatch /^\d+$/
+
+    it 'getPk shoud prefix', ->
+      expect(_n.getPk('test_')).toMatch /^test_\d+$/
+
   xdescribe 'ndoo call test >', ->
     _n = ndoo
 
