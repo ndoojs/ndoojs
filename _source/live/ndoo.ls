@@ -395,8 +395,12 @@ _.extend _n,
         actionName = \_empty
 
       # @TODO 基于模块的依赖定义处理
-      depend = controller[\depend] or []
-      depend = depend.concat controller[actionName+\Depend] || []
+      depend = []
+      if controller[\depend]
+        depend = depend.concat controller[\depend]
+
+      if controller[actionName+\Depend]
+        depend = depend.concat controller[actionName+\Depend]
 
       filterPrefix = controllerName
       if namespace

@@ -1072,8 +1072,13 @@
         if (!_.has(controller, actionName + "Action") && _.has(controller, '_emptyAction')) {
           actionName = '_empty';
         }
-        depend = controller['depend'] || [];
-        depend = depend.concat(controller[actionName + 'Depend'] || []);
+        depend = [];
+        if (controller['depend']) {
+          depend = depend.concat(controller['depend']);
+        }
+        if (controller[actionName + 'Depend']) {
+          depend = depend.concat(controller[actionName + 'Depend']);
+        }
         filterPrefix = controllerName;
         if (namespace) {
           filterPrefix = (namespace + "." + controllerName).replace(/\./g, '_');
