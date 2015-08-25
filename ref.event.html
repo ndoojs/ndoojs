@@ -17,21 +17,32 @@
           <h3 class="pure-menu-heading menu-item-divided">基础用法</h3>
           <ul class="pure-menu-list">
             <li class="pure-menu-item"><a href="index.html" class="pure-menu-link">入门</a></li>
+            <li class="pure-menu-item"><a href="basic.appscript.html" class="pure-menu-link">编写应用脚本</a></li>
+            <!-- li.pure-menu-item: a.pure-menu-link(href="basic.prep.html") 变量和事件暂存-->
             <li class="pure-menu-item"><a href="basic.param.html" class="pure-menu-link">参数的使用</a></li>
             <li class="pure-menu-item"><a href="basic.namespace.html" class="pure-menu-link">名称空间</a></li>
-            <li class="pure-menu-item"><a href="basic.autoload.html" class="pure-menu-link">自动加载</a></li>
-            <li class="pure-menu-item"><a href="basic.block.html" class="pure-menu-link">块级组件</a></li>
             <li class="pure-menu-item"><a href="basic.hook.html" class="pure-menu-link">前置和后置操作</a></li>
             <li class="pure-menu-item"><a href="basic.filter.html" class="pure-menu-link">过滤器</a></li>
             <li class="pure-menu-item"><a href="basic.moduleevent.html" class="pure-menu-link">模块事件</a></li>
+            <li class="pure-menu-item"><a href="basic.prep.html" class="pure-menu-link">变量和事件暂存</a></li>
+            <li class="pure-menu-item"><a href="basic.init.html" class="pure-menu-link">初始化</a></li>
+            <li class="pure-menu-item"><a href="basic.block.html" class="pure-menu-link">块级组件</a></li>
+            <li class="pure-menu-item"><a href="basic.autoload.html" class="pure-menu-link">自动加载</a></li>
             <li class="pure-menu-item"><a href="basic.require.html" class="pure-menu-link">手动加载</a></li>
             <li class="pure-menu-item"><a href="basic.depend.html" class="pure-menu-link">依赖加载</a></li>
           </ul>
           <h3 class="pure-menu-heading menu-item-divided">参考</h3>
           <ul class="pure-menu-list">
+            <li class="pure-menu-item"><a href="ref.filedesc.html" class="pure-menu-link">文件参考</a></li>
             <li class="pure-menu-item"><a href="ref.event.html" class="pure-menu-link">事件参考</a></li>
             <li class="pure-menu-item"><a href="ref.do.html" class="pure-menu-link">Do.js参考</a></li>
             <li class="pure-menu-item"><a href="api/" class="pure-menu-link">API</a></li>
+          </ul>
+          <h3 class="pure-menu-heading menu-item-divided">示例</h3>
+          <ul class="pure-menu-list">
+            <li class="pure-menu-item"><a href="./example/started.html" class="pure-menu-link">hello ndoojs</a></li>
+            <li class="pure-menu-item"><a href="./example/basic.appscript.html" class="pure-menu-link">app script</a></li>
+            <li class="pure-menu-item"><a href="./example/basic.eventstack.html" class="pure-menu-link">event stack</a></li>
           </ul>
         </div>
       </div>
@@ -58,6 +69,7 @@ ndoo.trigger(
 ndoo.off(
   (string)eventName  // 事件名称
 )</code></pre>
+            <p>可以一次绑定多个事件，多个事件之间用"空格"分隔。如 _n.on('event1 event2', callback);。</p>
             <h3>2. 事件类型</h3>
             <p>ndoojs的事件分为三种，分别为 default, delay, status，对应三种情况。声明时不区分事件类型，触发时在事件前缀 DEFAULT:、DELAY、STATUS或触发不同事件。default事件为默认事件，可以省略前缀。</p>
             <h4>2.1 default 事件</h4>

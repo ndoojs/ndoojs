@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Do.js参考-ndoojs文档-ndoojs</title>
+    <title>初始化-ndoojs文档-ndoojs</title>
     <link rel="stylesheet" type="text/css" href="css/pure-min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/prism.css">
@@ -49,44 +49,28 @@
       <div id="main">
         <div class="docs theme1">
           <div class="header">
-            <h1>Do.js参考</h1>
-            <p>ndoojs使用Do.js做依赖加载(*进行过定制)，参见 <a href="http://kejun.github.io/Do/">http://kejun.github.io/Do/</a>。这里对ndoojs里面用到的一些功能进行说明。</p>
+            <h1>初始化</h1>
           </div>
           <div class="content">
-            <h3>1. 定义模块</h3>
-            <p>使用Do.define方法定义一个模块，可以是js或者css类型，可以指定依赖。示例：</p>
-                <pre data-start="1" class="line-numbers"><code class="language-javascript">Do.define('lightBox-css', {path: '{URL}', type: 'css'});
-Do.define('lightBox', {path: '{URL}', type: 'js', requires: ['lightBox-css']});</code></pre>
-            <h3>2. 设置已加载模块</h3>
-            <p>原则上建议所有模块都在Do.js中进行定义，但有些文件默认已加载(如jQuery)则可设置该模块为已加载。示例：</p>
-                <pre data-start="1" class="line-numbers"><code class="language-javascript">Do.define('jquery', {path: 'js/jquery', type: 'js'});
-Do.setLoaded('jquery') //参数可以是数组</code></pre>
-            <h3>3. 为ndoojs标识模块</h3>
-            <p>当某些ndoojs模块默认未载入，需要进行按需加载时可以在Do.js中定义该文件，但需要为ndoojs标识出该模块存在。</p>
-                <pre data-start="1" class="line-numbers"><code class="language-javascript">(function(){
-  var _n;
-  this.N = this.ndoo || (this.ndoo = {});
-  _n = this.ndoo;
-
-  Do.define('home', {
-    path: 'js/example1.js',
-    type: 'js'
-  });
-  // 在NAPP_DEFINE事件触发以后调用setApp标识module
-  _n.on('NAPP_DEFINE', function(){
-    _n.setApp('home');
-  });
-
-  Do.define('example3.block', {
-    path: 'js/example3.block.js',
-    type: 'js'
-  });
-  // 在NBLOCK_DEFINE事件触发以后调用setBlock标识block
-  _n.on('NBLOCK_DEFINE', function(){
-    _n.setBlock('example3.block');
-  });
-
-})(this);</code></pre>
+            <p>直接调用ndoo.init()即可完成初始化，init还有另外两种用法，在这里进行说明。</p>
+            <h3>1.指定pageId</h3>
+            <p>ndoojs默认查找id为scriptArea的标签上取data-page-id属性作为页面id，但在某种场合需要进行定制，这时可以手动指定。</p>
+            <p>如果你觉得scriptArea这个名字不太贴合，可以直接指定id名。示例：</p>
+                <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;div id=&quot;myApp&quot; data-page-id=&quot;home/index&quot;&gt;
+...
+&lt;script&gt;
+  ndoo.init('myAppId');
+&lt;/div&gt;</code></pre>
+            <p>某些情况下无法从dom标签指定(在非浏览器环境运行单元测试)，这时可以直接指定。示例：</p>
+                <pre data-start="1" class="line-numbers"><code class="language-javascript">ndoo.init('home/index');
+</code></pre>
+            <p>ndoojs会先判断能否取到DOM，如果没有找到对应的DOM则直接将参数赋值给pageId。</p>
+            <h3>2.全局依赖</h3>
+            <p>某些库我们需要全局加载，这时可以在ndoo.init中传入。示例：</p>
+                <pre data-start="1" class="line-numbers"><code class="language-javascript">ndoo.init(['myApp']);</code></pre>
+            <p>依赖的库需提前通过do.js定义。</p>
+            <p>ndoojs使用变量类型来判断pageId和依赖，可以同时指定pageId和依赖。示例：</p>
+                <pre data-start="1" class="line-numbers"><code class="language-javascript">ndoo.init('home/index', ['myApp']);</code></pre>
           </div>
         </div>
       </div>

@@ -3,8 +3,8 @@
 "   FileName: ndoo_prep.ls
 "       Desc: ndoo.js前置文件
 "     Author: chenglf
-"    Version: ndoo.js(v0.1b5)
-" LastChange: 03/07/2014 00:31
+"    Version: ndoo.js(v1.0b1)
+" LastChange: 08/22/2015 00:06
 " --------------------------------------------------
 */
 (function(){
@@ -140,8 +140,10 @@
    * _n.trigger('testEvent', 'testEvent', 'kkk');
    */
   _n.on = function(eventName, callback){
+    /* split 'a, b, c' to ['a', 'b', 'c']
+       split 'a b c' to ['a' ,'b', 'c'] */
     var i$, len$, item, results$ = [];
-    eventName = eventName.replace(/\s*/g, '').split(',');
+    eventName = eventName.split(/\s*,\s*|\s+/);
     for (i$ = 0, len$ = eventName.length; i$ < len$; ++i$) {
       item = eventName[i$];
       results$.push(this.event.on(item, callback));
@@ -211,8 +213,8 @@
 "   FileName: ndoo_lib.ls
 "       Desc: ndoo.js库文件
 "     Author: chenglf
-"    Version: ndoo.js(v0.1b5)
-" LastChange: 05/21/2014 14:24
+"    Version: ndoo.js(v1.0b1)
+" LastChange: 08/22/2015 00:05
 " --------------------------------------------------
 */
 (function(){
@@ -234,8 +236,8 @@
   // ---------------
   
   // A module that can be mixed in to *any object* in order to provide it with
-  // custom events. You may bind with 'on' or remove with 'off' callback
-  // functions to an event; 'trigger'-ing an event fires all callbacks in
+  // a custom event channel. You may bind a callback to an event with 'on' or
+  // remove with 'off'; 'trigger'-ing an event fires all callbacks in
   // succession.
   //
   //     var object = {};
@@ -243,142 +245,234 @@
   //     object.on('expand', function(){ alert('expanded'); });
   //     object.trigger('expand');
   //
-  var Events = Backbone.Events = {
-  
-    // Bind an event to a 'callback' function. Passing '"all"' will bind
-    // the callback to all events fired.
-    on: function(name, callback, context) {
-      if (!eventsApi(this, 'on', name, [callback, context]) || !callback) return this;
-      this._events || (this._events = {});
-      var events = this._events[name] || (this._events[name] = []);
-      events.push({callback: callback, context: context, ctx: context || this});
-      return this;
-    },
-  
-    // Bind an event to only be triggered a single time. After the first time
-    // the callback is invoked, it will be removed.
-    once: function(name, callback, context) {
-      if (!eventsApi(this, 'once', name, [callback, context]) || !callback) return this;
-      var self = this;
-      var once = _.once(function() {
-        self.off(name, once);
-        callback.apply(this, arguments);
-      });
-      once._callback = callback;
-      return this.on(name, once, context);
-    },
-  
-    // Remove one or many callbacks. If 'context' is null, removes all
-    // callbacks with that function. If 'callback' is null, removes all
-    // callbacks for the event. If 'name' is null, removes all bound
-    // callbacks for all events.
-    off: function(name, callback, context) {
-      if (!this._events || !eventsApi(this, 'off', name, [callback, context])) return this;
-  
-      // Remove all callbacks for all events.
-      if (!name && !callback && !context) {
-        this._events = void 0;
-        return this;
-      }
-  
-      var names = name ? [name] : _.keys(this._events);
-      for (var i = 0, length = names.length; i < length; i++) {
-        name = names[i];
-  
-        // Bail out if there are no events stored.
-        var events = this._events[name];
-        if (!events) continue;
-  
-        // Remove all callbacks for this event.
-        if (!callback && !context) {
-          delete this._events[name];
-          continue;
-        }
-  
-        // Find any remaining events.
-        var remaining = [];
-        for (var j = 0, k = events.length; j < k; j++) {
-          var event = events[j];
-          if (
-            callback && callback !== event.callback &&
-            callback !== event.callback._callback ||
-            context && context !== event.context
-          ) {
-            remaining.push(event);
-          }
-        }
-  
-        // Replace events if there are any remaining.  Otherwise, clean up.
-        if (remaining.length) {
-          this._events[name] = remaining;
-        } else {
-          delete this._events[name];
-        }
-      }
-  
-      return this;
-    },
-  
-    // Trigger one or many events, firing all bound callbacks. Callbacks are
-    // passed the same arguments as 'trigger' is, apart from the event name
-    // (unless you're listening on '"all"', which will cause your callback to
-    // receive the true name of the event as the first argument).
-    trigger: function(name) {
-      if (!this._events) return this;
-      var args = slice.call(arguments, 1);
-      if (!eventsApi(this, 'trigger', name, args)) return this;
-      var events = this._events[name];
-      var allEvents = this._events.all;
-      if (events) triggerEvents(events, args);
-      if (allEvents) triggerEvents(allEvents, arguments);
-      return this;
-    },
-  
-    // Tell this object to stop listening to either specific events ... or
-    // to every object it's currently listening to.
-    stopListening: function(obj, name, callback) {
-      var listeningTo = this._listeningTo;
-      if (!listeningTo) return this;
-      var remove = !name && !callback;
-      if (!callback && typeof name === 'object') callback = this;
-      if (obj) (listeningTo = {})[obj._listenId] = obj;
-      for (var id in listeningTo) {
-        obj = listeningTo[id];
-        obj.off(name, callback, this);
-        if (remove || _.isEmpty(obj._events)) delete this._listeningTo[id];
-      }
-      return this;
-    }
-  
-  };
+  var Events = Backbone.Events = {};
   
   // Regular expression used to split event strings.
   var eventSplitter = /\s+/;
   
-  // Implement fancy features of the Events API such as multiple event
-  // names '"change blur"' and jQuery-style event maps '{change: action}'
-  // in terms of the existing API.
-  var eventsApi = function(obj, action, name, rest) {
-    if (!name) return true;
-  
-    // Handle event maps.
-    if (typeof name === 'object') {
-      for (var key in name) {
-        obj[action].apply(obj, [key, name[key]].concat(rest));
+  // Iterates over the standard 'event, callback' (as well as the fancy multiple
+  // space-separated events '"change blur", callback' and jQuery-style event
+  // maps '{event: callback}').
+  var eventsApi = function(iteratee, events, name, callback, opts) {
+    var i = 0, names;
+    if (name && typeof name === 'object') {
+      // Handle event maps.
+      if (callback !== void 0 && 'context' in opts && opts.context === void 0) opts.context = callback;
+      for (names = _.keys(name); i < names.length ; i++) {
+        events = eventsApi(iteratee, events, names[i], name[names[i]], opts);
       }
-      return false;
+    } else if (name && eventSplitter.test(name)) {
+      // Handle space separated event names by delegating them individually.
+      for (names = name.split(eventSplitter); i < names.length; i++) {
+        events = iteratee(events, names[i], callback, opts);
+      }
+    } else {
+      // Finally, standard events.
+      events = iteratee(events, name, callback, opts);
+    }
+    return events;
+  };
+  
+  // Bind an event to a 'callback' function. Passing '"all"' will bind
+  // the callback to all events fired.
+  Events.on = function(name, callback, context) {
+    return internalOn(this, name, callback, context);
+  };
+  
+  // Guard the 'listening' argument from the public API.
+  var internalOn = function(obj, name, callback, context, listening) {
+    obj._events = eventsApi(onApi, obj._events || {}, name, callback, {
+        context: context,
+        ctx: obj,
+        listening: listening
+    });
+  
+    if (listening) {
+      var listeners = obj._listeners || (obj._listeners = {});
+      listeners[listening.id] = listening;
     }
   
-    // Handle space separated event names.
-    if (eventSplitter.test(name)) {
-      var names = name.split(eventSplitter);
-      for (var i = 0, length = names.length; i < length; i++) {
-        obj[action].apply(obj, [names[i]].concat(rest));
-      }
-      return false;
+    return obj;
+  };
+  
+  // Inversion-of-control versions of 'on'. Tell *this* object to listen to
+  // an event in another object... keeping track of what it's listening to
+  // for easier unbinding later.
+  Events.listenTo =  function(obj, name, callback) {
+    if (!obj) return this;
+    var id = obj._listenId || (obj._listenId = _.uniqueId('l'));
+    var listeningTo = this._listeningTo || (this._listeningTo = {});
+    var listening = listeningTo[id];
+  
+    // This object is not listening to any other events on 'obj' yet.
+    // Setup the necessary references to track the listening callbacks.
+    if (!listening) {
+      var thisId = this._listenId || (this._listenId = _.uniqueId('l'));
+      listening = listeningTo[id] = {obj: obj, objId: id, id: thisId, listeningTo: listeningTo, count: 0};
     }
   
-    return true;
+    // Bind callbacks on obj, and keep track of them on listening.
+    internalOn(obj, name, callback, this, listening);
+    return this;
+  };
+  
+  // The reducing API that adds a callback to the 'events' object.
+  var onApi = function(events, name, callback, options) {
+    if (callback) {
+      var handlers = events[name] || (events[name] = []);
+      var context = options.context, ctx = options.ctx, listening = options.listening;
+      if (listening) listening.count++;
+  
+      handlers.push({ callback: callback, context: context, ctx: context || ctx, listening: listening });
+    }
+    return events;
+  };
+  
+  // Remove one or many callbacks. If 'context' is null, removes all
+  // callbacks with that function. If 'callback' is null, removes all
+  // callbacks for the event. If 'name' is null, removes all bound
+  // callbacks for all events.
+  Events.off =  function(name, callback, context) {
+    if (!this._events) return this;
+    this._events = eventsApi(offApi, this._events, name, callback, {
+        context: context,
+        listeners: this._listeners
+    });
+    return this;
+  };
+  
+  // Tell this object to stop listening to either specific events ... or
+  // to every object it's currently listening to.
+  Events.stopListening =  function(obj, name, callback) {
+    var listeningTo = this._listeningTo;
+    if (!listeningTo) return this;
+  
+    var ids = obj ? [obj._listenId] : _.keys(listeningTo);
+  
+    for (var i = 0; i < ids.length; i++) {
+      var listening = listeningTo[ids[i]];
+  
+      // If listening doesn't exist, this object is not currently
+      // listening to obj. Break out early.
+      if (!listening) break;
+  
+      listening.obj.off(name, callback, this);
+    }
+    if (_.isEmpty(listeningTo)) this._listeningTo = void 0;
+  
+    return this;
+  };
+  
+  // The reducing API that removes a callback from the 'events' object.
+  var offApi = function(events, name, callback, options) {
+    if (!events) return;
+  
+    var i = 0, listening;
+    var context = options.context, listeners = options.listeners;
+  
+    // Delete all events listeners and "drop" events.
+    if (!name && !callback && !context) {
+      var ids = _.keys(listeners);
+      for (; i < ids.length; i++) {
+        listening = listeners[ids[i]];
+        delete listeners[listening.id];
+        delete listening.listeningTo[listening.objId];
+      }
+      return;
+    }
+  
+    var names = name ? [name] : _.keys(events);
+    for (; i < names.length; i++) {
+      name = names[i];
+      var handlers = events[name];
+  
+      // Bail out if there are no events stored.
+      if (!handlers) break;
+  
+      // Replace events if there are any remaining.  Otherwise, clean up.
+      var remaining = [];
+      for (var j = 0; j < handlers.length; j++) {
+        var handler = handlers[j];
+        if (
+          callback && callback !== handler.callback &&
+            callback !== handler.callback._callback ||
+              context && context !== handler.context
+        ) {
+          remaining.push(handler);
+        } else {
+          listening = handler.listening;
+          if (listening && --listening.count === 0) {
+            delete listeners[listening.id];
+            delete listening.listeningTo[listening.objId];
+          }
+        }
+      }
+  
+      // Update tail event if the list has any events.  Otherwise, clean up.
+      if (remaining.length) {
+        events[name] = remaining;
+      } else {
+        delete events[name];
+      }
+    }
+    if (_.size(events)) return events;
+  };
+  
+  // Bind an event to only be triggered a single time. After the first time
+  // the callback is invoked, its listener will be removed. If multiple events
+  // are passed in using the space-separated syntax, the handler will fire
+  // once for each event, not once for a combination of all events.
+  Events.once =  function(name, callback, context) {
+    // Map the event into a '{event: once}' object.
+    var events = eventsApi(onceMap, {}, name, callback, _.bind(this.off, this));
+    return this.on(events, void 0, context);
+  };
+  
+  // Inversion-of-control versions of 'once'.
+  Events.listenToOnce =  function(obj, name, callback) {
+    // Map the event into a '{event: once}' object.
+    var events = eventsApi(onceMap, {}, name, callback, _.bind(this.stopListening, this, obj));
+    return this.listenTo(obj, events);
+  };
+  
+  // Reduces the event callbacks into a map of '{event: onceWrapper}'.
+  // 'offer' unbinds the 'onceWrapper' after it has been called.
+  var onceMap = function(map, name, callback, offer) {
+    if (callback) {
+      var once = map[name] = _.once(function() {
+        offer(name, once);
+        callback.apply(this, arguments);
+      });
+      once._callback = callback;
+    }
+    return map;
+  };
+  
+  // Trigger one or many events, firing all bound callbacks. Callbacks are
+  // passed the same arguments as 'trigger' is, apart from the event name
+  // (unless you're listening on '"all"', which will cause your callback to
+  // receive the true name of the event as the first argument).
+  Events.trigger =  function(name) {
+    if (!this._events) return this;
+  
+    var length = Math.max(0, arguments.length - 1);
+    var args = Array(length);
+    for (var i = 0; i < length; i++) args[i] = arguments[i + 1];
+  
+    eventsApi(triggerApi, this._events, name, void 0, args);
+    return this;
+  };
+  
+  // Handles triggering the appropriate event callbacks.
+  var triggerApi = function(objEvents, name, cb, args) {
+    if (objEvents) {
+      var events = objEvents[name];
+      var allEvents = objEvents.all;
+      if (events && allEvents) allEvents = allEvents.slice();
+      if (events) triggerEvents(events, args);
+      if (allEvents) triggerEvents(allEvents, [name].concat(args));
+    }
+    return objEvents;
   };
   
   // A difficult-to-believe, but optimized internal dispatch function for
@@ -394,22 +488,6 @@
       default: while (++i < l) (ev = events[i]).callback.apply(ev.ctx, args); return;
     }
   };
-  
-  var listenMethods = {listenTo: 'on', listenToOnce: 'once'};
-  
-  // Inversion-of-control versions of 'on' and 'once'. Tell *this* object to
-  // listen to an event in another object ... keeping track of what it's
-  // listening to.
-  _.each(listenMethods, function(implementation, method) {
-    Events[method] = function(obj, name, callback) {
-      var listeningTo = this._listeningTo || (this._listeningTo = {});
-      var id = obj._listenId || (obj._listenId = _.uniqueId('l'));
-      listeningTo[id] = obj;
-      if (!callback && typeof name === 'object') callback = this;
-      obj[implementation](name, callback, this);
-      return this;
-    };
-  });
   
   // Aliases for backwards compatibility.
   Events.bind   = Events.on;
@@ -523,7 +601,7 @@
   // Helpers
   // -------
   
-  // Helper function to correctly set up the prototype chain, for subclasses.
+  // Helper function to correctly set up the prototype chain for subclasses.
   // Similar to 'goog.inherits', but uses a hash of prototype properties and
   // class properties to be extended.
   var extend = function(protoProps, staticProps) {
@@ -532,7 +610,7 @@
   
     // The constructor function for the new subclass is either defined by you
     // (the "constructor" property in your 'extend' definition), or defaulted
-    // by us to simply call the parent's constructor.
+    // by us to simply call the parent constructor.
     if (protoProps && _.has(protoProps, 'constructor')) {
       child = protoProps.constructor;
     } else {
@@ -543,7 +621,7 @@
     _.extend(child, parent, staticProps);
   
     // Set the prototype chain to inherit from 'parent', without calling
-    // 'parent''s constructor function.
+    // 'parent' constructor function.
     var Surrogate = function(){ this.constructor = child; };
     Surrogate.prototype = parent.prototype;
     child.prototype = new Surrogate;
@@ -563,151 +641,25 @@
   // Model.extend = Collection.extend = Router.extend = View.extend = History.extend = extend;
   Router.extend = extend;
   
-  
-}).call(this);
-/*
-" --------------------------------------------------
-"   FileName: ndoo.block.ls
-"       Desc: ndoo.js block模块
-"     Author: chenglf
-"    Version: ndoo.js(v0.1b5)
-" LastChange: 05/21/2014 15:32
-" --------------------------------------------------
-*/
-(function(){
-  "use strict";
-  var _, $, _n, _vars, _func, _stor;
-  _ = this['_'];
-  $ = this['jQuery'] || this['Zepto'];
-  this.N = this.ndoo || (this.ndoo = {});
-  _n = this.ndoo;
-  _vars = _n.vars;
-  _func = _n.func;
-  _stor = _n.storage;
-  /**
-   * 检测是否存在指定block
-   *
-   * @method
-   * @name hasBlock
-   * @memberof ndoo
-   * @param {string} namespace 名称空间
-   * @param {string} name 名称
-   */
-  _n.hasBlock = function(namespace){
-    var nsmatch, name, ref$;
-    if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
-      namespace = nsmatch[1], name = nsmatch[2];
-    } else {
-      ref$ = ['_default', name], namespace = ref$[0], name = ref$[1];
-    }
-    return _n._blockData['_exist']["block." + namespace + "." + name];
-  };
-  /**
-   * 标识指定block
-   *
-   * @method
-   * @name setBlock
-   * @memberof ndoo
-   * @param {string} namespace 名称空间
-   * @param {string} name 名称
-   */
-  _n.setBlock = function(namespace){
-    var nsmatch, name, ref$;
-    if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
-      namespace = nsmatch[1], name = nsmatch[2];
-    } else {
-      ref$ = ['_default', name], namespace = ref$[0], name = ref$[1];
-    }
-    return _n._blockData['_exist']["block." + namespace + "." + name] = true;
-  };
-  /**
-   * 添加block实现
-   *
-   * @method
-   * @name block
-   * @memberof ndoo
-   * @param {string} namespace 名称空间
-   * @param {string} name 名称
-   */
-  _n.block = function(namespace, block){
-    var nsmatch, name, ref$;
-    if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
-      namespace = nsmatch[1], name = nsmatch[2];
-    } else {
-      ref$ = ['_default', name], namespace = ref$[0], name = ref$[1];
-    }
-    return _n._block('block', namespace, name, block);
-  };
-  _n.trigger('STATUS:NBLOCK_DEFINE');
-  _n.on('NBLOCK_LOADED', function(elem, namespace, name, params){
-    var block;
-    namespace == null && (namespace = '_default');
-    if (block = _n.block(namespace + "." + name)) {
-      if (_.isFunction(block)) {
-        return block(elem, params);
-      } else if (_.isObject(block) && typeof block === 'object') {
-        return block.init(elem, params);
-      }
-    }
-  });
-  /**
-   * 初始化模块
-   *
-   * @method
-   * @name initBlock
-   * @memberof ndoo
-   * @param {object} elem 初始化的元素
-   */
-  _n.initBlock = function(elem){
-    var blockId, this$ = this;
-    blockId = $(elem).data('nblockId');
-    _n.router.parse(/^(?:\/?)(.*?)(?:\/?([^\/?]+))(?:\?(.*?))?(?:\#(.*?))?$/, blockId, function(namespace, block, params){
-      var pkg;
-      namespace == null && (namespace = '_default');
-      pkg = namespace + "." + block;
-      if (_n.block(pkg)) {
-        _n.trigger('NBLOCK_LOADED', elem, namespace, block, params);
-      } else if (_n.hasBlock(pkg)) {
-        this$.require([namespace + "." + block], function(){
-          _n.trigger('NBLOCK_LOADED', elem, namespace, block, params);
-        }, 'Do');
-      }
-    });
-  };
-  _n.on('NBLOCK_INIT', function(){
-    var blocks, i$, len$, block, auto;
-    blocks = $('[data-nblock-id]');
-    if (blocks.length) {
-      for (i$ = 0, len$ = blocks.length; i$ < len$; ++i$) {
-        block = blocks[i$];
-        auto = $(block).data('nblockAuto');
-        if (auto === undefined || auto.toString() !== 'false') {
-          _n.initBlock(block);
-        }
-      }
-    }
-  });
-  /* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */
 }).call(this);
 /*
 " --------------------------------------------------
 "   FileName: ndoo.ls
 "       Desc: ndoo.js主文件
 "     Author: chenglf
-"    Version: ndoo.js(v0.1b5)
-" LastChange: 11/06/2014 23:32
+"    Version: ndoo.js(v1.0b1)
+" LastChange: 08/22/2015 00:05
 " --------------------------------------------------
 */
 (function(){
   "use strict";
-  var _, $, _n, _vars, _func, _stor;
+  var _, $, _n, _vars, _func, _stor, slice$ = [].slice;
   _ = this['_'];
   $ = this['jQuery'] || this['Zepto'];
   this.N = this.ndoo || (this.ndoo = {});
   _n = this.ndoo;
   _vars = _n.vars;
   _func = _n.func;
-  _stor = _n.storage;
   /* default _lib {{{ */
   if (!_n._lib && this['Backbone']) {
     _n._lib = this['Backbone'];
@@ -735,7 +687,7 @@
    * _stor('abc', null, _stor.DESTROY); // true
    */
   _n.storage = function(key, value, option){
-    var destroy, rewrite, data, e;
+    var destroy, rewrite, data;
     destroy = option & _n.storage.DESTROY;
     rewrite = option & _n.storage.REWRITE;
     data = _n.storage._data;
@@ -746,26 +698,17 @@
       delete data[key];
       return true;
     }
-    if (!rewrite && data.hasOwnProperty(key)) {
+    if (!rewrite && _.has(data, key)) {
       return false;
     }
-    if (Object.defineProperty) {
-      try {
-        Object.defineProperty(data, key, {
-          value: value,
-          writable: true,
-          enumerable: true,
-          configurable: true
-        });
-      } catch (e$) {
-        e = e$;
-        data[key] = value;
-      }
-    } else {
-      data[key] = value;
-    }
+    data[key] = value;
     return data[key];
   };
+  /**
+   * alias ndoo.storage
+   *
+   */
+  _stor = _n.storage;
   _n.storage._data = {};
   /**
    * storage重写常量
@@ -794,14 +737,14 @@
    * @param {string} type 加载器类型
    * @example // ndoo alias _n
    * var _n = ndoo;
-   * _n.require(['../example/lib/jquery-1.11.1.js', '../example/lib/jquery-mytest.js'], function(a){
+   * _n.require(['lib/jquery-1.11.1.js', 'lib/jquery-mytest.js'], function(a){
    *   a('body').mytest();
    * }, 'seajs');
    */
   _n.require = function(depend, callback, type){
-    if (type === 'Do') {
+    if (type.toLowerCase() === 'do') {
       Do.apply(null, depend.concat(callback));
-    } else if (type === 'seajs') {
+    } else if (type.toLowerCase() === 'seajs') {
       seajs.use(depend, callback);
     }
   };
@@ -939,14 +882,10 @@
         if (_.has(eventHandle.listened, eventName)) {
           eventHandle.trigger.apply(eventHandle, [eventName].concat(data));
         }
-        if (_.has(eventHandle.events, eventName)) {
-          if (eventType === 'STATUS') {
-            return;
-          }
-          eventHandle.events[eventName].push(data);
-        } else {
-          eventHandle.events[eventName] = [data];
+        if (!_.has(eventHandle.events, eventName)) {
+          eventHandle.events[eventName] = [];
         }
+        eventHandle.events[eventName].push = data;
       } else if (eventType === 'STATUS') {
         if (!_.has(eventHandle.events, eventType + ":" + eventName)) {
           eventHandle.events[eventType + ":" + eventName] = data;
@@ -988,10 +927,31 @@
      * page id
      *
      * @name pageId
-     * @memberof pageId
+     * @memberof ndoo
      * @type {string}
      */
-    pageId: $('#scriptArea').data('pageId')
+    pageId: ''
+    /**
+     * initPageId 初始化 pageId
+     *
+     * @private
+     * @name initPageId
+     * @memberof ndoo
+     */,
+    initPageId: function(id){
+      var el;
+      if (this.pageId) {
+        return;
+      }
+      if (typeof document !== 'undefined') {
+        if (el = document.getElementById(id || 'scriptArea')) {
+          this.pageId = el.getAttribute('data-page-id') || '';
+        }
+      }
+      if (!this.pageId && id) {
+        this.pageId = id;
+      }
+    }
     /**
      * 获取唯一key
      *
@@ -1003,8 +963,9 @@
     getPk: function(){
       var _pk;
       _pk = +new Date();
-      return function(){
-        return ++_pk;
+      return function(prefix){
+        prefix == null && (prefix = '');
+        return prefix + (++_pk);
       };
     }()
     /* }}} */
@@ -1041,52 +1002,68 @@
      */,
     dispatch: function(){
       /* before and after filter event */
-      var this$ = this;
-      this.on('NAPP_ACTION_BEFORE, NAPP_ACTION_AFTER', function(data, controller, actionName, params){
-        var _data, i$, len$, dataItem, _filter, isRun, _only, _except, j$, len1$, filter;
-        if (data) {
-          if (_.isObject(data) && typeof data === 'object') {
-            _data = [].concat(data);
+      var filterHaldner, this$ = this;
+      filterHaldner = function(type, controller, actionName, params){
+        var data, _data, i$, len$, dataItem, _filter, isRun, _only, _except, j$, len1$, filter;
+        if (type === 'before') {
+          data = controller.before;
+        } else if (type === 'after') {
+          data = controller.after;
+        }
+        if (!data) {
+          return;
+        }
+        if (typeof data === 'object') {
+          _data = [].concat(data);
+        }
+        for (i$ = 0, len$ = _data.length; i$ < len$; ++i$) {
+          dataItem = _data[i$];
+          /* init filter array */
+          _filter = dataItem.filter;
+          if (!_.isArray(_filter)) {
+            _filter = [].concat(_filter.split(/\s*,\s*|\s+/));
           }
-          for (i$ = 0, len$ = _data.length; i$ < len$; ++i$) {
-            dataItem = _data[i$];
-            /* init filter array */
-            _filter = dataItem.filter;
-            if (!_.isArray(_filter)) {
-              _filter = [].concat(_filter.replace(/\s*/g, '').split(','));
+          isRun = true;
+          /* init only array */
+          if (dataItem.only) {
+            _only = dataItem.only;
+            if (!_.isArray(_only)) {
+              _only = [].concat(_only.split(/\s*,\s*|\s+/));
             }
-            isRun = true;
-            /* init only array */
-            if (dataItem.only) {
-              _only = dataItem.only;
-              if (!_.isArray(_only)) {
-                _only = [].concat(_only.replace(/\s*/g, '').split(','));
-              }
-              if (_.indexOf(_only, actionName) < 0) {
-                isRun = false;
-              }
-              /* init except array */
-            } else if (dataItem.except) {
-              _except = dataItem.except;
-              if (!_.isArray(_except)) {
-                _except = [].concat(_except.replace(/\s*/g, '').split(','));
-              }
-              if (_.indexOf(_except, actionName) > -1) {
-                isRun = false;
-              }
+            if (_.indexOf(_only, actionName) < 0) {
+              isRun = false;
             }
-            if (isRun) {
-              for (j$ = 0, len1$ = _filter.length; j$ < len1$; ++j$) {
-                filter = _filter[j$];
-                controller[filter + 'Filter'](params);
-              }
+            /* init except array */
+          } else if (dataItem.except) {
+            _except = dataItem.except;
+            if (!_.isArray(_except)) {
+              _except = [].concat(_except.split(/\s*,\s*|\s+/));
+            }
+            if (_.indexOf(_except, actionName) > -1) {
+              isRun = false;
+            }
+          }
+          if (isRun) {
+            for (j$ = 0, len1$ = _filter.length; j$ < len1$; ++j$) {
+              filter = _filter[j$];
+              controller[filter + 'Filter'](actionName, params);
             }
           }
         }
+      };
+      this.on('NAPP_ACTION_BEFORE', function(){
+        var params;
+        params = slice$.call(arguments);
+        return filterHaldner.apply(null, ['before'].concat(params));
+      });
+      this.on('NAPP_ACTION_AFTER', function(){
+        var params;
+        params = slice$.call(arguments);
+        return filterHaldner.apply(null, ['after'].concat(params));
       });
       /* call action */
       this.on('NAPP_LOADED', function(namespace, controllerName, actionName, params){
-        var controller, depend, before, after, filterPrefix, run;
+        var controller, depend, filterPrefix, run;
         if (namespace) {
           controller = _n.app(namespace + "." + controllerName);
         } else {
@@ -1095,10 +1072,13 @@
         if (!_.has(controller, actionName + "Action") && _.has(controller, '_emptyAction')) {
           actionName = '_empty';
         }
-        depend || (depend = controller['depend']);
-        depend = (depend || []).concat(controller[actionName + 'Depend'] || []);
-        before = controller.before;
-        after = controller.after;
+        depend = [];
+        if (controller['depend']) {
+          depend = depend.concat(controller['depend']);
+        }
+        if (controller[actionName + 'Depend']) {
+          depend = depend.concat(controller[actionName + 'Depend']);
+        }
         filterPrefix = controllerName;
         if (namespace) {
           filterPrefix = (namespace + "." + controllerName).replace(/\./g, '_');
@@ -1107,7 +1087,7 @@
         run = function(){
           var key$;
           if (actionName) {
-            _n.trigger('NAPP_ACTION_BEFORE', before, controller, actionName, params);
+            _n.trigger('NAPP_ACTION_BEFORE', controller, actionName, params);
             _n.trigger("NAPP_" + filterPrefix + "_ACTION_BEFORE", controller, actionName, params);
             if (typeof controller[key$ = actionName + 'Before'] == 'function') {
               controller[key$](params);
@@ -1119,10 +1099,10 @@
               controller[key$](params);
             }
             _n.trigger("NAPP_" + filterPrefix + "_ACTION_AFTER", controller, actionName, params);
-            _n.trigger('NAPP_ACTION_AFTER', after, controller, actionName, params);
+            _n.trigger('NAPP_ACTION_AFTER', controller, actionName, params);
           }
         };
-        if (depend && depend.length) {
+        if (depend.length) {
           _n.require(_.uniq(depend), run, 'Do');
         } else {
           run();
@@ -1162,40 +1142,185 @@
      * @name triggerPageStatus
      * @memberof ndoo
      */,
-    triggerPageStatus: function(){
-      var this$ = this;
-      this.trigger('STATUS:PAGE_STATUS_FAST');
-      $(function(){
-        this$.trigger('STATUS:PAGE_STATUS_DOMPREP');
-        this$.trigger('STATUS:PAGE_STATUS_DOM');
-        this$.trigger('STATUS:PAGE_STATUS_DOMORLOAD');
-      });
-      $(window).bind('load', function(){
-        return this$.trigger('STATUS:PAGE_STATUS_LOAD');
-      });
-      this.on('PAGE_STATUS_DOM', function(){
-        if (this$.pageId) {
-          this$.trigger('STATUS:PAGE_STATUS_ROUTING', this$.pageId);
-          this$.trigger('STATUS:NBLOCK_INIT');
-        }
-      });
+    triggerPageStatus: function(depend){
+      var call, this$ = this;
+      call = function(){
+        this$.trigger('STATUS:PAGE_STATUS_FAST');
+        $(function(){
+          this$.trigger('STATUS:PAGE_STATUS_DOMPREP');
+          this$.trigger('STATUS:PAGE_STATUS_DOM');
+          this$.trigger('STATUS:PAGE_STATUS_DOMORLOAD');
+        });
+        $(window).bind('load', function(){
+          return this$.trigger('STATUS:PAGE_STATUS_LOAD');
+        });
+        this$.on('PAGE_STATUS_DOM', function(){
+          if (this$.pageId) {
+            this$.trigger('STATUS:PAGE_STATUS_ROUTING', this$.pageId);
+            this$.trigger('STATUS:NBLOCK_INIT');
+          }
+        });
+      };
+      if (depend && depend.length) {
+        this.require(depend, call, 'Do');
+      } else {
+        call();
+      }
     }
     /* }}} */
     /* init {{{ */
     /**
-     * 触发页面状态
+     * 初始化页面
      *
-     * @private
      * @method
      * @name init
      * @memberof ndoo
+     * @param {string} id DOM的ID或指定ID
+     * @param {array} depend 依赖
      */,
-    init: function(){
+    init: function(id, depend){
+      var ref$;
+      if (_.isArray(id)) {
+        ref$ = ['', id], id = ref$[0], depend = ref$[1];
+      }
+      this.initPageId(id);
       this.event.init();
       this.dispatch();
-      this.triggerPageStatus();
+      this.triggerPageStatus(depend);
+      return this;
     }
     /* }}} */
+  });
+  /* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */
+}).call(this);
+/*
+" --------------------------------------------------
+"   FileName: ndoo.block.ls
+"       Desc: ndoo.js block模块
+"     Author: chenglf
+"    Version: ndoo.js(v1.0b1)
+" LastChange: 08/22/2015 00:05
+" --------------------------------------------------
+*/
+(function(){
+  "use strict";
+  var _, $, _n, _vars, _func, _stor;
+  _ = this['_'];
+  $ = this['jQuery'] || this['Zepto'];
+  this.N = this.ndoo || (this.ndoo = {});
+  _n = this.ndoo;
+  _vars = _n.vars;
+  _func = _n.func;
+  _stor = _n.storage;
+  /**
+   * 检测是否存在指定block
+   *
+   * @method
+   * @name hasBlock
+   * @memberof ndoo
+   * @param {string} namespace 名称空间
+   * @param {string} name 名称
+   */
+  _n.hasBlock = function(namespace){
+    var nsmatch, name, ref$;
+    if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
+      namespace = nsmatch[1], name = nsmatch[2];
+    } else {
+      ref$ = ['_default', name], namespace = ref$[0], name = ref$[1];
+    }
+    return _n._blockData['_exist']["block." + namespace + "." + name];
+  };
+  /**
+   * 标识指定block
+   *
+   * @method
+   * @name setBlock
+   * @memberof ndoo
+   * @param {string} namespace 名称空间
+   * @param {string} name 名称
+   */
+  _n.setBlock = function(namespace){
+    var nsmatch, name, ref$;
+    if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
+      namespace = nsmatch[1], name = nsmatch[2];
+    } else {
+      ref$ = ['_default', name], namespace = ref$[0], name = ref$[1];
+    }
+    return _n._blockData['_exist']["block." + namespace + "." + name] = true;
+  };
+  /**
+   * 添加block实现
+   *
+   * @method
+   * @name block
+   * @memberof ndoo
+   * @param {string} namespace 名称空间
+   * @param {string} name 名称
+   */
+  _n.block = function(namespace, block){
+    var nsmatch, name, ref$;
+    if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
+      namespace = nsmatch[1], name = nsmatch[2];
+    } else {
+      ref$ = ['_default', name], namespace = ref$[0], name = ref$[1];
+    }
+    return _n._block('block', namespace, name, block);
+  };
+  _n.trigger('STATUS:NBLOCK_DEFINE');
+  _n.on('NBLOCK_LOADED', function(elem, namespace, name, params){
+    var block, call;
+    namespace == null && (namespace = '_default');
+    if (block = _n.block(namespace + "." + name)) {
+      if (_.isFunction(block)) {
+        return block(elem, params);
+      } else if (typeof block === 'object' && _.isObject(block) && block.init) {
+        call = function(){
+          block.init(elem, params);
+        };
+        if (block.depend) {
+          return _n.require([].concat(block.depend), call, 'Do');
+        } else {
+          return call();
+        }
+      }
+    }
+  });
+  /**
+   * 初始化模块
+   *
+   * @method
+   * @name initBlock
+   * @memberof ndoo
+   * @param {object} elem 初始化的元素
+   */
+  _n.initBlock = function(elem){
+    var blockId, this$ = this;
+    blockId = $(elem).data('nblockId');
+    _n.router.parse(/^(?:\/?)(.*?)(?:\/?([^\/?]+))(?:\?(.*?))?(?:\#(.*?))?$/, blockId, function(namespace, block, params){
+      var pkg;
+      namespace == null && (namespace = '_default');
+      pkg = namespace + "." + block;
+      if (_n.block(pkg)) {
+        _n.trigger('NBLOCK_LOADED', elem, namespace, block, params);
+      } else if (_n.hasBlock(pkg)) {
+        this$.require([namespace + "." + block], function(){
+          _n.trigger('NBLOCK_LOADED', elem, namespace, block, params);
+        }, 'Do');
+      }
+    });
+  };
+  _n.on('NBLOCK_INIT', function(){
+    var blocks, i$, len$, block, auto;
+    blocks = $('[data-nblock-id]');
+    if (blocks.length) {
+      for (i$ = 0, len$ = blocks.length; i$ < len$; ++i$) {
+        block = blocks[i$];
+        auto = $(block).data('nblockAuto');
+        if (auto === undefined || auto.toString() !== 'false') {
+          _n.initBlock(block);
+        }
+      }
+    }
   });
   /* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */
 }).call(this);

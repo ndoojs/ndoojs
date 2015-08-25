@@ -17,21 +17,32 @@
           <h3 class="pure-menu-heading menu-item-divided">基础用法</h3>
           <ul class="pure-menu-list">
             <li class="pure-menu-item"><a href="index.html" class="pure-menu-link">入门</a></li>
+            <li class="pure-menu-item"><a href="basic.appscript.html" class="pure-menu-link">编写应用脚本</a></li>
+            <!-- li.pure-menu-item: a.pure-menu-link(href="basic.prep.html") 变量和事件暂存-->
             <li class="pure-menu-item"><a href="basic.param.html" class="pure-menu-link">参数的使用</a></li>
             <li class="pure-menu-item"><a href="basic.namespace.html" class="pure-menu-link">名称空间</a></li>
-            <li class="pure-menu-item"><a href="basic.autoload.html" class="pure-menu-link">自动加载</a></li>
-            <li class="pure-menu-item"><a href="basic.block.html" class="pure-menu-link">块级组件</a></li>
             <li class="pure-menu-item"><a href="basic.hook.html" class="pure-menu-link">前置和后置操作</a></li>
             <li class="pure-menu-item"><a href="basic.filter.html" class="pure-menu-link">过滤器</a></li>
             <li class="pure-menu-item"><a href="basic.moduleevent.html" class="pure-menu-link">模块事件</a></li>
+            <li class="pure-menu-item"><a href="basic.prep.html" class="pure-menu-link">变量和事件暂存</a></li>
+            <li class="pure-menu-item"><a href="basic.init.html" class="pure-menu-link">初始化</a></li>
+            <li class="pure-menu-item"><a href="basic.block.html" class="pure-menu-link">块级组件</a></li>
+            <li class="pure-menu-item"><a href="basic.autoload.html" class="pure-menu-link">自动加载</a></li>
             <li class="pure-menu-item"><a href="basic.require.html" class="pure-menu-link">手动加载</a></li>
             <li class="pure-menu-item"><a href="basic.depend.html" class="pure-menu-link">依赖加载</a></li>
           </ul>
           <h3 class="pure-menu-heading menu-item-divided">参考</h3>
           <ul class="pure-menu-list">
+            <li class="pure-menu-item"><a href="ref.filedesc.html" class="pure-menu-link">文件参考</a></li>
             <li class="pure-menu-item"><a href="ref.event.html" class="pure-menu-link">事件参考</a></li>
             <li class="pure-menu-item"><a href="ref.do.html" class="pure-menu-link">Do.js参考</a></li>
             <li class="pure-menu-item"><a href="api/" class="pure-menu-link">API</a></li>
+          </ul>
+          <h3 class="pure-menu-heading menu-item-divided">示例</h3>
+          <ul class="pure-menu-list">
+            <li class="pure-menu-item"><a href="./example/started.html" class="pure-menu-link">hello ndoojs</a></li>
+            <li class="pure-menu-item"><a href="./example/basic.appscript.html" class="pure-menu-link">app script</a></li>
+            <li class="pure-menu-item"><a href="./example/basic.eventstack.html" class="pure-menu-link">event stack</a></li>
           </ul>
         </div>
       </div>
@@ -39,10 +50,11 @@
         <div class="docs theme1">
           <div class="header">
             <h1>依赖加载</h1>
-            <p>ndoojs可以为action定义依赖，当执行到action时会先加载需要的依赖(使用do.js加载)。<br>do.js 参考<a href="ref.do.html">do.js</a></p>
           </div>
           <div class="content">
-            <h3>1. 示例：</h3>
+            <p>ndoojs可以为action定义依赖，当执行到action时会先加载需要的依赖(使用do.js加载)。do.js 参考<a href="ref.do.html">do.js</a></p>
+            <h3>Action依赖</h3>
+            <p>ndoojs支持为单个Action定义依赖，声明名为为ActionName+'Depend'的属性标识依赖的模块即可，当依赖多个模块时值为一个数组。示例：</p>
                 <pre data-start="1" class="line-numbers"><code class="language-javascript">// jquery模块定义
 Do.define('jquery', {
   path: jsPathbase + '/jquery-2.1.1.min.js',
@@ -51,10 +63,22 @@ Do.define('jquery', {
 // 设置jquery为默认已加载
 Do.setLoaded(['jquery']);
 // 声明依赖
-mainDepend: ['jquery'],
-mainAction: function(param){
-  console.log(typeof jQuery);
-}</code></pre>
+_n.app('home', {
+  indexDepend: 'jquery', 
+  indexAction: function() {
+    console.log(typeof jQuery);
+  }
+});</code></pre>
+            <h3>App依赖</h3>
+            <p>可以直接为一个App定义依赖，在App中定义一个名为depend的属性即可，当依赖多个模块时值为一个数组。示例：</p>
+                <pre data-start="1" class="line-numbers"><code class="language-javascript">_n.app('home', {
+  depend: 'jquery', 
+  indexAction: function() {
+    console.log(typeof jQuery);
+  }
+});</code></pre>
+            <h3>Block依赖</h3>
+            <p>同App依赖</p>
           </div>
         </div>
       </div>

@@ -17,21 +17,32 @@
           <h3 class="pure-menu-heading menu-item-divided">基础用法</h3>
           <ul class="pure-menu-list">
             <li class="pure-menu-item"><a href="index.html" class="pure-menu-link">入门</a></li>
+            <li class="pure-menu-item"><a href="basic.appscript.html" class="pure-menu-link">编写应用脚本</a></li>
+            <!-- li.pure-menu-item: a.pure-menu-link(href="basic.prep.html") 变量和事件暂存-->
             <li class="pure-menu-item"><a href="basic.param.html" class="pure-menu-link">参数的使用</a></li>
             <li class="pure-menu-item"><a href="basic.namespace.html" class="pure-menu-link">名称空间</a></li>
-            <li class="pure-menu-item"><a href="basic.autoload.html" class="pure-menu-link">自动加载</a></li>
-            <li class="pure-menu-item"><a href="basic.block.html" class="pure-menu-link">块级组件</a></li>
             <li class="pure-menu-item"><a href="basic.hook.html" class="pure-menu-link">前置和后置操作</a></li>
             <li class="pure-menu-item"><a href="basic.filter.html" class="pure-menu-link">过滤器</a></li>
             <li class="pure-menu-item"><a href="basic.moduleevent.html" class="pure-menu-link">模块事件</a></li>
+            <li class="pure-menu-item"><a href="basic.prep.html" class="pure-menu-link">变量和事件暂存</a></li>
+            <li class="pure-menu-item"><a href="basic.init.html" class="pure-menu-link">初始化</a></li>
+            <li class="pure-menu-item"><a href="basic.block.html" class="pure-menu-link">块级组件</a></li>
+            <li class="pure-menu-item"><a href="basic.autoload.html" class="pure-menu-link">自动加载</a></li>
             <li class="pure-menu-item"><a href="basic.require.html" class="pure-menu-link">手动加载</a></li>
             <li class="pure-menu-item"><a href="basic.depend.html" class="pure-menu-link">依赖加载</a></li>
           </ul>
           <h3 class="pure-menu-heading menu-item-divided">参考</h3>
           <ul class="pure-menu-list">
+            <li class="pure-menu-item"><a href="ref.filedesc.html" class="pure-menu-link">文件参考</a></li>
             <li class="pure-menu-item"><a href="ref.event.html" class="pure-menu-link">事件参考</a></li>
             <li class="pure-menu-item"><a href="ref.do.html" class="pure-menu-link">Do.js参考</a></li>
             <li class="pure-menu-item"><a href="api/" class="pure-menu-link">API</a></li>
+          </ul>
+          <h3 class="pure-menu-heading menu-item-divided">示例</h3>
+          <ul class="pure-menu-list">
+            <li class="pure-menu-item"><a href="./example/started.html" class="pure-menu-link">hello ndoojs</a></li>
+            <li class="pure-menu-item"><a href="./example/basic.appscript.html" class="pure-menu-link">app script</a></li>
+            <li class="pure-menu-item"><a href="./example/basic.eventstack.html" class="pure-menu-link">event stack</a></li>
           </ul>
         </div>
       </div>
@@ -39,9 +50,9 @@
         <div class="docs theme1">
           <div class="header">
             <h1>手动加载</h1>
-            <p>ndoojs提供require方法来手动加载自定义模块，支持do.js和seajs两种加载方式。<br>do.js 参考<a href="ref.do.html">do.js</a></p>
           </div>
           <div class="content">
+            <p>ndoojs提供require方法来手动加载自定义模块，支持do.js和seajs两种加载方式。do.js 参考<a href="ref.do.html">do.js</a></p>
             <h3>1. 参数说明</h3>
                 <pre data-start="1" class="line-numbers"><code class="language-javascript">ndoo.require(
   (array|string) depend, // 需要加载的依赖

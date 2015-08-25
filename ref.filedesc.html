@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Do.js参考-ndoojs文档-ndoojs</title>
+    <title>文件说明-ndoojs文档-ndoojs</title>
     <link rel="stylesheet" type="text/css" href="css/pure-min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/prism.css">
@@ -49,44 +49,32 @@
       <div id="main">
         <div class="docs theme1">
           <div class="header">
-            <h1>Do.js参考</h1>
-            <p>ndoojs使用Do.js做依赖加载(*进行过定制)，参见 <a href="http://kejun.github.io/Do/">http://kejun.github.io/Do/</a>。这里对ndoojs里面用到的一些功能进行说明。</p>
+            <h1>文件说明</h1>
           </div>
           <div class="content">
-            <h3>1. 定义模块</h3>
-            <p>使用Do.define方法定义一个模块，可以是js或者css类型，可以指定依赖。示例：</p>
-                <pre data-start="1" class="line-numbers"><code class="language-javascript">Do.define('lightBox-css', {path: '{URL}', type: 'css'});
-Do.define('lightBox', {path: '{URL}', type: 'js', requires: ['lightBox-css']});</code></pre>
-            <h3>2. 设置已加载模块</h3>
-            <p>原则上建议所有模块都在Do.js中进行定义，但有些文件默认已加载(如jQuery)则可设置该模块为已加载。示例：</p>
-                <pre data-start="1" class="line-numbers"><code class="language-javascript">Do.define('jquery', {path: 'js/jquery', type: 'js'});
-Do.setLoaded('jquery') //参数可以是数组</code></pre>
-            <h3>3. 为ndoojs标识模块</h3>
-            <p>当某些ndoojs模块默认未载入，需要进行按需加载时可以在Do.js中定义该文件，但需要为ndoojs标识出该模块存在。</p>
-                <pre data-start="1" class="line-numbers"><code class="language-javascript">(function(){
-  var _n;
-  this.N = this.ndoo || (this.ndoo = {});
-  _n = this.ndoo;
-
-  Do.define('home', {
-    path: 'js/example1.js',
-    type: 'js'
-  });
-  // 在NAPP_DEFINE事件触发以后调用setApp标识module
-  _n.on('NAPP_DEFINE', function(){
-    _n.setApp('home');
-  });
-
-  Do.define('example3.block', {
-    path: 'js/example3.block.js',
-    type: 'js'
-  });
-  // 在NBLOCK_DEFINE事件触发以后调用setBlock标识block
-  _n.on('NBLOCK_DEFINE', function(){
-    _n.setBlock('example3.block');
-  });
-
-})(this);</code></pre>
+            <h3>文件说明</h3>
+            <p>js目录中包含多个js文件，以下对各个文件进行简要说明。</p>
+            <h3>1.ndoo_prep.js</h3>
+            <p>ndoo_prep.js为头文件，包含ndoo变量声明，事件暂存等。在head中用script标签引用ndoo_prep.js后可以：<br>1)可以在页面任何位置使用ndoo.vars名称空间进行赋值，在后面的脚本中使用。一般作用服务端向前端输出数据。<br>2)可以在页面任何位置使用ndoo.on进行事件定义，定义的事件会被暂存，ndoo主文件加载完成后，自动将事件从暂存中取出进行绑定。</p>
+            <p> </p>
+            <h3>2.ndoo_lib.js</h3>
+            <p>ndoo_lib.js为库文件，包含ndoojs的事件实现。ndoojs的事件使用backbone来实现，但考虑到用户可能不使用backbone，所以将backbone中的事件子集精简出来，存放在ndoo_lib.js中。引用backbone时可以不引用此文件。同时引用backbone和ndoo_lib不会发生冲突，当检测到backbone全局变量时，会自动使用Backbone来代替ndoo_lib。</p>
+            <h3>3.ndoo_block.js</h3>
+            <p>ndoo_block.js为block功能主文件，不使用block功能时可省略此文件。block具体说明参见<a href="./basic.block.html">block说明</a></p>
+            <h3>4.ndoo.js</h3>
+            <p>ndoo.js为主文件，必须引用此文件才能使用ndoojs所提供的功能。</p>
+            <h3>5.ndoo_all.js</h3>
+            <p>一个包含ndoo_prep.js、ndoo_lib.js、ndoo_block.js、ndoo.js的整合版本。直接在尾部引用此文件即可使用ndoojs，在头部引用ndoo_prep.js和此文件不冲突。</p>
+            <h3>lib目录</h3>
+            <p>lib中包含一些用到的库。</p>
+            <h3>1.underscore-min.js</h3>
+            <p>ndoo.js依赖库，ndoojs中大量使用underscore提供的扩展方法。ndoojs的事件模型为Backbone的子集，也依赖于underscore。</p>
+            <h3>2.jquery</h3>
+            <p>大名鼎鼎的js库，用来实现dom操作。ndoojs中用到了ready方法。block功能中使用了选择器来找到block。可以使用zepto.js来替代。</p>
+            <h3>3.Do.js</h3>
+            <p>实现包管理，此了标识模块已加载，此处的do.js进行过定制，请务必使用此版本。参改内容参照commit id:dc1f963的变更。如需更新版本请使用diff工具进行比较，应用改动。</p>
+            <h3>4.sea.js</h3>
+            <p>国产cmd模块加载器，需要使用cmd进行冲突隔离时可选用。</p>
           </div>
         </div>
       </div>

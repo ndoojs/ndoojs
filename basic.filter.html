@@ -17,21 +17,32 @@
           <h3 class="pure-menu-heading menu-item-divided">基础用法</h3>
           <ul class="pure-menu-list">
             <li class="pure-menu-item"><a href="index.html" class="pure-menu-link">入门</a></li>
+            <li class="pure-menu-item"><a href="basic.appscript.html" class="pure-menu-link">编写应用脚本</a></li>
+            <!-- li.pure-menu-item: a.pure-menu-link(href="basic.prep.html") 变量和事件暂存-->
             <li class="pure-menu-item"><a href="basic.param.html" class="pure-menu-link">参数的使用</a></li>
             <li class="pure-menu-item"><a href="basic.namespace.html" class="pure-menu-link">名称空间</a></li>
-            <li class="pure-menu-item"><a href="basic.autoload.html" class="pure-menu-link">自动加载</a></li>
-            <li class="pure-menu-item"><a href="basic.block.html" class="pure-menu-link">块级组件</a></li>
             <li class="pure-menu-item"><a href="basic.hook.html" class="pure-menu-link">前置和后置操作</a></li>
             <li class="pure-menu-item"><a href="basic.filter.html" class="pure-menu-link">过滤器</a></li>
             <li class="pure-menu-item"><a href="basic.moduleevent.html" class="pure-menu-link">模块事件</a></li>
+            <li class="pure-menu-item"><a href="basic.prep.html" class="pure-menu-link">变量和事件暂存</a></li>
+            <li class="pure-menu-item"><a href="basic.init.html" class="pure-menu-link">初始化</a></li>
+            <li class="pure-menu-item"><a href="basic.block.html" class="pure-menu-link">块级组件</a></li>
+            <li class="pure-menu-item"><a href="basic.autoload.html" class="pure-menu-link">自动加载</a></li>
             <li class="pure-menu-item"><a href="basic.require.html" class="pure-menu-link">手动加载</a></li>
             <li class="pure-menu-item"><a href="basic.depend.html" class="pure-menu-link">依赖加载</a></li>
           </ul>
           <h3 class="pure-menu-heading menu-item-divided">参考</h3>
           <ul class="pure-menu-list">
+            <li class="pure-menu-item"><a href="ref.filedesc.html" class="pure-menu-link">文件参考</a></li>
             <li class="pure-menu-item"><a href="ref.event.html" class="pure-menu-link">事件参考</a></li>
             <li class="pure-menu-item"><a href="ref.do.html" class="pure-menu-link">Do.js参考</a></li>
             <li class="pure-menu-item"><a href="api/" class="pure-menu-link">API</a></li>
+          </ul>
+          <h3 class="pure-menu-heading menu-item-divided">示例</h3>
+          <ul class="pure-menu-list">
+            <li class="pure-menu-item"><a href="./example/started.html" class="pure-menu-link">hello ndoojs</a></li>
+            <li class="pure-menu-item"><a href="./example/basic.appscript.html" class="pure-menu-link">app script</a></li>
+            <li class="pure-menu-item"><a href="./example/basic.eventstack.html" class="pure-menu-link">event stack</a></li>
           </ul>
         </div>
       </div>
@@ -39,16 +50,16 @@
         <div class="docs theme1">
           <div class="header">
             <h1>过滤器</h1>
-            <p>ndoojs支持自定义过滤器，指定全局执行的方法。过滤器有before、after两种情形，过滤器支持only、except修饰。</p>
           </div>
           <div class="content">
-            <h3>1. 前置过滤器</h3>
-            <p>使用before声明，例如：</p>
+            <p>ndoojs支持自定义过滤器，指定全局执行的方法。过滤器有before、after两种情形，过滤器支持only、except修饰。</p>
+            <h3>1. 前置过滤器 beforeFilter</h3>
+            <p>使用before声明，过滤器方法后缀为Filter。过滤器方法接受两个参数，actionName为当前action的名称，params为传递的参数。例：</p>
                 <pre data-start="1" class="line-numbers"><code class="language-javascript">before: {
   filter: 'before'
 },
 
-beforeFilter: function() {
+beforeFilter: function(actionName, params) {
   alert('before filter');
 },
 
@@ -57,7 +68,11 @@ indexAction: function(params){
   $content = $('#content');
   $content.html('module: home, action: indexAction);
 }</code></pre>
-            <h3>2. 后置过滤器</h3>
+            <p>同一修饰的多个过滤器以空格分隔。例：</p>
+                <pre data-start="1" class="line-numbers"><code class="language-javascript">before: {
+  filter: 'before1 before2 before3'
+}</code></pre>
+            <h3>2. 后置过滤器 afterFilter</h3>
             <p>后置过滤器使用after声明，其它同前置过滤器。</p>
             <h3>3. only修饰</h3>
             <p>only表示过滤器只针对指定的action。</p>
@@ -75,8 +90,22 @@ indexAction: function(params){
   $content = $('#content');
   $content.html('module: home, action: indexAction);
 }</code></pre>
+            <p>多个修饰之间以空格分隔。例：</p>
+                <pre data-start="1" class="line-numbers"><code class="language-javascript">before: {
+  filter: 'before',
+  only: 'index product about contact'
+}</code></pre>
             <h3>4. except修饰</h3>
             <p>except表示过滤器针对在除except以外的action上。</p>
+            <h3>4. 多个过滤器</h3>
+            <p>ndoojs支持定义多个过滤器，以针对不同应用，将过滤器声明为数组即可。例：</p>
+                <pre data-start="1" class="line-numbers"><code class="language-javascript">before: [{
+  filter: 'before',
+  only: 'index'
+}, {
+  filter: 'before1',
+  only: 'index about'
+}]</code></pre>
           </div>
         </div>
       </div>
