@@ -54,7 +54,7 @@
           <div class="content">
             <p>ndoojs可以为action定义依赖，当执行到action时会先加载需要的依赖(使用do.js加载)。do.js 参考<a href="ref.do.html">do.js</a></p>
             <h3>Action依赖</h3>
-            <p>ndoojs支持为单个Action定义依赖，格式为ActionName+Depend。示例：</p>
+            <p>ndoojs支持为单个Action定义依赖，声明名为为ActionName+'Depend'的属性标识依赖的模块即可，当依赖多个模块时值为一个数组。示例：</p>
                 <pre data-start="1" class="line-numbers"><code class="language-javascript">// jquery模块定义
 Do.define('jquery', {
   path: jsPathbase + '/jquery-2.1.1.min.js',
@@ -64,19 +64,21 @@ Do.define('jquery', {
 Do.setLoaded(['jquery']);
 // 声明依赖
 _n.app('home', {
-  indexDepend: ['jquery'], 
+  indexDepend: 'jquery', 
   indexAction: function() {
     console.log(typeof jQuery);
   }
 });</code></pre>
             <h3>App依赖</h3>
-            <p>可以直接为一个App定义依赖，在App中定义一个名为depend的属性即可。示例：</p>
+            <p>可以直接为一个App定义依赖，在App中定义一个名为depend的属性即可，当依赖多个模块时值为一个数组。示例：</p>
                 <pre data-start="1" class="line-numbers"><code class="language-javascript">_n.app('home', {
-  depend: ['jquery'], 
+  depend: 'jquery', 
   indexAction: function() {
     console.log(typeof jQuery);
   }
 });</code></pre>
+            <h3>Block依赖</h3>
+            <p>同App依赖</p>
           </div>
         </div>
       </div>
