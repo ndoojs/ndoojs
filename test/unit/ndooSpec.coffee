@@ -83,6 +83,21 @@ describe 'ndoo framework test >', ->
   describe 'event test >', ->
     _n = ndoo
 
+    describe 'default event >', ->
+      defaultEvent1 = jasmine.createSpy 'defaultEvent1'
+
+      it 'defaultEvent1 not be call', ->
+        _n.on 'defaultTest', defaultEvent1
+        expect(defaultEvent1).not.toHaveBeenCalled()
+
+      it 'trigger event default event should be call', ->
+        _n.trigger 'defaultTest'
+        expect(defaultEvent1).toHaveBeenCalled()
+
+      it 'again trigger default event call count should be 2', ->
+        _n.trigger 'defaultTest'
+        expect(defaultEvent1.calls.count()).toEqual 2
+
     describe 'status event >', ->
       statusEvent1 = jasmine.createSpy 'statusEvent1'
       statusEvent2 = jasmine.createSpy 'statusEvent2'
