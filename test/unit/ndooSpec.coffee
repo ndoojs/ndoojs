@@ -41,11 +41,24 @@ describe 'ndoo framework test >', ->
     beforeAll ->
       _n = ndoo
 
-    it 'has block shoud false', ->
+    it 'has block should false', ->
       expect(_n.hasBlock 'test').toBeUndefined()
 
     it 'get block should false', ->
       expect(_n.block 'test').toBe false
+
+  describe 'getPk test >', ->
+    _n = undefined
+
+    beforeAll ->
+      _n = ndoo
+
+    it 'getPk should match num', ->
+      expect(_n.getPk()).toMatch /^\d+$/
+
+    it 'getPk should prefix', ->
+      expect(_n.getPk('test_')).toMatch /^test_\d+$/
+
 
   describe 'page id test >', ->
     _n = ndoo
@@ -58,31 +71,42 @@ describe 'ndoo framework test >', ->
         spyOn(_n, 'initPageId').and.callThrough()
         _n.init 'home/index'
 
-      it 'initPageId shoud be call', ->
+      it 'initPageId should be call', ->
         expect(_n.initPageId).toHaveBeenCalled()
 
-      it 'initPageId param shoud be home/index', ->
+      it 'initPageId param should be home/index', ->
         expect(_n.initPageId).toHaveBeenCalledWith 'home/index'
 
-      it 'pageId shoud be home/index', ->
+      it 'pageId should be home/index', ->
         expect(_n.pageId).toBe 'home/index'
 
-  describe 'getPk test >', ->
-    _n = undefined
+  describe 'event test >', ->
+    _n = ndoo
 
-    beforeAll ->
-      _n = ndoo
+    describe 'status event >', ->
+      statusEvent1 = jasmine.createSpy 'statusEvent1'
+      statusEvent2 = jasmine.createSpy 'statusEvent2'
 
-    it 'getPk shoud match num', ->
-      expect(_n.getPk()).toMatch /^\d+$/
+      it 'before status event should be call', ->
+        _n.on 'statusTest', statusEvent1
+        _n.trigger 'STATUS:statusTest'
+        expect(statusEvent1).toHaveBeenCalled()
 
-    it 'getPk shoud prefix', ->
-      expect(_n.getPk('test_')).toMatch /^test_\d+$/
+      it 'before status event call count should be 1', ->
+        expect(statusEvent1.calls.count()).toEqual 1
+
+      it 'after status should be call', ->
+        _n.on 'statusTest', statusEvent2
+        expect(statusEvent2).toHaveBeenCalled()
+
+      it 'status event only trigger one', ->
+        _n.trigger 'STATUS:statusTest'
+        expect(statusEvent1.calls.count()).toEqual 1
 
   xdescribe 'ndoo call test >', ->
     _n = ndoo
 
-    it 'initPageId shoud be call', ->
+    it 'initPageId should be call', ->
       spyOn _n, 'initPageId'
       # spyOn _n, 'init'
       # _n.init 'home/index'
