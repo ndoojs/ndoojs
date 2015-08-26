@@ -211,9 +211,12 @@ _n.event = _.extend _n.event,
       # eventHandle.trigger eventName, eventHandle.events["STATUS:"+eventName]
     # 触发延迟事件队列
     if _.has eventHandle.events, eventName
-      for item in eventHandle.events[eventName]
-        callback.apply eventHandle, item
-        # eventHandle.trigger eventName, item
+      temp = []
+      while item = eventHandle.events[eventName].shift()
+        notkepp = callback.apply eventHandle, item
+        temp.push item if notkepp isnt false
+
+      eventHandle.events[eventName] = temp
       # 清除非状态事件队列
       # delete eventHandle.events[eventName]
   /* }}} */
@@ -238,7 +241,7 @@ _n.event = _.extend _n.event,
       unless _.has eventHandle.events, eventName
         eventHandle.events[eventName] = []
 
-      eventHandle.events[eventName].push = data
+      eventHandle.events[eventName].push data
 
     # 状态仅可触发一次
     else if eventType is \STATUS
