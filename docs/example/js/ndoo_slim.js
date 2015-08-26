@@ -415,7 +415,7 @@
     /* }}} */
     /* rewrite on {{{ */,
     on: function(eventName, callback){
-      var eventHandle, temp, item, notkepp;
+      var eventHandle, i$, ref$, len$, item;
       eventHandle = this.eventHandle;
       eventHandle.on(eventName, callback);
       eventHandle.listened[eventName] = true;
@@ -423,14 +423,10 @@
         callback.apply(eventHandle, eventHandle.events["STATUS:" + eventName]);
       }
       if (_.has(eventHandle.events, eventName)) {
-        temp = [];
-        while (item = eventHandle.events[eventName].shift()) {
-          notkepp = callback.apply(eventHandle, item);
-          if (notkepp !== false) {
-            temp.push(item);
-          }
+        for (i$ = 0, len$ = (ref$ = eventHandle.events[eventName]).length; i$ < len$; ++i$) {
+          item = ref$[i$];
+          callback.apply(eventHandle, item);
         }
-        eventHandle.events[eventName] = temp;
       }
     }
     /* }}} */

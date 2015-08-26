@@ -211,12 +211,14 @@ _n.event = _.extend _n.event,
       # eventHandle.trigger eventName, eventHandle.events["STATUS:"+eventName]
     # 触发延迟事件队列
     if _.has eventHandle.events, eventName
-      temp = []
-      while item = eventHandle.events[eventName].shift()
-        notkepp = callback.apply eventHandle, item
-        temp.push item if notkepp isnt false
-
-      eventHandle.events[eventName] = temp
+      # temp = []
+      # while item = eventHandle.events[eventName].shift()
+      #   kepp = callback.apply eventHandle, item
+      #   temp.push item if kepp isnt false
+      #
+      # eventHandle.events[eventName] = temp
+      for item in eventHandle.events[eventName]
+        callback.apply eventHandle, item
       # 清除非状态事件队列
       # delete eventHandle.events[eventName]
   /* }}} */
