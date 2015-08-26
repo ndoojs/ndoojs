@@ -98,6 +98,33 @@ describe 'ndoo framework test >', ->
         _n.trigger 'defaultTest'
         expect(defaultEvent1.calls.count()).toEqual 2
 
+    describe 'delay event >', ->
+      delayEvent1 = jasmine.createSpy 'delayEvent1'
+
+      it 'before event callback should be call', ->
+        _n.trigger 'DELAY:delayTest', 'trigger 1'
+        _n.on 'delayTest', delayEvent1
+        expect(delayEvent1).toHaveBeenCalled()
+
+      it 'again trigger, event callback call count should be 2', ->
+        _n.trigger 'DELAY:delayTest', 'trigger 2'
+        # console.log _n.event.eventHandle.events['delayTest']
+        expect(delayEvent1.calls.count()).toEqual 2
+
+      it 'again bind callback call count should be 2', ->
+        delayEvent2 = jasmine.createSpy 'delayEvent2'
+        _n.on 'delayTest', delayEvent2
+        expect(delayEvent2.calls.count()).toEqual 2
+
+      xit 'return false again bind should not call', ->
+        delayEvent3 = jasmine.createSpy('delayEvent3').and.returnValue false
+        delayEvent4 = jasmine.createSpy 'delayEvent4'
+        _n.trigger 'DELAY:delayTest2'
+        _n.on 'delayTest2', delayEvent3
+        _n.on 'delayTest2', delayEvent4
+        expect(delayEvent3).toHaveBeenCalled()
+        expect(delayEvent4).not.toHaveBeenCalled()
+
     describe 'status event >', ->
       statusEvent1 = jasmine.createSpy 'statusEvent1'
       statusEvent2 = jasmine.createSpy 'statusEvent2'
@@ -114,7 +141,7 @@ describe 'ndoo framework test >', ->
         _n.on 'statusTest', statusEvent2
         expect(statusEvent2).toHaveBeenCalled()
 
-      it 'status event only trigger one', ->
+      it 'again trigger status event call count should be 1', ->
         _n.trigger 'STATUS:statusTest'
         expect(statusEvent1.calls.count()).toEqual 1
 
