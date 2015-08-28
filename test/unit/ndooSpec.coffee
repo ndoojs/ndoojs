@@ -154,18 +154,31 @@ describe 'ndoo framework test >', ->
       (?:\?(.*?))?       # [?:params]
       (?:\#(.*?))?$      # [#:hash]$
     ///
-    it '"test" should match action', ->
-      routerText = 'test'
-      routerCallback = jasmine.createSpy 'routerCallback'
-      _n.router.parse regexp, routerText, routerCallback
-      expect(routerCallback).toHaveBeenCalledWith '', 'test', undefined, undefined
+    routerCallback = jasmine.createSpy 'routerCallback'
 
-    it '"/test" should match action', ->
-      routerText = 'test'
-      routerCallback = jasmine.createSpy 'routerCallback'
-      _n.router.parse regexp, routerText, routerCallback
-      expect(routerCallback).toHaveBeenCalledWith '', 'test', undefined, undefined
+    it '"/index" and "index" should match action', ->
+      _n.router.parse regexp, '/index', routerCallback
+      expect(routerCallback).toHaveBeenCalledWith '', 'index', undefined, undefined
+      _n.router.parse regexp, 'index', routerCallback
+      expect(routerCallback).toHaveBeenCalledWith '', 'index', undefined, undefined
 
+    it '"/index?id=1" and "index?id=1" should match action, params', ->
+      _n.router.parse regexp, '/index?id=1', routerCallback
+      expect(routerCallback).toHaveBeenCalledWith '', 'index', 'abc=1', undefined
+      _n.router.parse regexp, 'index?id=1', routerCallback
+      expect(routerCallback).toHaveBeenCalledWith '', 'index', 'abc=1', undefined
+
+    it '"/home/index" and "home/index" should match controller, action', ->
+      _n.router.prase regexp, '/home/index', routerCallback
+      expect(routerCallback).toHaveBeenCalledWith 'home', 'index', undefined, undefined
+      _n.router.prase regexp, 'home/index', routerCallback
+      expect(routerCallback).toHaveBeenCalledWith 'home', 'index', undefined, undefined
+
+    it '"/home/index?id=1" and "home/index?id=1" should match controller, action, params', ->
+      _n.router.parse regexp, 'home/index?id=1', routerCallback
+      expect(routerCallback).toHaveBeenCalledWith 'home', 'index', 'id=1', undefined
+      _n.router.parse regexp, '/home/index?id=1', routerCallback
+      expect(routerCallback).toHaveBeenCalledWith 'home', 'index', 'id=1', undefined
 
   xdescribe 'ndoo call test >', ->
     _n = ndoo
