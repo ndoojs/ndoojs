@@ -164,14 +164,14 @@ describe 'ndoo framework test >', ->
 
     it '"/index?id=1" and "index?id=1" should match action, params', ->
       _n.router.parse regexp, '/index?id=1', routerCallback
-      expect(routerCallback).toHaveBeenCalledWith '', 'index', 'abc=1', undefined
+      expect(routerCallback).toHaveBeenCalledWith '', 'index', 'id=1', undefined
       _n.router.parse regexp, 'index?id=1', routerCallback
-      expect(routerCallback).toHaveBeenCalledWith '', 'index', 'abc=1', undefined
+      expect(routerCallback).toHaveBeenCalledWith '', 'index', 'id=1', undefined
 
     it '"/home/index" and "home/index" should match controller, action', ->
-      _n.router.prase regexp, '/home/index', routerCallback
+      _n.router.parse regexp, '/home/index', routerCallback
       expect(routerCallback).toHaveBeenCalledWith 'home', 'index', undefined, undefined
-      _n.router.prase regexp, 'home/index', routerCallback
+      _n.router.parse regexp, 'home/index', routerCallback
       expect(routerCallback).toHaveBeenCalledWith 'home', 'index', undefined, undefined
 
     it '"/home/index?id=1" and "home/index?id=1" should match controller, action, params', ->
