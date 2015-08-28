@@ -145,6 +145,28 @@ describe 'ndoo framework test >', ->
         _n.trigger 'STATUS:statusTest'
         expect(statusEvent1.calls.count()).toEqual 1
 
+  describe 'router test >', ->
+    _n = ndoo
+    regexp = ///
+      ^(?:\/?)           # ^[/]
+      (.*?)              # [:controller]
+      (?:\/?([^/?]+))    # /:action
+      (?:\?(.*?))?       # [?:params]
+      (?:\#(.*?))?$      # [#:hash]$
+    ///
+    it '"test" should match action', ->
+      routerText = 'test'
+      routerCallback = jasmine.createSpy 'routerCallback'
+      _n.router.parse regexp, routerText, routerCallback
+      expect(routerCallback).toHaveBeenCalledWith '', 'test', undefined, undefined
+
+    it '"/test" should match action', ->
+      routerText = 'test'
+      routerCallback = jasmine.createSpy 'routerCallback'
+      _n.router.parse regexp, routerText, routerCallback
+      expect(routerCallback).toHaveBeenCalledWith '', 'test', undefined, undefined
+
+
   xdescribe 'ndoo call test >', ->
     _n = ndoo
 
