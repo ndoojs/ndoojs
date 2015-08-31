@@ -180,6 +180,19 @@ describe 'ndoo framework test >', ->
       _n.router.parse regexp, '/home/index?id=1', routerCallback
       expect(routerCallback).toHaveBeenCalledWith 'home', 'index', 'id=1', undefined
 
+    it '"/user/home/index" and "user/home/index" should match namespace/controller, action', ->
+      _n.router.parse regexp, '/user/home/index', routerCallback
+      expect(routerCallback).toHaveBeenCalledWith 'user/home', 'index', undefined, undefined
+      _n.router.parse regexp, 'user/home/index', routerCallback
+      expect(routerCallback).toHaveBeenCalledWith 'user/home', 'index', undefined, undefined
+
+    it '"/user/home/index?id=1" and "user/home/index?id=1" should match namespace/controller, action, params', ->
+      _n.router.parse regexp, '/user/home/index?id=1', routerCallback
+      expect(routerCallback).toHaveBeenCalledWith 'user/home', 'index', 'id=1', undefined
+      _n.router.parse regexp, 'user/home/index?id=1', routerCallback
+      expect(routerCallback).toHaveBeenCalledWith 'user/home', 'index', 'id=1', undefined
+
+
   xdescribe 'ndoo call test >', ->
     _n = ndoo
 
