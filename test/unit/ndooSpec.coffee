@@ -150,7 +150,7 @@ describe 'ndoo framework test >', ->
     regexp = ///
       ^(?:\/?)           # ^[/]
       (.*?)              # [:controller]
-      (?:\/?([^/?]+))    # /:action
+      (?:\/?([^/?#]+))    # /:action
       (?:\?(.*?))?       # [?:params]
       (?:\#(.*?))?$      # [#:hash]$
     ///
@@ -203,6 +203,13 @@ describe 'ndoo framework test >', ->
       expect(routerCallback).toHaveBeenCalledWith 'ndoo/user/home', 'index', 'id=1', undefined
       _n.router.parse regexp, 'ndoo/user/home/index?id=1', routerCallback
       expect(routerCallback).toHaveBeenCalledWith 'ndoo/user/home', 'index', 'id=1', undefined
+
+    it '"/index#top" and "index#top" should match action, hash', ->
+      _n.router.parse regexp, '/index#top', routerCallback
+      # console.log routerCallback.calls.mostRecent().args
+      expect(routerCallback).toHaveBeenCalledWith '', 'index', undefined, 'top'
+      _n.router.parse regexp, 'index#top', routerCallback
+      expect(routerCallback).toHaveBeenCalledWith '', 'index', undefined, 'top'
 
 
   xdescribe 'ndoo call test >', ->
