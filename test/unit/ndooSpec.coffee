@@ -211,6 +211,25 @@ describe 'ndoo framework test >', ->
       _n.router.parse regexp, 'index#top', routerCallback
       expect(routerCallback).toHaveBeenCalledWith '', 'index', undefined, 'top'
 
+    it '"/home/index#top" and "home/index#top" should match controller, action, hash', ->
+      _n.router.parse regexp, '/home/index#top', routerCallback
+      expect(routerCallback).toHaveBeenCalledWith 'home', 'index', undefined, 'top'
+      _n.router.parse regexp, 'home/index#top', routerCallback
+      expect(routerCallback).toHaveBeenCalledWith 'home', 'index', undefined, 'top'
+
+    it '"/index?id=1#top" and "index?id=1#top" should match action, params, hash', ->
+      _n.router.parse regexp, '/index?id=1#top', routerCallback
+      expect(routerCallback).toHaveBeenCalledWith '', 'index', 'id=1', 'top'
+      _n.router.parse regexp, 'index?id=1#top', routerCallback
+      expect(routerCallback).toHaveBeenCalledWith '', 'index', 'id=1', 'top'
+
+    it '"/home/index?id=1#top" and "home/index?id=1#top" should match controller, action, params, hash', ->
+      _n.router.parse regexp, '/home/index?id=1#top', routerCallback
+      matchResult = ['home', 'index', 'id=1', 'top']
+      expect(routerCallback.calls.mostRecent().args).toEqual matchResult
+
+      _n.router.parse regexp, 'home/index?id=1#top', routerCallback
+      expect(routerCallback.calls.mostRecent().args).toEqual matchResult
 
   xdescribe 'ndoo call test >', ->
     _n = ndoo
