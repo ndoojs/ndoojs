@@ -439,7 +439,7 @@ _.extend _n,
       @router.parse //
         ^(?:\/?)           # ^[/]
         (.*?)              # [:controller]
-        (?:\/?([^/?]+))    # /:action
+        (?:\/?([^/?#]+))   # /:action
         (?:\?(.*?))?       # [?:params]
         (?:\#(.*?))?$      # [#:hash]$
       //, data, (controller, action, params) !~>

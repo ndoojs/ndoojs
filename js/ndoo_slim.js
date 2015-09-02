@@ -676,7 +676,7 @@
       });
       /* page route */
       this.on('PAGE_STATUS_ROUTING', function(data){
-        this$.router.parse(/^(?:\/?)(.*?)(?:\/?([^\/?]+))(?:\?(.*?))?(?:\#(.*?))?$/, data, function(controller, action, params){
+        this$.router.parse(/^(?:\/?)(.*?)(?:\/?([^\/?#]+))(?:\?(.*?))?(?:\#(.*?))?$/, data, function(controller, action, params){
           var nsmatch, namespace, pkg;
           if (nsmatch = controller.match(/(.*?)(?:[/.]([^/.]+))$/)) {
             namespace = nsmatch[1], controller = nsmatch[2];
@@ -862,7 +862,7 @@
   _n.initBlock = function(elem){
     var blockId, this$ = this;
     blockId = $(elem).data('nblockId');
-    _n.router.parse(/^(?:\/?)(.*?)(?:\/?([^\/?]+))(?:\?(.*?))?(?:\#(.*?))?$/, blockId, function(namespace, block, params){
+    _n.router.parse(/^(?:\/?)(.*?)(?:\/?([^\/?#]+))(?:\?(.*?))?(?:\#(.*?))?$/, blockId, function(namespace, block, params){
       var pkg;
       namespace == null && (namespace = '_default');
       pkg = namespace + "." + block;

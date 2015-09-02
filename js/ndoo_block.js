@@ -101,7 +101,7 @@
   _n.initBlock = function(elem){
     var blockId, this$ = this;
     blockId = $(elem).data('nblockId');
-    _n.router.parse(/^(?:\/?)(.*?)(?:\/?([^\/?]+))(?:\?(.*?))?(?:\#(.*?))?$/, blockId, function(namespace, block, params){
+    _n.router.parse(/^(?:\/?)(.*?)(?:\/?([^\/?#]+))(?:\?(.*?))?(?:\#(.*?))?$/, blockId, function(namespace, block, params){
       var pkg;
       namespace == null && (namespace = '_default');
       pkg = namespace + "." + block;

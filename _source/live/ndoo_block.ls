@@ -98,7 +98,7 @@ _n.initBlock = (elem) !->
   _n.router.parse //
     ^(?:\/?)           # ^[/]
     (.*?)              # [:controller]
-    (?:\/?([^/?]+))    # /:action
+    (?:\/?([^/?#]+))   # /:action
     (?:\?(.*?))?       # [?:params]
     (?:\#(.*?))?$      # [#:hash]$
   //, blockId, (namespace = \_default, block, params) !~>
