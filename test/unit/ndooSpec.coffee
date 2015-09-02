@@ -157,78 +157,99 @@ describe 'ndoo framework test >', ->
     routerCallback = jasmine.createSpy 'routerCallback'
 
     it '"/index" and "index" should match action', ->
-      _n.router.parse regexp, '/index', routerCallback
-      expect(routerCallback).toHaveBeenCalledWith '', 'index', undefined, undefined
-      _n.router.parse regexp, 'index', routerCallback
-      expect(routerCallback).toHaveBeenCalledWith '', 'index', undefined, undefined
-
-    it '"/index?id=1" and "index?id=1" should match action, params', ->
-      _n.router.parse regexp, '/index?id=1', routerCallback
-      expect(routerCallback).toHaveBeenCalledWith '', 'index', 'id=1', undefined
-      _n.router.parse regexp, 'index?id=1', routerCallback
-      expect(routerCallback).toHaveBeenCalledWith '', 'index', 'id=1', undefined
-
-    it '"/home/index" and "home/index" should match controller, action', ->
-      _n.router.parse regexp, '/home/index', routerCallback
-      expect(routerCallback).toHaveBeenCalledWith 'home', 'index', undefined, undefined
-      _n.router.parse regexp, 'home/index', routerCallback
-      expect(routerCallback).toHaveBeenCalledWith 'home', 'index', undefined, undefined
-
-    it '"/home/index?id=1" and "home/index?id=1" should match controller, action, params', ->
-      _n.router.parse regexp, 'home/index?id=1', routerCallback
-      expect(routerCallback).toHaveBeenCalledWith 'home', 'index', 'id=1', undefined
-      _n.router.parse regexp, '/home/index?id=1', routerCallback
-      expect(routerCallback).toHaveBeenCalledWith 'home', 'index', 'id=1', undefined
-
-    it '"/user/home/index" and "user/home/index" should match namespace/controller, action', ->
-      _n.router.parse regexp, '/user/home/index', routerCallback
-      expect(routerCallback).toHaveBeenCalledWith 'user/home', 'index', undefined, undefined
-      _n.router.parse regexp, 'user/home/index', routerCallback
-      expect(routerCallback).toHaveBeenCalledWith 'user/home', 'index', undefined, undefined
-
-    it '"/user/home/index?id=1" and "user/home/index?id=1" should match namespace/controller, action, params', ->
-      _n.router.parse regexp, '/user/home/index?id=1', routerCallback
-      expect(routerCallback).toHaveBeenCalledWith 'user/home', 'index', 'id=1', undefined
-      _n.router.parse regexp, 'user/home/index?id=1', routerCallback
-      expect(routerCallback).toHaveBeenCalledWith 'user/home', 'index', 'id=1', undefined
-
-    it '"/ndoo/user/home/index" and "ndoo/user/home/index" should match namespace/controller, action, params', ->
-      _n.router.parse regexp, '/ndoo/user/home/index', routerCallback
-      expect(routerCallback).toHaveBeenCalledWith 'ndoo/user/home', 'index', undefined, undefined
-      _n.router.parse regexp, 'ndoo/user/home/index', routerCallback
-      expect(routerCallback).toHaveBeenCalledWith 'ndoo/user/home', 'index', undefined, undefined
-
-    it '"/ndoo/user/home/index?id=1" and "ndoo/user/home/index?id=1" should match namespace/controller, action, params', ->
-      _n.router.parse regexp, '/ndoo/user/home/index?id=1', routerCallback
-      expect(routerCallback).toHaveBeenCalledWith 'ndoo/user/home', 'index', 'id=1', undefined
-      _n.router.parse regexp, 'ndoo/user/home/index?id=1', routerCallback
-      expect(routerCallback).toHaveBeenCalledWith 'ndoo/user/home', 'index', 'id=1', undefined
-
-    it '"/index#top" and "index#top" should match action, hash', ->
-      _n.router.parse regexp, '/index#top', routerCallback
-      # console.log routerCallback.calls.mostRecent().args
-      expect(routerCallback).toHaveBeenCalledWith '', 'index', undefined, 'top'
-      _n.router.parse regexp, 'index#top', routerCallback
-      expect(routerCallback).toHaveBeenCalledWith '', 'index', undefined, 'top'
-
-    it '"/home/index#top" and "home/index#top" should match controller, action, hash', ->
-      _n.router.parse regexp, '/home/index#top', routerCallback
-      expect(routerCallback).toHaveBeenCalledWith 'home', 'index', undefined, 'top'
-      _n.router.parse regexp, 'home/index#top', routerCallback
-      expect(routerCallback).toHaveBeenCalledWith 'home', 'index', undefined, 'top'
-
-    it '"/index?id=1#top" and "index?id=1#top" should match action, params, hash', ->
-      _n.router.parse regexp, '/index?id=1#top', routerCallback
-      expect(routerCallback).toHaveBeenCalledWith '', 'index', 'id=1', 'top'
-      _n.router.parse regexp, 'index?id=1#top', routerCallback
-      expect(routerCallback).toHaveBeenCalledWith '', 'index', 'id=1', 'top'
-
-    it '"/home/index?id=1#top" and "home/index?id=1#top" should match controller, action, params, hash', ->
-      _n.router.parse regexp, '/home/index?id=1#top', routerCallback
-      matchResult = ['home', 'index', 'id=1', 'top']
+      matchText = 'index'
+      matchResult = ['', 'index', undefined, undefined]
+      _n.router.parse regexp, "/#{matchText}", routerCallback
+      expect(routerCallback.calls.mostRecent().args).toEqual matchResult
+      _n.router.parse regexp, "#{matchText}", routerCallback
       expect(routerCallback.calls.mostRecent().args).toEqual matchResult
 
-      _n.router.parse regexp, 'home/index?id=1#top', routerCallback
+    it '"/index?id=1" and "index?id=1" should match action, params', ->
+      matchText = 'index?id=1'
+      matchResult = ['', 'index', 'id=1', undefined]
+      _n.router.parse regexp, "/#{matchText}", routerCallback
+      expect(routerCallback.calls.mostRecent().args).toEqual matchResult
+      _n.router.parse regexp, "#{matchText}", routerCallback
+      expect(routerCallback.calls.mostRecent().args).toEqual matchResult
+
+    it '"/home/index" and "home/index" should match controller, action', ->
+      matchText = 'home/index'
+      matchResult = ['home', 'index', undefined, undefined]
+      _n.router.parse regexp, "/#{matchText}", routerCallback
+      expect(routerCallback.calls.mostRecent().args).toEqual matchResult
+      _n.router.parse regexp, "#{matchText}", routerCallback
+      expect(routerCallback.calls.mostRecent().args).toEqual matchResult
+
+    it '"/home/index?id=1" and "home/index?id=1" should match controller, action, params', ->
+      matchText = 'home/index?id=1'
+      matchResult = ['home', 'index', 'id=1', undefined]
+      _n.router.parse regexp, "/#{matchText}", routerCallback
+      expect(routerCallback.calls.mostRecent().args).toEqual matchResult
+      _n.router.parse regexp, "#{matchText}", routerCallback
+      expect(routerCallback.calls.mostRecent().args).toEqual matchResult
+
+    it '"/user/home/index" and "user/home/index" should match namespace/controller, action', ->
+      matchText = 'user/home/index'
+      matchResult = ['user/home', 'index', undefined, undefined]
+      _n.router.parse regexp, "/#{matchText}", routerCallback
+      expect(routerCallback.calls.mostRecent().args).toEqual matchResult
+      _n.router.parse regexp, "#{matchText}", routerCallback
+      expect(routerCallback.calls.mostRecent().args).toEqual matchResult
+
+    it '"/user/home/index?id=1" and "user/home/index?id=1" should match namespace/controller, action, params', ->
+      matchText = 'user/home/index?id=1'
+      matchResult = ['user/home', 'index', 'id=1', undefined]
+      _n.router.parse regexp, "/#{matchText}", routerCallback
+      expect(routerCallback.calls.mostRecent().args).toEqual matchResult
+      _n.router.parse regexp, "#{matchText}", routerCallback
+      expect(routerCallback.calls.mostRecent().args).toEqual matchResult
+
+    it '"/ndoo/user/home/index" and "ndoo/user/home/index" should match namespace/controller, action, params', ->
+      matchText = 'ndoo/user/home/index'
+      matchResult = ['ndoo/user/home', 'index', undefined, undefined]
+      _n.router.parse regexp, "/#{matchText}", routerCallback
+      expect(routerCallback.calls.mostRecent().args).toEqual matchResult
+      _n.router.parse regexp, "#{matchText}", routerCallback
+      expect(routerCallback.calls.mostRecent().args).toEqual matchResult
+
+    it '"/ndoo/user/home/index?id=1" and "ndoo/user/home/index?id=1" should match namespace/controller, action, params', ->
+      matchText = 'ndoo/user/home/index?id=1'
+      matchResult = ['ndoo/user/home', 'index', 'id=1', undefined]
+      _n.router.parse regexp, "/#{matchText}", routerCallback
+      expect(routerCallback.calls.mostRecent().args).toEqual matchResult
+      _n.router.parse regexp, "#{matchText}", routerCallback
+      expect(routerCallback.calls.mostRecent().args).toEqual matchResult
+
+    it '"/index#top" and "index#top" should match action, hash', ->
+      matchText = 'index#top'
+      matchResult = ['', 'index', undefined, 'top']
+      _n.router.parse regexp, "/#{matchText}", routerCallback
+      expect(routerCallback.calls.mostRecent().args).toEqual matchResult
+      _n.router.parse regexp, "#{matchText}", routerCallback
+      expect(routerCallback.calls.mostRecent().args).toEqual matchResult
+
+    it '"/home/index#top" and "home/index#top" should match controller, action, hash', ->
+      matchText = 'home/index#top'
+      matchResult = ['home', 'index', undefined, 'top']
+      _n.router.parse regexp, "/#{matchText}", routerCallback
+      expect(routerCallback.calls.mostRecent().args).toEqual matchResult
+      _n.router.parse regexp, "#{matchText}", routerCallback
+      expect(routerCallback.calls.mostRecent().args).toEqual matchResult
+
+    it '"/index?id=1#top" and "index?id=1#top" should match action, params, hash', ->
+      matchText = '/index?id=1#top'
+      matchResult = ['', 'index', 'id=1', 'top']
+      _n.router.parse regexp, "/#{matchText}", routerCallback
+      expect(routerCallback.calls.mostRecent().args).toEqual matchResult
+      _n.router.parse regexp, "#{matchText}", routerCallback
+      expect(routerCallback.calls.mostRecent().args).toEqual matchResult
+
+    it '"/home/index?id=1#top" and "home/index?id=1#top" should match controller, action, params, hash', ->
+      matchText = 'home/index?id=1#top'
+      matchResult= ['home', 'index', 'id=1', 'top']
+      _n.router.parse regexp, "/#{matchText}", routerCallback
+      expect(routerCallback.calls.mostRecent().args).toEqual matchResult
+      _n.router.parse regexp, "#{matchText}", routerCallback
       expect(routerCallback.calls.mostRecent().args).toEqual matchResult
 
   xdescribe 'ndoo call test >', ->
