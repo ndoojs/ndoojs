@@ -145,6 +145,16 @@ describe 'ndoo framework test >', ->
         _n.trigger 'STATUS:statusTest'
         expect(statusEvent1.calls.count()).toEqual 1
 
+    describe 'off event >', ->
+      offEventCallbback = jasmine.createSpy 'offEventCallbback'
+      it 'off event', ->
+        _n.on 'offEventTest', offEventCallbback
+        _n.trigger 'offEventTest'
+        expect(offEventCallbback.calls.count()).toEqual 1
+        _n.off 'offEventTest'
+        _n.trigger 'offEventTest'
+        expect(offEventCallbback.calls.count()).toEqual 1
+
   describe 'router test >', ->
     _n = ndoo
     regexp = ///
