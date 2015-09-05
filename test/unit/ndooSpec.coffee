@@ -145,6 +145,11 @@ describe 'ndoo framework test >', ->
         _n.trigger 'STATUS:statusTest'
         expect(statusEvent1.calls.count()).toEqual 1
 
+      it 'NAPP_DEFINE should be trigger', ->
+        appDefineCallback = jasmine.createSpy 'NAPP_DEFINE'
+        _n.on 'NAPP_DEFINE', appDefineCallback
+        expect(appDefineCallback.calls.count()).toEqual 1
+
     describe 'off event >', ->
       offEventCallbback = jasmine.createSpy 'offEventCallbback'
       it 'off event', ->
