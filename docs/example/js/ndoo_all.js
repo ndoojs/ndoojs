@@ -1110,7 +1110,7 @@
       });
       /* page route */
       this.on('PAGE_STATUS_ROUTING', function(data){
-        this$.router.parse(/^(?:\/?)(.*?)(?:\/?([^\/?]+))(?:\?(.*?))?(?:\#(.*?))?$/, data, function(controller, action, params){
+        this$.router.parse(/^(?:\/?)(.*?)(?:\/?([^\/?#]+))(?:\?(.*?))?(?:\#(.*?))?$/, data, function(controller, action, params){
           var nsmatch, namespace, pkg;
           if (nsmatch = controller.match(/(.*?)(?:[/.]([^/.]+))$/)) {
             namespace = nsmatch[1], controller = nsmatch[2];
@@ -1294,19 +1294,26 @@
    * @param {object} elem 初始化的元素
    */
   _n.initBlock = function(elem){
-    var blockId, this$ = this;
+    var blockId, _call;
     blockId = $(elem).data('nblockId');
-    _n.router.parse(/^(?:\/?)(.*?)(?:\/?([^\/?]+))(?:\?(.*?))?(?:\#(.*?))?$/, blockId, function(namespace, block, params){
-      var pkg;
-      namespace == null && (namespace = '_default');
-      pkg = namespace + "." + block;
-      if (_n.block(pkg)) {
-        _n.trigger('NBLOCK_LOADED', elem, namespace, block, params);
-      } else if (_n.hasBlock(pkg)) {
-        this$.require([namespace + "." + block], function(){
-          _n.trigger('NBLOCK_LOADED', elem, namespace, block, params);
-        }, 'Do');
-      }
+    blockId = blockId.split(/\s*,\s*|\s+/);
+    _call = function(blockId){
+      var this$ = this;
+      return this.router.parse(/^(?:\/?)(.*?)(?:\/?([^\/?#]+))(?:\?(.*?))?(?:\#(.*?))?$/, blockId, function(namespace, block, params){
+        var pkg;
+        namespace == null && (namespace = '_default');
+        pkg = namespace + "." + block;
+        if (this$.block(pkg)) {
+          this$.trigger('NBLOCK_LOADED', elem, namespace, block, params);
+        } else if (_n.hasBlock(pkg)) {
+          this$.require([namespace + "." + block], function(){
+            _n.trigger('NBLOCK_LOADED', elem, namespace, block, params);
+          }, 'Do');
+        }
+      });
+    };
+    _.each(blockId, function(id){
+      return _call.call(_n, id);
     });
   };
   _n.on('NBLOCK_INIT', function(){

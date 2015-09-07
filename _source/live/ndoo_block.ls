@@ -95,20 +95,26 @@ _n.on \NBLOCK_LOADED, (elem, namespace=\_default, name, params) ->
  */
 _n.initBlock = (elem) !->
   blockId = $(elem).data \nblockId
-  _n.router.parse //
-    ^(?:\/?)           # ^[/]
-    (.*?)              # [:controller]
-    (?:\/?([^/?#]+))   # /:action
-    (?:\?(.*?))?       # [?:params]
-    (?:\#(.*?))?$      # [#:hash]$
-  //, blockId, (namespace = \_default, block, params) !~>
-    pkg = "#namespace.#block"
-    if _n.block pkg
-      _n.trigger \NBLOCK_LOADED, elem, namespace, block, params
-    else if _n.hasBlock pkg
-      @require ["#namespace.#block"], !->
-        _n.trigger \NBLOCK_LOADED, elem, namespace, block, params
-      , \Do
+  blockId = blockId.split /\s*,\s*|\s+/
+
+  _call = (blockId) ->
+    @.router.parse //
+      ^(?:\/?)           # ^[/]
+      (.*?)              # [:controller]
+      (?:\/?([^/?#]+))   # /:action
+      (?:\?(.*?))?       # [?:params]
+      (?:\#(.*?))?$      # [#:hash]$
+    //, blockId, (namespace = \_default, block, params) !~>
+      pkg = "#namespace.#block"
+      if @block pkg
+        @trigger \NBLOCK_LOADED, elem, namespace, block, params
+      else if _n.hasBlock pkg
+        @require ["#namespace.#block"], !->
+          _n.trigger \NBLOCK_LOADED, elem, namespace, block, params
+        , \Do
+
+  _.each blockId, (id) ->
+    _call.call _n, id
 
 _n.on \NBLOCK_INIT, !->
   blocks = $ '[data-nblock-id]'
