@@ -136,6 +136,11 @@
   /* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */
 }).call(this);</code></pre>
             <p class="notice">查看<a href="./example/test.block.html">test.block.html</a></p>
+            <h3>6.执行多个block</h3>
+            <p>在某些特定情况，我们需要运行多个block，但并不对应具体的dom。这个时候可以在一个空div上面设置多个block id来实现。多个block id之间使用空格区分。示例：</p>
+                <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;div id=&quot;blockElement&quot; data-nblock-id=&quot;ui/loading ui/back2top&quot;&gt;&lt;/div&gt;
+</code></pre>
+            <p class="notice">ui/loading ui/back2top 会依次执行</p>
           </div>
         </div>
       </div>

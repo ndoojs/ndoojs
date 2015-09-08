@@ -107,3 +107,10 @@ block pageContent
   p.notice
     |查看
     a(href="#{exampleBaes}/test.block.html") test.block.html
+
+  h3 6.执行多个block
+  p 在某些特定情况，我们需要运行多个block，但并不对应具体的dom。这个时候可以在一个空div上面设置多个block id来实现。多个block id之间使用空格区分。示例：
+  +renderCode('html')
+    ='<div id="blockElement" data-nblock-id="ui/loading ui/back2top"></div>\n'
+  p.notice ui/loading ui/back2top 会依次执行
+
