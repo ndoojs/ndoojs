@@ -149,8 +149,8 @@ _n.on = (eventName, callback) ->
   /* split 'a, b, c' to ['a', 'b', 'c']
      split 'a b c' to ['a' ,'b', 'c'] */
   eventName = eventName.split /\s*,\s*|\s+/
-  for item in eventName
-    @event.on item, callback
+  for name in eventName
+    @event.on name, callback
 
 /**
  * global trigger
@@ -178,7 +178,9 @@ _n.trigger = (eventName, ...data) ->
  * @param {string} eventName 事件名称
  */
 _n.off = (eventName) ->
-  @event.off eventName
+  eventName = eventName.split /\s*,\s*|\s+/
+  for name in eventName
+    @event.off name
 
 /* }}} */
 
