@@ -156,14 +156,26 @@ describe 'ndoo framework test >', ->
         expect(blockDefineCallback.calls.count()).toEqual 1
 
     describe 'off event >', ->
-      offEventCallbback = jasmine.createSpy 'offEventCallbback'
+      offEventCallback = jasmine.createSpy 'offEventCallback'
+      offMultiEventCallback = jasmine.createSpy 'offMultiEventCallback'
+
       it 'off event', ->
-        _n.on 'offEventTest', offEventCallbback
+        _n.on 'offEventTest', offEventCallback
         _n.trigger 'offEventTest'
-        expect(offEventCallbback.calls.count()).toEqual 1
+        expect(offEventCallback.calls.count()).toEqual 1
         _n.off 'offEventTest'
         _n.trigger 'offEventTest'
-        expect(offEventCallbback.calls.count()).toEqual 1
+        expect(offEventCallback.calls.count()).toEqual 1
+
+      it 'off multi event', ->
+        _n.on 'offMultiEvent1 offMultiEvent2', offMultiEventCallback
+        _n.trigger 'offMultiEvent1'
+        _n.trigger 'offMultiEvent2'
+        expect(offMultiEventCallback.calls.count()).toEqual 2
+        _n.off 'offMultiEvent1 offMultiEvent2'
+        _n.trigger 'offMultiEvent1'
+        _n.trigger 'offMultiEvent2'
+        expect(offMultiEventCallback.calls.count()).toEqual 2
 
   describe 'router test >', ->
     _n = ndoo
