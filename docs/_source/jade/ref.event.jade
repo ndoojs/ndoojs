@@ -30,7 +30,7 @@ block pageContent
   p 可以一次绑定多个事件，多个事件之间用"空格"分隔。如 _n.on('event1 event2', callback);。
 
   h3 2. 事件类型
-  p ndoojs的事件分为三种，分别为 default, delay, status，对应三种情况。声明时不区分事件类型，触发时在事件前缀 DEFAULT:、DELAY、STATUS或触发不同事件。default事件为默认事件，可以省略前缀。
+  p ndoojs的事件分为三种，分别为 default, delay, status，对应三种情况。声明时不区分事件类型，触发时通过事件前缀 DEFAULT、DELAY、STATUS触发不同事件。default事件为默认事件，可以省略前缀。
   h4 2.1 default 事件
   p default事件是普通事件，通过on绑定，trigger触发。示例：
   pre: code(data-language="javascript")
