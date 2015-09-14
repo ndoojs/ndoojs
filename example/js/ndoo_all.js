@@ -142,11 +142,11 @@
   _n.on = function(eventName, callback){
     /* split 'a, b, c' to ['a', 'b', 'c']
        split 'a b c' to ['a' ,'b', 'c'] */
-    var i$, len$, item, results$ = [];
+    var i$, len$, name, results$ = [];
     eventName = eventName.split(/\s*,\s*|\s+/);
     for (i$ = 0, len$ = eventName.length; i$ < len$; ++i$) {
-      item = eventName[i$];
-      results$.push(this.event.on(item, callback));
+      name = eventName[i$];
+      results$.push(this.event.on(name, callback));
     }
     return results$;
   };
@@ -177,7 +177,13 @@
    * @param {string} eventName 事件名称
    */
   _n.off = function(eventName){
-    return this.event.off(eventName);
+    var i$, len$, name, results$ = [];
+    eventName = eventName.split(/\s*,\s*|\s+/);
+    for (i$ = 0, len$ = eventName.length; i$ < len$; ++i$) {
+      name = eventName[i$];
+      results$.push(this.event.off(name));
+    }
+    return results$;
   };
   /* }}} */
   /**
@@ -885,7 +891,7 @@
         if (!_.has(eventHandle.events, eventName)) {
           eventHandle.events[eventName] = [];
         }
-        eventHandle.events[eventName].push = data;
+        eventHandle.events[eventName].push(data);
       } else if (eventType === 'STATUS') {
         if (!_.has(eventHandle.events, eventType + ":" + eventName)) {
           eventHandle.events[eventType + ":" + eventName] = data;
@@ -1110,7 +1116,7 @@
       });
       /* page route */
       this.on('PAGE_STATUS_ROUTING', function(data){
-        this$.router.parse(/^(?:\/?)(.*?)(?:\/?([^\/?]+))(?:\?(.*?))?(?:\#(.*?))?$/, data, function(controller, action, params){
+        this$.router.parse(/^(?:\/?)(.*?)(?:\/?([^\/?#]+))(?:\?(.*?))?(?:\#(.*?))?$/, data, function(controller, action, params){
           var nsmatch, namespace, pkg;
           if (nsmatch = controller.match(/(.*?)(?:[/.]([^/.]+))$/)) {
             namespace = nsmatch[1], controller = nsmatch[2];
@@ -1294,19 +1300,26 @@
    * @param {object} elem 初始化的元素
    */
   _n.initBlock = function(elem){
-    var blockId, this$ = this;
+    var blockId, _call;
     blockId = $(elem).data('nblockId');
-    _n.router.parse(/^(?:\/?)(.*?)(?:\/?([^\/?]+))(?:\?(.*?))?(?:\#(.*?))?$/, blockId, function(namespace, block, params){
-      var pkg;
-      namespace == null && (namespace = '_default');
-      pkg = namespace + "." + block;
-      if (_n.block(pkg)) {
-        _n.trigger('NBLOCK_LOADED', elem, namespace, block, params);
-      } else if (_n.hasBlock(pkg)) {
-        this$.require([namespace + "." + block], function(){
-          _n.trigger('NBLOCK_LOADED', elem, namespace, block, params);
-        }, 'Do');
-      }
+    blockId = blockId.split(/\s*,\s*|\s+/);
+    _call = function(blockId){
+      var this$ = this;
+      return this.router.parse(/^(?:\/?)(.*?)(?:\/?([^\/?#]+))(?:\?(.*?))?(?:\#(.*?))?$/, blockId, function(namespace, block, params){
+        var pkg;
+        namespace == null && (namespace = '_default');
+        pkg = namespace + "." + block;
+        if (this$.block(pkg)) {
+          this$.trigger('NBLOCK_LOADED', elem, namespace, block, params);
+        } else if (_n.hasBlock(pkg)) {
+          this$.require([namespace + "." + block], function(){
+            _n.trigger('NBLOCK_LOADED', elem, namespace, block, params);
+          }, 'Do');
+        }
+      });
+    };
+    _.each(blockId, function(id){
+      return _call.call(_n, id);
     });
   };
   _n.on('NBLOCK_INIT', function(){

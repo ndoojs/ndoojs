@@ -241,7 +241,7 @@
         if (!_.has(eventHandle.events, eventName)) {
           eventHandle.events[eventName] = [];
         }
-        eventHandle.events[eventName].push = data;
+        eventHandle.events[eventName].push(data);
       } else if (eventType === 'STATUS') {
         if (!_.has(eventHandle.events, eventType + ":" + eventName)) {
           eventHandle.events[eventType + ":" + eventName] = data;
@@ -466,7 +466,7 @@
       });
       /* page route */
       this.on('PAGE_STATUS_ROUTING', function(data){
-        this$.router.parse(/^(?:\/?)(.*?)(?:\/?([^\/?]+))(?:\?(.*?))?(?:\#(.*?))?$/, data, function(controller, action, params){
+        this$.router.parse(/^(?:\/?)(.*?)(?:\/?([^\/?#]+))(?:\?(.*?))?(?:\#(.*?))?$/, data, function(controller, action, params){
           var nsmatch, namespace, pkg;
           if (nsmatch = controller.match(/(.*?)(?:[/.]([^/.]+))$/)) {
             namespace = nsmatch[1], controller = nsmatch[2];
