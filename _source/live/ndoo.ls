@@ -9,6 +9,7 @@
 */
 
 "use strict"
+
 _        = @[\_]
 $        = @[\jQuery] or @[\Zepto]
 
@@ -490,6 +491,7 @@ _.extend _n,
 
     ###loading depend###
     if depend and depend.length
+      _n.trigger 'DEBUG_INIT_DEPEND', depend
       @require depend, call, \Do
     else
       call!

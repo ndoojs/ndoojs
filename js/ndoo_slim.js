@@ -734,6 +734,7 @@
         });
       };
       if (depend && depend.length) {
+        _n.trigger('DEBUG_INIT_DEPEND', depend);
         this.require(depend, call, 'Do');
       } else {
         call();

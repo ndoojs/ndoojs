@@ -29,7 +29,7 @@ _n = @ndoo
  * @memberof ndoo
  * @type {boolean}
  */
-_n._isDebug        = 0
+_n._isDebug = 0
 
 /* event module {{{ */
 _n.event = (name, type) ->
