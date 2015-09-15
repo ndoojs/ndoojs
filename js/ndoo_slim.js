@@ -511,17 +511,40 @@
      * @memberof ndoo
      */,
     initPageId: function(id){
-      var el;
+      var el, pageId;
       if (this.pageId) {
+        _n.trigger('LOG_INFO', {
+          type: 'pageIdIsDefined',
+          data: {
+            id: id
+          },
+          time: +new Date()
+        });
         return;
       }
       if (typeof document !== 'undefined') {
         if (el = document.getElementById(id || 'scriptArea')) {
-          this.pageId = el.getAttribute('data-page-id') || '';
+          if (pageId = el.getAttribute('data-page-id')) {
+            this.pageId = pageId;
+            _n.trigger('LOG_INFO', {
+              type: 'setPageIdByElem',
+              data: {
+                id: id
+              },
+              time: +new Date()
+            });
+          }
         }
       }
       if (!this.pageId && id) {
         this.pageId = id;
+        _n.trigger('LOG_INFO', {
+          type: 'setPageIdByInput',
+          data: {
+            id: id
+          },
+          time: +new Date()
+        });
       }
     }
     /**
@@ -734,7 +757,13 @@
         });
       };
       if (depend && depend.length) {
-        _n.trigger('DEBUG_INIT_DEPEND', depend);
+        _n.trigger('LOG_INFO', {
+          type: 'initDepend',
+          data: {
+            depend: depend
+          },
+          time: +new Date()
+        });
         this.require(depend, call, 'Do');
       } else {
         call();
@@ -753,6 +782,10 @@
      */,
     init: function(id, depend){
       var ref$;
+      _n.trigger('LOG_INFO', {
+        type: 'init',
+        time: +new Date()
+      });
       if (_.isArray(id)) {
         ref$ = ['', id], id = ref$[0], depend = ref$[1];
       }

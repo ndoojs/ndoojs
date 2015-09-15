@@ -292,14 +292,28 @@ _.extend _n,
    */
   initPageId: (id) !->
     if @pageId
+      _n.trigger 'LOG_INFO',
+        type: 'pageIdIsDefined'
+        data: {id}
+        time: +new Date()
+
       return
 
     if typeof document isnt 'undefined'
       if el = document.getElementById id || \scriptArea
-        @pageId = el.getAttribute('data-page-id') || ''
+        if pageId = el.getAttribute('data-page-id')
+          @pageId = pageId
+          _n.trigger 'LOG_INFO',
+            type: 'setPageIdByElem'
+            data: {id}
+            time: +new Date()
 
     if not @pageId and id
       @pageId = id
+      _n.trigger 'LOG_INFO',
+        type: 'setPageIdByInput'
+        data: {id}
+        time: +new Date()
   /**
    * 获取唯一key
    *
@@ -491,7 +505,12 @@ _.extend _n,
 
     ###loading depend###
     if depend and depend.length
-      _n.trigger 'DEBUG_INIT_DEPEND', depend
+
+      _n.trigger 'LOG_INFO',
+        type : 'initDepend'
+        data : {depend: depend}
+        time : + new Date()
+
       @require depend, call, \Do
     else
       call!
@@ -507,6 +526,10 @@ _.extend _n,
    * @param {array} depend 依赖
    */
   init: (id, depend) ->
+    _n.trigger 'LOG_INFO',
+      type: 'init'
+      time: +new Date()
+
     if _.isArray id
       [id, depend] = ['', id]
 
