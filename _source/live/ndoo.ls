@@ -471,11 +471,12 @@ _.extend _n,
           @require ["#pkg"], !->
             _n.trigger \NAPP_LOADED, namespace, controller, action, params
           , \Do
-        @trigger 'LOG_INFO'
-          type: 'routerEmpty'
-          data:
-            {namespace, controller, action, params}
-          time: +new Date()
+        else
+          @trigger 'LOG_INFO'
+            type: 'routerEmpty'
+            data:
+              {namespace, controller, action, params}
+            time: +new Date()
   /* }}} */
   /* trigger {{{ */
   /**
