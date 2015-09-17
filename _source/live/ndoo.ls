@@ -271,6 +271,8 @@ _n.event = _.extend _n.event,
           @trigger item.eventName, item.eventType, item.data
     @inited = true
   /* }}} */
+# initiation event module
+_n.event.init!
 /* }}} */
 _.extend _n,
   /* base {{{ */
@@ -510,8 +512,6 @@ _.extend _n,
 
     # initiation page id
     @initPageId id
-    # initiation event module
-    @event.init!
     # initiation ndoo event listener
     @dispatch!
     # trigger status
