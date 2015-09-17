@@ -4,7 +4,8 @@
   "description": "frontend test",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "startKarma": "karma start test/conf/unit.conf.js --browsers=PhantomJS",
+    "test": "karma run"
   },
   "author": "chenglifu",
   "license": "ISC",
