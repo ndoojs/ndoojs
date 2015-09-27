@@ -1,6 +1,6 @@
 # ndoojs
 ndoojs是一款轻量级javascript框架，框架的功能主要由个人项目开发积累和实践总结而来。试试吧，或许你会喜欢他。
-文档链接[http://thinkjs.github.io/ndoojs/](http://thinkjs.github.io/ndoojs/)。
+文档链接[http://ndoojs.github.io/ndoojs/](http://ndoojs.github.io/ndoojs/)。
 
 ## 示例
 
