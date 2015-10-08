@@ -276,6 +276,7 @@
     }
     /* }}} */
   });
+  _n.event.init();
   /* }}} */
   _.extend(_n, {
     /* base {{{ */
@@ -540,7 +541,6 @@
         ref$ = ['', id], id = ref$[0], depend = ref$[1];
       }
       this.initPageId(id);
-      this.event.init();
       this.dispatch();
       this.triggerPageStatus(depend);
       return this;
