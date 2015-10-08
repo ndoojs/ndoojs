@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "startKarma": "karma start test/conf/unit.conf.js --browsers=PhantomJS",
-    "test": "karma run"
+    "test": "karma run",
+    "jsdoc": "jsdoc -c jsdoc.conf js/*.js readme.md"
   },
   "author": "chenglifu",
   "license": "ISC",
