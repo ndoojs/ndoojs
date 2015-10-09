@@ -430,6 +430,8 @@ _.extend _n,
 
           _n.trigger \NAPP_ACTION_AFTER, controller, actionName, params
 
+        @trigger \STATUS:NBLOCK_INIT
+
       if depend.length
         _n.require _.uniq(depend), run, \Do
       else
@@ -458,6 +460,8 @@ _.extend _n,
           @require ["#pkg"], !->
             _n.trigger \NAPP_LOADED, namespace, controller, action, params
           , \Do
+        else
+          @trigger \STATUS:NBLOCK_INIT
   /* }}} */
   /* trigger {{{ */
   /**
@@ -488,7 +492,6 @@ _.extend _n,
         if @pageId
           #Backbone.history.start()
           @trigger \STATUS:PAGE_STATUS_ROUTING, @pageId
-          @trigger \STATUS:NBLOCK_INIT
 
     ###loading depend###
     if depend and depend.length
