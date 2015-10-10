@@ -458,7 +458,7 @@
             _n.trigger("NAPP_" + filterPrefix + "_ACTION_AFTER", controller, actionName, params);
             _n.trigger('NAPP_ACTION_AFTER', controller, actionName, params);
           }
-          this.trigger('STATUS:NBLOCK_INIT');
+          _n.trigger('STATUS:NBLOCK_INIT');
         };
         if (depend.length) {
           _n.require(_.uniq(depend), run, 'Do');

@@ -430,7 +430,7 @@ _.extend _n,
 
           _n.trigger \NAPP_ACTION_AFTER, controller, actionName, params
 
-        @trigger \STATUS:NBLOCK_INIT
+        _n.trigger \STATUS:NBLOCK_INIT
 
       if depend.length
         _n.require _.uniq(depend), run, \Do
