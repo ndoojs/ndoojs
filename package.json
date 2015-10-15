@@ -1,7 +1,7 @@
 {
-  "name": "test",
+  "name": "ndoojs",
   "version": "1.0.0",
-  "description": "frontend test",
+  "description": "ndoojs",
   "main": "index.js",
   "scripts": {
     "startKarma": "karma start test/conf/unit.conf.js --browsers=PhantomJS",
@@ -9,7 +9,6 @@
     "jsdoc": "jsdoc -c jsdoc.conf js/*.js readme.md"
   },
   "author": "chenglifu",
-  "license": "ISC",
   "devDependencies": {
     "jasmine-core": "^2.3.4",
     "jsdoc": "^3.3.2",
