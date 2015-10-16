@@ -17,8 +17,10 @@
         return 'home/index';
       }
     }
-    this.bind = function(event) {
-
+    this.bind = function(event, call) {
+      if (event == 'load') {
+        call()
+      }
     }
   }
   this.jQuery = this.$ = fn;
