@@ -59,7 +59,6 @@ describe 'ndoo framework test >', ->
     it 'getPk should prefix', ->
       expect(_n.getPk('test_')).toMatch /^test_\d+$/
 
-
   describe 'page id test >', ->
     _n = ndoo
 
@@ -283,6 +282,18 @@ describe 'ndoo framework test >', ->
       expect(routerCallback.calls.mostRecent().args).toEqual matchResult
       _n.router.parse regexp, "#{matchText}", routerCallback
       expect(routerCallback.calls.mostRecent().args).toEqual matchResult
+
+  describe 'ndoo app test >', ->
+    _n = ndoo
+
+    indexAction = jasmine.createSpy('indexAction')
+
+    _n.app 'home',
+      indexAction: indexAction
+
+    it 'has app home', ->
+      expect(_n.hasApp 'home').toBeTruthy()
+
 
   xdescribe 'ndoo call test >', ->
     _n = ndoo
