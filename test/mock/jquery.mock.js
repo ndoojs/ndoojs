@@ -1,17 +1,15 @@
 (function() {
-  var fn = function () {
-    return new fn.init(
-      [].slice.call(arguments, 1)
-    );
+  var fn = function (select) {
+    return new fn.init(select);
   }
   fn.init = function (args) {
     if (arguments == '[data-nblock-id]') {
       this.length = 0;
     }
-    if (typeof args  == 'function') {
-      console.log(args);
+    if (typeof args == 'object' && args.constructor == Function || typeof args  == 'function') {
       args();
     }
+
     this.data = function(key) {
       if (key === 'pageId') {
         return 'home/index';
