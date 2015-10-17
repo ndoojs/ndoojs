@@ -66,9 +66,15 @@ describe 'ndoo framework test >', ->
       expect(_n.pageId).toBe ''
 
     describe 'init call', ->
+      initPageId = null
       beforeAll ->
+        initPageId = _n.initPageId
         spyOn(_n, 'initPageId').and.callThrough()
         _n.init 'home/index'
+
+      afterAll ->
+        # restore initPageId spy
+        _n.initPageId = initPageId
 
       it 'initPageId should be call', ->
         expect(_n.initPageId).toHaveBeenCalled()
