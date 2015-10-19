@@ -291,23 +291,26 @@ describe 'ndoo framework test >', ->
 
   describe 'ndoo app test >', ->
     describe 'home/index >', ->
-      _n = ndoo
-      indexAction = jasmine.createSpy('indexAction')
+      _n = null
+      indexAction = null
 
-      _n.app 'home',
-        indexAction: indexAction
+      beforeAll ->
+        _n = ndoo
+        indexAction = jasmine.createSpy('indexAction')
 
-      beforeEach ->
+        _n.app 'home',
+          indexAction: indexAction
+
+      afterAll ->
+        _n = null
+        indexAction = null
 
       it 'has app home', ->
         expect(_n.app 'home').toBeTruthy()
 
       it 'initPageId should be call', ->
-        _n.initPageId 'home/index'
+        _n.init 'home/index'
         expect(indexAction).toHaveBeenCalled()
-
-
-
 
   xdescribe 'ndoo call test >', ->
     _n = ndoo
