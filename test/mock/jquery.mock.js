@@ -1,6 +1,7 @@
 (function() {
   var fn = function (select) {
-    return new fn.init(select);
+    return new (Function.bind.apply(fn.init, [null].concat([].slice.call(arguments, 0))));
+    // return new fn.init(select);
   }
   fn.init = function (args) {
     if (arguments == '[data-nblock-id]') {

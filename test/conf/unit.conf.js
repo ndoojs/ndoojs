@@ -3,6 +3,7 @@
 //
 var jsPath = '../../js'
 var libPath = '../../docs/example/lib'
+var rootPath = '../../'
 
 module.exports = function(config) {
   config.set({
@@ -38,6 +39,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      rootPath + '/node_modules/phantomjs-polyfill/bind-polyfill.js',
       libPath + '/underscore-min.js',
       '../mock/jquery.mock.js',
       jsPath + '/ndoo_prep.js',
