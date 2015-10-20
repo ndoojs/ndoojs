@@ -323,33 +323,3 @@ describe 'ndoo framework test >', ->
       it 'initPageId should be call', ->
         _n.init 'home/index'
         expect(indexAction).toHaveBeenCalled()
-
-  xdescribe 'ndoo call test >', ->
-    _n = ndoo
-
-    it 'initPageId should be call', ->
-      spyOn _n, 'initPageId'
-      # spyOn _n, 'init'
-      # _n.init 'home/index'
-      # console.log _n.pageId
-      expect(_n.initPageId).toHaveBeenCalled()
-
-    # describe 'main block >', ->
-    #
-    #   describe 'ui.checkinDate >', ->
-    #     uiCheckinDate = undefined
-    #     beforeAll ->
-    #       uiCheckinDate = _n.block 'ui.checkinDate'
-    #
-    #     it 'has uiCheckinDate', ->
-    #       expect(uiCheckinDate).toBeTruthy()
-    #
-    #     it 'test convertDate', ->
-    #       date = new Date(2015, 6, 22)
-    #       convDateTime = uiCheckinDate.convertDate('2015-07-22').getTime()
-    #       expect(convDateTime).toBe date.getTime()
-    #
-    #     it 'test dateAddDay', ->
-    #       date = new Date(2015, 6, 27)
-    #       date2Time = uiCheckinDate.dateAddDay('2015-07-22', 5).getTime()
-    #       expect(date2Time).toBe date.getTime()
