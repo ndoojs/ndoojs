@@ -3,6 +3,7 @@ describe 'ndoo framework test >', ->
     _stor = undefined
 
     beforeAll ->
+      ndoo.reset()
       _stor = ndoo.storage
 
     it 'ndoo.storage should deinfe', ->
@@ -37,9 +38,10 @@ describe 'ndoo framework test >', ->
         expect(_stor('abc')).toBeUndefined()
 
   describe 'block test >', ->
-    _n = undefined
+    _n = null
     beforeAll ->
       _n = ndoo
+      _n.reset()
 
     it 'has block should false', ->
       expect(_n.hasBlock 'test').toBeUndefined()
@@ -48,10 +50,11 @@ describe 'ndoo framework test >', ->
       expect(_n.block 'test').toBe false
 
   describe 'getPk test >', ->
-    _n = undefined
+    _n = null
 
     beforeAll ->
       _n = ndoo
+      _n.reset()
 
     it 'getPk should match num', ->
       expect(_n.getPk()).toMatch /^\d+$/
@@ -60,7 +63,11 @@ describe 'ndoo framework test >', ->
       expect(_n.getPk('test_')).toMatch /^test_\d+$/
 
   describe 'page id test >', ->
-    _n = ndoo
+    _n = null
+
+    beforeAll ->
+      _n = ndoo
+      _n.reset()
 
     it 'get page id should be empty', ->
       expect(_n.pageId).toBe ''
@@ -86,7 +93,12 @@ describe 'ndoo framework test >', ->
         expect(_n.pageId).toBe 'home/index'
 
   describe 'event test >', ->
-    _n = ndoo
+    _n = null
+
+    beforeAll ->
+      _n = ndoo
+      _n.reset()
+      _n.init 'home/index'
 
     describe 'default event >', ->
       defaultEvent1 = jasmine.createSpy 'defaultEvent1'
