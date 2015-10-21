@@ -302,7 +302,7 @@ describe 'ndoo framework test >', ->
       expect(routerCallback.calls.mostRecent().args).toEqual matchResult
 
   describe 'ndoo app test >', ->
-    describe 'home/index >', ->
+    describe 'home/index action test >', ->
       _n = null
       indexAction = null
 
@@ -315,6 +315,7 @@ describe 'ndoo framework test >', ->
 
       afterAll ->
         _n = null
+        _n.reset()
         indexAction = null
 
       it 'has app home', ->
@@ -323,3 +324,28 @@ describe 'ndoo framework test >', ->
       it 'initPageId should be call', ->
         _n.init 'home/index'
         expect(indexAction).toHaveBeenCalled()
+
+    describe 'home/index before and after test >', ->
+      _n = null
+      indexAction = null
+      indexBefore = null
+      indexAfter = null
+
+      beforeAll ->
+        _n = ndoo
+        indexAction = jasmine.createSpy 'indexAction'
+        indexBefore = jasmine.createSpy 'indexBefore'
+        indexAfter  = jasmine.createSpy 'indexAfter'
+        _n.app 'home', {indexAction, indexBefore, indexAfter}
+        _n.init 'home/index'
+
+      afterAll ->
+        _n = null
+        _n.reset()
+        indexAction = indexBefore = indexAfter = null
+
+      it 'before should be call', ->
+        expect(indexBefore).toHaveBeenCalled()
+
+      it 'after should be call', ->
+        expect(indexAfter).toHaveBeenCalled()
