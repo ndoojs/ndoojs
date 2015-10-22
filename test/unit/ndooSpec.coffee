@@ -340,8 +340,8 @@ describe 'ndoo framework test >', ->
         _n.init 'home/index'
 
       afterAll ->
-        _n = null
         _n.reset()
+        _n = null
         indexAction = indexBefore = indexAfter = null
 
       it 'before should be call', ->
@@ -349,3 +349,28 @@ describe 'ndoo framework test >', ->
 
       it 'after should be call', ->
         expect(indexAfter).toHaveBeenCalled()
+
+    describe 'action test >', ->
+      _n = null
+      indexAction = null
+      indexBeforeFilter = null
+
+      beforeAll ->
+        _n = ndoo
+        indexAction = jasmine.createSpy 'indexAction'
+        indexBeforeFilter = jasmine.createSpy 'indexFilter'
+
+      afterAll ->
+        _n.reset()
+        _n = null
+
+      it 'test before filter>', ->
+        _n.app 'home',
+          before:
+            filter: 'indexBefore'
+          indexBeforeFilter: indexBeforeFilter
+          indexAction: indexAction
+
+        _n.init 'home/index'
+
+        expect(indexBeforeFilter).toHaveBeenCalled()
