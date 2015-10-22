@@ -350,7 +350,7 @@ describe 'ndoo framework test >', ->
       it 'after should be call', ->
         expect(indexAfter).toHaveBeenCalled()
 
-    describe 'action test >', ->
+    describe 'filter test >', ->
       _n = null
       indexAction = null
       indexBeforeFilter = null
@@ -382,3 +382,43 @@ describe 'ndoo framework test >', ->
 
       it 'after filter should be call', ->
         expect(indexAfterFilter).toHaveBeenCalled()
+
+    describe 'filter modfifier test >', ->
+      _n = null
+      indexAction = null
+      listAction = null
+      detailAction = null
+      onlyIndexFilter = null
+      exceptIndexFilter = null
+
+      beforeEach ->
+        _n = ndoo
+        indexAction = jasmine.createSpy 'indexAction'
+        listAction = jasmine.createSpy 'listAction'
+        detailAction = jasmine.createSpy 'detailAction'
+        onlyIndexFilter = jasmine.createSpy 'onlyIndexFilter'
+        exceptIndexFilter = jasmine.createSpy 'exceptIndexFilter'
+
+        _n.app 'home',
+          before: [
+            {filter: 'onlyIndex', only: 'index'},
+            {filter: 'exceptIndex', except: 'index'}
+          ]
+          onlyIndexFilter: onlyIndexFilter
+          exceptIndexFilter: exceptIndexFilter
+          indexAction: indexAction
+          listAction: listAction
+          detailAction: detailAction
+
+      afterEach ->
+        _n.reset()
+        _n = null
+        indexAction = null
+        listAction = null
+        detailAction = null
+        onlyIndexFilter = null
+        exceptIndexFilter = null
+
+      it 'only index filter shoud be call on home/index', ->
+        _n.init 'home/index'
+        expect(onlyIndexFilter).toHaveBeenCalled()
