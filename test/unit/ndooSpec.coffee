@@ -426,3 +426,7 @@ describe 'ndoo framework test >', ->
       it 'only index filter dont call on home/list', ->
         _n.init 'home/list'
         expect(onlyIndexFilter).not.toHaveBeenCalled()
+
+      it 'except index filter dont call on home/index', ->
+        _n.init 'home/index'
+        expect(exceptIndexFilter).not.toHaveBeenCalled()
