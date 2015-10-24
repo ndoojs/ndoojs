@@ -434,3 +434,34 @@ describe 'ndoo framework test >', ->
       it 'except index filter shoud be call on home/list', ->
         _n.init 'home/list'
         expect(exceptIndexFilter).toHaveBeenCalled()
+
+    describe 'test multi filter >', ->
+      _n = null
+      indexAction = null
+      firstFilter = null
+      secondFilter = null
+
+      beforeAll ->
+        _n = ndoo
+        indexAction = jasmine.createSpy 'indexAction'
+        firstFilter = jasmine.createSpy 'firstFilter'
+        secondFilter = jasmine.createSpy 'secondFilter'
+
+        _n.app 'home',
+          before: { filter: 'first second' }
+          firstFilter: firstFilter
+          secondFilter: secondFilter
+          indexAction: indexAction
+
+        _n.init 'home/index'
+
+      afterAll ->
+        _n.reset()
+        _n = null
+        indexAction = null
+        firstFilter = null
+        secondFilter = null
+
+      it 'first and second shoud be call', ->
+        expect(firstFilter).toHaveBeenCalled()
+        expect(secondFilter).toHaveBeenCalled()
