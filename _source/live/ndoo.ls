@@ -109,9 +109,10 @@ _n.require = (depend, callback, type) !->
 /* }}} */
 /* define block module {{{ */
 _n._blockData ||= do
-  _block : {}
-  _app   : {}
-  _exist : {}
+  _block   : {}
+  _app     : {}
+  _service : {}
+  _exist   : {}
 
 _n._block = (base, namespace, name, block) ->
   if base is \block

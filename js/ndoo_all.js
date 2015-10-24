@@ -759,6 +759,7 @@
   _n._blockData || (_n._blockData = {
     _block: {},
     _app: {},
+    _service: {},
     _exist: {}
   });
   _n._block = function(base, namespace, name, block){
