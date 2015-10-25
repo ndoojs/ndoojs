@@ -441,21 +441,14 @@ describe 'ndoo framework test >', ->
       firstFilter = null
       secondFilter = null
 
-      beforeAll ->
+      beforeEach ->
         _n = ndoo
         indexAction = jasmine.createSpy 'indexAction'
         firstFilter = jasmine.createSpy 'firstFilter'
         secondFilter = jasmine.createSpy 'secondFilter'
 
-        _n.app 'home',
-          before: { filter: 'first second' }
-          firstFilter: firstFilter
-          secondFilter: secondFilter
-          indexAction: indexAction
 
-        _n.init 'home/index'
-
-      afterAll ->
+      afterEach ->
         _n.reset()
         _n = null
         indexAction = null
@@ -463,5 +456,26 @@ describe 'ndoo framework test >', ->
         secondFilter = null
 
       it 'first and second shoud be call', ->
+        _n.app 'home',
+          before: { filter: 'first second' }
+          firstFilter: firstFilter
+          secondFilter: secondFilter
+          indexAction: indexAction
+
+        _n.init 'home/index'
+        expect(firstFilter).toHaveBeenCalled()
+        expect(secondFilter).toHaveBeenCalled()
+
+      it 'first and second should be call', ->
+        _n.app 'home',
+          before: [
+            { filter: 'first' }
+            { filter: 'second' }
+          ]
+          firstFilter: firstFilter
+          secondFilter: secondFilter
+          indexAction: indexAction
+
+        _n.init 'home/index'
         expect(firstFilter).toHaveBeenCalled()
         expect(secondFilter).toHaveBeenCalled()
