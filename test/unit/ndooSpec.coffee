@@ -479,3 +479,37 @@ describe 'ndoo framework test >', ->
         _n.init 'home/index'
         expect(firstFilter).toHaveBeenCalled()
         expect(secondFilter).toHaveBeenCalled()
+
+    describe 'test app depend >', ->
+      _n = null
+      requireSpy = null
+      indexAction = null
+      listAction = null
+      requireBak = null
+      dependTemp = []
+
+      requireMock = (depend, callback, type) ->
+        dependTemp = depend
+        callback()
+
+      beforeAll ->
+        _n = ndoo
+        indexAction = jasmine.createSpy 'indexAction'
+
+        requireBak = _n.require
+        _n.require = requireMock
+
+      afterAll ->
+        _n.require = requireBak
+        _n.reset()
+        _n.req
+
+      it 'depend should be set', ->
+        _n.app 'home',
+          depend: 'homeAppDepend',
+          indexAction: indexAction
+
+        _n.init 'home/index'
+
+        expect(dependTemp).toEqual ['homeAppDepend']
+
