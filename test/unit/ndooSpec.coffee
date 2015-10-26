@@ -492,14 +492,15 @@ describe 'ndoo framework test >', ->
         dependTemp = depend
         callback()
 
-      beforeAll ->
+      beforeEach ->
         _n = ndoo
         indexAction = jasmine.createSpy 'indexAction'
 
         requireBak = _n.require
         _n.require = requireMock
 
-      afterAll ->
+      afterEach ->
+        dependTemp = []
         _n.require = requireBak
         _n.reset()
         _n.req
@@ -510,6 +511,13 @@ describe 'ndoo framework test >', ->
           indexAction: indexAction
 
         _n.init 'home/index'
+        expect(dependTemp).toBeTruthy()
 
+      it 'depend should equal "homeAppDepend"', ->
+        _n.app 'home',
+          depend: 'homeAppDepend',
+          indexAction: indexAction
+
+        _n.init 'home/index'
         expect(dependTemp).toEqual ['homeAppDepend']
 
