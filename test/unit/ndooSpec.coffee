@@ -503,7 +503,6 @@ describe 'ndoo framework test >', ->
         dependTemp = []
         _n.require = requireBak
         _n.reset()
-        _n.req
 
       it 'depend should be set', ->
         _n.app 'home',
@@ -526,6 +525,6 @@ describe 'ndoo framework test >', ->
           indexDepend: 'indexDepend'
           indexAction: indexAction
 
-        _n.init 'home/indexAction'
-        expect(dependTemp).toBeTruthy()
+        _n.init 'home/index'
+        expect(dependTemp.length).toBeTruthy()
 
