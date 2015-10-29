@@ -520,7 +520,7 @@ describe 'ndoo framework test >', ->
         _n.init 'home/index'
         expect(dependTemp).toEqual ['homeAppDepend']
 
-      it 'action append should be set', ->
+      it 'action depend should be set', ->
         _n.app 'home',
           indexDepend: 'indexDepend'
           indexAction: indexAction
@@ -528,7 +528,7 @@ describe 'ndoo framework test >', ->
         _n.init 'home/index'
         expect(dependTemp.length).toBeTruthy()
 
-      it 'action append should equal "indexDepend"', ->
+      it 'action depend should equal "indexDepend"', ->
         _n.app 'home',
           indexDepend: 'indexDepend'
           indexAction: indexAction
@@ -536,3 +536,11 @@ describe 'ndoo framework test >', ->
         _n.init 'home/index'
         expect(dependTemp).toEqual ['indexDepend']
 
+      it 'app and action depend should be set', ->
+        _n.app 'home',
+          depend: 'homeAppDepend'
+          indexDepend: 'indexDepend'
+          indexAction: indexAction
+
+        _n.init 'home/index'
+        expect(dependTemp).toEqual ['homeAppDepend', 'indexDepend']
