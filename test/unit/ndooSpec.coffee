@@ -544,3 +544,31 @@ describe 'ndoo framework test >', ->
 
         _n.init 'home/index'
         expect(dependTemp).toEqual ['homeAppDepend', 'indexDepend']
+
+    describe 'test module event', ->
+      _n = null
+      indexAction = null
+      beforeCall = null
+      afterCall = null
+
+      beforeEach ->
+        _n = ndoo
+        indexAction = jasmine.createSpy 'indexAction'
+        beforeCall = jasmine.createSpy 'beforeCall'
+        afterCall = jasmine.createSpy 'afterCall'
+
+      afterEach ->
+        indexAction = null
+        beforeCall = null
+        afterCall = null
+        _n.reset()
+        _n = null
+
+      it 'moudle before should be call', ->
+        _n.app 'home',
+          indexAction: indexAction
+
+        _n.on 'NAPP_HOME_ACTION_BEFORE', beforeCall
+        _n.init 'home/index'
+
+        expect(beforeCall).toHaveBeenCalled()
