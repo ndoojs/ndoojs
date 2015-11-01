@@ -572,11 +572,21 @@ describe 'ndoo framework test >', ->
         _n.init 'home/index'
 
         expect(beforeCall).toHaveBeenCalled()
+
       it 'module after should be call', ->
         _n.app 'home',
           indexAction: indexAction
 
         _n.on 'NAPP_HOME_ACTION_AFTER', afterCall
-        _n.init 'home/indexAction'
+        _n.init 'home/index'
+
         expect(afterCall).toHaveBeenCalled()
 
+      it 'app before should be call', ->
+        _n.app 'home',
+          indexAction: indexAction
+
+        _n.on 'NAPP_ACTION_BEFORE', beforeCall
+        _n.init 'home/index'
+
+        expect(beforeCall).toHaveBeenCalled()
