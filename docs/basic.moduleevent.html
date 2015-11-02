@@ -54,7 +54,7 @@
           <div class="content">
             <p>ndoojs支持给模块定义事件，在指定模块的action调用前和调用后触发事件。</p>
             <h3>1. 前置事件</h3>
-            <p>事件名 NAPP_[moduleName]_ACTION_BEFORE，回调函数接受3个参数，分别是 controller、actionName、params。示例：</p>
+            <p>事件名 NAPP_[appName]_ACTION_BEFORE，回调函数接受3个参数，分别是 controller、actionName、params。示例：</p>
                 <pre data-start="1" class="line-numbers"><code class="language-javascript">_n.on('NAPP_HOME_ACTION_BEFORE', function(controller, actionName, params){
   console.log('controller:' + controller + '\n actionName:' + actionName + '\n params' + params);
 });
@@ -69,7 +69,7 @@ _n.app('home', {
 });
 /* }}} */</code></pre>
             <h3>2. 后置事件</h3>
-            <p>事件名 NAPP_[moduleName]_ACTION_AFTER，回调函数接受3个参数，分别是 controller、actionName、params。示例：</p>
+            <p>事件名 NAPP_[appName]_ACTION_AFTER，回调函数接受3个参数，分别是 controller、actionName、params。示例：</p>
             <pre><code data-language="javascript"></code></pre>
                 <pre data-start="1" class="line-numbers"><code class="language-javascript">_n.on('NAPP_HOME_ACTION_AFTER', function(controller, actionName, params){
   console.log('controller:' + controller + '\n actionName:' + actionName + '\n params' + params);
