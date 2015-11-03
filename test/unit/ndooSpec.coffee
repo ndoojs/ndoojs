@@ -39,8 +39,11 @@ describe 'ndoo framework test >', ->
 
   describe 'block test >', ->
     _n = null
+
     beforeAll ->
       _n = ndoo
+
+    afterAll ->
       _n.reset()
 
     it 'has block should false', ->
@@ -48,6 +51,12 @@ describe 'ndoo framework test >', ->
 
     it 'get block should false', ->
       expect(_n.block 'test').toBe false
+
+    it 'set block and should be check', ->
+      _n.on 'NBLOCK_DEFINE', ->
+        _n.setBlock 'test'
+
+      expect(_n.hasBlock 'test').toBeTruthy()
 
   describe 'getPk test >', ->
     _n = null
