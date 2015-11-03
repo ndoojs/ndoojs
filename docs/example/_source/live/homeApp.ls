@@ -25,6 +25,16 @@ _n.app \home,
     $content = $ '#content'
     $content.html '通过事件暂存改变方块颜色'
 
+  serviceUsageAction: (param) !->
+    _n.service 'user', (n) ->
+      return
+        hasSignin: ->
+          return false
+
+    user = _n.service 'user'
+
+    console.log user.hasSignin()
+
 /* }}} */
 
 # vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et:

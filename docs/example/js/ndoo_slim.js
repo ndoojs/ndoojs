@@ -325,6 +325,7 @@
   _n._blockData || (_n._blockData = {
     _block: {},
     _app: {},
+    _service: {},
     _exist: {}
   });
   _n._block = function(base, namespace, name, block){
@@ -333,6 +334,8 @@
       data = _n._blockData['_block'];
     } else if (base === 'app') {
       data = _n._blockData['_app'];
+    } else if (base === 'service') {
+      data = _n._blockData['_service'];
     }
     if (namespace) {
       nsArr = namespace.replace(/^[/.]|[/.]$/g, '').split(/[/.]/);
@@ -674,6 +677,7 @@
             _n.trigger("NAPP_" + filterPrefix + "_ACTION_AFTER", controller, actionName, params);
             _n.trigger('NAPP_ACTION_AFTER', controller, actionName, params);
           }
+          _n.trigger('STATUS:NBLOCK_INIT');
         };
         if (depend.length) {
           _n.require(_.uniq(depend), run, 'Do');
@@ -701,6 +705,8 @@
             this$.require([pkg + ""], function(){
               _n.trigger('NAPP_LOADED', namespace, controller, action, params);
             }, 'Do');
+          } else {
+            this$.trigger('STATUS:NBLOCK_INIT');
           }
         });
       });
@@ -730,7 +736,6 @@
         this$.on('PAGE_STATUS_DOM', function(){
           if (this$.pageId) {
             this$.trigger('STATUS:PAGE_STATUS_ROUTING', this$.pageId);
-            this$.trigger('STATUS:NBLOCK_INIT');
           }
         });
       };
