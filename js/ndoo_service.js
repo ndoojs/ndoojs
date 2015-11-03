@@ -23,7 +23,7 @@
     if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
       namespace = nsmatch[1], name = nsmatch[2];
     } else {
-      ref$ = ['_default', name], namespace = ref$[0], name = ref$[1];
+      ref$ = ['_default', namespace], namespace = ref$[0], name = ref$[1];
     }
     if (service) {
       return _n._block('service', namespace, name, service);

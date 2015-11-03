@@ -24,7 +24,7 @@ _n.service = (namespace, service) ->
   if nsmatch = namespace.match /(.*?)(?:[/.]([^/.]+))$/
     [null, namespace, name] = nsmatch
   else
-    [namespace, name] = [\_default, name]
+    [namespace, name] = [\_default, namespace]
 
   if service
     _n._block \service, namespace, name, service
