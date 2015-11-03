@@ -32,7 +32,7 @@ _n.hasBlock = (namespace) ->
   if nsmatch = namespace.match /(.*?)(?:[/.]([^/.]+))$/
     [null, namespace, name] = nsmatch
   else
-    [namespace, name] = [\_default, name]
+    [namespace, name] = [\_default, namespace]
 
   _n._blockData[\_exist]["block.#namespace.#name"]
 
@@ -49,7 +49,7 @@ _n.setBlock = (namespace) ->
   if nsmatch = namespace.match /(.*?)(?:[/.]([^/.]+))$/
     [null, namespace, name] = nsmatch
   else
-    [namespace, name] = [\_default, name]
+    [namespace, name] = [\_default, namespace]
 
   _n._blockData[\_exist]["block.#namespace.#name"] = true
 
@@ -66,7 +66,7 @@ _n.block = (namespace, block) ->
   if nsmatch = namespace.match /(.*?)(?:[/.]([^/.]+))$/
     [null, namespace, name] = nsmatch
   else
-    [namespace, name] = [\_default, name]
+    [namespace, name] = [\_default, namespace]
 
   _n._block \block, namespace, name, block
 

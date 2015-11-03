@@ -800,7 +800,7 @@
     if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
       namespace = nsmatch[1], name = nsmatch[2];
     } else {
-      ref$ = ['_default', name], namespace = ref$[0], name = ref$[1];
+      ref$ = ['_default', namespace], namespace = ref$[0], name = ref$[1];
     }
     return _n._blockData['_exist']["block." + namespace + "." + name];
   };
@@ -818,7 +818,7 @@
     if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
       namespace = nsmatch[1], name = nsmatch[2];
     } else {
-      ref$ = ['_default', name], namespace = ref$[0], name = ref$[1];
+      ref$ = ['_default', namespace], namespace = ref$[0], name = ref$[1];
     }
     return _n._blockData['_exist']["block." + namespace + "." + name] = true;
   };
@@ -836,7 +836,7 @@
     if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
       namespace = nsmatch[1], name = nsmatch[2];
     } else {
-      ref$ = ['_default', name], namespace = ref$[0], name = ref$[1];
+      ref$ = ['_default', namespace], namespace = ref$[0], name = ref$[1];
     }
     return _n._block('block', namespace, name, block);
   };
