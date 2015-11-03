@@ -20,20 +20,21 @@ _vars    = _n.vars
 _func    = _n.func
 _stor    = _n.storage
 
-_n.service = (namespace, creator) ->
+_n.service = (namespace, service) ->
   if nsmatch = namespace.match /(.*?)(?:[/.]([^/.]+))$/
     [null, namespace, name] = nsmatch
   else
     [namespace, name] = [\_default, name]
 
-  if creator
-    _n._block \service, namespace, name, {creator, instance: null}
+  if service
+    _n._block \service, namespace, name, service
 
   else
     service = _n._block \service, namespace, name
-    unless service.instance
-      service.instance = new service.creator _n
 
-    service.instance
+    if service.init
+      service.init _n
+    else
+      service
 
 _n.trigger \STATUS:NSERVICE_DEFINE

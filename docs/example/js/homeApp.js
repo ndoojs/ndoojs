@@ -29,12 +29,10 @@
     },
     serviceUsageAction: function(param){
       var user;
-      _n.service('user', function(n){
-        return {
-          hasSignin: function(){
-            return false;
-          }
-        };
+      _n.service('user', {
+        hasSignin: function(){
+          return false;
+        }
       });
       user = _n.service('user');
       console.log(user.hasSignin());

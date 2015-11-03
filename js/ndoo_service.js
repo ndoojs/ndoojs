@@ -18,24 +18,22 @@
   _vars = _n.vars;
   _func = _n.func;
   _stor = _n.storage;
-  _n.service = function(namespace, creator){
-    var nsmatch, name, ref$, service;
+  _n.service = function(namespace, service){
+    var nsmatch, name, ref$;
     if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
       namespace = nsmatch[1], name = nsmatch[2];
     } else {
       ref$ = ['_default', name], namespace = ref$[0], name = ref$[1];
     }
-    if (creator) {
-      return _n._block('service', namespace, name, {
-        creator: creator,
-        instance: null
-      });
+    if (service) {
+      return _n._block('service', namespace, name, service);
     } else {
       service = _n._block('service', namespace, name);
-      if (!service.instance) {
-        service.instance = new service.creator(_n);
+      if (service.init) {
+        return service.init(_n);
+      } else {
+        return service;
       }
-      return service.instance;
     }
   };
   _n.trigger('STATUS:NSERVICE_DEFINE');

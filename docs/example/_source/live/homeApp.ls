@@ -26,10 +26,9 @@ _n.app \home,
     $content.html '通过事件暂存改变方块颜色'
 
   serviceUsageAction: (param) !->
-    _n.service 'user', (n) ->
-      return
-        hasSignin: ->
-          return false
+    _n.service 'user',
+      hasSignin: ->
+        return false
 
     user = _n.service 'user'
 
