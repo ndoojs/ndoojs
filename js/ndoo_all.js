@@ -3,8 +3,8 @@
 "   FileName: ndoo_prep.ls
 "       Desc: ndoo.js前置文件
 "     Author: chenglf
-"    Version: ndoo.js(v1.0b1)
-" LastChange: 08/22/2015 00:06
+"    Version: ndoo.js(v1.0b2)
+" LastChange: 11/03/2015 23:09
 " --------------------------------------------------
 */
 (function(){
@@ -219,8 +219,8 @@
 "   FileName: ndoo_lib.ls
 "       Desc: ndoo.js库文件
 "     Author: chenglf
-"    Version: ndoo.js(v1.0b1)
-" LastChange: 08/22/2015 00:05
+"    Version: ndoo.js(v1.0b2)
+" LastChange: 11/03/2015 23:09
 " --------------------------------------------------
 */
 (function(){
@@ -653,8 +653,8 @@
 "   FileName: ndoo.ls
 "       Desc: ndoo.js主文件
 "     Author: chenglf
-"    Version: ndoo.js(v1.0b1)
-" LastChange: 08/22/2015 00:05
+"    Version: ndoo.js(v1.0b2)
+" LastChange: 11/03/2015 23:10
 " --------------------------------------------------
 */
 (function(){
@@ -1203,11 +1203,11 @@
 }).call(this);
 /*
 " --------------------------------------------------
-"   FileName: ndoo.block.ls
+"   FileName: ndoo_block.ls
 "       Desc: ndoo.js block模块
 "     Author: chenglf
-"    Version: ndoo.js(v1.0b1)
-" LastChange: 08/22/2015 00:05
+"    Version: ndoo.js(v1.0b2)
+" LastChange: 11/03/2015 23:10
 " --------------------------------------------------
 */
 (function(){

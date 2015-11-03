@@ -1,10 +1,10 @@
 /*
 " --------------------------------------------------
-"   FileName: ndoo.block.ls
+"   FileName: ndoo_block.ls
 "       Desc: ndoo.js block模块
 "     Author: chenglf
-"    Version: ndoo.js(v1.0b1)
-" LastChange: 08/22/2015 00:05
+"    Version: ndoo.js(v1.0b2)
+" LastChange: 11/03/2015 23:10
 " --------------------------------------------------
 */
 (function(){
