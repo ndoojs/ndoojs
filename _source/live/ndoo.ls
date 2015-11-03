@@ -119,6 +119,8 @@ _n._block = (base, namespace, name, block) ->
     data = _n._blockData[\_block]
   else if base is \app
     data = _n._blockData[\_app]
+  else if base is \service
+    data = _n._blockData[\_service]
 
   if namespace
     nsArr = namespace.replace /^[/.]|[/.]$/g, '' .split /[/.]/

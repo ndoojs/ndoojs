@@ -1,10 +1,10 @@
 /*
 " --------------------------------------------------
-"   FileName: ndoo_block.ls
-"       Desc: ndoo.js block模块
+"   FileName: ndoo_service.ls
+"       Desc: ndoo.js service模块
 "     Author: chenglf
 "    Version: ndoo.js(v1.0b1)
-" LastChange: 10/24/2015 18:37
+" LastChange: 11/03/2015 21:12
 " --------------------------------------------------
 */
 
@@ -19,14 +19,34 @@ _vars    = _n.vars
 _func    = _n.func
 _stor    = _n.storage
 
-_n.service = (namespace, block, option) ->
+_n.hasService = (namespace) ->
   if nsmatch = namespace.match /(.*?)(?:[/.]([^/.]+))$/
     [null, namespace, name] = nsmatch
   else
     [namespace, name] = [\_default, name]
 
-  # if block
-  #   _n.initService _n._block \service, namespace, name, block
-  # else
-  #   _n._block \service, namespace, name, block
-  _n._block \service, namespace, name, block
+  _n._blockData[\exists]["service.#namespace.#name"]
+
+_n.setService = (namespace) ->
+  if nsmatch = namespace.match /(.*?)(?:[/.]([^/.]+))$/
+    [null, namespace, name] = nsmatch
+  else
+    [namespace, name] = [\_default, name]
+
+  _n._blockData[\_exist]["service.#namespace.#name"] = true
+
+_n.service = (namespace, creator) ->
+  if nsmatch = namespace.match /(.*?)(?:[/.]([^/.]+))$/
+    [null, namespace, name] = nsmatch
+  else
+    [namespace, name] = [\_default, name]
+
+  if creator
+    _n._block \service, namespace, name, {creator, instance: null}
+
+  else
+    service = _n._block \service, namespace, name
+    unless service.instance
+      service.instance = new service.creator _n
+
+    service.instance

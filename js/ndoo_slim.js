@@ -334,6 +334,8 @@
       data = _n._blockData['_block'];
     } else if (base === 'app') {
       data = _n._blockData['_app'];
+    } else if (base === 'service') {
+      data = _n._blockData['_service'];
     }
     if (namespace) {
       nsArr = namespace.replace(/^[/.]|[/.]$/g, '').split(/[/.]/);
