@@ -2,6 +2,7 @@
 " --------------------------------------------------
 "   FileName: ndoo_service.ls
 "       Desc: ndoo.js service模块
+"             借鉴了t3.js http://t3js.org/
 "     Author: chenglf
 "    Version: ndoo.js(v1.0b1)
 " LastChange: 11/03/2015 21:12
@@ -17,24 +18,6 @@
   _vars = _n.vars;
   _func = _n.func;
   _stor = _n.storage;
-  _n.hasService = function(namespace){
-    var nsmatch, name, ref$;
-    if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
-      namespace = nsmatch[1], name = nsmatch[2];
-    } else {
-      ref$ = ['_default', name], namespace = ref$[0], name = ref$[1];
-    }
-    return _n._blockData['exists']["service." + namespace + "." + name];
-  };
-  _n.setService = function(namespace){
-    var nsmatch, name, ref$;
-    if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
-      namespace = nsmatch[1], name = nsmatch[2];
-    } else {
-      ref$ = ['_default', name], namespace = ref$[0], name = ref$[1];
-    }
-    return _n._blockData['_exist']["service." + namespace + "." + name] = true;
-  };
   _n.service = function(namespace, creator){
     var nsmatch, name, ref$, service;
     if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
@@ -55,4 +38,5 @@
       return service.instance;
     }
   };
+  _n.trigger('STATUS:NSERVICE_DEFINE');
 }).call(this);

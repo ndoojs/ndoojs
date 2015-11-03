@@ -2,6 +2,7 @@
 " --------------------------------------------------
 "   FileName: ndoo_service.ls
 "       Desc: ndoo.js service模块
+"             借鉴了t3.js http://t3js.org/
 "     Author: chenglf
 "    Version: ndoo.js(v1.0b1)
 " LastChange: 11/03/2015 21:12
@@ -19,22 +20,6 @@ _vars    = _n.vars
 _func    = _n.func
 _stor    = _n.storage
 
-_n.hasService = (namespace) ->
-  if nsmatch = namespace.match /(.*?)(?:[/.]([^/.]+))$/
-    [null, namespace, name] = nsmatch
-  else
-    [namespace, name] = [\_default, name]
-
-  _n._blockData[\exists]["service.#namespace.#name"]
-
-_n.setService = (namespace) ->
-  if nsmatch = namespace.match /(.*?)(?:[/.]([^/.]+))$/
-    [null, namespace, name] = nsmatch
-  else
-    [namespace, name] = [\_default, name]
-
-  _n._blockData[\_exist]["service.#namespace.#name"] = true
-
 _n.service = (namespace, creator) ->
   if nsmatch = namespace.match /(.*?)(?:[/.]([^/.]+))$/
     [null, namespace, name] = nsmatch
@@ -50,3 +35,5 @@ _n.service = (namespace, creator) ->
       service.instance = new service.creator _n
 
     service.instance
+
+_n.trigger \STATUS:NSERVICE_DEFINE
