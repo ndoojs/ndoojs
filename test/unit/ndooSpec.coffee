@@ -58,6 +58,11 @@ describe 'ndoo framework test >', ->
 
       expect(_n.hasBlock 'test').toBeTruthy()
 
+    it 'add block should be get', ->
+      block = ->
+      _n.block 'main.block1', block
+      expect(_n.block 'main.block1').toEqual block
+
   describe 'getPk test >', ->
     _n = null
 
