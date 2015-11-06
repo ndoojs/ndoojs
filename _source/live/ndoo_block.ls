@@ -26,7 +26,6 @@ _stor    = _n.storage
  * @name hasBlock
  * @memberof ndoo
  * @param {string} namespace 名称空间
- * @param {string} name 名称
  */
 _n.hasBlock = (namespace) ->
   if nsmatch = namespace.match /(.*?)(?:[/.]([^/.]+))$/
@@ -43,7 +42,6 @@ _n.hasBlock = (namespace) ->
  * @name setBlock
  * @memberof ndoo
  * @param {string} namespace 名称空间
- * @param {string} name 名称
  */
 _n.setBlock = (namespace) ->
   if nsmatch = namespace.match /(.*?)(?:[/.]([^/.]+))$/

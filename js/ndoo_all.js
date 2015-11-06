@@ -1230,7 +1230,6 @@
    * @name hasBlock
    * @memberof ndoo
    * @param {string} namespace 名称空间
-   * @param {string} name 名称
    */
   _n.hasBlock = function(namespace){
     var nsmatch, name, ref$;
@@ -1248,7 +1247,6 @@
    * @name setBlock
    * @memberof ndoo
    * @param {string} namespace 名称空间
-   * @param {string} name 名称
    */
   _n.setBlock = function(namespace){
     var nsmatch, name, ref$;
