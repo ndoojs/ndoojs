@@ -124,6 +124,4 @@ _n.on \NBLOCK_INIT, !->
       if auto is undefined or auto.toString! isnt 'false'
         _n.initBlock block
 
-# _n.initBlock('[data-nblock-id]')
-
 /* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */

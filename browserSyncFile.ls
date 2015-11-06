@@ -75,9 +75,11 @@ getCompileCmdAndFileName = (file, ext) ->
         cmd =
           "lsc --no-header -cp #file>#compileFileName",
           "cat #baseDir/js/ndoo_prep.js #baseDir/js/ndoo_lib.js 
-          #baseDir/js/ndoo.js #baseDir/js/ndoo_block.js > #baseDir/js/ndoo_all.js",
+          #baseDir/js/ndoo.js #baseDir/js/ndoo_block.js 
+          #baseDir/js/ndoo_service.js > #baseDir/js/ndoo_all.js",
           "cat #baseDir/js/ndoo_prep.js #baseDir/js/ndoo.js 
-          #baseDir/js/ndoo_block.js > #baseDir/js/ndoo_slim.js"
+          #baseDir/js/ndoo_block.js #baseDir/js/ndoo_service.js
+          > #baseDir/js/ndoo_slim.js"
       else
         cmd = "lsc --no-header -cp #file>#compileFileName"
     case 'docs/example/_source/live'

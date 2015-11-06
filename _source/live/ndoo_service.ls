@@ -4,7 +4,7 @@
 "       Desc: ndoo.js service模块
 "             借鉴了t3.js http://t3js.org/
 "     Author: chenglf
-"    Version: ndoo.js(v1.0b1)
+"    Version: ndoo.js(v1.0b2)
 " LastChange: 11/03/2015 21:12
 " --------------------------------------------------
 */
@@ -38,3 +38,5 @@ _n.service = (namespace, service) ->
       service
 
 _n.trigger \STATUS:NSERVICE_DEFINE
+
+/* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */
