@@ -18,6 +18,15 @@
   _vars = _n.vars;
   _func = _n.func;
   _stor = _n.storage;
+  /**
+   * 添加serivce
+   *
+   * @method
+   * @name service
+   * @memberof ndoo
+   * @param {string} namespace 名称空间
+   * @param {string} service 对象
+   */
   _n.service = function(namespace, service){
     var nsmatch, name, ref$;
     if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
