@@ -1266,7 +1266,7 @@
    * @name block
    * @memberof ndoo
    * @param {string} namespace 名称空间
-   * @param {string} name 名称
+   * @param {string} block对象
    */
   _n.block = function(namespace, block){
     var nsmatch, name, ref$;

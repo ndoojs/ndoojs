@@ -60,7 +60,7 @@ _n.setBlock = (namespace) ->
  * @name block
  * @memberof ndoo
  * @param {string} namespace 名称空间
- * @param {string} name 名称
+ * @param {string} block对象
  */
 _n.block = (namespace, block) ->
   if nsmatch = namespace.match /(.*?)(?:[/.]([^/.]+))$/
