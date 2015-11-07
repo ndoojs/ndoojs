@@ -1,0 +1,23 @@
+extends shared/_layout
+
+block pageTitle
+  include shared/_variable
+  include shared/_mixin
+  title 服务#{titleSuffix}
+
+block pageHeader
+  h1 service 服务
+
+block pageContent
+  p service 用面向对象的方式将公用逻辑封装起来。
+  h3 1.示例
+  +renderCode('javascript')
+    ="// 定义服务\n"
+    ="_n.service('user', {\n"
+    ="  hasSignin: function(){\n"
+    ="    return false;\n"
+    ="  }\n"
+    ="});\n"
+    ="// 使用服务\n"
+    ="user = _n.service('user');\n"
+    ="console.log(user.hasSignin());"
