@@ -1380,7 +1380,7 @@
       return _n._block('service', namespace, name, service);
     } else {
       service = _n._block('service', namespace, name);
-      if (service.init) {
+      if (service.init && typeof service.init === 'function') {
         return service.init(_n);
       } else {
         return service;
