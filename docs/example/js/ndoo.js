@@ -3,8 +3,8 @@
 "   FileName: ndoo.ls
 "       Desc: ndoo.js主文件
 "     Author: chenglf
-"    Version: ndoo.js(v1.0b1)
-" LastChange: 08/22/2015 00:05
+"    Version: ndoo.js(v1.0b2)
+" LastChange: 11/03/2015 23:10
 " --------------------------------------------------
 */
 (function(){
@@ -127,7 +127,7 @@
       nsArr = [];
     }
     temp = data;
-    if (block) {
+    if (block || (arguments.length > 3 && base === 'service')) {
       if (namespace) {
         _n._blockData['_exist'][base + "." + namespace + "." + name] = true;
       } else {

@@ -31,8 +31,10 @@ _n.app \home,
         return false
 
     user = _n.service 'user'
-
     console.log user.hasSignin()
+
+    # _n.service 'falseValue', false
+    # console.log _n.service 'falseValue'
 
 /* }}} */
 
