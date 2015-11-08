@@ -67,7 +67,11 @@
     } else {
       ref$ = ['_default', namespace], namespace = ref$[0], name = ref$[1];
     }
-    return _n._block('block', namespace, name, block);
+    if (arguments.length > 1) {
+      return _n._block('block', namespace, name, block);
+    } else {
+      return _n._block('block', namespace, name);
+    }
   };
   _n.trigger('STATUS:NBLOCK_DEFINE');
   _n.on('NBLOCK_LOADED', function(elem, namespace, name, params){
