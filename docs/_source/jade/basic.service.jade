@@ -21,3 +21,20 @@ block pageContent
     ="// 使用服务\n"
     ="user = _n.service('user');\n"
     ="console.log(user.hasSignin());"
+
+  h3 2.入口函数
+  p service对象如果存在init方法，会被自动调用。
+  +renderCode('javascript')
+    ="// 定义服务\n"
+    ="_n.service('play', {\n"
+    ="  isInit: false;\n"
+    ="  init: function(){\n"
+    ="    if(!this.isInit) {\n"
+    ="      this.isInit = true;\n"
+    ="      console.log('play service init');\n"
+    ="    }\n"
+    ="    return this;\n"
+    ="  }\n"
+    ="});\n"
+    ="// 使用服务\n"
+    ="play = _n.service('play');"
