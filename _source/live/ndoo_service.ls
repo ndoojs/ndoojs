@@ -26,8 +26,8 @@ _stor    = _n.storage
  * @method
  * @name service
  * @memberof ndoo
- * @param {string} namespace 名称空间
- * @param {string} service 对象
+ * @param {string}   namespace 名称空间
+ * @param {variable} service 对象
  */
 _n.service = (namespace, service) ->
   if nsmatch = namespace.match /(.*?)(?:[/.]([^/.]+))$/
@@ -35,13 +35,12 @@ _n.service = (namespace, service) ->
   else
     [namespace, name] = [\_default, namespace]
 
-  if service
+  if arguments.length > 1
     _n._block \service, namespace, name, service
-
   else
     service = _n._block \service, namespace, name
 
-    if service.init and typeof service.init is 'function'
+    if _.has 'init', service and typeof service.init is 'function'
       service.init _n
     else
       service

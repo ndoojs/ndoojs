@@ -127,7 +127,7 @@
       nsArr = [];
     }
     temp = data;
-    if (block) {
+    if (block || (base === 'service' && arguments.length > 3)) {
       if (namespace) {
         _n._blockData['_exist'][base + "." + namespace + "." + name] = true;
       } else {

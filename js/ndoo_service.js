@@ -24,8 +24,8 @@
    * @method
    * @name service
    * @memberof ndoo
-   * @param {string} namespace 名称空间
-   * @param {string} service 对象
+   * @param {string}   namespace 名称空间
+   * @param {variable} service 对象
    */
   _n.service = function(namespace, service){
     var nsmatch, name, ref$;
@@ -34,11 +34,11 @@
     } else {
       ref$ = ['_default', namespace], namespace = ref$[0], name = ref$[1];
     }
-    if (service) {
+    if (arguments.length > 1) {
       return _n._block('service', namespace, name, service);
     } else {
       service = _n._block('service', namespace, name);
-      if (service.init && typeof service.init === 'function') {
+      if (_.has('init', service) && typeof service.init === 'function') {
         return service.init(_n);
       } else {
         return service;

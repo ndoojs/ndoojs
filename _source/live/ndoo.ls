@@ -128,7 +128,7 @@ _n._block = (base, namespace, name, block) ->
     nsArr = []
 
   temp = data
-  if block
+  if block or (base is \service and arguments.length > 3)
     if namespace
       _n._blockData[\_exist]["#base.#namespace.#name"] = true
     else
