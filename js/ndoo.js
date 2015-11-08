@@ -194,7 +194,11 @@
     } else {
       ref$ = [namespace, null], controllerName = ref$[0], namespace = ref$[1];
     }
-    return _n._block('app', namespace, controllerName, controller);
+    if (arguments.length > 1) {
+      return _n._block('app', namespace, controllerName, controller);
+    } else {
+      return _n._block('app', namespace, controllerName);
+    }
   };
   _n.trigger('STATUS:NAPP_DEFINE');
   /* }}} */

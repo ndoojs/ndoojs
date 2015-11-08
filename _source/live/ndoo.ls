@@ -189,7 +189,10 @@ _n.app = (namespace, controller) ->
   else
     [controllerName, namespace] = [namespace, null]
 
-  _n._block \app, namespace, controllerName, controller
+  if arguments.length > 1
+    _n._block \app, namespace, controllerName, controller
+  else
+    _n._block \app, namespace, controllerName
 
 _n.trigger 'STATUS:NAPP_DEFINE'
 /* }}} */

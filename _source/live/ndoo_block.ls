@@ -66,7 +66,10 @@ _n.block = (namespace, block) ->
   else
     [namespace, name] = [\_default, namespace]
 
-  _n._block \block, namespace, name, block
+  if arguments.length > 1
+    _n._block \block, namespace, name, block
+  else
+    _n._block \block, namespace, name
 
 _n.trigger \STATUS:NBLOCK_DEFINE
 
