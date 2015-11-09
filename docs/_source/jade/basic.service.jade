@@ -36,5 +36,28 @@ block pageContent
     ="    return this;\n"
     ="  }\n"
     ="});\n"
-    ="// 使用服务\n"
+    ="// 调用服务\n"
     ="play = _n.service('play');"
+
+  h3 3.工厂模式
+  +renderCode('javascript')
+    ="// 定义服务\n"
+    ="_n.service('dateTime', (function() {\n"
+    ="  var dateTime = function () {\n"
+    ="    this.date = new Date()\n"
+    ="  }\n"
+    ="  dateTime.prototype.show = function () {\n"
+    ="    alert(this.date.toString());\n"
+    ="  }\n"
+    ="  return {\n"
+    ="    dateTime: dateTime\n"
+    ="    create: function() {\n"
+    ="      return new this.dateTime()\n"
+    ="    }\n"
+    ="  }\n"
+    ="}()))\n"
+    ="// 调用服务\n"
+    ="var dateTime = _n.service('dateTime').create();\n"
+    ="dateTime.show();"
+  p *使用init作为入口可自动创建实例
+
