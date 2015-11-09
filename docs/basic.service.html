@@ -62,7 +62,7 @@ _n.service('user', {
   }
 });
 // 使用服务
-user = _n.service('user');
+var user = _n.service('user');
 console.log(user.hasSignin());</code></pre>
             <h3>2.入口函数</h3>
             <p>service对象如果存在init方法，会被自动调用。</p>
@@ -78,7 +78,7 @@ _n.service('play', {
   }
 });
 // 调用服务
-play = _n.service('play');</code></pre>
+var play = _n.service('play');</code></pre>
             <h3>3.工厂模式</h3>
                 <pre data-start="1" class="line-numbers"><code class="language-javascript">// 定义服务
 _n.service('dateTime', (function() {

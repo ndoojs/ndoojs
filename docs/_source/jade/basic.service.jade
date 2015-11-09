@@ -19,7 +19,7 @@ block pageContent
     ="  }\n"
     ="});\n"
     ="// 使用服务\n"
-    ="user = _n.service('user');\n"
+    ="var user = _n.service('user');\n"
     ="console.log(user.hasSignin());"
 
   h3 2.入口函数
@@ -37,7 +37,7 @@ block pageContent
     ="  }\n"
     ="});\n"
     ="// 调用服务\n"
-    ="play = _n.service('play');"
+    ="var play = _n.service('play');"
 
   h3 3.工厂模式
   +renderCode('javascript')
