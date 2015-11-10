@@ -84,6 +84,7 @@ var play = _n.service('play');</code></pre>
 _n.service('dateTime', (function() {
   var dateTime = function () {
     this.date = new Date()
+    return this;
   }
   dateTime.prototype.show = function () {
     alert(this.date.toString());
@@ -94,11 +95,34 @@ _n.service('dateTime', (function() {
       return new this.dateTime()
     }
   }
-}()))
+}()));
 // 调用服务
 var dateTime = _n.service('dateTime').create();
 dateTime.show();</code></pre>
             <p>*使用init作为入口可自动创建实例</p>
+            <h3>4.单例模式</h3>
+                <pre data-start="1" class="line-numbers"><code class="language-javascript">// 定义服务
+_n.service('dateTime', (function() {
+  var dateTime = function () {
+    this.date = new Date()
+    return this;
+  }
+  dateTime.prototype.show = function () {
+    alert(this.date.toString());
+  }
+  return {
+    dateTime: dateTime
+    init: function() {
+      if(!this.instance) {
+        this.instance = new this.dateTime();
+      }
+      return this.instance;
+    }
+  }
+}()));
+// 调用服务
+var dateTime = _n.service('dateTime');
+dateTime.show();</code></pre>
           </div>
         </div>
       </div>
