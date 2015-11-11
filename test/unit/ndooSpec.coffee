@@ -50,7 +50,7 @@ describe 'ndoo framework test >', ->
       expect(_n.hasBlock 'test').toBeUndefined()
 
     it 'get block should false', ->
-      expect(_n.block 'test').toBe false
+      expect(_n.block 'test').toBeFalsy()
 
     it 'set block and should be check', ->
       _n.on 'NBLOCK_DEFINE', ->
@@ -62,6 +62,19 @@ describe 'ndoo framework test >', ->
       block = ->
       _n.block 'main.block1', block
       expect(_n.block 'main.block1').toEqual block
+
+  describe 'service test >', ->
+    _n = null
+
+    beforeAll ->
+      _n = ndoo
+
+    afterAll ->
+      _n.reset()
+      _n = null
+
+    it 'get undefined service should be falsy', ->
+      expect(_n.service 'testService').toBeFalsy()
 
   describe 'getPk test >', ->
     _n = null
