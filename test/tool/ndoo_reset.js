@@ -14,7 +14,7 @@
     _n.storage._data = {}
 
     // 清空block暂存
-    _n._blockData = { _block: {}, _app: {}, _exist: {} }
+    _n._blockData = { _block: {}, _app: {}, _service: {}, _exist: {} }
 
     // 清空事件暂存
     _n.event._temp = [];

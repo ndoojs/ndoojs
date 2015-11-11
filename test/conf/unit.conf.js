@@ -46,6 +46,7 @@ module.exports = function(config) {
       jsPath + '/ndoo_lib.js',
       jsPath + '/ndoo.js',
       jsPath+ '/ndoo_block.js',
+      jsPath+ '/ndoo_service.js',
       '../tool/ndoo_reset.js',
       '../unit/*Spec.coffee'
     ],
