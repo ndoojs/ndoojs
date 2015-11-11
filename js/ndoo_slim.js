@@ -363,7 +363,7 @@
       for (i$ = 0, len$ = nsArr.length; i$ < len$; ++i$) {
         ns = nsArr[i$];
         if (!_.has(temp, ns)) {
-          return false;
+          return undefined;
         }
         temp = temp[ns];
       }

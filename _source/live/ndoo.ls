@@ -146,7 +146,7 @@ _n._block = (base, namespace, name, block) ->
   else
     for ns in nsArr
       unless _.has temp, ns
-        return false
+        return undefined
       temp = temp[ns]
     temp[name]
 
