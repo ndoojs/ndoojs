@@ -87,6 +87,11 @@ describe 'ndoo framework test >', ->
       _n.service 'testValueService', service
       expect(_n.service 'testValueService').toEqual service
 
+    it 'set false should be get', ->
+      service = false
+      _n.service 'testFalseValueService', service
+      expect(_n.service 'testFalseValueService').toEqual service
+
   describe 'getPk test >', ->
     _n = null
 
