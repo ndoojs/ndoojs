@@ -76,11 +76,16 @@ describe 'ndoo framework test >', ->
     it 'get undefined service should be falsy', ->
       expect(_n.service 'testService').toBeFalsy()
 
-    it 'set block shoud be get', ->
+    it 'set block should be get', ->
       service = { test: true }
 
       _n.service 'testService', service
       expect(_n.service 'testService').toEqual service
+
+    it 'set value should be get', ->
+      service = 'serivce'
+      _n.service 'testValueService', service
+      expect(_n.service 'testValueService').toEqual service
 
   describe 'getPk test >', ->
     _n = null
