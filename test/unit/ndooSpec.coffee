@@ -92,6 +92,15 @@ describe 'ndoo framework test >', ->
       _n.service 'testFalseValueService', service
       expect(_n.service 'testFalseValueService').toEqual service
 
+    it 'init method should be call', ->
+      initMethod = jasmine.createSpy 'initMethod'
+      service = {
+        init: initMethod
+      }
+      _n.service 'testInitMethod', service
+      _n.service 'testInitMethod'
+      expect(initMethod).toHaveBeenCalled()
+
   describe 'getPk test >', ->
     _n = null
 
