@@ -94,12 +94,26 @@ describe 'ndoo framework test >', ->
 
     it 'init method should be call', ->
       initMethod = jasmine.createSpy 'initMethod'
-      service = {
+      service =
         init: initMethod
-      }
+
       _n.service 'testInitMethod', service
       _n.service 'testInitMethod'
       expect(initMethod).toHaveBeenCalled()
+
+    it 'service instance should be equal', ->
+      _n.service 'testSingleton', do ->
+        service = ->
+          @
+
+        init: ->
+          unless @instance
+            @instance = new service
+
+          @instance
+
+      serviceInstance = _n.service 'testSingleton'
+      expect(_n.service 'testSingleton').toEqual serviceInstance
 
   describe 'getPk test >', ->
     _n = null
