@@ -115,6 +115,17 @@ describe 'ndoo framework test >', ->
       serviceInstance = _n.service 'testSingleton'
       expect(_n.service 'testSingleton').toEqual serviceInstance
 
+    it 'service factory not be equal', ->
+      _n.service 'testFactory', do ->
+        service = ->
+          @
+
+        init: ->
+          new service()
+
+      prevInstance = _n.service 'testFactory'
+      expect(_n.service 'testFactory').not.toBe prevInstance
+
   describe 'getPk test >', ->
     _n = null
 
