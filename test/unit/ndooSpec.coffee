@@ -85,12 +85,12 @@ describe 'ndoo framework test >', ->
     it 'set value should be get', ->
       service = 'serivce'
       _n.service 'testValueService', service
-      expect(_n.service 'testValueService').toEqual service
+      expect(_n.service 'testValueService').toBe service
 
     it 'set false should be get', ->
       service = false
       _n.service 'testFalseValueService', service
-      expect(_n.service 'testFalseValueService').toEqual service
+      expect(_n.service 'testFalseValueService').toBe service
 
     it 'init method should be call', ->
       initMethod = jasmine.createSpy 'initMethod'
@@ -113,7 +113,7 @@ describe 'ndoo framework test >', ->
           @instance
 
       serviceInstance = _n.service 'testSingleton'
-      expect(_n.service 'testSingleton').toEqual serviceInstance
+      expect(_n.service 'testSingleton').toBe serviceInstance
 
     it 'service factory not be equal', ->
       _n.service 'testFactory', do ->
