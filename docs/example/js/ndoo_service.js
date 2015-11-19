@@ -38,7 +38,7 @@
       return _n._block('service', namespace, name, service);
     } else {
       service = _n._block('service', namespace, name);
-      if (_.has(service, 'init') && typeof service.init === 'function') {
+      if (service && _.has(service, 'init') && typeof service.init === 'function') {
         return service.init(_n);
       } else {
         return service;

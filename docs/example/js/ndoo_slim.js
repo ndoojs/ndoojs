@@ -363,7 +363,7 @@
       for (i$ = 0, len$ = nsArr.length; i$ < len$; ++i$) {
         ns = nsArr[i$];
         if (!_.has(temp, ns)) {
-          return false;
+          return undefined;
         }
         temp = temp[ns];
       }
@@ -834,7 +834,7 @@
    * @name block
    * @memberof ndoo
    * @param {string} namespace 名称空间
-   * @param {string} block对象
+   * @param {variable} block对象
    */
   _n.block = function(namespace, block){
     var nsmatch, name, ref$;
@@ -954,7 +954,7 @@
       return _n._block('service', namespace, name, service);
     } else {
       service = _n._block('service', namespace, name);
-      if (_.has(service, 'init') && typeof service.init === 'function') {
+      if (service && _.has(service, 'init') && typeof service.init === 'function') {
         return service.init(_n);
       } else {
         return service;
