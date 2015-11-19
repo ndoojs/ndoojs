@@ -322,7 +322,7 @@
      * @method
      * @name getPk
      * @memberof ndoo
-     * @return {number}
+     * @return {string}
      */,
     getPk: function(){
       var _pk;

@@ -58,7 +58,7 @@ _n.setBlock = (namespace) ->
  * @name block
  * @memberof ndoo
  * @param {string} namespace 名称空间
- * @param {variable} block对象
+ * @param {variable} block 模块实现
  */
 _n.block = (namespace, block) ->
   if nsmatch = namespace.match /(.*?)(?:[/.]([^/.]+))$/
@@ -92,7 +92,7 @@ _n.on \NBLOCK_LOADED, (elem, namespace=\_default, name, params) ->
  * @method
  * @name initBlock
  * @memberof ndoo
- * @param {object} elem 初始化的元素
+ * @param {DOMElement} elem 初始化的元素
  */
 _n.initBlock = (elem) !->
   blockId = $(elem).data \nblockId

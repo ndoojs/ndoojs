@@ -313,7 +313,7 @@ _.extend _n,
    * @method
    * @name getPk
    * @memberof ndoo
-   * @return {number}
+   * @return {string}
    */
   getPk: do ->
     _pk = +new Date!
