@@ -86,6 +86,8 @@
             
                 <li data-name="ndoo.require"><a href="ndoo.html#.require">require</a></li>
             
+                <li data-name="ndoo.service"><a href="ndoo.html#.service">service</a></li>
+            
                 <li data-name="ndoo.setApp"><a href="ndoo.html#.setApp">setApp</a></li>
             
                 <li data-name="ndoo.setBlock"><a href="ndoo.html#.setBlock">setBlock</a></li>
@@ -368,7 +370,7 @@
     
         
         <div class="tag-source">
-            ndoo.js, line 178
+            ndoo.js, line 181
         </div>
         
     </div>
@@ -502,12 +504,12 @@
     <div class="nameContainer">
         <h4 class="name" id=".block">
             
-            <span class="type-signature static">static</span>ndoo.block<span class="signature">(namespace, name)</span>
+            <span class="type-signature static">static</span>ndoo.block<span class="signature">(namespace, block)</span>
         </h4>
     
         
         <div class="tag-source">
-            ndoo_block.js, line 56
+            ndoo_block.js, line 54
         </div>
         
     </div>
@@ -572,13 +574,13 @@
 	
         <tr>
             
-                <td class="name"><code>name</code></td>
+                <td class="name"><code>block</code></td>
             
             
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">variable</span>
 
 
             
@@ -588,7 +590,7 @@
             
             <td class="description last">
                 
-                名称</td>
+                模块实现</td>
         </tr>
 	
 	
@@ -641,12 +643,12 @@
     <div class="nameContainer">
         <h4 class="name" id=".getPk">
             
-            <span class="type-signature static">static</span>ndoo.getPk<span class="signature">()</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{number}</span>
+            <span class="type-signature static">static</span>ndoo.getPk<span class="signature">()</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{string}</span>
         </h4>
     
         
         <div class="tag-source">
-            ndoo.js, line 311
+            ndoo.js, line 319
         </div>
         
     </div>
@@ -720,7 +722,7 @@
             
             <td class="type">
             
-                        number
+                        string
                         
                     
             </td>
@@ -746,7 +748,7 @@
     
         
         <div class="tag-source">
-            ndoo.js, line 156
+            ndoo.js, line 159
         </div>
         
     </div>
@@ -857,7 +859,7 @@
     <div class="nameContainer">
         <h4 class="name" id=".hasBlock">
             
-            <span class="type-signature static">static</span>ndoo.hasBlock<span class="signature">(namespace, name)</span>
+            <span class="type-signature static">static</span>ndoo.hasBlock<span class="signature">(namespace)</span>
         </h4>
     
         
@@ -924,29 +926,6 @@
         </tr>
 	
 	
-	
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-            
-            
-            
-            <td class="description last">
-                
-                名称</td>
-        </tr>
-	
-	
 	</tbody>
 </table>
     
@@ -1001,7 +980,7 @@
     
         
         <div class="tag-source">
-            ndoo.js, line 528
+            ndoo.js, line 538
         </div>
         
     </div>
@@ -1140,7 +1119,7 @@
     
         
         <div class="tag-source">
-            ndoo_block.js, line 93
+            ndoo_block.js, line 95
         </div>
         
     </div>
@@ -1188,7 +1167,7 @@
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">DOMElement</span>
 
 
             
@@ -1692,6 +1671,145 @@ _n.require(['lib/jquery-1.11.1.js', 'lib/jquery-mytest.js'], function(a){
             
 <dt>
     <div class="nameContainer">
+        <h4 class="name" id=".service">
+            
+            <span class="type-signature static">static</span>ndoo.service<span class="signature">(namespace, service)</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            ndoo_service.js, line 21
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        添加serivce
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>namespace</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                名称空间</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>service</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">variable</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                对象</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
         <h4 class="name" id=".setApp">
             
             <span class="type-signature static">static</span>ndoo.setApp<span class="signature">(namespace)</span>
@@ -1699,7 +1817,7 @@ _n.require(['lib/jquery-1.11.1.js', 'lib/jquery-mytest.js'], function(a){
     
         
         <div class="tag-source">
-            ndoo.js, line 167
+            ndoo.js, line 170
         </div>
         
     </div>
@@ -1810,12 +1928,12 @@ _n.require(['lib/jquery-1.11.1.js', 'lib/jquery-mytest.js'], function(a){
     <div class="nameContainer">
         <h4 class="name" id=".setBlock">
             
-            <span class="type-signature static">static</span>ndoo.setBlock<span class="signature">(namespace, name)</span>
+            <span class="type-signature static">static</span>ndoo.setBlock<span class="signature">(namespace)</span>
         </h4>
     
         
         <div class="tag-source">
-            ndoo_block.js, line 38
+            ndoo_block.js, line 37
         </div>
         
     </div>
@@ -1874,29 +1992,6 @@ _n.require(['lib/jquery-1.11.1.js', 'lib/jquery-mytest.js'], function(a){
             <td class="description last">
                 
                 名称空间</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-            
-            
-            
-            <td class="description last">
-                
-                名称</td>
         </tr>
 	
 	
@@ -2278,7 +2373,7 @@ _stor('abc', null, _stor.DESTROY); // true</code></pre>
         
 
         <footer>
-            Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Wed Aug 26 2015 00:21:18 GMT+0800 (CST)
+            Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Thu Nov 19 2015 22:33:29 GMT+0800 (CST)
         </footer>
     </div>
 </div>

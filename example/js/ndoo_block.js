@@ -1,10 +1,10 @@
 /*
 " --------------------------------------------------
-"   FileName: ndoo.block.ls
+"   FileName: ndoo_block.ls
 "       Desc: ndoo.js block模块
 "     Author: chenglf
-"    Version: ndoo.js(v1.0b1)
-" LastChange: 08/22/2015 00:05
+"    Version: ndoo.js(v1.0b2)
+" LastChange: 11/03/2015 23:10
 " --------------------------------------------------
 */
 (function(){
@@ -24,14 +24,13 @@
    * @name hasBlock
    * @memberof ndoo
    * @param {string} namespace 名称空间
-   * @param {string} name 名称
    */
   _n.hasBlock = function(namespace){
     var nsmatch, name, ref$;
     if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
       namespace = nsmatch[1], name = nsmatch[2];
     } else {
-      ref$ = ['_default', name], namespace = ref$[0], name = ref$[1];
+      ref$ = ['_default', namespace], namespace = ref$[0], name = ref$[1];
     }
     return _n._blockData['_exist']["block." + namespace + "." + name];
   };
@@ -42,14 +41,13 @@
    * @name setBlock
    * @memberof ndoo
    * @param {string} namespace 名称空间
-   * @param {string} name 名称
    */
   _n.setBlock = function(namespace){
     var nsmatch, name, ref$;
     if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
       namespace = nsmatch[1], name = nsmatch[2];
     } else {
-      ref$ = ['_default', name], namespace = ref$[0], name = ref$[1];
+      ref$ = ['_default', namespace], namespace = ref$[0], name = ref$[1];
     }
     return _n._blockData['_exist']["block." + namespace + "." + name] = true;
   };
@@ -60,16 +58,20 @@
    * @name block
    * @memberof ndoo
    * @param {string} namespace 名称空间
-   * @param {string} name 名称
+   * @param {variable} block对象
    */
   _n.block = function(namespace, block){
     var nsmatch, name, ref$;
     if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
       namespace = nsmatch[1], name = nsmatch[2];
     } else {
-      ref$ = ['_default', name], namespace = ref$[0], name = ref$[1];
+      ref$ = ['_default', namespace], namespace = ref$[0], name = ref$[1];
     }
-    return _n._block('block', namespace, name, block);
+    if (arguments.length > 1) {
+      return _n._block('block', namespace, name, block);
+    } else {
+      return _n._block('block', namespace, name);
+    }
   };
   _n.trigger('STATUS:NBLOCK_DEFINE');
   _n.on('NBLOCK_LOADED', function(elem, namespace, name, params){

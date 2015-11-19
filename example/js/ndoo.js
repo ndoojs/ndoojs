@@ -3,8 +3,8 @@
 "   FileName: ndoo.ls
 "       Desc: ndoo.js主文件
 "     Author: chenglf
-"    Version: ndoo.js(v1.0b1)
-" LastChange: 08/22/2015 00:05
+"    Version: ndoo.js(v1.0b2)
+" LastChange: 11/03/2015 23:10
 " --------------------------------------------------
 */
 (function(){
@@ -109,6 +109,7 @@
   _n._blockData || (_n._blockData = {
     _block: {},
     _app: {},
+    _service: {},
     _exist: {}
   });
   _n._block = function(base, namespace, name, block){
@@ -117,6 +118,8 @@
       data = _n._blockData['_block'];
     } else if (base === 'app') {
       data = _n._blockData['_app'];
+    } else if (base === 'service') {
+      data = _n._blockData['_service'];
     }
     if (namespace) {
       nsArr = namespace.replace(/^[/.]|[/.]$/g, '').split(/[/.]/);
@@ -124,7 +127,7 @@
       nsArr = [];
     }
     temp = data;
-    if (block) {
+    if (block || (base === 'service' && arguments.length > 3)) {
       if (namespace) {
         _n._blockData['_exist'][base + "." + namespace + "." + name] = true;
       } else {
@@ -144,7 +147,7 @@
       for (i$ = 0, len$ = nsArr.length; i$ < len$; ++i$) {
         ns = nsArr[i$];
         if (!_.has(temp, ns)) {
-          return false;
+          return undefined;
         }
         temp = temp[ns];
       }
@@ -191,7 +194,11 @@
     } else {
       ref$ = [namespace, null], controllerName = ref$[0], namespace = ref$[1];
     }
-    return _n._block('app', namespace, controllerName, controller);
+    if (arguments.length > 1) {
+      return _n._block('app', namespace, controllerName, controller);
+    } else {
+      return _n._block('app', namespace, controllerName);
+    }
   };
   _n.trigger('STATUS:NAPP_DEFINE');
   /* }}} */
@@ -276,6 +283,7 @@
     }
     /* }}} */
   });
+  _n.event.init();
   /* }}} */
   _.extend(_n, {
     /* base {{{ */
@@ -457,6 +465,7 @@
             _n.trigger("NAPP_" + filterPrefix + "_ACTION_AFTER", controller, actionName, params);
             _n.trigger('NAPP_ACTION_AFTER', controller, actionName, params);
           }
+          _n.trigger('STATUS:NBLOCK_INIT');
         };
         if (depend.length) {
           _n.require(_.uniq(depend), run, 'Do');
@@ -484,6 +493,8 @@
             this$.require([pkg + ""], function(){
               _n.trigger('NAPP_LOADED', namespace, controller, action, params);
             }, 'Do');
+          } else {
+            this$.trigger('STATUS:NBLOCK_INIT');
           }
         });
       });
@@ -513,7 +524,6 @@
         this$.on('PAGE_STATUS_DOM', function(){
           if (this$.pageId) {
             this$.trigger('STATUS:PAGE_STATUS_ROUTING', this$.pageId);
-            this$.trigger('STATUS:NBLOCK_INIT');
           }
         });
       };
@@ -540,7 +550,6 @@
         ref$ = ['', id], id = ref$[0], depend = ref$[1];
       }
       this.initPageId(id);
-      this.event.init();
       this.dispatch();
       this.triggerPageStatus(depend);
       return this;

@@ -3,8 +3,8 @@
 "   FileName: ndoo_prep.ls
 "       Desc: ndoo.js前置文件
 "     Author: chenglf
-"    Version: ndoo.js(v1.0b1)
-" LastChange: 08/22/2015 00:06
+"    Version: ndoo.js(v1.0b2)
+" LastChange: 11/03/2015 23:09
 " --------------------------------------------------
 */
 (function(){
@@ -219,8 +219,8 @@
 "   FileName: ndoo.ls
 "       Desc: ndoo.js主文件
 "     Author: chenglf
-"    Version: ndoo.js(v1.0b1)
-" LastChange: 08/22/2015 00:05
+"    Version: ndoo.js(v1.0b2)
+" LastChange: 11/03/2015 23:10
 " --------------------------------------------------
 */
 (function(){
@@ -325,6 +325,7 @@
   _n._blockData || (_n._blockData = {
     _block: {},
     _app: {},
+    _service: {},
     _exist: {}
   });
   _n._block = function(base, namespace, name, block){
@@ -333,6 +334,8 @@
       data = _n._blockData['_block'];
     } else if (base === 'app') {
       data = _n._blockData['_app'];
+    } else if (base === 'service') {
+      data = _n._blockData['_service'];
     }
     if (namespace) {
       nsArr = namespace.replace(/^[/.]|[/.]$/g, '').split(/[/.]/);
@@ -340,7 +343,7 @@
       nsArr = [];
     }
     temp = data;
-    if (block) {
+    if (block || (base === 'service' && arguments.length > 3)) {
       if (namespace) {
         _n._blockData['_exist'][base + "." + namespace + "." + name] = true;
       } else {
@@ -360,7 +363,7 @@
       for (i$ = 0, len$ = nsArr.length; i$ < len$; ++i$) {
         ns = nsArr[i$];
         if (!_.has(temp, ns)) {
-          return false;
+          return undefined;
         }
         temp = temp[ns];
       }
@@ -407,7 +410,11 @@
     } else {
       ref$ = [namespace, null], controllerName = ref$[0], namespace = ref$[1];
     }
-    return _n._block('app', namespace, controllerName, controller);
+    if (arguments.length > 1) {
+      return _n._block('app', namespace, controllerName, controller);
+    } else {
+      return _n._block('app', namespace, controllerName);
+    }
   };
   _n.trigger('STATUS:NAPP_DEFINE');
   /* }}} */
@@ -492,6 +499,7 @@
     }
     /* }}} */
   });
+  _n.event.init();
   /* }}} */
   _.extend(_n, {
     /* base {{{ */
@@ -673,6 +681,7 @@
             _n.trigger("NAPP_" + filterPrefix + "_ACTION_AFTER", controller, actionName, params);
             _n.trigger('NAPP_ACTION_AFTER', controller, actionName, params);
           }
+          _n.trigger('STATUS:NBLOCK_INIT');
         };
         if (depend.length) {
           _n.require(_.uniq(depend), run, 'Do');
@@ -700,6 +709,8 @@
             this$.require([pkg + ""], function(){
               _n.trigger('NAPP_LOADED', namespace, controller, action, params);
             }, 'Do');
+          } else {
+            this$.trigger('STATUS:NBLOCK_INIT');
           }
         });
       });
@@ -729,7 +740,6 @@
         this$.on('PAGE_STATUS_DOM', function(){
           if (this$.pageId) {
             this$.trigger('STATUS:PAGE_STATUS_ROUTING', this$.pageId);
-            this$.trigger('STATUS:NBLOCK_INIT');
           }
         });
       };
@@ -756,7 +766,6 @@
         ref$ = ['', id], id = ref$[0], depend = ref$[1];
       }
       this.initPageId(id);
-      this.event.init();
       this.dispatch();
       this.triggerPageStatus(depend);
       return this;
@@ -767,11 +776,11 @@
 }).call(this);
 /*
 " --------------------------------------------------
-"   FileName: ndoo.block.ls
+"   FileName: ndoo_block.ls
 "       Desc: ndoo.js block模块
 "     Author: chenglf
-"    Version: ndoo.js(v1.0b1)
-" LastChange: 08/22/2015 00:05
+"    Version: ndoo.js(v1.0b2)
+" LastChange: 11/03/2015 23:10
 " --------------------------------------------------
 */
 (function(){
@@ -791,14 +800,13 @@
    * @name hasBlock
    * @memberof ndoo
    * @param {string} namespace 名称空间
-   * @param {string} name 名称
    */
   _n.hasBlock = function(namespace){
     var nsmatch, name, ref$;
     if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
       namespace = nsmatch[1], name = nsmatch[2];
     } else {
-      ref$ = ['_default', name], namespace = ref$[0], name = ref$[1];
+      ref$ = ['_default', namespace], namespace = ref$[0], name = ref$[1];
     }
     return _n._blockData['_exist']["block." + namespace + "." + name];
   };
@@ -809,14 +817,13 @@
    * @name setBlock
    * @memberof ndoo
    * @param {string} namespace 名称空间
-   * @param {string} name 名称
    */
   _n.setBlock = function(namespace){
     var nsmatch, name, ref$;
     if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
       namespace = nsmatch[1], name = nsmatch[2];
     } else {
-      ref$ = ['_default', name], namespace = ref$[0], name = ref$[1];
+      ref$ = ['_default', namespace], namespace = ref$[0], name = ref$[1];
     }
     return _n._blockData['_exist']["block." + namespace + "." + name] = true;
   };
@@ -827,16 +834,20 @@
    * @name block
    * @memberof ndoo
    * @param {string} namespace 名称空间
-   * @param {string} name 名称
+   * @param {variable} block对象
    */
   _n.block = function(namespace, block){
     var nsmatch, name, ref$;
     if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
       namespace = nsmatch[1], name = nsmatch[2];
     } else {
-      ref$ = ['_default', name], namespace = ref$[0], name = ref$[1];
+      ref$ = ['_default', namespace], namespace = ref$[0], name = ref$[1];
     }
-    return _n._block('block', namespace, name, block);
+    if (arguments.length > 1) {
+      return _n._block('block', namespace, name, block);
+    } else {
+      return _n._block('block', namespace, name);
+    }
   };
   _n.trigger('STATUS:NBLOCK_DEFINE');
   _n.on('NBLOCK_LOADED', function(elem, namespace, name, params){
@@ -901,5 +912,55 @@
       }
     }
   });
+  /* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */
+}).call(this);
+/*
+" --------------------------------------------------
+"   FileName: ndoo_service.ls
+"       Desc: ndoo.js service模块
+"             借鉴了t3.js http://t3js.org/
+"     Author: chenglf
+"    Version: ndoo.js(v1.0b2)
+" LastChange: 11/03/2015 21:12
+" --------------------------------------------------
+*/
+(function(){
+  "use strict";
+  var _, $, _n, _vars, _func, _stor;
+  _ = this['_'];
+  $ = this['jQuery'] || this['Zepto'];
+  this.N = this.ndoo || (this.ndoo = {});
+  _n = this.ndoo;
+  _vars = _n.vars;
+  _func = _n.func;
+  _stor = _n.storage;
+  /**
+   * 添加serivce
+   *
+   * @method
+   * @name service
+   * @memberof ndoo
+   * @param {string}   namespace 名称空间
+   * @param {variable} service 对象
+   */
+  _n.service = function(namespace, service){
+    var nsmatch, name, ref$;
+    if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
+      namespace = nsmatch[1], name = nsmatch[2];
+    } else {
+      ref$ = ['_default', namespace], namespace = ref$[0], name = ref$[1];
+    }
+    if (arguments.length > 1) {
+      return _n._block('service', namespace, name, service);
+    } else {
+      service = _n._block('service', namespace, name);
+      if (service && _.has(service, 'init') && typeof service.init === 'function') {
+        return service.init(_n);
+      } else {
+        return service;
+      }
+    }
+  };
+  _n.trigger('STATUS:NSERVICE_DEFINE');
   /* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */
 }).call(this);
