@@ -19,7 +19,7 @@
   _func = _n.func;
   _stor = _n.storage;
   /**
-   * 添加serivce
+   * 添加/获取serivce
    *
    * @method
    * @name service

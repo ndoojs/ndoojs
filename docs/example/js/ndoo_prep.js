@@ -83,7 +83,7 @@
      * @name on
      * @memberof ndoo.event
      * @param {string} eventName 事件名称
-     * @param {callback} callback 回调函数
+     * @param {function} callback 回调函数
      */
     e.on = function(eventName, callback){
       this._temp.push({
@@ -100,7 +100,7 @@
      * @memberof ndoo.event
      * @param eventName {string} 事件名称
      * @param eventType {string} 事件类型
-     * @param data {any} 数据类型
+     * @param data {variable} 数据类型
      */
     e.trigger = function(eventName, eventType, data){
       this._temp.push({
@@ -130,7 +130,7 @@
    * @name on
    * @memberof ndoo
    * @param {string} eventName 事件名称
-   * @param {string} callback 事件回调
+   * @param {function} callback 事件回调
    * @example // ndoo alias _n
    * var _n = ndoo;
    * _n.on('testEvent', function(data, data2){
@@ -157,7 +157,7 @@
    * @name trigger
    * @memberof ndoo
    * @param {string} eventName 事件名称
-   * @param {array} data 数据
+   * @param {variable} data 数据，可以是多个
    */
   _n.trigger = function(eventName){
     var data, _index, type, name;
