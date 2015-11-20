@@ -26,6 +26,7 @@ _stor    = _n.storage
  * @name hasBlock
  * @memberof ndoo
  * @param {string} namespace 名称空间
+ * @return {boolean} 判断block是否存在
  */
 _n.hasBlock = (namespace) ->
   if nsmatch = namespace.match /(.*?)(?:[/.]([^/.]+))$/

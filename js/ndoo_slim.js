@@ -83,7 +83,7 @@
      * @name on
      * @memberof ndoo.event
      * @param {string} eventName 事件名称
-     * @param {callback} callback 回调函数
+     * @param {function} callback 回调函数
      */
     e.on = function(eventName, callback){
       this._temp.push({
@@ -100,7 +100,7 @@
      * @memberof ndoo.event
      * @param eventName {string} 事件名称
      * @param eventType {string} 事件类型
-     * @param data {any} 数据类型
+     * @param data {variable} 数据类型
      */
     e.trigger = function(eventName, eventType, data){
       this._temp.push({
@@ -130,7 +130,7 @@
    * @name on
    * @memberof ndoo
    * @param {string} eventName 事件名称
-   * @param {string} callback 事件回调
+   * @param {function} callback 事件回调
    * @example // ndoo alias _n
    * var _n = ndoo;
    * _n.on('testEvent', function(data, data2){
@@ -157,7 +157,7 @@
    * @name trigger
    * @memberof ndoo
    * @param {string} eventName 事件名称
-   * @param {array} data 数据
+   * @param {variable} data 数据，可以是多个
    */
   _n.trigger = function(eventName){
     var data, _index, type, name;
@@ -244,8 +244,8 @@
    * @method
    * @name storage
    * @memberof ndoo
-   * @param {string} key 存储键名
-   * @param {any} value 存储值
+   * @param {string} key 键名
+   * @param {variable} value 值
    * @param {const} option 选项，覆盖或删除
    * @example // alias _stor
    * var _stor = ndoo.storage;
@@ -379,12 +379,13 @@
    * @name hasApp
    * @memberof ndoo
    * @param {string} namespace 名称空间
+   * @return {boolean} 是否在存指定的app
    */
   _n.hasApp = function(namespace){
     return _n._blockData['_exist']["app." + namespace];
   };
   /**
-   * 标识指定app
+   * 标识指定app已存在
    *
    * @method
    * @name setApp
@@ -538,7 +539,7 @@
      * @method
      * @name getPk
      * @memberof ndoo
-     * @return {string}
+     * @return {string} 键名
      */,
     getPk: function(){
       var _pk;
@@ -800,6 +801,7 @@
    * @name hasBlock
    * @memberof ndoo
    * @param {string} namespace 名称空间
+   * @return {boolean} 判断block是否存在
    */
   _n.hasBlock = function(namespace){
     var nsmatch, name, ref$;
@@ -935,7 +937,7 @@
   _func = _n.func;
   _stor = _n.storage;
   /**
-   * 添加serivce
+   * 添加/获取serivce
    *
    * @method
    * @name service

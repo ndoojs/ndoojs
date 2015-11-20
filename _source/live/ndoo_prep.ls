@@ -90,7 +90,7 @@ do (e = _n.event) !->
    * @name on
    * @memberof ndoo.event
    * @param {string} eventName 事件名称
-   * @param {callback} callback 回调函数
+   * @param {function} callback 回调函数
    */
   e.on = (eventName, callback) !->
     @_temp.push do
@@ -106,7 +106,7 @@ do (e = _n.event) !->
    * @memberof ndoo.event
    * @param eventName {string} 事件名称
    * @param eventType {string} 事件类型
-   * @param data {any} 数据类型
+   * @param data {variable} 数据类型
    */
   e.trigger = (eventName, eventType, data) !->
     @_temp.push do
@@ -136,7 +136,7 @@ do (e = _n.event) !->
  * @name on
  * @memberof ndoo
  * @param {string} eventName 事件名称
- * @param {string} callback 事件回调
+ * @param {function} callback 事件回调
  * @example // ndoo alias _n
  * var _n = ndoo;
  * _n.on('testEvent', function(data, data2){
@@ -159,7 +159,7 @@ _n.on = (eventName, callback) ->
  * @name trigger
  * @memberof ndoo
  * @param {string} eventName 事件名称
- * @param {array} data 数据
+ * @param {variable} data 数据，可以是多个
  */
 _n.trigger = (eventName, ...data) ->
   _index = eventName.indexOf \:
