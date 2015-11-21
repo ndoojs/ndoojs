@@ -1378,6 +1378,14 @@
    * @memberof ndoo
    * @param {string}   namespace 名称空间
    * @param {variable} service 对象
+   * @example var _n = ndoo;
+   * _n.service('user', {
+   *   hasSignin: function(){
+   *     return false;
+   *   }
+   * });
+   * user = _n.service('user');
+   * console.log(user.hasSignin());
    */
   _n.service = function(namespace, service){
     var nsmatch, name, ref$;

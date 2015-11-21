@@ -28,6 +28,14 @@ _stor    = _n.storage
  * @memberof ndoo
  * @param {string}   namespace 名称空间
  * @param {variable} service 对象
+ * @example var _n = ndoo;
+ * _n.service('user', {
+ *   hasSignin: function(){
+ *     return false;
+ *   }
+ * });
+ * user = _n.service('user');
+ * console.log(user.hasSignin());
  */
 _n.service = (namespace, service) ->
   if nsmatch = namespace.match /(.*?)(?:[/.]([^/.]+))$/
