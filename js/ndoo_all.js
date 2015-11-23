@@ -3,7 +3,7 @@
 "   FileName: ndoo_prep.ls
 "       Desc: ndoo.js前置文件
 "     Author: chenglf
-"    Version: ndoo.js(v1.0b2)
+"    Version: ndoo.js(v1.0rc1)
 " LastChange: 11/03/2015 23:09
 " --------------------------------------------------
 */
@@ -219,7 +219,7 @@
 "   FileName: ndoo_lib.ls
 "       Desc: ndoo.js库文件
 "     Author: chenglf
-"    Version: ndoo.js(v1.0b2)
+"    Version: ndoo.js(v1.0rc1)
 " LastChange: 11/03/2015 23:09
 " --------------------------------------------------
 */
@@ -653,7 +653,7 @@
 "   FileName: ndoo.ls
 "       Desc: ndoo.js主文件
 "     Author: chenglf
-"    Version: ndoo.js(v1.0b2)
+"    Version: ndoo.js(v1.0rc1)
 " LastChange: 11/03/2015 23:10
 " --------------------------------------------------
 */
@@ -1214,7 +1214,7 @@
 "   FileName: ndoo_block.ls
 "       Desc: ndoo.js block模块
 "     Author: chenglf
-"    Version: ndoo.js(v1.0b2)
+"    Version: ndoo.js(v1.0rc1)
 " LastChange: 11/03/2015 23:10
 " --------------------------------------------------
 */
@@ -1356,7 +1356,7 @@
 "       Desc: ndoo.js service模块
 "             借鉴了t3.js http://t3js.org/
 "     Author: chenglf
-"    Version: ndoo.js(v1.0b2)
+"    Version: ndoo.js(v1.0rc1)
 " LastChange: 11/03/2015 21:12
 " --------------------------------------------------
 */

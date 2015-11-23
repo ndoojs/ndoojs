@@ -4,7 +4,7 @@
 "       Desc: ndoo.js service模块
 "             借鉴了t3.js http://t3js.org/
 "     Author: chenglf
-"    Version: ndoo.js(v1.0b2)
+"    Version: ndoo.js(v1.0rc1)
 " LastChange: 11/03/2015 21:12
 " --------------------------------------------------
 */

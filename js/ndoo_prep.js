@@ -3,7 +3,7 @@
 "   FileName: ndoo_prep.ls
 "       Desc: ndoo.js前置文件
 "     Author: chenglf
-"    Version: ndoo.js(v1.0b2)
+"    Version: ndoo.js(v1.0rc1)
 " LastChange: 11/03/2015 23:09
 " --------------------------------------------------
 */
