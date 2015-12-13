@@ -391,8 +391,8 @@ describe 'ndoo framework test >', ->
           indexAction: indexAction
 
       afterAll ->
-        _n = null
         _n.reset()
+        _n = null
         indexAction = null
 
       it 'has app home', ->
