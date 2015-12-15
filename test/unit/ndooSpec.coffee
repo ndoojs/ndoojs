@@ -6,7 +6,7 @@ describe 'ndoo framework test >', ->
       ndoo.reset()
       _stor = ndoo.storage
 
-    it 'ndoo.storage should deinfe', ->
+    it 'ndoo.storage should define', ->
       expect(_stor).toBeDefined()
 
     it 'get abc, should be undefined', ->
@@ -20,8 +20,8 @@ describe 'ndoo framework test >', ->
         expect(_stor('abc')).toBe 123
 
     describe 'rewrite >', ->
-      it 'rewrite abc without option, should be false', ->
-        expect(_stor('abc', 456)).toBe false
+      it 'rewrite abc without option, should be Falsy', ->
+        expect(_stor('abc', 456)).toBeFalsy()
       it 'get abc after rewrite, should be 123', ->
         expect(_stor('abc')).toBe 123
 
@@ -398,7 +398,7 @@ describe 'ndoo framework test >', ->
       it 'has app home', ->
         expect(_n.app 'home').toBeTruthy()
 
-      it 'initPageId should be call', ->
+      it 'index action should be call', ->
         _n.init 'home/index'
         expect(indexAction).toHaveBeenCalled()
 
