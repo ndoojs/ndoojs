@@ -383,14 +383,14 @@ describe 'ndoo framework test >', ->
       _n = null
       indexAction = null
 
-      beforeAll ->
+      beforeEach ->
         _n = ndoo
         indexAction = jasmine.createSpy('indexAction')
 
         _n.app 'home',
           indexAction: indexAction
 
-      afterAll ->
+      afterEach ->
         _n.reset()
         _n = null
         indexAction = null
@@ -401,6 +401,10 @@ describe 'ndoo framework test >', ->
       it 'index action should be call', ->
         _n.init 'home/index'
         expect(indexAction).toHaveBeenCalled()
+
+      it 'action param should be set', ->
+        _n.init 'home/index?abc=1#abc'
+        expect(indexAction.calls.argsFor(0)).toEqual(['abc=1'])
 
     describe 'home/index before and after test >', ->
       _n = null
