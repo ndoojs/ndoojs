@@ -22,11 +22,6 @@
       $content = $('#content');
       $content.html("getListUrl: " + _vars.getListUrl);
     },
-    eventStackAction: function(param){
-      var $content;
-      $content = $('#content');
-      $content.html('通过事件暂存改变方块颜色');
-    },
     serviceUsageAction: function(param){
       var user;
       _n.service('user', {

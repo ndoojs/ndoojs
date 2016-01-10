@@ -7,9 +7,10 @@
     <script src="js/ndoo_prep.js"></script>
   </head>
   <body>
-    <div id="content" style="width: 300px; height: 300px;"></div>
+    <div id="content" style="width: 300px; height: 300px; background-color: #999">change color</div>
     <script>
       ndoo.on('PAGE_STATUS_DOMPREP', function() {
+        alert('background-color change before')
         $('#content').css('background-color', '#DDD');
       });
       
