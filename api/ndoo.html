@@ -370,7 +370,7 @@
     
         
         <div class="tag-source">
-            ndoo.js, line 181
+            ndoo.js, line 182
         </div>
         
     </div>
@@ -509,7 +509,7 @@
     
         
         <div class="tag-source">
-            ndoo_block.js, line 54
+            ndoo_block.js, line 55
         </div>
         
     </div>
@@ -648,7 +648,7 @@
     
         
         <div class="tag-source">
-            ndoo.js, line 319
+            ndoo.js, line 320
         </div>
         
     </div>
@@ -726,7 +726,7 @@
                         
                     
             </td>
-            <td class="description last"></td>
+            <td class="description last">键名</td>
         </tr>
     
     </tbody>
@@ -743,7 +743,7 @@
     <div class="nameContainer">
         <h4 class="name" id=".hasApp">
             
-            <span class="type-signature static">static</span>ndoo.hasApp<span class="signature">(namespace)</span>
+            <span class="type-signature static">static</span>ndoo.hasApp<span class="signature">(namespace)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{boolean}</span>
         </h4>
     
         
@@ -849,6 +849,35 @@
     
     
     
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        boolean
+                        
+                    
+            </td>
+            <td class="description last">是否在存指定的app</td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
     
     
 </dd>
@@ -859,7 +888,7 @@
     <div class="nameContainer">
         <h4 class="name" id=".hasBlock">
             
-            <span class="type-signature static">static</span>ndoo.hasBlock<span class="signature">(namespace)</span>
+            <span class="type-signature static">static</span>ndoo.hasBlock<span class="signature">(namespace)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{boolean}</span>
         </h4>
     
         
@@ -965,6 +994,35 @@
     
     
     
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        boolean
+                        
+                    
+            </td>
+            <td class="description last">判断block是否存在</td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
     
     
 </dd>
@@ -980,7 +1038,7 @@
     
         
         <div class="tag-source">
-            ndoo.js, line 538
+            ndoo.js, line 539
         </div>
         
     </div>
@@ -1119,7 +1177,7 @@
     
         
         <div class="tag-source">
-            ndoo_block.js, line 95
+            ndoo_block.js, line 96
         </div>
         
     </div>
@@ -1422,7 +1480,7 @@
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">function</span>
 
 
             
@@ -1689,7 +1747,7 @@ _n.require(['lib/jquery-1.11.1.js', 'lib/jquery-mytest.js'], function(a){
     
     
     <div class="description">
-        添加serivce
+        添加/获取serivce
     </div>
     
 
@@ -1804,6 +1862,21 @@ _n.require(['lib/jquery-1.11.1.js', 'lib/jquery-mytest.js'], function(a){
     
     
     
+        <h5>Example</h5>
+        
+
+    
+    <pre class="prettyprint"><code>var _n = ndoo;
+_n.service('user', {
+  hasSignin: function(){
+    return false;
+  }
+});
+user = _n.service('user');
+console.log(user.hasSignin());</code></pre>
+    
+
+    
 </dd>
 
         
@@ -1817,7 +1890,7 @@ _n.require(['lib/jquery-1.11.1.js', 'lib/jquery-mytest.js'], function(a){
     
         
         <div class="tag-source">
-            ndoo.js, line 170
+            ndoo.js, line 171
         </div>
         
     </div>
@@ -1828,7 +1901,7 @@ _n.require(['lib/jquery-1.11.1.js', 'lib/jquery-mytest.js'], function(a){
     
     
     <div class="description">
-        标识指定app
+        标识指定app已存在
     </div>
     
 
@@ -1933,7 +2006,7 @@ _n.require(['lib/jquery-1.11.1.js', 'lib/jquery-mytest.js'], function(a){
     
         
         <div class="tag-source">
-            ndoo_block.js, line 37
+            ndoo_block.js, line 38
         </div>
         
     </div>
@@ -2107,7 +2180,7 @@ _n.require(['lib/jquery-1.11.1.js', 'lib/jquery-mytest.js'], function(a){
             
             <td class="description last">
                 
-                存储键名</td>
+                键名</td>
         </tr>
 	
 	
@@ -2120,7 +2193,7 @@ _n.require(['lib/jquery-1.11.1.js', 'lib/jquery-mytest.js'], function(a){
             <td class="type">
             
                 
-<span class="param-type">any</span>
+<span class="param-type">variable</span>
 
 
             
@@ -2130,7 +2203,7 @@ _n.require(['lib/jquery-1.11.1.js', 'lib/jquery-mytest.js'], function(a){
             
             <td class="description last">
                 
-                存储值</td>
+                值</td>
         </tr>
 	
 	
@@ -2299,7 +2372,7 @@ _stor('abc', null, _stor.DESTROY); // true</code></pre>
             <td class="type">
             
                 
-<span class="param-type">array</span>
+<span class="param-type">variable</span>
 
 
             
@@ -2309,7 +2382,7 @@ _stor('abc', null, _stor.DESTROY); // true</code></pre>
             
             <td class="description last">
                 
-                数据</td>
+                数据，可以是多个</td>
         </tr>
 	
 	
@@ -2373,7 +2446,7 @@ _stor('abc', null, _stor.DESTROY); // true</code></pre>
         
 
         <footer>
-            Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Thu Nov 19 2015 22:33:29 GMT+0800 (CST)
+            Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Sat Nov 21 2015 23:18:20 GMT+0800 (CST)
         </footer>
     </div>
 </div>

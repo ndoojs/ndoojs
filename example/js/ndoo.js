@@ -28,8 +28,8 @@
    * @method
    * @name storage
    * @memberof ndoo
-   * @param {string} key 存储键名
-   * @param {any} value 存储值
+   * @param {string} key 键名
+   * @param {variable} value 值
    * @param {const} option 选项，覆盖或删除
    * @example // alias _stor
    * var _stor = ndoo.storage;
@@ -163,12 +163,13 @@
    * @name hasApp
    * @memberof ndoo
    * @param {string} namespace 名称空间
+   * @return {boolean} 是否在存指定的app
    */
   _n.hasApp = function(namespace){
     return _n._blockData['_exist']["app." + namespace];
   };
   /**
-   * 标识指定app
+   * 标识指定app已存在
    *
    * @method
    * @name setApp
@@ -322,7 +323,7 @@
      * @method
      * @name getPk
      * @memberof ndoo
-     * @return {number}
+     * @return {string} 键名
      */,
     getPk: function(){
       var _pk;

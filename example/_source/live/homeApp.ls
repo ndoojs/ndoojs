@@ -21,10 +21,6 @@ _n.app \home,
     $content = $ '#content'
     $content.html "getListUrl: #{_vars.getListUrl}"
 
-  eventStackAction: (param) !->
-    $content = $ '#content'
-    $content.html '通过事件暂存改变方块颜色'
-
   serviceUsageAction: (param) !->
     _n.service 'user',
       hasSignin: ->

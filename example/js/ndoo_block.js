@@ -24,6 +24,7 @@
    * @name hasBlock
    * @memberof ndoo
    * @param {string} namespace 名称空间
+   * @return {boolean} 判断block是否存在
    */
   _n.hasBlock = function(namespace){
     var nsmatch, name, ref$;
@@ -58,7 +59,7 @@
    * @name block
    * @memberof ndoo
    * @param {string} namespace 名称空间
-   * @param {variable} block对象
+   * @param {variable} block 模块实现
    */
   _n.block = function(namespace, block){
     var nsmatch, name, ref$;
@@ -98,7 +99,7 @@
    * @method
    * @name initBlock
    * @memberof ndoo
-   * @param {object} elem 初始化的元素
+   * @param {DOMElement} elem 初始化的元素
    */
   _n.initBlock = function(elem){
     var blockId, _call;
