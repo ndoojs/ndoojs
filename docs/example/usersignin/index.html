@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>user signin</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap.theme.min.css">
+    <link rel="stylesheet" href="css/signin.css">
+  </head>
+  <body>
+    <div class="container">
+      <form class="form-signin">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input id="inputEmail" type="email" placeholder="Email address" required="" autofocus="" class="form-control">
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input id="inputPassword" type="password" placeholder="Password" required="" class="form-control">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me"> Remember me
+          </label>
+        </div>
+        <button type="submit" class="btn btn-lg btn-primary btn-block">Sign in</button>
+      </form>
+    </div>
+    <div id="scriptArea">
+      <script src="../lib/jquery-2.1.1.min.js"></script>
+      <script src="../lib/underscore-min.js"></script>
+      <script src="../js/ndoo_all.js"></script>
+      <script src="js/package.js"></script>
+      <script>ndoo.init('user/signin')</script>
+    </div>
+  </body>
+</html>
