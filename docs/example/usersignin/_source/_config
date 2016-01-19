@@ -6,13 +6,29 @@
   },
   "ls": {
     "command": [
-      "lsc -cp #{$fileName.ls}>../js/#{$fileName}.js"
+      "lsc -cp #{$fileName}.ls>../js/#{$fileName}.js"
     ]
   },
   "scss": {
     "command": [
       "sass --sourcemap=none --style compact #{$fileName}.scss ../css/#{$fileName}.css"
     ]
+  },
+  "app/": {
+    "ls": {
+      "path": "~",
+      "command": [
+        "lsc -cp app/#{$fileName}.ls>../js/app/#{$fileName}.js"
+      ]
+    }
+  },
+  "service/": {
+    "ls": {
+      "path": "~",
+      "command": [
+        "lsc -cp app/#{$fileName}.ls>../js/service/#{$fileName}.js"
+      ]
+    }
   }
 }
 /* vim:ft=javascript ts=2 sts=2 sw=2 et
