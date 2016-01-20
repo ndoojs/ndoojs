@@ -26,7 +26,7 @@
     "ls": {
       "path": "~",
       "command": [
-        "lsc -cp app/#{$fileName}.ls>../js/service/#{$fileName}.js"
+        "lsc -cp service/#{$fileName}.ls>../js/service/#{$fileName}.js"
       ]
     }
   }
