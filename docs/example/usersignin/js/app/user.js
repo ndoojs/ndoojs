@@ -11,6 +11,30 @@
   _stor = _n.storage;
   _n.app('user', {
     depend: ['service.user'],
-    signinAction: function(){}
+    signinAction: function(){
+      $('button.btn-modal').on('click', function(){
+        var user;
+        user = _n.service('user');
+        if (user.hasSignin()) {
+          return false;
+        }
+      });
+      $('form.form-signin .btn-signin').on('click', function(){
+        var $self, user, email, password, result;
+        $self = $(this);
+        user = _n.service('user');
+        if (user.hasSignin()) {
+          $self.parents('.modal').find('.close').trigger('click');
+        }
+        email = $('#inputEmail');
+        password = $('#inputPassword');
+        result = user.auth(email.val(), password.val());
+        if (result) {
+          return $self.parents('.modal').find('.close').trigger('click');
+        } else {
+          return alert('signin failer!');
+        }
+      });
+    }
   });
 }).call(this);

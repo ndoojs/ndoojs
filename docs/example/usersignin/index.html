@@ -6,7 +6,7 @@
   </head>
   <body>
     <div class="container">
-      <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary btn-lg">Signin</button>
+      <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary btn-lg btn-modal">Signin</button>
       <div id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" class="modal fade">
         <div role="document" class="modal-dialog">
           <div class="modal-content">
@@ -18,7 +18,7 @@
               <form class="form-signin">
                 <!-- h2.form-signin-heading Please sign in-->
                 <label for="inputEmail" class="sr-only">Email address</label>
-                <input id="inputEmail" type="email" placeholder="Email address" required="" autofocus="" class="form-control">
+                <input id="inputEmail" type="text" placeholder="ID/Email address" required="" autofocus="" class="form-control">
                 <label for="inputPassword" class="sr-only">Password</label>
                 <input id="inputPassword" type="password" placeholder="Password" required="" class="form-control">
                 <div class="checkbox">
@@ -26,7 +26,7 @@
                     <input type="checkbox" value="remember-me"> Remember me
                   </label>
                 </div>
-                <button type="submit" class="btn btn-lg btn-primary btn-block">Sign in</button>
+                <button type="button" class="btn btn-lg btn-primary btn-block btn-signin">Sign in</button>
               </form>
             </div>
             <!-- .modal-footer
