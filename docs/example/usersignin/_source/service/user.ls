@@ -13,9 +13,9 @@ _stor    = _n.storage
 class userService
   (userState) ->
     if not userState
-      userState = 
-        isSign = false
-        userName = ''
+      userState = do
+        isSign: false
+        userName: ''
     @set userState
 
   set: (set) ->
@@ -27,20 +27,20 @@ class userService
     else
       undefined
 
-  sign: (id, password) ->
-    if id is 'user' and password is '123456'
+  auth: (id, password) ->
+    if id is \user and password is \123456
       @set do
         isSign: true
         userName: id
-      true
+      return true
 
     false
 
-  hasSigned:
+  hasSignin: ->
     @isSign
 
 
-_n.service 'service.user',
+_n.service \user,
   creator: userService
   init: ->
     unless @instance

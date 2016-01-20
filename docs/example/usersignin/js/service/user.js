@@ -13,9 +13,11 @@
     userService.displayName = 'userService';
     var prototype = userService.prototype, constructor = userService;
     function userService(userState){
-      var isSign, userName;
       if (!userState) {
-        userState = [isSign = false, userName = ''];
+        userState = {
+          isSign: false,
+          userName: ''
+        };
       }
       this.set(userState);
     }
@@ -29,20 +31,22 @@
         return undefined;
       }
     };
-    prototype.sign = function(id, password){
+    prototype.auth = function(id, password){
       if (id === 'user' && password === '123456') {
         this.set({
           isSign: true,
           userName: id
         });
-        true;
+        return true;
       }
       return false;
     };
-    prototype.hasSigned = userService.isSign;
+    prototype.hasSignin = function(){
+      return this.isSign;
+    };
     return userService;
   }());
-  _n.service('service.user', {
+  _n.service('user', {
     creator: userService,
     init: function(){
       if (!this.instance) {
