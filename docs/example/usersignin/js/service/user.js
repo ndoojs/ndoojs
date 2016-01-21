@@ -37,6 +37,7 @@
           isSign: true,
           userName: id
         });
+        _n.trigger('STATUS:APP_USER_SIGNIN');
         return true;
       }
       return false;
