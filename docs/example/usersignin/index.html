@@ -5,39 +5,80 @@
     <link rel="stylesheet" href="css/signin.css">
   </head>
   <body>
-    <div class="container">
-      <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary btn-lg btn-modal">Signin</button>
-      <div id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" class="modal fade">
-        <div role="document" class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
-              <h4 id="myModalLabel" class="modal-title">Please sign in</h4>
-            </div>
-            <div class="modal-body">
-              <form class="form-signin">
-                <!-- h2.form-signin-heading Please sign in-->
-                <label for="inputEmail" class="sr-only">Email address</label>
-                <input id="inputEmail" type="text" placeholder="ID/Email address" required="" autofocus="" class="form-control">
-                <label for="inputPassword" class="sr-only">Password</label>
-                <input id="inputPassword" type="password" placeholder="Password" required="" class="form-control">
-                <div class="checkbox">
-                  <label>
-                    <input type="checkbox" value="remember-me"> Remember me
-                  </label>
-                </div>
-                <button type="button" class="btn btn-lg btn-primary btn-block btn-signin">Sign in</button>
-              </form>
-            </div>
-            <!-- .modal-footer
-            button.btn.btn-default(type='button', data-dismiss='modal') Close
-            button.btn.btn-primary(type='button') Save changes
-            
-            -->
-          </div>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="#" class="navbar-brand">Sign in example</a>
         </div>
+        <div id="navbar" data-nblock-id="block/userInfo" class="navbar-collapse collapse">
+          <!-- form.navbar-form.navbar-right
+          .form-group
+            input.form-control(type='text', placeholder='Email')
+          .form-group
+            input.form-control(type='password', placeholder='Password')
+          button.btn.btn-success(type='submit') Sign in
+          -->
+        </div>
+        <!-- /.navbar-collapse-->
+      </div>
+    </nav>
+    <!-- Main jumbotron for a primary marketing message or call to action-->
+    <div class="jumbotron">
+      <div class="container">
+        <h1 class="hello">Hello, world!</h1>
+        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+        <p><a href="#" role="button" class="btn btn-primary btn-lg">Learn more »</a></p>
       </div>
     </div>
+    <div class="container">
+      <!-- Example row of columns-->
+      <div class="row">
+        <div class="col-md-4">
+          <h2>Heading</h2>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
+          <p><a href="#" role="button" class="btn btn-default">View details »</a></p>
+        </div>
+        <div class="col-md-4">
+          <h2>Heading</h2>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
+          <p><a href="#" role="button" class="btn btn-default">View details »</a></p>
+        </div>
+        <div class="col-md-4">
+          <h2>Heading</h2>
+          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+          <p><a href="#" role="button" class="btn btn-default">View details »</a></p>
+        </div>
+      </div>
+      <hr>
+      <footer>
+        <p>© 2015 Company, Inc.</p>
+      </footer>
+    </div>
+    <!-- .container
+    button(type="button" class="btn btn-primary btn-lg btn-modal" data-toggle="modal" data-target="#myModal") Signin
+    #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
+      .modal-dialog(role='document')
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') ×
+            h4#myModalLabel.modal-title Please sign in
+          .modal-body
+            form.form-signin
+              // h2.form-signin-heading Please sign in
+              label.sr-only(for='inputEmail') Email address
+              input#inputEmail.form-control(type='text', placeholder='ID/Email address', required='', autofocus='')
+              label.sr-only(for='inputPassword') Password
+              input#inputPassword.form-control(type='password', placeholder='Password', required='')
+              .checkbox
+                label
+                  input(type='checkbox', value='remember-me')
+                  |  Remember me
+              button.btn.btn-lg.btn-primary.btn-block.btn-signin(type='button') Sign in
+          // .modal-footer
+            button.btn.btn-default(type='button', data-dismiss='modal') Close
+            button.btn.btn-primary(type='button') Save changes
+    -->
     <div id="scriptArea">
       <script src="../lib/jquery-2.1.1.min.js"></script>
       <script src="../lib/underscore-min.js"></script>
