@@ -28,7 +28,15 @@
     path: 'js/app/user.js',
     requires: ['service.user']
   });
+  Do.define('block.userInfo', {
+    type: 'js',
+    path: 'js/block/userInfo.js',
+    requires: ['service.user']
+  });
   ndoo.on('NAPP_DEFINE', function(){
     ndoo.setApp('user');
+  });
+  ndoo.on('NBLOCK_DEFINE', function(){
+    ndoo.setBlock('block.userInfo');
   });
 }).call(this);

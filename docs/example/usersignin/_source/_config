@@ -29,6 +29,14 @@
         "lsc -cp service/#{$fileName}.ls>../js/service/#{$fileName}.js"
       ]
     }
+  },
+  "block/": {
+    "ls": {
+      "path": "~",
+      "command": [
+        "lsc -cp block/#{$fileName}.ls>../js/block/#{$fileName}.js"
+      ]
+    }
   }
 }
 /* vim:ft=javascript ts=2 sts=2 sw=2 et
