@@ -10,7 +10,7 @@ _vars    = _n.vars
 _func    = _n.func
 _stor    = _n.storage
 
-_n.block 'block.userInfo', do
+class UserInfo
   render: (type) ->
     if type is 'signFrom'
       html = """
@@ -78,3 +78,5 @@ _n.block 'block.userInfo', do
 
     @initEvent()
     @initMessage()
+
+_n.block 'block.userInfo', new UserInfo()
