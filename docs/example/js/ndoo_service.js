@@ -4,7 +4,7 @@
 "       Desc: ndoo.js service模块
 "             借鉴了t3.js http://t3js.org/
 "     Author: chenglf
-"    Version: ndoo.js(v1.0b2)
+"    Version: ndoo.js(v1.0rc1)
 " LastChange: 11/03/2015 21:12
 " --------------------------------------------------
 */
@@ -26,6 +26,14 @@
    * @memberof ndoo
    * @param {string}   namespace 名称空间
    * @param {variable} service 对象
+   * @example var _n = ndoo;
+   * _n.service('user', {
+   *   hasSignin: function(){
+   *     return false;
+   *   }
+   * });
+   * user = _n.service('user');
+   * console.log(user.hasSignin());
    */
   _n.service = function(namespace, service){
     var nsmatch, name, ref$;
@@ -38,7 +46,7 @@
       return _n._block('service', namespace, name, service);
     } else {
       service = _n._block('service', namespace, name);
-      if (service && _.has(service, 'init') && typeof service.init === 'function') {
+      if (service && _.isFunction(service.init)) {
         return service.init(_n);
       } else {
         return service;

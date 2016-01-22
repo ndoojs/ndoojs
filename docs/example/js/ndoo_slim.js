@@ -3,7 +3,7 @@
 "   FileName: ndoo_prep.ls
 "       Desc: ndoo.js前置文件
 "     Author: chenglf
-"    Version: ndoo.js(v1.0b2)
+"    Version: ndoo.js(v1.0rc1)
 " LastChange: 11/03/2015 23:09
 " --------------------------------------------------
 */
@@ -219,7 +219,7 @@
 "   FileName: ndoo.ls
 "       Desc: ndoo.js主文件
 "     Author: chenglf
-"    Version: ndoo.js(v1.0b2)
+"    Version: ndoo.js(v1.0rc1)
 " LastChange: 11/03/2015 23:10
 " --------------------------------------------------
 */
@@ -330,12 +330,10 @@
   });
   _n._block = function(base, namespace, name, block){
     var data, nsArr, temp, i$, len$, ns;
-    if (base === 'block') {
-      data = _n._blockData['_block'];
-    } else if (base === 'app') {
-      data = _n._blockData['_app'];
-    } else if (base === 'service') {
-      data = _n._blockData['_service'];
+    if (base === 'block' || base === 'app' || base === 'service') {
+      data = _n._blockData["_" + base];
+    } else {
+      return false;
     }
     if (namespace) {
       nsArr = namespace.replace(/^[/.]|[/.]$/g, '').split(/[/.]/);
@@ -353,8 +351,8 @@
         ns = nsArr[i$];
         temp = temp[ns] || (temp[ns] = {});
       }
-      temp[name] || (temp[name] = {});
-      if (_.isObject(block) && typeof block === 'object') {
+      if (base === 'app' && typeof block === 'object') {
+        temp[name] || (temp[name] = {});
         return _.defaults(temp[name], block);
       } else {
         return temp[name] = block;
@@ -780,7 +778,7 @@
 "   FileName: ndoo_block.ls
 "       Desc: ndoo.js block模块
 "     Author: chenglf
-"    Version: ndoo.js(v1.0b2)
+"    Version: ndoo.js(v1.0rc1)
 " LastChange: 11/03/2015 23:10
 " --------------------------------------------------
 */
@@ -856,9 +854,7 @@
     var block, call;
     namespace == null && (namespace = '_default');
     if (block = _n.block(namespace + "." + name)) {
-      if (_.isFunction(block)) {
-        return block(elem, params);
-      } else if (typeof block === 'object' && _.isObject(block) && block.init) {
+      if (_.isFunction(block.init)) {
         call = function(){
           block.init(elem, params);
         };
@@ -867,6 +863,8 @@
         } else {
           return call();
         }
+      } else if (_.isFunction(block)) {
+        return block(elem, params);
       }
     }
   });
@@ -922,7 +920,7 @@
 "       Desc: ndoo.js service模块
 "             借鉴了t3.js http://t3js.org/
 "     Author: chenglf
-"    Version: ndoo.js(v1.0b2)
+"    Version: ndoo.js(v1.0rc1)
 " LastChange: 11/03/2015 21:12
 " --------------------------------------------------
 */
@@ -944,6 +942,14 @@
    * @memberof ndoo
    * @param {string}   namespace 名称空间
    * @param {variable} service 对象
+   * @example var _n = ndoo;
+   * _n.service('user', {
+   *   hasSignin: function(){
+   *     return false;
+   *   }
+   * });
+   * user = _n.service('user');
+   * console.log(user.hasSignin());
    */
   _n.service = function(namespace, service){
     var nsmatch, name, ref$;
@@ -956,7 +962,7 @@
       return _n._block('service', namespace, name, service);
     } else {
       service = _n._block('service', namespace, name);
-      if (service && _.has(service, 'init') && typeof service.init === 'function') {
+      if (service && _.isFunction(service.init)) {
         return service.init(_n);
       } else {
         return service;
