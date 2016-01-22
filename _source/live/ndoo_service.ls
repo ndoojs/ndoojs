@@ -47,8 +47,7 @@ _n.service = (namespace, service) ->
     _n._block \service, namespace, name, service
   else
     service = _n._block \service, namespace, name
-
-    if service and _.has service, 'init' and typeof service.init is 'function'
+    if service and _.isFunction service.init
       service.init _n
     else
       service

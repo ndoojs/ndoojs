@@ -79,9 +79,7 @@
     var block, call;
     namespace == null && (namespace = '_default');
     if (block = _n.block(namespace + "." + name)) {
-      if (_.isFunction(block)) {
-        return block(elem, params);
-      } else if (typeof block === 'object' && _.isObject(block) && block.init) {
+      if (_.isFunction(block.init)) {
         call = function(){
           block.init(elem, params);
         };
@@ -90,6 +88,8 @@
         } else {
           return call();
         }
+      } else if (_.isFunction(block)) {
+        return block(elem, params);
       }
     }
   });

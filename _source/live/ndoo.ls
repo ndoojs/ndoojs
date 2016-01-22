@@ -115,12 +115,10 @@ _n._blockData ||= do
   _exist   : {}
 
 _n._block = (base, namespace, name, block) ->
-  if base is \block
-    data = _n._blockData[\_block]
-  else if base is \app
-    data = _n._blockData[\_app]
-  else if base is \service
-    data = _n._blockData[\_service]
+  if base is \block or base is \app or base is \service
+    data = _n._blockData["_#{base}"]
+  else
+    return false
 
   if namespace
     nsArr = namespace.replace /^[/.]|[/.]$/g, '' .split /[/.]/
@@ -136,9 +134,9 @@ _n._block = (base, namespace, name, block) ->
 
     for ns in nsArr
       temp = temp[ns] ||= {}
-    temp[name] ||= {}
 
-    if _.isObject(block) and typeof block is 'object'
+    if base is \app and typeof block is 'object'
+      temp[name] ||= {}
       _.defaults temp[name], block
     else
       temp[name] = block

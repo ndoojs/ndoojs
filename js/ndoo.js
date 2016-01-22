@@ -114,12 +114,10 @@
   });
   _n._block = function(base, namespace, name, block){
     var data, nsArr, temp, i$, len$, ns;
-    if (base === 'block') {
-      data = _n._blockData['_block'];
-    } else if (base === 'app') {
-      data = _n._blockData['_app'];
-    } else if (base === 'service') {
-      data = _n._blockData['_service'];
+    if (base === 'block' || base === 'app' || base === 'service') {
+      data = _n._blockData["_" + base];
+    } else {
+      return false;
     }
     if (namespace) {
       nsArr = namespace.replace(/^[/.]|[/.]$/g, '').split(/[/.]/);
@@ -137,8 +135,8 @@
         ns = nsArr[i$];
         temp = temp[ns] || (temp[ns] = {});
       }
-      temp[name] || (temp[name] = {});
-      if (_.isObject(block) && typeof block === 'object') {
+      if (base === 'app' && typeof block === 'object') {
+        temp[name] || (temp[name] = {});
         return _.defaults(temp[name], block);
       } else {
         return temp[name] = block;

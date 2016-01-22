@@ -76,9 +76,7 @@ _n.trigger \STATUS:NBLOCK_DEFINE
 
 _n.on \NBLOCK_LOADED, (elem, namespace=\_default, name, params) ->
   if block = _n.block "#namespace.#name"
-    if _.isFunction block
-      block elem, params
-    else if typeof block is 'object' and _.isObject(block) and block.init
+    if _.isFunction block.init
       call = !->
         block.init elem, params
 
@@ -86,6 +84,8 @@ _n.on \NBLOCK_LOADED, (elem, namespace=\_default, name, params) ->
         _n.require [].concat(block.depend), call, \Do
       else
         call!
+    else if _.isFunction block
+      block elem, params
 
 /**
  * 初始化模块
