@@ -61,7 +61,16 @@ describe 'ndoo framework test >', ->
     it 'add block should be get', ->
       block = ->
       _n.block 'main.block1', block
-      expect(_n.block 'main.block1').toEqual block#}}}
+      expect(_n.block 'main.block1').toEqual block
+
+    it 'block should be equal origin', ->
+      class TestBlock
+        @init: !->
+
+      testBlock = new TestBlock()
+      _n.block 'test.block', testBlock
+      expect(_n.block 'test.block').toBe testBlock# }}}
+
 
   describe 'service test >', -># {{{
     _n = null
