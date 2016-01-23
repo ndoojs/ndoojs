@@ -1,5 +1,5 @@
 describe 'ndoo framework test >', ->
-  describe 'storage test >', ->
+  describe 'storage test >', -># {{{
     _stor = undefined
 
     beforeAll ->
@@ -35,9 +35,9 @@ describe 'ndoo framework test >', ->
         expect(_stor('abc', null, _stor.DESTROY)).toBe true
 
       it 'get abc for storage, should be undefined', ->
-        expect(_stor('abc')).toBeUndefined()
+        expect(_stor('abc')).toBeUndefined()# }}}
 
-  describe 'block test >', ->
+  describe 'block test >', -># {{{
     _n = null
 
     beforeAll ->
@@ -61,9 +61,9 @@ describe 'ndoo framework test >', ->
     it 'add block should be get', ->
       block = ->
       _n.block 'main.block1', block
-      expect(_n.block 'main.block1').toEqual block
+      expect(_n.block 'main.block1').toEqual block#}}}
 
-  describe 'service test >', ->
+  describe 'service test >', -># {{{
     _n = null
 
     beforeAll ->
@@ -124,9 +124,9 @@ describe 'ndoo framework test >', ->
           new service()
 
       prevInstance = _n.service 'testFactory'
-      expect(_n.service 'testFactory').not.toBe prevInstance
+      expect(_n.service 'testFactory').not.toBe prevInstance# }}}
 
-  describe 'getPk test >', ->
+  describe 'getPk test >', -># {{{
     _n = null
 
     beforeAll ->
@@ -137,9 +137,9 @@ describe 'ndoo framework test >', ->
       expect(_n.getPk()).toMatch /^\d+$/
 
     it 'getPk should prefix', ->
-      expect(_n.getPk('test_')).toMatch /^test_\d+$/
+      expect(_n.getPk('test_')).toMatch /^test_\d+$/# }}}
 
-  describe 'page id test >', ->
+  describe 'page id test >', -># {{{
     _n = null
 
     beforeAll ->
@@ -167,9 +167,9 @@ describe 'ndoo framework test >', ->
         expect(_n.initPageId).toHaveBeenCalledWith 'home/index'
 
       it 'pageId should be home/index', ->
-        expect(_n.pageId).toBe 'home/index'
+        expect(_n.pageId).toBe 'home/index'# }}}
 
-  describe 'event test >', ->
+  describe 'event test >', -># {{{
     _n = null
 
     beforeAll ->
@@ -269,9 +269,9 @@ describe 'ndoo framework test >', ->
         _n.off 'offMultiEvent1 offMultiEvent2'
         _n.trigger 'offMultiEvent1'
         _n.trigger 'offMultiEvent2'
-        expect(offMultiEventCallback.calls.count()).toEqual 2
+        expect(offMultiEventCallback.calls.count()).toEqual 2# }}}
 
-  describe 'router test >', ->
+  describe 'router test >', -># {{{
     _n = ndoo
     regexp = ///
       ^(?:\/?)           # ^[/]
@@ -376,9 +376,9 @@ describe 'ndoo framework test >', ->
       _n.router.parse regexp, "/#{matchText}", routerCallback
       expect(routerCallback.calls.mostRecent().args).toEqual matchResult
       _n.router.parse regexp, "#{matchText}", routerCallback
-      expect(routerCallback.calls.mostRecent().args).toEqual matchResult
+      expect(routerCallback.calls.mostRecent().args).toEqual matchResult# }}}
 
-  describe 'ndoo app test >', ->
+  describe 'ndoo app test >', -># {{{
     describe 'home/index action test >', ->
       _n = null
       indexAction = null
@@ -670,4 +670,6 @@ describe 'ndoo framework test >', ->
         _n.on 'NAPP_ACTION_BEFORE', beforeCall
         _n.init 'home/index'
 
-        expect(beforeCall).toHaveBeenCalled()
+        expect(beforeCall).toHaveBeenCalled()# }}}
+
+# vim: set sw=2 ts=2 sts=2 fdm=marker et:
