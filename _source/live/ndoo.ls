@@ -135,9 +135,11 @@ _n._block = (base, namespace, name, block) ->
     for ns in nsArr
       temp = temp[ns] ||= {}
 
-    if base is \app and typeof block is 'object'
-      temp[name] ||= {}
-      _.defaults temp[name], block
+    if base is \app and typeof block is 'object' and block isnt null
+      if temp[name]
+        _.defaults temp[name], block
+      else
+        temp[name] = block
     else
       temp[name] = block
 

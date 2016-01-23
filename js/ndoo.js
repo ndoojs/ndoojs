@@ -135,9 +135,12 @@
         ns = nsArr[i$];
         temp = temp[ns] || (temp[ns] = {});
       }
-      if (base === 'app' && typeof block === 'object') {
-        temp[name] || (temp[name] = {});
-        return _.defaults(temp[name], block);
+      if (base === 'app' && typeof block === 'object' && block !== null) {
+        if (temp[name]) {
+          return _.defaults(temp[name], block);
+        } else {
+          return temp[name] = block;
+        }
       } else {
         return temp[name] = block;
       }
