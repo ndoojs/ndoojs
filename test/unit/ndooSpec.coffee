@@ -69,8 +69,14 @@ describe 'ndoo framework test >', ->
 
       testBlock = new TestBlock()
       _n.block 'test.block', testBlock
-      expect(_n.block 'test.block').toBe testBlock# }}}
+      expect(_n.block 'test.block').toBe testBlock
 
+    it 'block shoud be overwrite', ->
+      block1 = new Object()
+      block2 = new Object()
+      _n.block 'main.block2', block1
+      _n.block 'main.block2', block2
+      expect(_n.block 'main.block2').toEqual block2# }}}
 
   describe 'service test >', -># {{{
     _n = null
