@@ -113,7 +113,7 @@
     _exist: {}
   });
   _n._block = function(base, namespace, name, block){
-    var data, nsArr, temp, i$, len$, ns;
+    var data, nsArr, temp, i$, len$, ns, result;
     if (base === 'block' || base === 'app' || base === 'service') {
       data = _n._blockData["_" + base];
     } else {
@@ -125,12 +125,7 @@
       nsArr = [];
     }
     temp = data;
-    if (block || (base === 'service' && arguments.length > 3)) {
-      if (namespace) {
-        _n._blockData['_exist'][base + "." + namespace + "." + name] = true;
-      } else {
-        _n._blockData['_exist'][base + "." + name] = true;
-      }
+    if (block || arguments.length > 3) {
       for (i$ = 0, len$ = nsArr.length; i$ < len$; ++i$) {
         ns = nsArr[i$];
         temp = temp[ns] || (temp[ns] = {});
@@ -138,20 +133,28 @@
       if (block && (base === 'app' || base === 'block')) {
         if (typeof block === 'object') {
           if (base === 'app' && temp[name]) {
-            return _.defaults(temp[name], block);
+            result = _.defaults(temp[name], block);
           } else {
-            return temp[name] = block;
+            result = temp[name] = block;
           }
         } else if (typeof block === 'function') {
-          return temp[name] = block;
+          result = temp[name] = block;
         } else {
-          return false;
+          result = false;
         }
       } else if (base === 'service') {
-        return temp[name] = block;
+        result = temp[name] = block;
       } else {
-        return false;
+        result = false;
       }
+      if (result) {
+        if (namespace) {
+          _n._blockData['_exist'][base + "." + namespace + "." + name] = true;
+        } else {
+          _n._blockData['_exist'][base + "." + name] = true;
+        }
+      }
+      return result;
     } else {
       for (i$ = 0, len$ = nsArr.length; i$ < len$; ++i$) {
         ns = nsArr[i$];

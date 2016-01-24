@@ -126,29 +126,33 @@ _n._block = (base, namespace, name, block) ->
     nsArr = []
 
   temp = data
-  if block or (base is \service and arguments.length > 3)
-    if namespace
-      _n._blockData[\_exist]["#base.#namespace.#name"] = true
-    else
-      _n._blockData[\_exist]["#base.#name"] = true
 
+  if block or arguments.length > 3
     for ns in nsArr
       temp = temp[ns] ||= {}
 
     if block and (base is \app or base is \block)
       if typeof block is 'object'
         if base is \app and temp[name]
-          _.defaults temp[name], block
+          result = _.defaults temp[name], block
         else
-          temp[name] = block
+          result = temp[name] = block
       else if typeof block is 'function'
-        temp[name] = block
+        result = temp[name] = block
       else
-        return false
+        result = false
     else if base is \service
-      temp[name] = block
+      result = temp[name] = block
     else
-      return false
+      result = false
+
+    if result
+      if namespace
+        _n._blockData[\_exist]["#base.#namespace.#name"] = true
+      else
+        _n._blockData[\_exist]["#base.#name"] = true
+
+    return result
 
   else
     for ns in nsArr
