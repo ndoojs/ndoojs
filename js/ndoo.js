@@ -135,14 +135,22 @@
         ns = nsArr[i$];
         temp = temp[ns] || (temp[ns] = {});
       }
-      if (base === 'app' && typeof block === 'object' && block !== null) {
-        if (temp[name]) {
-          return _.defaults(temp[name], block);
-        } else {
+      if (block && (base === 'app' || base === 'block')) {
+        if (typeof block === 'object') {
+          if (base === 'app' && temp[name]) {
+            return _.defaults(temp[name], block);
+          } else {
+            return temp[name] = block;
+          }
+        } else if (typeof block === 'function') {
           return temp[name] = block;
+        } else {
+          return false;
         }
-      } else {
+      } else if (base === 'service') {
         return temp[name] = block;
+      } else {
+        return false;
       }
     } else {
       for (i$ = 0, len$ = nsArr.length; i$ < len$; ++i$) {

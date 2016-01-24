@@ -135,13 +135,20 @@ _n._block = (base, namespace, name, block) ->
     for ns in nsArr
       temp = temp[ns] ||= {}
 
-    if base is \app and typeof block is 'object' and block isnt null
-      if temp[name]
-        _.defaults temp[name], block
-      else
+    if block and (base is \app or base is \block)
+      if typeof block is 'object'
+        if base is \app and temp[name]
+          _.defaults temp[name], block
+        else
+          temp[name] = block
+      else if typeof block is 'function'
         temp[name] = block
-    else
+      else
+        return false
+    else if base is \service
       temp[name] = block
+    else
+      return false
 
   else
     for ns in nsArr
