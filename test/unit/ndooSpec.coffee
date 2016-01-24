@@ -394,7 +394,7 @@ describe 'ndoo framework test >', ->
       expect(routerCallback.calls.mostRecent().args).toEqual matchResult# }}}
 
   describe 'ndoo app test >', -># {{{
-    describe 'home/index action test >', ->
+    describe 'home/index action test >', -># {{{
       _n = null
       indexAction = null
 
@@ -419,9 +419,45 @@ describe 'ndoo framework test >', ->
 
       it 'action param should be set', ->
         _n.init 'home/index?abc=1#abc'
-        expect(indexAction.calls.argsFor(0)).toEqual(['abc=1'])
+        expect(indexAction.calls.argsFor(0)).toEqual(['abc=1'])# }}}
 
-    describe 'home/index before and after test >', ->
+    describe 'app set behavior >', -># {{{
+      _n = null
+      app = null
+
+      beforeEach ->
+        _n = ndoo
+        app = {
+          indexAction: jasmine.createSpy('indexAction')
+        }
+
+        _n.app 'home', app
+
+      afterEach ->
+        _n.reset()
+        _n = null
+        app = null
+
+      it 'first set app should be equal', ->
+        home = _n.app 'home'
+        expect(home).toBe app
+
+      it 'second app should be merge', ->
+        testAction = jasmine.createSpy('testAction')
+        _n.app 'home',
+          testAction: testAction
+
+        home = _n.app 'home'
+
+        _n.init 'home/test'
+        expect(testAction).toHaveBeenCalled()
+
+      it 'set app null should be return false', ->
+        result = _n.app 'home', null
+        console.log result
+        expect(result).toBeFalsy()# }}}
+
+    describe 'home/index before and after test >', -># {{{
       _n = null
       indexAction = null
       indexBefore = null
@@ -444,9 +480,9 @@ describe 'ndoo framework test >', ->
         expect(indexBefore).toHaveBeenCalled()
 
       it 'after should be call', ->
-        expect(indexAfter).toHaveBeenCalled()
+        expect(indexAfter).toHaveBeenCalled()# }}}
 
-    describe 'filter test >', ->
+    describe 'filter test >', -># {{{
       _n = null
       indexAction = null
       indexBeforeFilter = null
@@ -477,9 +513,9 @@ describe 'ndoo framework test >', ->
         expect(indexBeforeFilter).toHaveBeenCalled()
 
       it 'after filter should be call', ->
-        expect(indexAfterFilter).toHaveBeenCalled()
+        expect(indexAfterFilter).toHaveBeenCalled()# }}}
 
-    describe 'filter modfifier test >', ->
+    describe 'filter modfifier test >', -># {{{
       _n = null
       indexAction = null
       listAction = null
@@ -529,9 +565,9 @@ describe 'ndoo framework test >', ->
 
       it 'except index filter shoud be call on home/list', ->
         _n.init 'home/list'
-        expect(exceptIndexFilter).toHaveBeenCalled()
+        expect(exceptIndexFilter).toHaveBeenCalled()# }}}
 
-    describe 'test multi filter >', ->
+    describe 'test multi filter >', -># {{{
       _n = null
       indexAction = null
       firstFilter = null
@@ -574,9 +610,9 @@ describe 'ndoo framework test >', ->
 
         _n.init 'home/index'
         expect(firstFilter).toHaveBeenCalled()
-        expect(secondFilter).toHaveBeenCalled()
+        expect(secondFilter).toHaveBeenCalled()# }}}
 
-    describe 'test app depend >', ->
+    describe 'test app depend >', -># {{{# {{{
       _n = null
       requireSpy = null
       indexAction = null
@@ -639,9 +675,9 @@ describe 'ndoo framework test >', ->
           indexAction: indexAction
 
         _n.init 'home/index'
-        expect(dependTemp).toEqual ['homeAppDepend', 'indexDepend']
+        expect(dependTemp).toEqual ['homeAppDepend', 'indexDepend']# }}}# }}}
 
-    describe 'test module event', ->
+    describe 'test module event', -> #{{{
       _n = null
       indexAction = null
       beforeCall = null
@@ -686,5 +722,6 @@ describe 'ndoo framework test >', ->
         _n.init 'home/index'
 
         expect(beforeCall).toHaveBeenCalled()# }}}
+    # }}}
 
 # vim: set sw=2 ts=2 sts=2 fdm=marker et:
