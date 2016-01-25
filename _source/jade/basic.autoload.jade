@@ -1,0 +1,73 @@
+extends shared/_layout
+
+block pageTitle
+  include shared/_variable
+  include shared/_mixin
+  title 自动加载#{titleSuffix}
+
+block pageHeader
+  h1 自动加载
+
+block pageContent
+  p ndoojs支持自动加载模块，默认使用Do.js加载模块(Do.js经过修改)。
+  h3 1. 引入do.js以及模块定义文件
+  +renderCode('html')
+    ='<script src="lib/Do.js"></script>'
+
+  h3 2. 添加模块定义
+  p
+    |此处用到了事件系统，参见
+    a(href="ref.event.html") event
+    |。
+  +renderCode('javascript')
+    ="(function(){\n"
+    ="  var _n;\n"
+    ="  this.N = this.ndoo || (this.ndoo = {});\n"
+    ="  _n = this.ndoo;\n"
+    ="\n"
+    ="  Do.define('home', {\n"
+    ="    path: 'homeApp.js',\n"
+    ="    type: 'js'\n"
+    ="  });\n"
+    ="  _n.on('NAPP_DEFINE', function(){\n"
+    ="    _n.setApp('home');\n"
+    ="  });\n"
+    ="\n"
+    ="}).call(this);"
+  h5 完整代码如下：
+  p html
+  +renderCode('html')
+  
+    ='<!DOCTYPE html>\n'
+    ='<html>\n'
+    ='  <head>\n'
+    ='    <meta charset="UTF-8">\n'
+    ='    <title>autoload</title>\n'
+    ='  </head>\n'
+    ='  <body>\n'
+    ='    <p id="content"></p>\n'
+    ='    <div id="scriptArea" data-page-id="home/autoload">\n'
+    ='      <script src="lib/underscore-min.js"></script>\n'
+    ='      <script src="lib/jquery-2.1.1.min.js"></script>\n'
+    ='      <script src="lib/Do.js"></script>\n'
+    ='      <script src="js/ndoo_all.js"></script>\n'
+    ='      <script>\n'
+    ="        (function(_n){\n"
+    ="          Do.define('home', {\n"
+    ="            path: 'js/homeApp.js',\n"
+    ="            type: 'js'\n"
+    ="          });\n"
+    ="          _n.on('NAPP_DEFINE', function(){\n"
+    ="            _n.setApp('home');\n"
+    ="          });\n"
+    ="        })(this.N = this.ndoo || (this.ndoo = {}));\n"
+    ="        ndoo.init();\n"
+    ='      </script>\n'
+    ='    </div>\n'
+    ='  </body>\n'
+    ='</html>'
+  p.notice
+    |示例中定义了home模块的文件js/homeApp.js，但未载入该文件。当前页面的模块属于home模块，执行action时会自动加载home模块。
+    span
+      |查看
+      a(href="#{exampleBaes}/basic.appautoload.html") app autoload

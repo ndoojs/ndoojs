@@ -1,0 +1,33 @@
+extends shared/_layout
+
+block pageTitle
+  include shared/_variable
+  include shared/_mixin
+  title 初始化#{titleSuffix}
+
+block pageHeader
+  h1 初始化
+
+block pageContent
+  p 直接调用ndoo.init()即可完成初始化，init还有另外两种用法，在这里进行说明。
+  h3 1.指定pageId
+  p ndoojs默认查找id为scriptArea的标签上取data-page-id属性作为页面id，但在某种场合需要进行定制，这时可以手动指定。
+  p 如果你觉得scriptArea这个名字不太贴合，可以直接指定id名。示例：
+  +renderCode('html')
+    ='<div id="myApp" data-page-id="home/index">\n'
+    ='...\n'
+    ='<script>\n'
+    ="  ndoo.init('myAppId');\n"
+    ='</div>'
+  p 某些情况下无法从dom标签指定(在非浏览器环境运行单元测试)，这时可以直接指定。示例：
+  +renderCode('javascript')
+    ="ndoo.init('home/index');\n"
+  p ndoojs会先判断能否取到DOM，如果没有找到对应的DOM则直接将参数赋值给pageId。
+  h3 2.全局依赖
+  p 某些库我们需要全局加载，这时可以在ndoo.init中传入。示例：
+  +renderCode('javascript')
+    ="ndoo.init(['myApp']);"
+  p 依赖的库需提前通过do.js定义。
+  p ndoojs使用变量类型来判断pageId和依赖，可以同时指定pageId和依赖。示例：
+  +renderCode('javascript')
+    ="ndoo.init('home/index', ['myApp']);"

@@ -1,0 +1,24 @@
+extends shared/_layout
+
+block pageTitle
+  include shared/_variable
+  include shared/_mixin
+  title 名称空间#{titleSuffix}
+
+block pageHeader
+  h1 名称空间
+
+block pageContent
+  h3 1. page id中设置名称空间，如 admin/user/add
+  +renderCode('html')
+    ='<div id="scriptArea" data-page-id="admin/user/add">'
+
+  h3 2. 定义模块名称，使用.(点)分隔
+  +renderCode('javascript')
+    ="_n.app('admin.user', {\n"
+    ="  addAction: function(param){\n"
+    ="    var $content;\n"
+    ="    $content = $('#content');\n"
+    ="    $content.html('namespace: admin module: user action: addAction');\n"
+    ="  }\n"
+    ="});"

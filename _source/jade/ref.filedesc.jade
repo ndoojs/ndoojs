@@ -1,0 +1,45 @@
+extends shared/_layout
+
+block pageTitle
+  include shared/_variable
+  include shared/_mixin
+  title 文件说明#{titleSuffix}
+
+block pageHeader
+    h1 文件说明
+
+block pageContent
+  h3 文件说明
+  p js目录中包含多个js文件，以下对各个文件进行简要说明。
+
+  h3 1.ndoo_prep.js
+  p
+    |ndoo_prep.js为头文件，包含ndoo变量声明，事件暂存等。在head中用script标签引用ndoo_prep.js后可以：
+    br
+    |1)可以在页面任何位置使用ndoo.vars名称空间进行赋值，在后面的脚本中使用。一般作用服务端向前端输出数据。
+    br
+    |2)可以在页面任何位置使用ndoo.on进行事件定义，定义的事件会被暂存，ndoo主文件加载完成后，自动将事件从暂存中取出进行绑定。
+  p 
+  h3 2.ndoo_lib.js
+  p ndoo_lib.js为库文件，包含ndoojs的事件实现。ndoojs的事件使用backbone来实现，但考虑到用户可能不使用backbone，所以将backbone中的事件子集精简出来，存放在ndoo_lib.js中。引用backbone时可以不引用此文件。同时引用backbone和ndoo_lib不会发生冲突，当检测到backbone全局变量时，会自动使用Backbone来代替ndoo_lib。
+  h3 3.ndoo_block.js
+  p
+    |ndoo_block.js为block功能主文件，不使用block功能时可省略此文件。block具体说明参见
+    a(href="./basic.block.html") block说明
+
+  h3 4.ndoo.js
+  p ndoo.js为主文件，必须引用此文件才能使用ndoojs所提供的功能。
+  h3 5.ndoo_all.js
+  p 一个包含ndoo_prep.js、ndoo_lib.js、ndoo_block.js、ndoo.js的整合版本。直接在尾部引用此文件即可使用ndoojs，在头部引用ndoo_prep.js和此文件不冲突。
+  h3 6.ndoo_slim.js
+  p 同ndoo_all相似，但不包含ndoo_lib.js。引用backbone时可省略ndoo_lib.js，ndoojs会使用backbone中的event模块。
+  h3 lib目录
+  p lib中包含一些用到的库。
+  h3 1.underscore-min.js
+  p ndoo.js依赖库，ndoojs中大量使用underscore提供的扩展方法。ndoojs的事件模型为Backbone的子集，也依赖于underscore。
+  h3 2.jquery
+  p 大名鼎鼎的js库，用来实现dom操作。ndoojs中用到了ready方法。block功能中使用了选择器来找到block。可以使用zepto.js来替代。
+  h3 3.Do.js
+  p 实现包管理，此了标识模块已加载，此处的do.js进行过定制，请务必使用此版本。参改内容参照commit id:dc1f963的变更。如需更新版本请使用diff工具进行比较，应用改动。
+  h3 4.sea.js
+  p 国产cmd模块加载器，需要使用cmd进行冲突隔离时可选用。

@@ -1,0 +1,89 @@
+extends shared/_layout
+
+block pageTitle
+  include shared/_variable
+  include shared/_mixin
+  title 服务#{titleSuffix}
+
+block pageHeader
+  h1 service 服务
+
+block pageContent
+  p service 用面向对象的方式将公用逻辑封装起来。
+  h3 1.示例
+  +renderCode('javascript')
+    ="// 定义服务\n"
+    ="_n.service('user', {\n"
+    ="  hasSignin: function(){\n"
+    ="    return false;\n"
+    ="  }\n"
+    ="});\n"
+    ="// 使用服务\n"
+    ="var user = _n.service('user');\n"
+    ="console.log(user.hasSignin());"
+
+  h3 2.入口函数
+  p service对象如果存在init方法，会被自动调用。
+  +renderCode('javascript')
+    ="// 定义服务\n"
+    ="_n.service('play', {\n"
+    ="  isInit: false;\n"
+    ="  init: function(){\n"
+    ="    if(!this.isInit) {\n"
+    ="      this.isInit = true;\n"
+    ="      console.log('play service init');\n"
+    ="    }\n"
+    ="    return this;\n"
+    ="  }\n"
+    ="});\n"
+    ="// 调用服务\n"
+    ="var play = _n.service('play');"
+
+  h3 3.工厂模式
+  +renderCode('javascript')
+    ="// 定义服务\n"
+    ="_n.service('dateTime', (function() {\n"
+    ="  var dateTime = function () {\n"
+    ="    this.date = new Date()\n"
+    ="    return this;\n"
+    ="  }\n"
+    ="  dateTime.prototype.show = function () {\n"
+    ="    alert(this.date.toString());\n"
+    ="  }\n"
+    ="  return {\n"
+    ="    dateTime: dateTime\n"
+    ="    create: function() {\n"
+    ="      return new this.dateTime()\n"
+    ="    }\n"
+    ="  }\n"
+    ="}()));\n"
+    ="// 调用服务\n"
+    ="var dateTime = _n.service('dateTime').create();\n"
+    ="dateTime.show();"
+  p *使用init作为入口可自动创建实例
+
+  h3 4.单例模式
+  +renderCode('javascript')
+    ="// 定义服务\n"
+    ="_n.service('dateTime', (function() {\n"
+    ="  var dateTime = function () {\n"
+    ="    this.date = new Date()\n"
+    ="    return this;\n"
+    ="  }\n"
+    ="  dateTime.prototype.show = function () {\n"
+    ="    alert(this.date.toString());\n"
+    ="  }\n"
+    ="  return {\n"
+    ="    dateTime: dateTime\n"
+    ="    init: function() {\n"
+    ="      if(!this.instance) {\n"
+    ="        this.instance = new this.dateTime();\n"
+    ="      }\n"
+    ="      return this.instance;\n"
+    ="    }\n"
+    ="  }\n"
+    ="}()));\n"
+    ="// 调用服务\n"
+    ="var dateTime = _n.service('dateTime');\n"
+    ="dateTime.show();"
+

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>user signin</title>
+    <link rel="stylesheet" href="css/signin.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="#" class="navbar-brand">用户登录</a>
+        </div>
+        <div id="navbar" data-nblock-id="block/userInfo" class="navbar-collapse collapse">
+          <!-- form.navbar-form.navbar-right
+          .form-group
+            input.form-control(type='text', placeholder='用户')
+          .form-group
+            input.form-control(type='password', placeholder='密码')
+          button.btn.btn-success(type='submit') 登录
+          -->
+        </div>
+        <!-- /.navbar-collapse-->
+      </div>
+    </nav>
+    <!-- Main jumbotron for a primary marketing message or call to action-->
+    <div class="jumbotron">
+      <div class="container">
+        <h1 id="hello" class="hello">你好，请登录!</h1>
+        <p>默认用户user，密码123456。<br>本示例演示ndoojs的app，block，service的使用。</p>
+        <p><a href="../../" role="button" class="btn btn-primary btn-lg">查看文档 »</a></p>
+      </div>
+    </div>
+    <div class="container">
+      <!-- Example row of columns-->
+      <div class="row">
+        <div class="col-md-4">
+          <h2>app</h2>
+          <p>页面逻辑组成部分和pageId对应。</p>
+          <p><a href="../../basic.appscript.html" role="button" class="btn btn-default">查看app介绍 »</a></p>
+        </div>
+        <div class="col-md-4">
+          <h2>block</h2>
+          <p>标签逻辑实现，通过data-nblock-id对应。</p>
+          <p><a href="../../basic.block.html" role="button" class="btn btn-default">查看block介绍 »</a></p>
+        </div>
+        <div class="col-md-4">
+          <h2>service</h2>
+          <p>服务逻辑，提供抽象的功能封装，提供给app和block调用。</p>
+          <p><a href="../../basic.service.html" role="button" class="btn btn-default">查看service介绍 »</a></p>
+        </div>
+      </div>
+      <hr>
+      <footer>
+        <p>© 2015 Company, Inc.</p>
+      </footer>
+    </div>
+    <!-- .container
+    button(type="button" class="btn btn-primary btn-lg btn-modal" data-toggle="modal" data-target="#myModal") Signin
+    #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
+      .modal-dialog(role='document')
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') ×
+            h4#myModalLabel.modal-title Please sign in
+          .modal-body
+            form.form-signin
+              // h2.form-signin-heading Please sign in
+              label.sr-only(for='inputEmail') Email address
+              input#inputEmail.form-control(type='text', placeholder='ID/Email address', required='', autofocus='')
+              label.sr-only(for='inputPassword') Password
+              input#inputPassword.form-control(type='password', placeholder='Password', required='')
+              .checkbox
+                label
+                  input(type='checkbox', value='remember-me')
+                  |  Remember me
+              button.btn.btn-lg.btn-primary.btn-block.btn-signin(type='button') Sign in
+          // .modal-footer
+            button.btn.btn-default(type='button', data-dismiss='modal') Close
+            button.btn.btn-primary(type='button') Save changes
+    -->
+    <div id="scriptArea">
+      <script src="../lib/jquery-2.1.1.min.js"></script>
+      <script src="../lib/underscore-min.js"></script>
+      <script src="../js/ndoo_all.js"></script>
+      <script src="../lib/do.js"></script>
+      <script src="js/package.js"></script>
+      <script>ndoo.init('user/signin', ['lib.bootstrap_js'])</script>
+    </div>
+  </body>
+</html>

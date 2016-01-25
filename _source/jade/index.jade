@@ -1,0 +1,74 @@
+extends shared/_layout
+
+block pageTitle
+  include shared/_variable
+  include shared/_mixin
+  title 基础入门#{titleSuffix}
+
+block pageHeader
+    h1 ndoojs文档
+
+block pageContent
+  h3 基础入门
+  p 从一个示例介绍ndoojs的使用。示例如下：
+  +renderCode('markup')
+    ='<!DOCTYPE html>\n'
+    ='<html>\n'
+    ='  <head>\n'
+    ='    <meta charset="UTF-8">\n'
+    ='    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n'
+    ='    <title>started-ndoojs</title>\n'
+    ='  </head>\n'
+    ='  <body>\n'
+    ='    <p id="container"></p>\n'
+    ='    <div id="scriptArea" data-page-id="home/index">\n'
+    ='      <script src="lib/underscore-min.js"></script>\n'
+    ='      <script src="lib/jquery-2.1.1.min.js"></script>\n'
+    ='      <script src="js/ndoo_all.js"></script>\n'
+    ='      <script>\n'
+    ="      (function() {\n"
+    ="        var $, _n;\n"
+    ="        $ = this['jQuery'] || this['Zepto'];\n"
+    ="        _n = this.ndoo;\n"
+    ="        _n.app('home', {\n"
+    ="          indexAction: function() {\n"
+    ="            return $('#container').html('hello ndoojs!');\n"
+    ="          }\n"
+    ="        });\n"
+    ="        _n.init();\n"
+    ="      }).call(this);\n"
+    ='      </script>\n'
+    ='    </div>\n'
+    ='  </body>\n'
+    ='</html>'
+  p.notice
+    |查看
+    a(href="#{exampleBaes}/started.html") started.html
+
+  h3 1.定义页面id
+  p ndoojs需要为页面分配一个id，每个id有一个对应的入口函数，在入口函数内初始化该页面的所有逻辑。给id为scriptArea的标签设置data-page-id属性分配id。
+  +renderCode('html')
+    ='<div id="scriptArea" data-page-id="home/index">'
+    ='...'
+    ='</div>'
+
+
+  h3 2.引入ndoo脚本及依赖
+  p ndoojs依赖underscore，使用jQuery的ready函数(可使用zepto替代)。为了整齐美观，一般将脚本放到页面底部scriptArea下面加载。
+  +renderCode('html')
+    ='<script src="lib/underscore-min.js"></script>\n'
+    ='<script src="lib/jquery-2.1.1.min.js"></script>\n'
+    ='<script src="js/ndoo_all.js"></script>'
+
+  h3 3.编写对应脚本
+  p 为home/index编写对应的入口函数，定义home下名为indexAction的入口函数。
+  +renderCode('javascript')
+    ="_n.app('home', {\n"
+    ="  indexAction: function() {\n"
+    ="    return $('#container').html('hello ndoojs!');\n"
+    ="  }\n"
+    ="});"
+
+  h3 4.启动脚本
+  +renderCode('javascript')
+    ="_n.init()"

@@ -1,0 +1,92 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    title user signin
+    link(rel="stylesheet" href="css/signin.css")
+  body
+    nav.navbar.navbar-inverse.navbar-fixed-top
+      .container
+        .navbar-header
+          button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href='#') 用户登录
+        #navbar.navbar-collapse.collapse(data-nblock-id="block/userInfo")
+          // form.navbar-form.navbar-right
+            .form-group
+              input.form-control(type='text', placeholder='用户')
+            .form-group
+              input.form-control(type='password', placeholder='密码')
+            button.btn.btn-success(type='submit') 登录
+        // /.navbar-collapse
+    // Main jumbotron for a primary marketing message or call to action
+    .jumbotron
+      .container
+        h1#hello.hello 你好，请登录!
+        p
+          | 默认用户user，密码123456。
+          br
+          | 本示例演示ndoojs的app，block，service的使用。
+        p
+          a.btn.btn-primary.btn-lg(href='../../', role='button') 查看文档 »
+    .container
+      // Example row of columns
+      .row
+        .col-md-4
+          h2 app
+          p
+            | 页面逻辑组成部分和pageId对应。
+          p
+            a.btn.btn-default(href='../../basic.appscript.html', role='button') 查看app介绍 »
+        .col-md-4
+          h2 block
+          p
+            | 标签逻辑实现，通过data-nblock-id对应。
+          p
+            a.btn.btn-default(href='../../basic.block.html', role='button') 查看block介绍 »
+        .col-md-4
+          h2 service
+          p
+            | 服务逻辑，提供抽象的功能封装，提供给app和block调用。
+          p
+            a.btn.btn-default(href='../../basic.service.html', role='button') 查看service介绍 »
+      hr
+      footer
+        p © 2015 Company, Inc.
+    // .container
+      button(type="button" class="btn btn-primary btn-lg btn-modal" data-toggle="modal" data-target="#myModal") Signin
+      #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
+        .modal-dialog(role='document')
+          .modal-content
+            .modal-header
+              button.close(type='button', data-dismiss='modal', aria-label='Close')
+                span(aria-hidden='true') ×
+              h4#myModalLabel.modal-title Please sign in
+            .modal-body
+              form.form-signin
+                // h2.form-signin-heading Please sign in
+                label.sr-only(for='inputEmail') Email address
+                input#inputEmail.form-control(type='text', placeholder='ID/Email address', required='', autofocus='')
+                label.sr-only(for='inputPassword') Password
+                input#inputPassword.form-control(type='password', placeholder='Password', required='')
+                .checkbox
+                  label
+                    input(type='checkbox', value='remember-me')
+                    |  Remember me
+                button.btn.btn-lg.btn-primary.btn-block.btn-signin(type='button') Sign in
+            // .modal-footer
+              button.btn.btn-default(type='button', data-dismiss='modal') Close
+              button.btn.btn-primary(type='button') Save changes
+    #scriptArea
+      -var jsPath = '../js'
+      -var libPath = '../lib'
+      script(src="#{libPath}/jquery-2.1.1.min.js")
+      script(src="#{libPath}/underscore-min.js")
+      script(src="#{jsPath}/ndoo_all.js")
+      script(src="#{libPath}/do.js")
+      script(src="js/package.js")
+      script.
+        ndoo.init('user/signin', ['lib.bootstrap_js'])
