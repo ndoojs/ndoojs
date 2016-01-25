@@ -16,19 +16,19 @@ class UserInfo
       html = """
         <form class="navbar-form navbar-right">
           <div class="form-group">
-            <input type="text" placeholder="ID/Email" class="ctl-id form-control">
+            <input type="text" placeholder="用户名" class="ctl-id form-control">
           </div>
           <div class="form-group">
-            <input type="password" placeholder="Password" class="ctl-password form-control">
+            <input type="password" placeholder="密码" class="ctl-password form-control">
           </div>
-          <button type="button" class="btn btn-success ctl-button">Sign in</button>
+          <button type="button" class="btn btn-success ctl-button">登录</button>
         </form>"""
     else
       user = _n.service \user
       userName = user.get \userName
       html = """
         <div class="navbar-text navbar-right">
-          UserName: #{userName}
+          你好: #{userName}
         </div>"""
 
     @$el.html html

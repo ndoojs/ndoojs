@@ -15,11 +15,11 @@
     prototype.render = function(type){
       var html, user, userName;
       if (type === 'signFrom') {
-        html = "<form class=\"navbar-form navbar-right\">\n  <div class=\"form-group\">\n    <input type=\"text\" placeholder=\"ID/Email\" class=\"ctl-id form-control\">\n  </div>\n  <div class=\"form-group\">\n    <input type=\"password\" placeholder=\"Password\" class=\"ctl-password form-control\">\n  </div>\n  <button type=\"button\" class=\"btn btn-success ctl-button\">Sign in</button>\n</form>";
+        html = "<form class=\"navbar-form navbar-right\">\n  <div class=\"form-group\">\n    <input type=\"text\" placeholder=\"用户名\" class=\"ctl-id form-control\">\n  </div>\n  <div class=\"form-group\">\n    <input type=\"password\" placeholder=\"密码\" class=\"ctl-password form-control\">\n  </div>\n  <button type=\"button\" class=\"btn btn-success ctl-button\">登录</button>\n</form>";
       } else {
         user = _n.service('user');
         userName = user.get('userName');
-        html = "<div class=\"navbar-text navbar-right\">\n  UserName: " + userName + "\n</div>";
+        html = "<div class=\"navbar-text navbar-right\">\n  你好: " + userName + "\n</div>";
       }
       return this.$el.html(html);
     };
