@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8">
     <title>user signin</title>
     <link rel="stylesheet" href="css/signin.css">
   </head>
@@ -8,15 +9,15 @@
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
-          <button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="#" class="navbar-brand">Sign in example</a>
+          <button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="#" class="navbar-brand">用户登录</a>
         </div>
         <div id="navbar" data-nblock-id="block/userInfo" class="navbar-collapse collapse">
           <!-- form.navbar-form.navbar-right
           .form-group
-            input.form-control(type='text', placeholder='Email')
+            input.form-control(type='text', placeholder='用户')
           .form-group
-            input.form-control(type='password', placeholder='Password')
-          button.btn.btn-success(type='submit') Sign in
+            input.form-control(type='password', placeholder='密码')
+          button.btn.btn-success(type='submit') 登录
           -->
         </div>
         <!-- /.navbar-collapse-->
@@ -25,28 +26,28 @@
     <!-- Main jumbotron for a primary marketing message or call to action-->
     <div class="jumbotron">
       <div class="container">
-        <h1 class="hello">Hello, world!</h1>
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-        <p><a href="#" role="button" class="btn btn-primary btn-lg">Learn more »</a></p>
+        <h1 class="hello">你好，请登录!</h1>
+        <p>默认用户user，密码123456。<br>本示例演示ndoojs的app，block，service的使用。</p>
+        <p><a href="../../" role="button" class="btn btn-primary btn-lg">查看文档 »</a></p>
       </div>
     </div>
     <div class="container">
       <!-- Example row of columns-->
       <div class="row">
         <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
-          <p><a href="#" role="button" class="btn btn-default">View details »</a></p>
+          <h2>app</h2>
+          <p>页面逻辑组成部分和pageId对应。</p>
+          <p><a href="../../basic.appscript.html" role="button" class="btn btn-default">查看app介绍 »</a></p>
         </div>
         <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
-          <p><a href="#" role="button" class="btn btn-default">View details »</a></p>
+          <h2>block</h2>
+          <p>标签逻辑实现，通过data-nblock-id对应。</p>
+          <p><a href="../../basic.block.html" role="button" class="btn btn-default">查看block介绍 »</a></p>
         </div>
         <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p><a href="#" role="button" class="btn btn-default">View details »</a></p>
+          <h2>service</h2>
+          <p>服务逻辑，提供抽象的功能封装，提供给app和block调用。</p>
+          <p><a href="../../basic.service.html" role="button" class="btn btn-default">查看service介绍 »</a></p>
         </div>
       </div>
       <hr>

@@ -1,6 +1,7 @@
 doctype html
 html
   head
+    meta(charset="utf-8")
     title user signin
     link(rel="stylesheet" href="css/signin.css")
   body
@@ -12,44 +13,46 @@ html
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          a.navbar-brand(href='#') Sign in example
+          a.navbar-brand(href='#') 用户登录
         #navbar.navbar-collapse.collapse(data-nblock-id="block/userInfo")
           // form.navbar-form.navbar-right
             .form-group
-              input.form-control(type='text', placeholder='Email')
+              input.form-control(type='text', placeholder='用户')
             .form-group
-              input.form-control(type='password', placeholder='Password')
-            button.btn.btn-success(type='submit') Sign in
+              input.form-control(type='password', placeholder='密码')
+            button.btn.btn-success(type='submit') 登录
         // /.navbar-collapse
     // Main jumbotron for a primary marketing message or call to action
     .jumbotron
       .container
-        h1.hello Hello, world!
+        h1.hello 你好，请登录!
         p
-          | This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.
+          | 默认用户user，密码123456。
+          br
+          | 本示例演示ndoojs的app，block，service的使用。
         p
-          a.btn.btn-primary.btn-lg(href='#', role='button') Learn more »
+          a.btn.btn-primary.btn-lg(href='../../', role='button') 查看文档 »
     .container
       // Example row of columns
       .row
         .col-md-4
-          h2 Heading
+          h2 app
           p
-            | Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+            | 页面逻辑组成部分和pageId对应。
           p
-            a.btn.btn-default(href='#', role='button') View details »
+            a.btn.btn-default(href='../../basic.appscript.html', role='button') 查看app介绍 »
         .col-md-4
-          h2 Heading
+          h2 block
           p
-            | Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+            | 标签逻辑实现，通过data-nblock-id对应。
           p
-            a.btn.btn-default(href='#', role='button') View details »
+            a.btn.btn-default(href='../../basic.block.html', role='button') 查看block介绍 »
         .col-md-4
-          h2 Heading
+          h2 service
           p
-            | Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+            | 服务逻辑，提供抽象的功能封装，提供给app和block调用。
           p
-            a.btn.btn-default(href='#', role='button') View details »
+            a.btn.btn-default(href='../../basic.service.html', role='button') 查看service介绍 »
       hr
       footer
         p © 2015 Company, Inc.
