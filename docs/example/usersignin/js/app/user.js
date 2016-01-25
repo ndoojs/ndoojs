@@ -11,6 +11,12 @@
   _stor = _n.storage;
   _n.app('user', {
     depend: ['service.user'],
-    signinAction: function(){}
+    signinAction: function(){
+      _n.on('APP_USER_SIGNIN', function(){
+        var user;
+        user = _n.service('user');
+        return $('#hello').text("你好，" + user.get('userName'));
+      });
+    }
   });
 }).call(this);
