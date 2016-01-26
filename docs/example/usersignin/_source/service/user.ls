@@ -27,6 +27,10 @@ class userService
     else
       undefined
 
+  signout: ->
+    @set isSign: false, userName: ''
+    _n.trigger 'STATUS:APP_USER_SIGNOUT'
+
   auth: (id, password) ->
     if id is \user and password is \123456
       @set do
