@@ -17,6 +17,11 @@
         user = _n.service('user');
         return $('#hello').text("你好，" + user.get('userName'));
       });
+      _n.on('APP_USER_SIGNOUT', function(){
+        var user;
+        user = _n.service('user');
+        return $('#hello').text("你好，请登录!");
+      });
     }
   });
 }).call(this);
