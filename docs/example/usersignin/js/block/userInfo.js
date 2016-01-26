@@ -15,15 +15,15 @@
     prototype.render = function(type){
       var html, user, userName;
       if (type === 'signFrom') {
-        html = "<form class=\"navbar-form navbar-right\">\n  <div class=\"form-group\">\n    <input type=\"text\" placeholder=\"用户名\" class=\"ctl-id form-control\">\n  </div>\n  <div class=\"form-group\">\n    <input type=\"password\" placeholder=\"密码\" class=\"ctl-password form-control\">\n  </div>\n  <button type=\"button\" class=\"btn btn-success ctl-button\">登录</button>\n</form>";
+        html = "<form class=\"navbar-form navbar-right\">\n  <div class=\"form-group\">\n    <input type=\"text\" placeholder=\"用户名\" class=\"ctl-id form-control\">\n  </div>\n  <div class=\"form-group\">\n    <input type=\"password\" placeholder=\"密码\" class=\"ctl-password form-control\">\n  </div>\n  <button type=\"button\" class=\"btn btn-success ctl-signin\">登录</button>\n</form>";
       } else {
         user = _n.service('user');
         userName = user.get('userName');
-        html = "<div class=\"navbar-text navbar-right\">\n  你好: " + userName + "\n</div>";
+        html = "<form action=\"\" class=\"navbar-form navbar-right\">\n  <button type=\"button\" class=\"btn btn-danger ctl-signout\">退出</button>\n</form>\n<div class=\"navbar-text navbar-right\">你好: " + userName + "</div>";
       }
       return this.$el.html(html);
     };
-    prototype.btnSuccess = function(e){
+    prototype.signin = function(e){
       var user, id, password, result;
       user = _n.service('user');
       id = this.$el.find('.ctl-id');
@@ -33,14 +33,24 @@
         alert('signin failer!');
       }
     };
-    prototype.events = {
-      'click .ctl-button': 'btnSuccess'
+    prototype.signout = function(e){
+      var user;
+      user = _n.service('user');
+      user.signout();
     };
-    prototype.userSignin = function(){
+    prototype.events = {
+      'click .ctl-signin': 'signin',
+      'click .ctl-signout': 'signout'
+    };
+    prototype.updateUser = function(){
       this.render('userInfo');
     };
+    prototype.updateForm = function(){
+      this.render('signFrom');
+    };
     prototype.messages = {
-      'APP_USER_SIGNIN': 'userSignin'
+      'APP_USER_SIGNIN': 'updateUser',
+      'APP_USER_SIGNOUT': 'updateForm'
     };
     prototype.initEvent = function(){
       var key, ref$, item, _call, eventMatch, results$ = [];

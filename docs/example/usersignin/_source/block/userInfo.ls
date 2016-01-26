@@ -21,19 +21,21 @@ class UserInfo
           <div class="form-group">
             <input type="password" placeholder="密码" class="ctl-password form-control">
           </div>
-          <button type="button" class="btn btn-success ctl-button">登录</button>
+          <button type="button" class="btn btn-success ctl-signin">登录</button>
         </form>"""
     else
       user = _n.service \user
       userName = user.get \userName
       html = """
-        <div class="navbar-text navbar-right">
-          你好: #{userName}
-        </div>"""
+        <form action="" class="navbar-form navbar-right">
+          <button type="button" class="btn btn-danger ctl-signout">退出</button>
+        </form>
+        <div class="navbar-text navbar-right">你好: #{userName}</div>
+        """
 
     @$el.html html
 
-  btnSuccess: (e) !->
+  signin: (e) !->
     user = _n.service \user
     id = @$el.find('.ctl-id')
     password = @$el.find('.ctl-password')
@@ -42,14 +44,23 @@ class UserInfo
     unless result
       alert 'signin failer!'
 
-  events:
-    'click .ctl-button': 'btnSuccess'
+  signout: (e) !->
+    user = _n.service \user
+    user.signout()
 
-  userSignin: !->
+  events:
+    'click .ctl-signin': 'signin'
+    'click .ctl-signout': 'signout'
+
+  updateUser: !->
     @render \userInfo
 
+  updateForm: !->
+    @render \signFrom
+
   messages:
-    'APP_USER_SIGNIN': 'userSignin'
+    'APP_USER_SIGNIN': 'updateUser'
+    'APP_USER_SIGNOUT': 'updateForm'
 
   initEvent: ->
     if @events
