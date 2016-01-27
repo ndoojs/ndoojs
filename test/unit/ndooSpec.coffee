@@ -225,15 +225,6 @@ describe 'ndoo framework test >', ->
         _n.on 'delayTest', delayEvent2
         expect(delayEvent2.calls.count()).toEqual 2
 
-      xit 'return false again bind should not call', ->
-        delayEvent3 = jasmine.createSpy('delayEvent3').and.returnValue false
-        delayEvent4 = jasmine.createSpy 'delayEvent4'
-        _n.trigger 'DELAY:delayTest2'
-        _n.on 'delayTest2', delayEvent3
-        _n.on 'delayTest2', delayEvent4
-        expect(delayEvent3).toHaveBeenCalled()
-        expect(delayEvent4).not.toHaveBeenCalled()
-
     describe 'status event >', ->
       statusEvent1 = jasmine.createSpy 'statusEvent1'
       statusEvent2 = jasmine.createSpy 'statusEvent2'
@@ -454,7 +445,6 @@ describe 'ndoo framework test >', ->
 
       it 'set app null should be return false', ->
         result = _n.app 'home', null
-        console.log result
         expect(result).toBeFalsy()# }}}
 
     describe 'home/index before and after test >', -># {{{
