@@ -143,10 +143,11 @@ _n._block = (base, namespace, name, block) ->
         result = false
     else if base is \service
       result = temp[name] = block
+      success = true
     else
       result = false
 
-    if result
+    if result or success
       if namespace
         _n._blockData[\_exist]["#base.#namespace.#name"] = true
       else

@@ -113,7 +113,7 @@
     _exist: {}
   });
   _n._block = function(base, namespace, name, block){
-    var data, nsArr, temp, i$, len$, ns, result;
+    var data, nsArr, temp, i$, len$, ns, result, success;
     if (base === 'block' || base === 'app' || base === 'service') {
       data = _n._blockData["_" + base];
     } else {
@@ -144,10 +144,11 @@
         }
       } else if (base === 'service') {
         result = temp[name] = block;
+        success = true;
       } else {
         result = false;
       }
-      if (result) {
+      if (result || success) {
         if (namespace) {
           _n._blockData['_exist'][base + "." + namespace + "." + name] = true;
         } else {
