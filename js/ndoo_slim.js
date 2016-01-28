@@ -849,7 +849,7 @@
    * @name block
    * @memberof ndoo
    * @param {string} namespace 名称空间
-   * @param {variable} block 模块实现
+   * @param {(object|function)} block 模块实现
    */
   _n.block = function(namespace, block){
     var nsmatch, name, ref$;
