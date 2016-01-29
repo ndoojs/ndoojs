@@ -21,6 +21,7 @@ block pageContent
     ="// 使用服务\n"
     ="var user = _n.service('user');\n"
     ="console.log(user.hasSignin());"
+  p.notice service的值可以是任何类型，包括非true的值（false, undefined, null, 0）。
 
   h3 2.入口函数
   p service对象如果存在init方法，会被自动调用。

@@ -64,6 +64,7 @@ _n.service('user', {
 // 使用服务
 var user = _n.service('user');
 console.log(user.hasSignin());</code></pre>
+            <p class="notice">service的值可以是任何类型，包括非true的值（false, undefined, null, 0）。</p>
             <h3>2.入口函数</h3>
             <p>service对象如果存在init方法，会被自动调用。</p>
                 <pre data-start="1" class="line-numbers"><code class="language-javascript">// 定义服务

@@ -10,14 +10,30 @@ block pageHeader
 
 block pageContent
   p ndoojs支持块级组件，可以方便的定义一些按需载入自执行组件。
-  h3 1.引入do.js以及模块定义文件
-  +renderCode('html')
-    ='<script src="lib/Do.js"></script>'
 
-  h3 2.添加模块定义
+  h3 1.页面中上添加组件标识
+  +renderCode('html')
+    ='<div id="testBlock" data-nblock-id="test/main?abc=1"></div>'
+  p.notice 组件会被自动实例化，如果希望组件在后面手动运行，需要设置一行属性 data-nblock-auto="false"。
+
+  h3 2.定义模块
+  p file: ndoo.block.test.js
+  +renderCode('javascript')
+    ="_n.block('test.main', {\n"
+    ="  init: function(elem, params){\n"
+    ="    console.log('init test block');\n"
+    ="  }\n"
+    ="});"
+  p.notice block的值可以是一个函数或者对象，如果为对象则会尝试调用init入口函数，如果为函数则直接被调用。
+
+  h3 3.自动加载
   p
+    |3.1 引入do.js以及模块定义文件
     |此处用到了事件系统，参见
     a(href="event.html") event。
+  +renderCode('html')
+    ='<script src="lib/Do.js"></script>'
+  p 3.2 定义依赖
   +renderCode('javascript')
     ="(function(){\n"
     ="  var _n;\n"
@@ -33,21 +49,8 @@ block pageContent
     ="  });\n"
     ="\n"
     ="}).call(this);"
-  h3 3.实现块组件
-  +renderCode('javascript')
-    ="_n.block('test.main', {\n"
-    ="  init: function(elem, params){\n"
-    ="    console.log('init test block');\n"
-    ="  }\n"
-    ="});"
-  p.notice 如果是一个对象，则以init函数为入口，如果是一个函数则直接被调用。
 
-  h3 4.页面中上添加组件标识
-  +renderCode('html')
-    ='<div id="testBlock" data-nblock-id="test/main?abc=1"></div>'
-  p.notice 组件会被自动实例化，如果希望组件在后面手动运行，需要设置一行属性 data-nblock-auto="false"。
-
-  h3 5.完整代码如下：
+  h3 4.完整代码如下：
   p html
   +renderCode('html')
     ='<!DOCTYPE html>\n'
@@ -108,9 +111,9 @@ block pageContent
     |查看
     a(href="#{exampleBaes}/test.block.html") test.block.html
 
-  h3 6.执行多个block
+  h3 5.执行多个block
   p 在某些特定情况，我们需要运行多个block，但并不对应具体的dom。这个时候可以在一个空div上面设置多个block id来实现。多个block id之间使用空格区分。示例：
   +renderCode('html')
-    ='<div id="blockElement" data-nblock-id="ui/loading ui/back2top"></div>\n'
+    ='<div id="blockElement" data-nblock-id="ui/loading ui/back2top"></div>'
   p.notice ui/loading ui/back2top 会依次执行
 
