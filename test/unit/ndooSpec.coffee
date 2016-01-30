@@ -78,6 +78,16 @@ describe 'ndoo framework test >', ->
       _n.block 'main.block2', block2
       expect(_n.block 'main.block2').toEqual block2# }}}
 
+    it 'block should be call', ->
+      testBlock = jasmine.createSpy()
+      _n.block 'block.test', testBlock
+      _n.init 'home/index'
+      _n.initBlock {
+        blockId: 'block/test'
+        type: 'block'
+      }
+      expect(testBlock).toHaveBeenCalled()
+
   describe 'service test >', -># {{{
     _n = null
 
