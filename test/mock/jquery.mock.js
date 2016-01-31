@@ -18,9 +18,16 @@
       args();
     }
 
+    this.args = args;
+
     this.data = function(key) {
       if (key === 'pageId') {
         return 'home/index';
+      }
+      else if (key == 'nblockId') {
+        if (args && args.blockId) {
+          return args.blockId
+        }
       }
     }
     this.bind = function(event, call) {
