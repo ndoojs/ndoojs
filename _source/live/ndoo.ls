@@ -246,6 +246,7 @@ _n.event = _.extend _n.event,
     eventHandle = @eventHandle
     eventHandle.off eventName
     delete eventHandle.listened[eventName]
+    delete eventHandle.events[eventName]
   /* off }}} */
   /* rewrite trigger {{{ */
   trigger: (eventName, eventType, data) !->

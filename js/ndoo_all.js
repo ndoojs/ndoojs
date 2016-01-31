@@ -897,6 +897,7 @@
       eventHandle = this.eventHandle;
       eventHandle.off(eventName);
       delete eventHandle.listened[eventName];
+      delete eventHandle.events[eventName];
     }
     /* off }}} */
     /* rewrite trigger {{{ */,
