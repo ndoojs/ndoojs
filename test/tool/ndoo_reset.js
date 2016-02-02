@@ -9,7 +9,7 @@
       if (key.indexOf('PAGE_') < 0
         && key.indexOf('NAPP_') < 0
         && key.indexOf('NBLOCK_') < 0) {
-          console.log('clean listened: '+key);
+          // console.log('clean listened: '+key);
           delete eventHandle.listened[key];
       }
     }
@@ -25,7 +25,7 @@
       if (key.indexOf('PAGE_') < 0
         && key.indexOf('NAPP_') < 0
         && key.indexOf('NBLOCK_') < 0) {
-          console.log('clean _event: '+key);
+          // console.log('clean _event: '+key);
           delete eventHandle._events[key];
       }
     }
