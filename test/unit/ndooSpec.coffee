@@ -87,6 +87,7 @@ describe 'ndoo framework test >', ->
         type: 'block'
       }
       expect(testBlock).toHaveBeenCalled()
+
     it 'block args should be set', ->
       argsBlock = jasmine.createSpy()
       _n.block 'block.args', argsBlock
@@ -94,7 +95,16 @@ describe 'ndoo framework test >', ->
         blockId: 'block/args?abc=1'
         type: 'block'
       }
-      expect(argsBlock.calls.mostRecent().args[1]).toEqual 'abc=1'# }}}
+      expect(argsBlock.calls.mostRecent().args[1]).toEqual 'abc=1'
+    it 'block init should be call', ->
+      objectBlock = jasmine.createSpyObj 'objectBlock', ['init', 'test']
+      _n.block 'block.objectInit', objectBlock
+      _n.initBlock {
+        blockId: 'block/objectInit'
+        type: 'block'
+      }
+      expect(objectBlock.init).toHaveBeenCalled()
+    # }}}
 
   describe 'service test >', -># {{{
     _n = null
