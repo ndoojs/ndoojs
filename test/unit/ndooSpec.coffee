@@ -115,6 +115,10 @@ describe 'ndoo framework test >', ->
       }
       # console.log objectBlock.init.calls.mostRecent().args
       expect(objectBlock.init.calls.mostRecent().args[1]).toEqual 'abc=1'
+
+    it 'failure set block to false value', ->
+      result = _n.block 'block/falseVaule', 0
+      expect(result).toBeFalsy()
     # }}}
 
   describe 'service test >', -># {{{
