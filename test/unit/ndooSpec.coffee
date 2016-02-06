@@ -119,6 +119,10 @@ describe 'ndoo framework test >', ->
     it 'failure set block to false value', ->
       result = _n.block 'block/falseVaule', 0
       expect(result).toBeFalsy()
+
+    it 'set block no function or object return false', ->
+      result = _n.block 'block/errorType', true
+      expect(result).toBeFalsy()
     # }}}
 
   describe 'service test >', -># {{{
