@@ -115,11 +115,13 @@ _n._blockData ||= do
   _exist   : {}
 
 _n._block = (base, namespace, name, block) ->
+  # 只允许app/block/service
   if base is \block or base is \app or base is \service
     data = _n._blockData["_#{base}"]
   else
     return false
 
+  # 去除头尾的分隔符，分割成数组
   if namespace
     nsArr = namespace.replace /^[/.]|[/.]$/g, '' .split /[/.]/
   else
@@ -131,6 +133,7 @@ _n._block = (base, namespace, name, block) ->
     for ns in nsArr
       temp = temp[ns] ||= {}
 
+    # app/block只允许真值
     if block and (base is \app or base is \block)
       if typeof block is 'object'
         if base is \app and temp[name]
@@ -141,12 +144,14 @@ _n._block = (base, namespace, name, block) ->
         result = temp[name] = block
       else
         result = false
+    # service允许任意值
     else if base is \service
       result = temp[name] = block
       success = true
     else
       result = false
 
+    # 设置成功时标识exist字段
     if result or success
       if namespace
         _n._blockData[\_exist]["#base.#namespace.#name"] = true
@@ -156,6 +161,7 @@ _n._block = (base, namespace, name, block) ->
     return result
 
   else
+    # 返回指定字段
     for ns in nsArr
       unless _.has temp, ns
         return undefined

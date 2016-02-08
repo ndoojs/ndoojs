@@ -833,6 +833,7 @@
    * @name setBlock
    * @memberof ndoo
    * @param {string} namespace 名称空间
+   * @return {boolean} 设置标识成功
    */
   _n.setBlock = function(namespace){
     var nsmatch, name, ref$;
@@ -851,6 +852,7 @@
    * @memberof ndoo
    * @param {string} namespace 名称空间
    * @param {(object|function)} block 模块实现
+   * @return {(boolean|object|function)} 是否成功|标识本身
    */
   _n.block = function(namespace, block){
     var nsmatch, name, ref$;
