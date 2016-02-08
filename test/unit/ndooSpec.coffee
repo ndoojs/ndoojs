@@ -123,6 +123,11 @@ describe 'ndoo framework test >', ->
     it 'set block no function or object return false', ->
       result = _n.block 'block/errorType', true
       expect(result).toBeFalsy()
+
+    it 'set block should be return it', ->
+      returnBlock = jasmine.createSpyObj 'objectBlockReturn', ['init', 'test']
+      result = _n.block 'block/returnBlock', returnBlock
+      expect(result).toBe returnBlock
     # }}}
 
   describe 'service test >', -># {{{
