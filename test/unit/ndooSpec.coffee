@@ -143,7 +143,7 @@ describe 'ndoo framework test >', ->
     it 'get undefined service should be falsy', ->
       expect(_n.service 'testService').toBeFalsy()
 
-    it 'set block should be get', ->
+    it 'set service should be get', ->
       service = { test: true }
 
       _n.service 'testService', service
@@ -191,7 +191,9 @@ describe 'ndoo framework test >', ->
           new service()
 
       prevInstance = _n.service 'testFactory'
-      expect(_n.service 'testFactory').not.toBe prevInstance# }}}
+      expect(_n.service 'testFactory').not.toBe prevInstance
+
+    # }}}
 
   describe 'getPk test >', -># {{{
     _n = null
