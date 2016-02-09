@@ -61,7 +61,7 @@ describe 'ndoo framework test >', ->
     it 'add block should be get', ->
       block = ->
       _n.block 'main.block1', block
-      expect(_n.block 'main.block1').toEqual block
+      expect(_n.block 'main.block1').toBe block
 
     it 'block should be equal origin', ->
       class TestBlock
@@ -72,11 +72,9 @@ describe 'ndoo framework test >', ->
       expect(_n.block 'test.block').toBe testBlock
 
     it 'block shoud be overwrite', ->
-      block1 = new Object()
       block2 = new Object()
-      _n.block 'main.block2', block1
       _n.block 'main.block2', block2
-      expect(_n.block 'main.block2').toEqual block2
+      expect(_n.block 'main.block2').toBe block2
 
     it 'block should be call', ->
       testBlock = jasmine.createSpy()
@@ -95,7 +93,7 @@ describe 'ndoo framework test >', ->
         blockId: 'block/args?abc=1'
         type: 'block'
       }
-      expect(argsBlock.calls.mostRecent().args[1]).toEqual 'abc=1'
+      expect(argsBlock.calls.mostRecent().args[1]).toBe 'abc=1'
 
     it 'block init should be call', ->
       objectBlock = jasmine.createSpyObj 'objectBlock', ['init', 'test']
@@ -114,7 +112,7 @@ describe 'ndoo framework test >', ->
         type: 'block'
       }
       # console.log objectBlock.init.calls.mostRecent().args
-      expect(objectBlock.init.calls.mostRecent().args[1]).toEqual 'abc=1'
+      expect(objectBlock.init.calls.mostRecent().args[1]).toBe 'abc=1'
 
     it 'failure set block to false value', ->
       result = _n.block 'block/falseVaule', 0
@@ -147,7 +145,7 @@ describe 'ndoo framework test >', ->
       service = { test: true }
 
       _n.service 'testService', service
-      expect(_n.service 'testService').toEqual service
+      expect(_n.service 'testService').toBe service
 
     it 'set value should be get', ->
       service = 'serivce'
@@ -264,7 +262,7 @@ describe 'ndoo framework test >', ->
 
       it 'again trigger default event call count should be 2', ->
         _n.trigger 'defaultTest'
-        expect(defaultEvent1.calls.count()).toEqual 2
+        expect(defaultEvent1.calls.count()).toBe 2
 
     describe 'delay event >', ->
       delayEvent1 = jasmine.createSpy 'delayEvent1'
@@ -277,12 +275,12 @@ describe 'ndoo framework test >', ->
       it 'again trigger, event callback call count should be 2', ->
         _n.trigger 'DELAY:delayTest', 'trigger 2'
         # console.log _n.event.eventHandle.events['delayTest']
-        expect(delayEvent1.calls.count()).toEqual 2
+        expect(delayEvent1.calls.count()).toBe 2
 
       it 'again bind callback call count should be 2', ->
         delayEvent2 = jasmine.createSpy 'delayEvent2'
         _n.on 'delayTest', delayEvent2
-        expect(delayEvent2.calls.count()).toEqual 2
+        expect(delayEvent2.calls.count()).toBe 2
 
     describe 'status event >', ->
       statusEvent1 = jasmine.createSpy 'statusEvent1'
@@ -294,7 +292,7 @@ describe 'ndoo framework test >', ->
         expect(statusEvent1).toHaveBeenCalled()
 
       it 'before status event call count should be 1', ->
-        expect(statusEvent1.calls.count()).toEqual 1
+        expect(statusEvent1.calls.count()).toBe 1
 
       it 'after status should be call', ->
         _n.on 'statusTest', statusEvent2
@@ -302,17 +300,17 @@ describe 'ndoo framework test >', ->
 
       it 'again trigger status event call count should be 1', ->
         _n.trigger 'STATUS:statusTest'
-        expect(statusEvent1.calls.count()).toEqual 1
+        expect(statusEvent1.calls.count()).toBe 1
 
       it 'NAPP_DEFINE should be trigger', ->
         appDefineCallback = jasmine.createSpy 'NAPP_DEFINE'
         _n.on 'NAPP_DEFINE', appDefineCallback
-        expect(appDefineCallback.calls.count()).toEqual 1
+        expect(appDefineCallback.calls.count()).toBe 1
 
       it 'NBLOCK_DEFINE should be trigger', ->
         blockDefineCallback = jasmine.createSpy 'NBLOCK_DEFINE'
         _n.on 'NBLOCK_DEFINE', blockDefineCallback
-        expect(blockDefineCallback.calls.count()).toEqual 1
+        expect(blockDefineCallback.calls.count()).toBe 1
 
     describe 'off event >', ->
       offEventCallback = jasmine.createSpy 'offEventCallback'
@@ -321,20 +319,21 @@ describe 'ndoo framework test >', ->
       it 'off event', ->
         _n.on 'offEventTest', offEventCallback
         _n.trigger 'offEventTest'
-        expect(offEventCallback.calls.count()).toEqual 1
+        expect(offEventCallback.calls.count()).toBe 1
         _n.off 'offEventTest'
         _n.trigger 'offEventTest'
-        expect(offEventCallback.calls.count()).toEqual 1
+        expect(offEventCallback.calls.count()).toBe 1
 
       it 'off multi event', ->
         _n.on 'offMultiEvent1 offMultiEvent2', offMultiEventCallback
         _n.trigger 'offMultiEvent1'
         _n.trigger 'offMultiEvent2'
-        expect(offMultiEventCallback.calls.count()).toEqual 2
+        expect(offMultiEventCallback.calls.count()).toBe 2
         _n.off 'offMultiEvent1 offMultiEvent2'
         _n.trigger 'offMultiEvent1'
         _n.trigger 'offMultiEvent2'
-        expect(offMultiEventCallback.calls.count()).toEqual 2# }}}
+        expect(offMultiEventCallback.calls.count()).toBe 2
+      # }}}
 
   describe 'router test >', -># {{{
     _n = ndoo
