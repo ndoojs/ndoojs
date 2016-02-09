@@ -193,6 +193,11 @@ describe 'ndoo framework test >', ->
       prevInstance = _n.service 'testFactory'
       expect(_n.service 'testFactory').not.toBe prevInstance
 
+    it 'set service should be return it', ->
+      testService = new Object()
+      result = _n.service 'testServiceResult', testService
+      expect(result).toBe testService
+
     # }}}
 
   describe 'getPk test >', -># {{{
