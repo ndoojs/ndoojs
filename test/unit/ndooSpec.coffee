@@ -196,6 +196,10 @@ describe 'ndoo framework test >', ->
       result = _n.service 'testServiceResult', testService
       expect(result).toBe testService
 
+    it 'set false value should be exist', ->
+      result = _n.service 'testFalseService', false
+      expect(_n._blockData[\_exist]["service.testFalseValueService"]).toBeTruthy()
+
     # }}}
 
   describe 'getPk test >', -># {{{
