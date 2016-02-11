@@ -46,19 +46,19 @@ describe 'ndoo framework test >', ->
     afterAll ->
       _n.reset()
 
-    it 'has block should false', ->
+    it 'check undefine block return undefined', ->
       expect(_n.hasBlock 'test').toBeUndefined()
 
-    it 'get block should false', ->
-      expect(_n.block 'test').toBeFalsy()
+    it 'get undefine block return undefined', ->
+      expect(_n.block 'test').toBeUndefined()
 
-    it 'set block and should be check', ->
+    it 'marker block and check it', ->
       _n.on 'NBLOCK_DEFINE', ->
         _n.setBlock 'test'
 
       expect(_n.hasBlock 'test').toBeTruthy()
 
-    it 'add block should be get', ->
+    it 'set block and get it', ->
       block = ->
       _n.block 'main.block1', block
       expect(_n.block 'main.block1').toBe block
