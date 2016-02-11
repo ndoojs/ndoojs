@@ -126,6 +126,7 @@ describe 'ndoo framework test >', ->
       returnBlock = jasmine.createSpyObj 'objectBlockReturn', ['init', 'test']
       result = _n.block 'block/returnBlock', returnBlock
       expect(result).toBe returnBlock
+
     # }}}
 
   describe 'service test >', -># {{{
@@ -198,7 +199,7 @@ describe 'ndoo framework test >', ->
 
     it 'set false value should be exist', ->
       result = _n.service 'testFalseService', false
-      expect(_n._blockData[\_exist]["service.testFalseValueService"]).toBeTruthy()
+      expect(_n._blockData['_exist']["service._default.testFalseValueService"]).toBeTruthy()
 
     # }}}
 
