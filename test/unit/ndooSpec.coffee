@@ -42,8 +42,9 @@ describe 'ndoo framework test >', ->
 
     beforeAll ->
       _n = ndoo
+      _n.reset()
 
-    afterAll ->
+    beforeEach ->
       _n.reset()
 
     it 'check undefine block return undefined', ->
@@ -134,10 +135,10 @@ describe 'ndoo framework test >', ->
 
     beforeAll ->
       _n = ndoo
-
-    afterAll ->
       _n.reset()
-      _n = null
+
+    beforeEach ->
+      _n.reset()
 
     it 'get undefined service should be falsy', ->
       expect(_n.service 'testService').toBeFalsy()
@@ -199,7 +200,7 @@ describe 'ndoo framework test >', ->
 
     it 'set false value should be exist', ->
       result = _n.service 'testFalseService', false
-      expect(_n._blockData['_exist']["service._default.testFalseValueService"]).toBeTruthy()
+      expect(_n._blockData['_exist']["service._default.testFalseService"]).toBeTruthy()
 
     # }}}
 
@@ -208,7 +209,6 @@ describe 'ndoo framework test >', ->
 
     beforeAll ->
       _n = ndoo
-      _n.reset()
 
     it 'getPk should match num', ->
       expect(_n.getPk()).toMatch /^\d+$/
