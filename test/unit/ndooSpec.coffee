@@ -1,48 +1,94 @@
 describe 'ndoo framework test >', ->
-  describe 'storage test >', -># {{{
-    _stor = undefined
 
-    beforeAll ->
-      ndoo.reset()
-      _stor = ndoo.storage
+  describe 'util test >', -> # {{{
 
-    it 'ndoo.storage should define', ->
-      expect(_stor).toBeDefined()
+    describe 'getPk test >', -># {{{
+      _n = null
 
-    it 'get abc, should be undefined', ->
-      expect(_stor('abc')).toBeUndefined()
+      beforeAll ->
+        _n = ndoo
 
-    describe 'set value >', ->
-      it 'set abc to 123, should be 123', ->
-        expect(_stor('abc', 123)).toBe 123
+      it 'getPk should match num', ->
+        expect(_n.getPk()).toMatch /^\d+$/
 
-      it 'get abc after set, should be 123 ', ->
-        expect(_stor('abc')).toBe 123
+      it 'getPk should prefix', ->
+        expect(_n.getPk('test_')).toMatch /^test_\d+$/# }}}
 
-    describe 'rewrite >', ->
-      it 'rewrite abc without option, should be Falsy', ->
-        expect(_stor('abc', 456)).toBeFalsy()
-      it 'get abc after rewrite, should be 123', ->
-        expect(_stor('abc')).toBe 123
+    describe 'page id test >', -># {{{
+      _n = null
 
-      it 'rewrite abc add option, should be Truthy', ->
-        expect(_stor 'abc', 456, _stor.REWRITE).toBeTruthy()
-      it 'get abc after rewrite, should be 456', ->
-        expect(_stor('abc')).toBe 456
+      beforeAll ->
+        _n = ndoo
+        _n.reset()
 
-    describe 'destroy >', ->
-      it 'remove abc for storage, should be true', ->
-        expect(_stor('abc', null, _stor.DESTROY)).toBe true
+      it 'get page id should be empty', ->
+        expect(_n.pageId).toBe ''
 
-      it 'get abc for storage, should be undefined', ->
-        expect(_stor('abc')).toBeUndefined()# }}}
+      describe 'init call', ->
+        initPageId = null
+        beforeAll ->
+          initPageId = _n.initPageId
+          spyOn(_n, 'initPageId').and.callThrough()
+          _n.init 'home/index'
+
+        afterAll ->
+          # restore initPageId spy
+          _n.initPageId = initPageId
+
+        it 'initPageId should be call', ->
+          expect(_n.initPageId).toHaveBeenCalled()
+
+        it 'initPageId param should be home/index', ->
+          expect(_n.initPageId).toHaveBeenCalledWith 'home/index'
+
+        it 'pageId should be home/index', ->
+          expect(_n.pageId).toBe 'home/index'# }}}
+
+    describe 'storage test >', -># {{{
+      _stor = undefined
+
+      beforeAll ->
+        ndoo.reset()
+        _stor = ndoo.storage
+
+      it 'ndoo.storage should define', ->
+        expect(_stor).toBeDefined()
+
+      it 'get abc, should be undefined', ->
+        expect(_stor('abc')).toBeUndefined()
+
+      describe 'set value >', ->
+        it 'set abc to 123, should be 123', ->
+          expect(_stor('abc', 123)).toBe 123
+
+        it 'get abc after set, should be 123 ', ->
+          expect(_stor('abc')).toBe 123
+
+      describe 'rewrite >', ->
+        it 'rewrite abc without option, should be Falsy', ->
+          expect(_stor('abc', 456)).toBeFalsy()
+        it 'get abc after rewrite, should be 123', ->
+          expect(_stor('abc')).toBe 123
+
+        it 'rewrite abc add option, should be Truthy', ->
+          expect(_stor 'abc', 456, _stor.REWRITE).toBeTruthy()
+        it 'get abc after rewrite, should be 456', ->
+          expect(_stor('abc')).toBe 456
+
+      describe 'destroy >', ->
+        it 'remove abc for storage, should be true', ->
+          expect(_stor('abc', null, _stor.DESTROY)).toBe true
+
+        it 'get abc for storage, should be undefined', ->
+          expect(_stor('abc')).toBeUndefined()# }}}
+
+    #}}}
 
   describe 'block test >', -># {{{
     _n = null
 
     beforeAll ->
       _n = ndoo
-      _n.reset()
 
     beforeEach ->
       _n.reset()
@@ -135,7 +181,6 @@ describe 'ndoo framework test >', ->
 
     beforeAll ->
       _n = ndoo
-      _n.reset()
 
     beforeEach ->
       _n.reset()
@@ -203,48 +248,6 @@ describe 'ndoo framework test >', ->
       expect(_n._blockData['_exist']["service._default.testFalseService"]).toBeTruthy()
 
     # }}}
-
-  describe 'getPk test >', -># {{{
-    _n = null
-
-    beforeAll ->
-      _n = ndoo
-
-    it 'getPk should match num', ->
-      expect(_n.getPk()).toMatch /^\d+$/
-
-    it 'getPk should prefix', ->
-      expect(_n.getPk('test_')).toMatch /^test_\d+$/# }}}
-
-  describe 'page id test >', -># {{{
-    _n = null
-
-    beforeAll ->
-      _n = ndoo
-      _n.reset()
-
-    it 'get page id should be empty', ->
-      expect(_n.pageId).toBe ''
-
-    describe 'init call', ->
-      initPageId = null
-      beforeAll ->
-        initPageId = _n.initPageId
-        spyOn(_n, 'initPageId').and.callThrough()
-        _n.init 'home/index'
-
-      afterAll ->
-        # restore initPageId spy
-        _n.initPageId = initPageId
-
-      it 'initPageId should be call', ->
-        expect(_n.initPageId).toHaveBeenCalled()
-
-      it 'initPageId param should be home/index', ->
-        expect(_n.initPageId).toHaveBeenCalledWith 'home/index'
-
-      it 'pageId should be home/index', ->
-        expect(_n.pageId).toBe 'home/index'# }}}
 
   describe 'event test >', -># {{{
     _n = null
@@ -454,13 +457,13 @@ describe 'ndoo framework test >', ->
 
       beforeEach ->
         _n = ndoo
+        _n.reset()
         indexAction = jasmine.createSpy('indexAction')
 
         _n.app 'home',
           indexAction: indexAction
 
       afterEach ->
-        _n.reset()
         _n = null
         indexAction = null
 
@@ -481,6 +484,7 @@ describe 'ndoo framework test >', ->
 
       beforeEach ->
         _n = ndoo
+        _n.reset()
         app = {
           indexAction: jasmine.createSpy('indexAction')
         }
@@ -488,7 +492,6 @@ describe 'ndoo framework test >', ->
         _n.app 'home', app
 
       afterEach ->
-        _n.reset()
         _n = null
         app = null
 
@@ -518,6 +521,7 @@ describe 'ndoo framework test >', ->
 
       beforeAll ->
         _n = ndoo
+        _n.reset()
         indexAction = jasmine.createSpy 'indexAction'
         indexBefore = jasmine.createSpy 'indexBefore'
         indexAfter  = jasmine.createSpy 'indexAfter'
@@ -525,7 +529,6 @@ describe 'ndoo framework test >', ->
         _n.init 'home/index'
 
       afterAll ->
-        _n.reset()
         _n = null
         indexAction = indexBefore = indexAfter = null
 
@@ -543,6 +546,7 @@ describe 'ndoo framework test >', ->
 
       beforeAll ->
         _n = ndoo
+        _n.reset()
         indexAction = jasmine.createSpy 'indexAction'
         indexBeforeFilter = jasmine.createSpy 'indexBeforeFilter'
         indexAfterFilter = jasmine.createSpy 'indexAfterFilter'
@@ -559,7 +563,6 @@ describe 'ndoo framework test >', ->
         _n.init 'home/index'
 
       afterAll ->
-        _n.reset()
         _n = null
 
       it 'before filter should be call', ->
@@ -578,6 +581,7 @@ describe 'ndoo framework test >', ->
 
       beforeEach ->
         _n = ndoo
+        _n.reset()
         indexAction = jasmine.createSpy 'indexAction'
         listAction = jasmine.createSpy 'listAction'
         detailAction = jasmine.createSpy 'detailAction'
@@ -596,7 +600,6 @@ describe 'ndoo framework test >', ->
           detailAction: detailAction
 
       afterEach ->
-        _n.reset()
         _n = null
         indexAction = null
         listAction = null
@@ -628,13 +631,13 @@ describe 'ndoo framework test >', ->
 
       beforeEach ->
         _n = ndoo
+        _n.reset()
         indexAction = jasmine.createSpy 'indexAction'
         firstFilter = jasmine.createSpy 'firstFilter'
         secondFilter = jasmine.createSpy 'secondFilter'
 
 
       afterEach ->
-        _n.reset()
         _n = null
         indexAction = null
         firstFilter = null
@@ -679,6 +682,7 @@ describe 'ndoo framework test >', ->
 
       beforeEach ->
         _n = ndoo
+        _n.reset()
         indexAction = jasmine.createSpy 'indexAction'
 
         requireBak = _n.require
@@ -687,7 +691,6 @@ describe 'ndoo framework test >', ->
       afterEach ->
         dependTemp = []
         _n.require = requireBak
-        _n.reset()
 
       it 'depend should be set', ->
         _n.app 'home',
@@ -738,6 +741,7 @@ describe 'ndoo framework test >', ->
 
       beforeEach ->
         _n = ndoo
+        _n.reset()
         indexAction = jasmine.createSpy 'indexAction'
         beforeCall = jasmine.createSpy 'beforeCall'
         afterCall = jasmine.createSpy 'afterCall'
@@ -746,7 +750,6 @@ describe 'ndoo framework test >', ->
         indexAction = null
         beforeCall = null
         afterCall = null
-        _n.reset()
         _n = null
 
       it 'moudle before should be call', ->
