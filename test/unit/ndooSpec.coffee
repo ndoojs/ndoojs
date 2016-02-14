@@ -220,7 +220,11 @@ describe 'ndoo framework test >', ->
       (?:\?(.*?))?       # [?:params]
       (?:\#(.*?))?$      # [#:hash]$
     ///
+
     routerCallback = jasmine.createSpy 'routerCallback'
+
+    beforeEach ->
+      routerCallback.calls.reset()
 
     it '"/index" and "index" should match action', ->
       matchText = 'index'
