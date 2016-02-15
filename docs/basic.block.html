@@ -54,7 +54,7 @@
             <h1>块级组件</h1>
           </div>
           <div class="content">
-            <p>ndoojs支持块级组件，可以方便的定义一些按需载入自执行组件。</p>
+            <p>ndoojs支持块级组件，通过标签上的属性载入组件并自动执行。</p>
             <h3>1.页面中上添加组件标识</h3>
                 <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;div id=&quot;testBlock&quot; data-nblock-id=&quot;test/main?abc=1&quot;&gt;&lt;/div&gt;</code></pre>
             <p class="notice">组件会被自动实例化，如果希望组件在后面手动运行，需要设置一行属性 data-nblock-auto="false"。</p>

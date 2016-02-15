@@ -9,7 +9,7 @@ block pageHeader
   h1 块级组件
 
 block pageContent
-  p ndoojs支持块级组件，可以方便的定义一些按需载入自执行组件。
+  p ndoojs支持块级组件，通过标签上的属性载入组件并自动执行。
 
   h3 1.页面中上添加组件标识
   +renderCode('html')
@@ -116,4 +116,3 @@ block pageContent
   +renderCode('html')
     ='<div id="blockElement" data-nblock-id="ui/loading ui/back2top"></div>'
   p.notice ui/loading ui/back2top 会依次执行
-
