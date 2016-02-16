@@ -441,6 +441,9 @@ describe 'ndoo framework test >', ->
       service = false
       _n.service 'testFalseValueService', service
       expect(_n.service 'testFalseValueService').toBe service
+      nullService = null
+      _n.service 'testNullValueService', nullService
+      expect(_n.service 'testNullValueService').toBe nullService
 
     it 'init method should be call', ->
       initMethod = jasmine.createSpy 'initMethod'
