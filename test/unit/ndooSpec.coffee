@@ -423,21 +423,21 @@ describe 'ndoo framework test >', ->
     beforeEach ->
       _n.reset()
 
-    it 'get undefined service should be falsy', ->
+    it 'get undefined service should return falsy', ->
       expect(_n.service 'testService').toBeFalsy()
 
-    it 'set service should be get', ->
+    it 'set service should return it', ->
       service = { test: true }
 
       _n.service 'testService', service
       expect(_n.service 'testService').toBe service
 
-    it 'set value should be get', ->
+    it 'set value should return it', ->
       service = 'serivce'
       _n.service 'testValueService', service
       expect(_n.service 'testValueService').toBe service
 
-    it 'set false should be get', ->
+    it 'set false should return it', ->
       service = false
       _n.service 'testFalseValueService', service
       expect(_n.service 'testFalseValueService').toBe service
