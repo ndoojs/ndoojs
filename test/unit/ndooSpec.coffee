@@ -444,6 +444,9 @@ describe 'ndoo framework test >', ->
       nullService = null
       _n.service 'testNullValueService', nullService
       expect(_n.service 'testNullValueService').toBe nullService
+      undefinedService = undefined
+      _n.service 'testUndefinedValueService', undefinedService
+      expect(_n.service 'testUndefinedValueService').toBe undefinedService
 
     it 'init method should be call', ->
       initMethod = jasmine.createSpy 'initMethod'
