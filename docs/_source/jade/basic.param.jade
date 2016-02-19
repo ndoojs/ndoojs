@@ -9,6 +9,7 @@ block pageHeader
   h1 参数的使用
 
 block pageContent
+  p 在data-page-id或ndoo.init中以url查询参数的形式设置参数，action中会接收到整个参数字符串。
   h3 1. page id中设置参数
   +renderCode('html')
     ='<div id="scriptArea" data-page-id="home/index?abc">'
