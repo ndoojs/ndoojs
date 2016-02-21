@@ -534,6 +534,10 @@ _.extend _n,
    * @memberof ndoo
    * @param {string} id DOM的ID或指定ID
    * @param {array} depend 依赖
+   * @example // ndoo alias _n
+   * _n.init('home/index')
+   * // set depend
+   * _n.init('home/index', ['library', 'common'])
    */
   init: (id, depend) ->
     if _.isArray id
