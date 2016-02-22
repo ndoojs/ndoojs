@@ -711,7 +711,7 @@ describe 'ndoo framework test >', ->
         expect(firstFilter).toHaveBeenCalled()
         expect(secondFilter).toHaveBeenCalled()# }}}
 
-    describe 'test app depend >', -># {{{# {{{
+    describe 'test app depend >', -># {{{
       _n = null
       requireSpy = null
       indexAction = null
@@ -774,7 +774,17 @@ describe 'ndoo framework test >', ->
           indexAction: indexAction
 
         _n.init 'home/index'
-        expect(dependTemp).toEqual ['homeAppDepend', 'indexDepend']# }}}# }}}
+        expect(dependTemp).toEqual ['homeAppDepend', 'indexDepend']
+
+      it 'init depend should be set', ->
+        _n.app 'home',
+          indexAction: indexAction
+
+        _n.init 'home/init', ['homeAppDepend']
+
+        expect(dependTemp).toEqual ['homeAppDepend']
+
+      # }}}
 
     describe 'test module event', -> #{{{
       _n = null
