@@ -548,7 +548,7 @@ _.extend _n,
     # initiation ndoo event listener
     @dispatch!
     # trigger status
-    @triggerPageStatus depend
+    @triggerPageStatus [].concat depend
 
     @
   /* }}} */

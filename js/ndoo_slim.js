@@ -786,7 +786,7 @@
       }
       this.initPageId(id);
       this.dispatch();
-      this.triggerPageStatus(depend);
+      this.triggerPageStatus([].concat(depend));
       return this;
     }
     /* }}} */
