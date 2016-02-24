@@ -542,8 +542,8 @@
           }
         });
       };
-      if (depend && depend.length) {
-        this.require(depend, call, 'Do');
+      if (depend) {
+        this.require([].concat(depend), call, 'Do');
       } else {
         call();
       }
@@ -570,7 +570,7 @@
       }
       this.initPageId(id);
       this.dispatch();
-      this.triggerPageStatus([].concat(depend));
+      this.triggerPageStatus(depend);
       return this;
     }
     /* }}} */

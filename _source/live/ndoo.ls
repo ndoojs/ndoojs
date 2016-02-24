@@ -520,8 +520,8 @@ _.extend _n,
           @trigger \STATUS:PAGE_STATUS_ROUTING, @pageId
 
     ###loading depend###
-    if depend and depend.length
-      @require depend, call, \Do
+    if depend
+      @require [].concat(depend), call, \Do
     else
       call!
   /* }}} */
@@ -548,7 +548,7 @@ _.extend _n,
     # initiation ndoo event listener
     @dispatch!
     # trigger status
-    @triggerPageStatus [].concat depend
+    @triggerPageStatus depend
 
     @
   /* }}} */
