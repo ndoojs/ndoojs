@@ -113,7 +113,7 @@
     _exist: {}
   });
   _n._block = function(base, namespace, name, block){
-    var data, nsArr, temp, i$, len$, ns, result;
+    var data, nsArr, temp, i$, len$, ns, result, success;
     if (base === 'block' || base === 'app' || base === 'service') {
       data = _n._blockData["_" + base];
     } else {
@@ -144,10 +144,11 @@
         }
       } else if (base === 'service') {
         result = temp[name] = block;
+        success = true;
       } else {
         result = false;
       }
-      if (result) {
+      if (result || success) {
         if (namespace) {
           _n._blockData['_exist'][base + "." + namespace + "." + name] = true;
         } else {
@@ -246,6 +247,7 @@
       eventHandle = this.eventHandle;
       eventHandle.off(eventName);
       delete eventHandle.listened[eventName];
+      delete eventHandle.events[eventName];
     }
     /* off }}} */
     /* rewrite trigger {{{ */,
@@ -540,8 +542,8 @@
           }
         });
       };
-      if (depend && depend.length) {
-        this.require(depend, call, 'Do');
+      if (depend) {
+        this.require([].concat(depend), call, 'Do');
       } else {
         call();
       }
@@ -556,6 +558,10 @@
      * @memberof ndoo
      * @param {string} id DOM的ID或指定ID
      * @param {array} depend 依赖
+     * @example // ndoo alias _n
+     * _n.init('home/index')
+     * // set depend
+     * _n.init('home/index', ['library', 'common'])
      */,
     init: function(id, depend){
       var ref$;
