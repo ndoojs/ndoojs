@@ -779,14 +779,19 @@ describe 'ndoo framework test >', ->
       it 'init string depend should be set', ->
         _n.app 'home', {indexAction}
 
-        _n.init 'home/init', 'homeAppDepend'
+        _n.init 'home/index', 'homeAppDepend'
         expect(dependTemp).toEqual ['homeAppDepend']
 
       it 'init depend should be set', ->
         _n.app 'home', {indexAction}
 
-        _n.init 'home/init', ['homeAppDepend']
+        _n.init 'home/index', ['homeAppDepend']
         expect(dependTemp).toEqual ['homeAppDepend']
+
+      it 'init multi depend should be get', ->
+        _n.app 'home', {indexAction}
+        _n.init 'home/index', ['homeAppDepend', 'indexDepend']
+        expect(dependTemp).toEqual ['homeAppDepend', 'indexDepend']
 
       # }}}
 
