@@ -23,3 +23,42 @@ block pageContent
     ="}"
   p.notice
     |此处params为字符串abc，ndoojs自运过滤掉了?（问号）
+
+  h3 3.格式化参数
+  p
+    |大多数情属性上带的参数相对简单，未进行格式化处理。如需格式化参数为key/value对象，可参考如下函数实现：
+    +renderCode('coffeescript')
+      ="###[formatUrlParam] 格式化url参数 {{{###\n"
+      ="formatUrlParam = (url = '') ->\n"
+      ="  url = url.replace /^\?/, ''\n"
+      ="  paramObject = {}\n"
+      ="  if url && url.length > 1\n"
+      ="    urlparam = url.split('&')\n"
+      ="  else\n"
+      ="    urlparam = []\n"
+      ="\n"
+      ="  for item in urlparam\n"
+      ="    [key, value] = item.split '='\n"
+      ="    if not key\n"
+      ="      continue\n"
+      ="    key = key.replace /\[\]$/, ''\n"
+      ="    if value\n"
+      ="      # fix 被传入unicode编码的情况\n"
+      ="      if value.match(/%u\w{4}/) isnt null\n"
+      ="        value = value.replace /%u\w{4}/g, (char) -> unescape char\n"
+      ="      value = decodeURIComponent value\n"
+      ="    else\n"
+      ="      value = ''\n"
+      ="    if _.has paramObject, key\n"
+      ="      if _.isArray paramObject[key]\n"
+      ="        paramObject[key].push value\n"
+      ="      else\n"
+      ="        paramObject[key] = [paramObject[key], value]\n"
+      ="    else\n"
+      ="      paramObject[key] = value\n"
+      ="\n"
+      ="  paramObject\n"
+      ="###}}}###"
+    |访问
+    a(href="https://github.com/thinkjs/codelibrary/blob/master/javascript/formatUrlParam.coffee") formatUrlParam.coffee
+    |以获取最新版本

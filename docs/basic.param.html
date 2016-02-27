@@ -64,6 +64,40 @@
   $content.html('module: home, action: indexAction param: ' + params);
 }</code></pre>
             <p class="notice">此处params为字符串abc，ndoojs自运过滤掉了?（问号）</p>
+            <h3>3.格式化参数</h3>
+            <p>大多数情属性上带的参数相对简单，未进行格式化处理。如需格式化参数为key/value对象，可参考如下函数实现：
+                  <pre data-start="1" class="line-numbers"><code class="language-coffeescript">###[formatUrlParam] 格式化url参数 {{{###
+formatUrlParam = (url = '') -&gt;
+  url = url.replace /^?/, ''
+  paramObject = {}
+  if url &amp;&amp; url.length &gt; 1
+    urlparam = url.split('&amp;')
+  else
+    urlparam = []
+
+  for item in urlparam
+    [key, value] = item.split '='
+    if not key
+      continue
+    key = key.replace /[]$/, ''
+    if value
+      # fix 被传入unicode编码的情况
+      if value.match(/%uw{4}/) isnt null
+        value = value.replace /%uw{4}/g, (char) -&gt; unescape char
+      value = decodeURIComponent value
+    else
+      value = ''
+    if _.has paramObject, key
+      if _.isArray paramObject[key]
+        paramObject[key].push value
+      else
+        paramObject[key] = [paramObject[key], value]
+    else
+      paramObject[key] = value
+
+  paramObject
+###}}}###</code></pre>访问<a href="https://github.com/thinkjs/codelibrary/blob/master/javascript/formatUrlParam.coffee">formatUrlParam.coffee</a>以获取最新版本
+            </p>
           </div>
         </div>
       </div>
