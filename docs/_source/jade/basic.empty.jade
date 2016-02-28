@@ -1,0 +1,20 @@
+extends shared/_layout
+
+block pageTitle
+  include shared/_variable
+  include shared/_mixin
+  title 空操作#{titleSuffix}
+
+block pageHeader
+  h1 空操作
+
+block pageContent
+  p ndoojs支持为app定义一个空的action，当通过pageID没有对定的action时会调用默认的action。
+  h3 1. 定义空操作
+  p 当action名为_emptyAction时会作为默认action被调用。
+  +renderCode('javascript')
+    ="_emptyAction: function(params){\n"
+    ="  var $content;\n"
+    ="  $content = $('#content');\n"
+    ="  $content.html('emptyAction');\n"
+    ="}"
