@@ -56,13 +56,18 @@
           </div>
           <div class="content">
             <p>ndoojs支持为app定义一个空的action，当通过pageID没有对定的action时会调用默认的action。</p>
-            <h3>1. 定义空操作</h3>
+            <h3>1.定义空操作</h3>
             <p>当action名为_emptyAction时会作为默认action被调用。</p>
-                <pre data-start="1" class="line-numbers"><code class="language-javascript">_emptyAction: function(params){
-  var $content;
-  $content = $('#content');
-  $content.html('emptyAction');
+                <pre data-start="1" class="line-numbers"><code class="language-javascript">_n.app('home', function() {
+  _emptyAction: function(params){
+    var $content;
+    $content = $('#content');
+    $content.html('emptyAction');
+  }
 }</code></pre>
+            <h3>2.在页面中定义页面id。</h3>
+                <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;div id=&quot;content&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;Ldn&quot; data-page-id=&quot;home/aaaa&quot;&gt;&lt;/div&gt;</code></pre>
           </div>
         </div>
       </div>
