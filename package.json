@@ -4,9 +4,9 @@
   "description": "ndoojs",
   "main": "index.js",
   "scripts": {
-    "startKarma": "karma start test/conf/unit.conf.js --browsers=PhantomJS",
-    "debugKarma": "karma start test/conf/unit.conf.js --browsers=Chrome",
-    "test": "karma run",
+    "test": "karma start test/conf/unit.conf.js --browsers=PhantomJS",
+    "debug": "karma start test/conf/unit.conf.js --browsers=Chrome",
+    "karmaRun": "karma run",
     "jsdoc": "jsdoc -c jsdoc.conf js/*.js readme.md",
     "cpjs": "cp -fr js/*.js docs/example/js/"
   },
