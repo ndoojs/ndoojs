@@ -1033,7 +1033,7 @@
       /* before and after filter event */
       var filterHaldner, this$ = this;
       filterHaldner = function(type, controller, actionName, params){
-        var data, _data, i$, len$, dataItem, _filter, isRun, _only, _except, j$, len1$, filter;
+        var data, _data, i$, len$, dataItem, _filter, isRun, _only, _except, j$, len1$, filter, key$;
         if (type === 'before') {
           data = controller.before;
         } else if (type === 'after') {
@@ -1075,7 +1075,9 @@
           if (isRun) {
             for (j$ = 0, len1$ = _filter.length; j$ < len1$; ++j$) {
               filter = _filter[j$];
-              controller[filter + 'Filter'](actionName, params);
+              if (typeof controller[key$ = filter + 'Filter'] == 'function') {
+                controller[key$](actionName, params);
+              }
             }
           }
         }

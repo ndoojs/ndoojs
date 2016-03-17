@@ -407,7 +407,7 @@ _.extend _n,
 
         if isRun
           for filter in _filter
-            controller[filter+\Filter](actionName, params)
+            controller[filter+\Filter]?(actionName, params)
             # controller[filter+'Filter'].apply controller, [actionName, params]
             # filter.call null, controller
 
