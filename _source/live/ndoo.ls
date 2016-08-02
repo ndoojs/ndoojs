@@ -341,21 +341,18 @@ _.extend _n,
   /* }}} */
   /* router module {{{ */
   /**
-   * backbone风格的路由解析器
+   * 内置路由通过正则配匹各部件
    *
    * @private
    * @name router
    * @memberof ndoo
    * @type {object}
    */
-  router: new (_n._lib.Router.extend(
+  router: do
     parse: (route, url, callback) !->
-      if not _.isRegExp route
-        route = @_routeToRegExp route
       routeMatch = route.exec url
       if routeMatch isnt null
         callback.apply null, routeMatch.slice(1)
-  ))
   /* }}} */
   /* dispatch {{{ */
   /**
