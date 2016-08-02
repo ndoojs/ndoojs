@@ -16,3 +16,6 @@ _n.app \user,
     _n.on 'APP_USER_SIGNIN', ->
       user = _n.service \user
       $ \#hello .text "你好，#{user.get \userName}"
+    _n.on 'APP_USER_SIGNOUT', ->
+      user = _n.service \user
+      $ \#hello .text "你好，请登录!"

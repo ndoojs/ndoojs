@@ -18,6 +18,7 @@
           <ul class="pure-menu-list">
             <li class="pure-menu-item"><a href="index.html" class="pure-menu-link">入门</a></li>
             <li class="pure-menu-item"><a href="basic.appscript.html" class="pure-menu-link">编写应用脚本</a></li>
+            <li class="pure-menu-item"><a href="basic.empty.html" class="pure-menu-link">空操作</a></li>
             <!-- li.pure-menu-item: a.pure-menu-link(href="basic.prep.html") 变量和事件暂存-->
             <li class="pure-menu-item"><a href="basic.param.html" class="pure-menu-link">参数的使用</a></li>
             <li class="pure-menu-item"><a href="basic.namespace.html" class="pure-menu-link">名称空间</a></li>
@@ -44,6 +45,7 @@
             <li class="pure-menu-item"><a href="./example/started.html" class="pure-menu-link">hello ndoojs</a></li>
             <li class="pure-menu-item"><a href="./example/basic.appscript.html" class="pure-menu-link">app script</a></li>
             <li class="pure-menu-item"><a href="./example/basic.eventstack.html" class="pure-menu-link">event stack</a></li>
+            <li class="pure-menu-item"><a href="./example/usersignin" class="pure-menu-link">user signin</a></li>
           </ul>
         </div>
       </div>
@@ -53,11 +55,25 @@
             <h1>块级组件</h1>
           </div>
           <div class="content">
-            <p>ndoojs支持块级组件，可以方便的定义一些按需载入自执行组件。</p>
-            <h3>1.引入do.js以及模块定义文件</h3>
+            <p>ndoojs支持块级组件，通过标签上的属性载入组件并自动执行。</p>
+            <h3>1.页面中上添加组件标识</h3>
+                <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;div id=&quot;testBlock&quot; data-nblock-id=&quot;test/main?abc=1&quot;&gt;&lt;/div&gt;</code></pre>
+            <p class="notice">组件会被自动实例化，如果希望组件在后面手动运行，需要设置一行属性 data-nblock-auto="false"。</p>
+            <h3>2.定义模块</h3>
+            <p>file: ndoo.block.test.js</p>
+                <pre data-start="1" class="line-numbers"><code class="language-javascript">_n.block('test.main', {
+  init: function(elem, params){
+    console.log('init test block');
+  }
+});</code></pre>
+            <p class="notice">block的值可以是一个函数或者对象，如果为对象则会尝试调用init入口函数，如果为函数则直接被调用。</p>
+            <h3>3.自动加载</h3>
+            <p>
+              3.1 引入do.js以及模块定义文件
+              此处用到了事件系统，参见<a href="event.html">event。</a>
+            </p>
                 <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;script src=&quot;lib/Do.js&quot;&gt;&lt;/script&gt;</code></pre>
-            <h3>2.添加模块定义</h3>
-            <p>此处用到了事件系统，参见<a href="event.html">event。</a></p>
+            <p>3.2 定义依赖</p>
                 <pre data-start="1" class="line-numbers"><code class="language-javascript">(function(){
   var _n;
   this.N = this.ndoo || (this.ndoo = {});
@@ -72,17 +88,7 @@
   });
 
 }).call(this);</code></pre>
-            <h3>3.实现块组件</h3>
-                <pre data-start="1" class="line-numbers"><code class="language-javascript">_n.block('test.main', {
-  init: function(elem, params){
-    console.log('init test block');
-  }
-});</code></pre>
-            <p class="notice">如果是一个对象，则以init函数为入口，如果是一个函数则直接被调用。</p>
-            <h3>4.页面中上添加组件标识</h3>
-                <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;div id=&quot;testBlock&quot; data-nblock-id=&quot;test/main?abc=1&quot;&gt;&lt;/div&gt;</code></pre>
-            <p class="notice">组件会被自动实例化，如果希望组件在后面手动运行，需要设置一行属性 data-nblock-auto="false"。</p>
-            <h3>5.完整代码如下：</h3>
+            <h3>4.完整代码如下：</h3>
             <p>html</p>
                 <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
 &lt;html&gt;
@@ -137,10 +143,9 @@
   /* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */
 }).call(this);</code></pre>
             <p class="notice">查看<a href="./example/test.block.html">test.block.html</a></p>
-            <h3>6.执行多个block</h3>
+            <h3>5.执行多个block</h3>
             <p>在某些特定情况，我们需要运行多个block，但并不对应具体的dom。这个时候可以在一个空div上面设置多个block id来实现。多个block id之间使用空格区分。示例：</p>
-                <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;div id=&quot;blockElement&quot; data-nblock-id=&quot;ui/loading ui/back2top&quot;&gt;&lt;/div&gt;
-</code></pre>
+                <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;div id=&quot;blockElement&quot; data-nblock-id=&quot;ui/loading ui/back2top&quot;&gt;&lt;/div&gt;</code></pre>
             <p class="notice">ui/loading ui/back2top 会依次执行</p>
           </div>
         </div>

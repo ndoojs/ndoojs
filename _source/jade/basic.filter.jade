@@ -9,7 +9,7 @@ block pageHeader
   h1 过滤器
 
 block pageContent
-  p ndoojs支持自定义过滤器，指定全局执行的方法。过滤器有before、after两种情形，过滤器支持only、except修饰。
+  p ndoojs支持自定义过滤器，对整个app生效。过滤器有before、after两种情形，过滤器支持only、except修饰。
   h3 1. 前置过滤器 beforeFilter
   p 使用before声明，过滤器方法后缀为Filter。过滤器方法接受两个参数，actionName为当前action的名称，params为传递的参数。例：
   +renderCode('javascript')
@@ -24,7 +24,7 @@ block pageContent
     ="indexAction: function(params){\n"
     ="  var $content;\n"
     ="  $content = $('#content');\n"
-    ="  $content.html('module: home, action: indexAction);\n"
+    ="  $content.html('module: home, action: indexAction');\n"
     ="}"
 
   p 同一修饰的多个过滤器以空格分隔。例：
@@ -51,7 +51,7 @@ block pageContent
     ="indexAction: function(params){\n"
     ="  var $content;\n"
     ="  $content = $('#content');\n"
-    ="  $content.html('module: home, action: indexAction);\n"
+    ="  $content.html('module: home, action: indexAction');\n"
     ="}"
   p 多个修饰之间以空格分隔。例：
   +renderCode('javascript')

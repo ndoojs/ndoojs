@@ -9,6 +9,7 @@ block pageHeader
   h1 名称空间
 
 block pageContent
+  p 在data-page-id或ndoo.init中支持以多个斜杠(/)的形式定义名称空间。
   h3 1. page id中设置名称空间，如 admin/user/add
   +renderCode('html')
     ='<div id="scriptArea" data-page-id="admin/user/add">'

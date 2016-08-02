@@ -31,6 +31,13 @@
         return undefined;
       }
     };
+    prototype.signout = function(){
+      this.set({
+        isSign: false,
+        userName: ''
+      });
+      return _n.trigger('STATUS:APP_USER_SIGNOUT');
+    };
     prototype.auth = function(id, password){
       if (id === 'user' && password === '123456') {
         this.set({

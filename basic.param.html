@@ -18,6 +18,7 @@
           <ul class="pure-menu-list">
             <li class="pure-menu-item"><a href="index.html" class="pure-menu-link">入门</a></li>
             <li class="pure-menu-item"><a href="basic.appscript.html" class="pure-menu-link">编写应用脚本</a></li>
+            <li class="pure-menu-item"><a href="basic.empty.html" class="pure-menu-link">空操作</a></li>
             <!-- li.pure-menu-item: a.pure-menu-link(href="basic.prep.html") 变量和事件暂存-->
             <li class="pure-menu-item"><a href="basic.param.html" class="pure-menu-link">参数的使用</a></li>
             <li class="pure-menu-item"><a href="basic.namespace.html" class="pure-menu-link">名称空间</a></li>
@@ -44,6 +45,7 @@
             <li class="pure-menu-item"><a href="./example/started.html" class="pure-menu-link">hello ndoojs</a></li>
             <li class="pure-menu-item"><a href="./example/basic.appscript.html" class="pure-menu-link">app script</a></li>
             <li class="pure-menu-item"><a href="./example/basic.eventstack.html" class="pure-menu-link">event stack</a></li>
+            <li class="pure-menu-item"><a href="./example/usersignin" class="pure-menu-link">user signin</a></li>
           </ul>
         </div>
       </div>
@@ -53,6 +55,7 @@
             <h1>参数的使用</h1>
           </div>
           <div class="content">
+            <p>在data-page-id或ndoo.init中以url查询参数的形式设置参数，action中会接收到整个参数字符串。</p>
             <h3>1. page id中设置参数</h3>
                 <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;div id=&quot;scriptArea&quot; data-page-id=&quot;home/index?abc&quot;&gt;</code></pre>
             <h3>2. 获取参数</h3>
@@ -62,6 +65,40 @@
   $content.html('module: home, action: indexAction param: ' + params);
 }</code></pre>
             <p class="notice">此处params为字符串abc，ndoojs自运过滤掉了?（问号）</p>
+            <h3>3.格式化参数</h3>
+            <p>大多数情属性上带的参数相对简单，未进行格式化处理。如需格式化参数为key/value对象，可参考如下函数实现：
+                  <pre data-start="1" class="line-numbers"><code class="language-coffeescript">###[formatUrlParam] 格式化url参数 {{{###
+formatUrlParam = (url = '') -&gt;
+  url = url.replace /^?/, ''
+  paramObject = {}
+  if url &amp;&amp; url.length &gt; 1
+    urlparam = url.split('&amp;')
+  else
+    urlparam = []
+
+  for item in urlparam
+    [key, value] = item.split '='
+    if not key
+      continue
+    key = key.replace /[]$/, ''
+    if value
+      # fix 被传入unicode编码的情况
+      if value.match(/%uw{4}/) isnt null
+        value = value.replace /%uw{4}/g, (char) -&gt; unescape char
+      value = decodeURIComponent value
+    else
+      value = ''
+    if _.has paramObject, key
+      if _.isArray paramObject[key]
+        paramObject[key].push value
+      else
+        paramObject[key] = [paramObject[key], value]
+    else
+      paramObject[key] = value
+
+  paramObject
+###}}}###</code></pre>访问<a href="https://github.com/thinkjs/codelibrary/blob/master/javascript/formatUrlParam.coffee">formatUrlParam.coffee</a>以获取最新版本
+            </p>
           </div>
         </div>
       </div>

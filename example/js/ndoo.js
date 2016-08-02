@@ -3,13 +3,13 @@
 "   FileName: ndoo.ls
 "       Desc: ndoo.js主文件
 "     Author: chenglf
-"    Version: ndoo.js(v1.0rc2)
-" LastChange: 11/03/2015 23:10
+"    Version: 1.0.0
+" LastChange: 08/02/2016 23:41
 " --------------------------------------------------
 */
 (function(){
   "use strict";
-  var _, $, _n, _vars, _func, _stor, slice$ = [].slice;
+  var _, $, _n, _vars, _func, _stor;
   _ = this['_'];
   $ = this['jQuery'] || this['Zepto'];
   this.N = this.ndoo || (this.ndoo = {});
@@ -113,7 +113,7 @@
     _exist: {}
   });
   _n._block = function(base, namespace, name, block){
-    var data, nsArr, temp, i$, len$, ns, result;
+    var data, nsArr, temp, i$, len$, ns, result, success;
     if (base === 'block' || base === 'app' || base === 'service') {
       data = _n._blockData["_" + base];
     } else {
@@ -144,10 +144,11 @@
         }
       } else if (base === 'service') {
         result = temp[name] = block;
+        success = true;
       } else {
         result = false;
       }
-      if (result) {
+      if (result || success) {
         if (namespace) {
           _n._blockData['_exist'][base + "." + namespace + "." + name] = true;
         } else {
@@ -246,6 +247,7 @@
       eventHandle = this.eventHandle;
       eventHandle.off(eventName);
       delete eventHandle.listened[eventName];
+      delete eventHandle.events[eventName];
     }
     /* off }}} */
     /* rewrite trigger {{{ */,
@@ -348,25 +350,22 @@
     /* }}} */
     /* router module {{{ */
     /**
-     * backbone风格的路由解析器
+     * 内置路由通过正则配匹各部件
      *
      * @private
      * @name router
      * @memberof ndoo
      * @type {object}
      */,
-    router: new (_n._lib.Router.extend({
+    router: {
       parse: function(route, url, callback){
         var routeMatch;
-        if (!_.isRegExp(route)) {
-          route = this._routeToRegExp(route);
-        }
         routeMatch = route.exec(url);
         if (routeMatch !== null) {
           callback.apply(null, routeMatch.slice(1));
         }
       }
-    }))
+    }
     /* }}} */
     /* dispatch {{{ */
     /**
@@ -381,7 +380,7 @@
       /* before and after filter event */
       var filterHaldner, this$ = this;
       filterHaldner = function(type, controller, actionName, params){
-        var data, _data, i$, len$, dataItem, _filter, isRun, _only, _except, j$, len1$, filter;
+        var data, _data, i$, len$, dataItem, _filter, isRun, _only, _except, j$, len1$, filter, key$;
         if (type === 'before') {
           data = controller.before;
         } else if (type === 'after') {
@@ -423,19 +422,29 @@
           if (isRun) {
             for (j$ = 0, len1$ = _filter.length; j$ < len1$; ++j$) {
               filter = _filter[j$];
-              controller[filter + 'Filter'](actionName, params);
+              if (typeof controller[key$ = filter + 'Filter'] == 'function') {
+                controller[key$](actionName, params);
+              }
             }
           }
         }
       };
       this.on('NAPP_ACTION_BEFORE', function(){
-        var params;
-        params = slice$.call(arguments);
+        var params, res$, i$, to$;
+        res$ = [];
+        for (i$ = 0, to$ = arguments.length; i$ < to$; ++i$) {
+          res$.push(arguments[i$]);
+        }
+        params = res$;
         return filterHaldner.apply(null, ['before'].concat(params));
       });
       this.on('NAPP_ACTION_AFTER', function(){
-        var params;
-        params = slice$.call(arguments);
+        var params, res$, i$, to$;
+        res$ = [];
+        for (i$ = 0, to$ = arguments.length; i$ < to$; ++i$) {
+          res$.push(arguments[i$]);
+        }
+        params = res$;
         return filterHaldner.apply(null, ['after'].concat(params));
       });
       /* call action */
@@ -540,8 +549,8 @@
           }
         });
       };
-      if (depend && depend.length) {
-        this.require(depend, call, 'Do');
+      if (depend) {
+        this.require([].concat(depend), call, 'Do');
       } else {
         call();
       }
@@ -556,6 +565,10 @@
      * @memberof ndoo
      * @param {string} id DOM的ID或指定ID
      * @param {array} depend 依赖
+     * @example // ndoo alias _n
+     * _n.init('home/index')
+     * // set depend
+     * _n.init('home/index', ['library', 'common'])
      */,
     init: function(id, depend){
       var ref$;

@@ -3,13 +3,13 @@
 "   FileName: ndoo_prep.ls
 "       Desc: ndoo.js前置文件
 "     Author: chenglf
-"    Version: ndoo.js(v1.0rc2)
+"    Version: 1.0.0
 " LastChange: 11/03/2015 23:09
 " --------------------------------------------------
 */
 (function(){
   "use strict";
-  var _n, slice$ = [].slice;
+  var _n;
   if (this.ndoo) {
     return;
   }
@@ -160,8 +160,12 @@
    * @param {variable} data 数据，可以是多个
    */
   _n.trigger = function(eventName){
-    var data, _index, type, name;
-    data = slice$.call(arguments, 1);
+    var data, res$, i$, to$, _index, type, name;
+    res$ = [];
+    for (i$ = 1, to$ = arguments.length; i$ < to$; ++i$) {
+      res$.push(arguments[i$]);
+    }
+    data = res$;
     _index = eventName.indexOf(':');
     type = eventName.substring(0, _index++);
     type || (type = 'DEFAULT');

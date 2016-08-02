@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>基础入门-ndoojs文档-ndoojs</title>
+    <title>空操作-ndoojs文档-ndoojs</title>
     <link rel="stylesheet" type="text/css" href="css/pure-min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/prism.css">
@@ -52,58 +52,22 @@
       <div id="main">
         <div class="docs theme1">
           <div class="header">
-            <h1>ndoojs文档</h1>
+            <h1>空操作</h1>
           </div>
           <div class="content">
-            <h3>入门示例</h3>
-            <p>从一个示例介绍ndoojs的使用。示例如下：</p>
-                <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-  &lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot;&gt;
-    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
-    &lt;title&gt;started-ndoojs&lt;/title&gt;
-  &lt;/head&gt;
-  &lt;body&gt;
-    &lt;p id=&quot;container&quot;&gt;&lt;/p&gt;
-    &lt;div id=&quot;scriptArea&quot; data-page-id=&quot;home/index&quot;&gt;
-      &lt;script src=&quot;lib/underscore-min.js&quot;&gt;&lt;/script&gt;
-      &lt;script src=&quot;lib/jquery-2.1.1.min.js&quot;&gt;&lt;/script&gt;
-      &lt;script src=&quot;js/ndoo_all.js&quot;&gt;&lt;/script&gt;
-      &lt;script&gt;
-      (function() {
-        var $, _n;
-        $ = this['jQuery'] || this['Zepto'];
-        _n = this.ndoo;
-        _n.app('home', {
-          indexAction: function() {
-            return $('#container').html('hello ndoojs!');
-          }
-        });
-        _n.init();
-      }).call(this);
-      &lt;/script&gt;
-    &lt;/div&gt;
-  &lt;/body&gt;
-&lt;/html&gt;</code></pre>
-            <p class="notice">查看<a href="./example/started.html">started.html</a></p>
-            <h3>1.定义页面id</h3>
-            <p>ndoojs需要为页面分配一个id，每个id有一个对应的入口函数，在入口函数内初始化该页面的所有逻辑。给id为scriptArea的标签设置data-page-id属性分配id。</p>
-                <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;div id=&quot;scriptArea&quot; data-page-id=&quot;home/index&quot;&gt;...&lt;/div&gt;</code></pre>
-            <h3>2.引入ndoo脚本及依赖</h3>
-            <p>ndoojs依赖underscore，使用jQuery的ready函数(可使用zepto替代)。为了整齐美观，一般将脚本放到页面底部scriptArea下面加载。</p>
-                <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;script src=&quot;lib/underscore-min.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;lib/jquery-2.1.1.min.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;js/ndoo_all.js&quot;&gt;&lt;/script&gt;</code></pre>
-            <h3>3.编写对应脚本</h3>
-            <p>为home/index编写对应的入口函数，定义home下名为indexAction的入口函数。</p>
-                <pre data-start="1" class="line-numbers"><code class="language-javascript">_n.app('home', {
-  indexAction: function() {
-    return $('#container').html('hello ndoojs!');
+            <p>ndoojs支持为app定义一个空的action，当通过pageID没有对定的action时会调用默认的action。</p>
+            <h3>1.定义空操作</h3>
+            <p>当action名为_emptyAction时会作为默认action被调用。</p>
+                <pre data-start="1" class="line-numbers"><code class="language-javascript">_n.app('home', function() {
+  _emptyAction: function(params){
+    var $content;
+    $content = $('#content');
+    $content.html('emptyAction');
   }
-});</code></pre>
-            <h3>4.启动脚本</h3>
-                <pre data-start="1" class="line-numbers"><code class="language-javascript">_n.init()</code></pre>
+}</code></pre>
+            <h3>2.在页面中定义页面id。</h3>
+                <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;div id=&quot;content&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;Ldn&quot; data-page-id=&quot;home/aaaa&quot;&gt;&lt;/div&gt;</code></pre>
           </div>
         </div>
       </div>

@@ -18,6 +18,7 @@
           <ul class="pure-menu-list">
             <li class="pure-menu-item"><a href="index.html" class="pure-menu-link">入门</a></li>
             <li class="pure-menu-item"><a href="basic.appscript.html" class="pure-menu-link">编写应用脚本</a></li>
+            <li class="pure-menu-item"><a href="basic.empty.html" class="pure-menu-link">空操作</a></li>
             <!-- li.pure-menu-item: a.pure-menu-link(href="basic.prep.html") 变量和事件暂存-->
             <li class="pure-menu-item"><a href="basic.param.html" class="pure-menu-link">参数的使用</a></li>
             <li class="pure-menu-item"><a href="basic.namespace.html" class="pure-menu-link">名称空间</a></li>
@@ -44,6 +45,7 @@
             <li class="pure-menu-item"><a href="./example/started.html" class="pure-menu-link">hello ndoojs</a></li>
             <li class="pure-menu-item"><a href="./example/basic.appscript.html" class="pure-menu-link">app script</a></li>
             <li class="pure-menu-item"><a href="./example/basic.eventstack.html" class="pure-menu-link">event stack</a></li>
+            <li class="pure-menu-item"><a href="./example/usersignin" class="pure-menu-link">user signin</a></li>
           </ul>
         </div>
       </div>
@@ -63,7 +65,7 @@
 indexAction: function(params){
   var $content;
   $content = $('#content');
-  $content.html('module: home, action: indexAction);
+  $content.html('module: home, action: indexAction');
 }</code></pre>
             <h3>2. 后置操作</h3>
             <p>后置操作由actionName+'After'组成。例如：</p><code>
@@ -75,7 +77,7 @@ indexAction: function(params){
 indexAction: function(params){
   var $content;
   $content = $('#content');
-  $content.html('module: home, action: indexAction);
+  $content.html('module: home, action: indexAction');
 }</code></pre>
           </div>
         </div>

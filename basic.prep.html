@@ -18,6 +18,7 @@
           <ul class="pure-menu-list">
             <li class="pure-menu-item"><a href="index.html" class="pure-menu-link">入门</a></li>
             <li class="pure-menu-item"><a href="basic.appscript.html" class="pure-menu-link">编写应用脚本</a></li>
+            <li class="pure-menu-item"><a href="basic.empty.html" class="pure-menu-link">空操作</a></li>
             <!-- li.pure-menu-item: a.pure-menu-link(href="basic.prep.html") 变量和事件暂存-->
             <li class="pure-menu-item"><a href="basic.param.html" class="pure-menu-link">参数的使用</a></li>
             <li class="pure-menu-item"><a href="basic.namespace.html" class="pure-menu-link">名称空间</a></li>
@@ -44,6 +45,7 @@
             <li class="pure-menu-item"><a href="./example/started.html" class="pure-menu-link">hello ndoojs</a></li>
             <li class="pure-menu-item"><a href="./example/basic.appscript.html" class="pure-menu-link">app script</a></li>
             <li class="pure-menu-item"><a href="./example/basic.eventstack.html" class="pure-menu-link">event stack</a></li>
+            <li class="pure-menu-item"><a href="./example/usersignin" class="pure-menu-link">user signin</a></li>
           </ul>
         </div>
       </div>
@@ -55,7 +57,7 @@
           <div class="content">
             <p>ndoojs支持在页面中间暂存数据和事件，在页面底部基础库加载完成后调用。使用变量或事件暂存，需要在head标签处引入ndoo_prep.js。</p>
             <h3>1.变量暂存</h3>
-            <p>通过ndoo.vars名称空间来进行变量赋值，在应中中使用。示例：</p>
+            <p>通过ndoo.vars名称空间来进行变量赋值，在业务逻辑中使用。示例：</p>
                 <pre data-start="1" class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;head&gt;

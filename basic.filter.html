@@ -18,6 +18,7 @@
           <ul class="pure-menu-list">
             <li class="pure-menu-item"><a href="index.html" class="pure-menu-link">入门</a></li>
             <li class="pure-menu-item"><a href="basic.appscript.html" class="pure-menu-link">编写应用脚本</a></li>
+            <li class="pure-menu-item"><a href="basic.empty.html" class="pure-menu-link">空操作</a></li>
             <!-- li.pure-menu-item: a.pure-menu-link(href="basic.prep.html") 变量和事件暂存-->
             <li class="pure-menu-item"><a href="basic.param.html" class="pure-menu-link">参数的使用</a></li>
             <li class="pure-menu-item"><a href="basic.namespace.html" class="pure-menu-link">名称空间</a></li>
@@ -44,6 +45,7 @@
             <li class="pure-menu-item"><a href="./example/started.html" class="pure-menu-link">hello ndoojs</a></li>
             <li class="pure-menu-item"><a href="./example/basic.appscript.html" class="pure-menu-link">app script</a></li>
             <li class="pure-menu-item"><a href="./example/basic.eventstack.html" class="pure-menu-link">event stack</a></li>
+            <li class="pure-menu-item"><a href="./example/usersignin" class="pure-menu-link">user signin</a></li>
           </ul>
         </div>
       </div>
@@ -53,7 +55,7 @@
             <h1>过滤器</h1>
           </div>
           <div class="content">
-            <p>ndoojs支持自定义过滤器，指定全局执行的方法。过滤器有before、after两种情形，过滤器支持only、except修饰。</p>
+            <p>ndoojs支持自定义过滤器，对整个app生效。过滤器有before、after两种情形，过滤器支持only、except修饰。</p>
             <h3>1. 前置过滤器 beforeFilter</h3>
             <p>使用before声明，过滤器方法后缀为Filter。过滤器方法接受两个参数，actionName为当前action的名称，params为传递的参数。例：</p>
                 <pre data-start="1" class="line-numbers"><code class="language-javascript">before: {
@@ -67,7 +69,7 @@ beforeFilter: function(actionName, params) {
 indexAction: function(params){
   var $content;
   $content = $('#content');
-  $content.html('module: home, action: indexAction);
+  $content.html('module: home, action: indexAction');
 }</code></pre>
             <p>同一修饰的多个过滤器以空格分隔。例：</p>
                 <pre data-start="1" class="line-numbers"><code class="language-javascript">before: {
@@ -89,7 +91,7 @@ beforeFilter: function() {
 indexAction: function(params){
   var $content;
   $content = $('#content');
-  $content.html('module: home, action: indexAction);
+  $content.html('module: home, action: indexAction');
 }</code></pre>
             <p>多个修饰之间以空格分隔。例：</p>
                 <pre data-start="1" class="line-numbers"><code class="language-javascript">before: {

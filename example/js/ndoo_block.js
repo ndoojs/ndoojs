@@ -3,7 +3,7 @@
 "   FileName: ndoo_block.ls
 "       Desc: ndoo.js block模块
 "     Author: chenglf
-"    Version: ndoo.js(v1.0rc2)
+"    Version: 1.0.0
 " LastChange: 11/03/2015 23:10
 " --------------------------------------------------
 */
@@ -42,6 +42,7 @@
    * @name setBlock
    * @memberof ndoo
    * @param {string} namespace 名称空间
+   * @return {boolean} 设置标识成功
    */
   _n.setBlock = function(namespace){
     var nsmatch, name, ref$;
@@ -59,7 +60,8 @@
    * @name block
    * @memberof ndoo
    * @param {string} namespace 名称空间
-   * @param {variable} block 模块实现
+   * @param {(object|function)} block 模块实现
+   * @return {(boolean|object|function)} 是否成功|标识本身
    */
   _n.block = function(namespace, block){
     var nsmatch, name, ref$;
