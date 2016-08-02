@@ -3,13 +3,13 @@
 "   FileName: ndoo_prep.ls
 "       Desc: ndoo.js前置文件
 "     Author: chenglf
-"    Version: ndoo.js(v1.0rc2)
+"    Version: 1.0.0
 " LastChange: 11/03/2015 23:09
 " --------------------------------------------------
 */
 (function(){
   "use strict";
-  var _n, slice$ = [].slice;
+  var _n;
   if (this.ndoo) {
     return;
   }
@@ -160,8 +160,12 @@
    * @param {variable} data 数据，可以是多个
    */
   _n.trigger = function(eventName){
-    var data, _index, type, name;
-    data = slice$.call(arguments, 1);
+    var data, res$, i$, to$, _index, type, name;
+    res$ = [];
+    for (i$ = 1, to$ = arguments.length; i$ < to$; ++i$) {
+      res$.push(arguments[i$]);
+    }
+    data = res$;
     _index = eventName.indexOf(':');
     type = eventName.substring(0, _index++);
     type || (type = 'DEFAULT');
@@ -219,13 +223,13 @@
 "   FileName: ndoo.ls
 "       Desc: ndoo.js主文件
 "     Author: chenglf
-"    Version: ndoo.js(v1.0rc2)
-" LastChange: 11/03/2015 23:10
+"    Version: 1.0.0
+" LastChange: 08/02/2016 23:41
 " --------------------------------------------------
 */
 (function(){
   "use strict";
-  var _, $, _n, _vars, _func, _stor, slice$ = [].slice;
+  var _, $, _n, _vars, _func, _stor;
   _ = this['_'];
   $ = this['jQuery'] || this['Zepto'];
   this.N = this.ndoo || (this.ndoo = {});
@@ -566,25 +570,22 @@
     /* }}} */
     /* router module {{{ */
     /**
-     * backbone风格的路由解析器
+     * 内置路由通过正则配匹各部件
      *
      * @private
      * @name router
      * @memberof ndoo
      * @type {object}
      */,
-    router: new (_n._lib.Router.extend({
+    router: {
       parse: function(route, url, callback){
         var routeMatch;
-        if (!_.isRegExp(route)) {
-          route = this._routeToRegExp(route);
-        }
         routeMatch = route.exec(url);
         if (routeMatch !== null) {
           callback.apply(null, routeMatch.slice(1));
         }
       }
-    }))
+    }
     /* }}} */
     /* dispatch {{{ */
     /**
@@ -599,7 +600,7 @@
       /* before and after filter event */
       var filterHaldner, this$ = this;
       filterHaldner = function(type, controller, actionName, params){
-        var data, _data, i$, len$, dataItem, _filter, isRun, _only, _except, j$, len1$, filter;
+        var data, _data, i$, len$, dataItem, _filter, isRun, _only, _except, j$, len1$, filter, key$;
         if (type === 'before') {
           data = controller.before;
         } else if (type === 'after') {
@@ -641,19 +642,29 @@
           if (isRun) {
             for (j$ = 0, len1$ = _filter.length; j$ < len1$; ++j$) {
               filter = _filter[j$];
-              controller[filter + 'Filter'](actionName, params);
+              if (typeof controller[key$ = filter + 'Filter'] == 'function') {
+                controller[key$](actionName, params);
+              }
             }
           }
         }
       };
       this.on('NAPP_ACTION_BEFORE', function(){
-        var params;
-        params = slice$.call(arguments);
+        var params, res$, i$, to$;
+        res$ = [];
+        for (i$ = 0, to$ = arguments.length; i$ < to$; ++i$) {
+          res$.push(arguments[i$]);
+        }
+        params = res$;
         return filterHaldner.apply(null, ['before'].concat(params));
       });
       this.on('NAPP_ACTION_AFTER', function(){
-        var params;
-        params = slice$.call(arguments);
+        var params, res$, i$, to$;
+        res$ = [];
+        for (i$ = 0, to$ = arguments.length; i$ < to$; ++i$) {
+          res$.push(arguments[i$]);
+        }
+        params = res$;
         return filterHaldner.apply(null, ['after'].concat(params));
       });
       /* call action */
@@ -798,7 +809,7 @@
 "   FileName: ndoo_block.ls
 "       Desc: ndoo.js block模块
 "     Author: chenglf
-"    Version: ndoo.js(v1.0rc2)
+"    Version: 1.0.0
 " LastChange: 11/03/2015 23:10
 " --------------------------------------------------
 */
@@ -942,7 +953,7 @@
 "       Desc: ndoo.js service模块
 "             借鉴了t3.js http://t3js.org/
 "     Author: chenglf
-"    Version: ndoo.js(v1.0rc2)
+"    Version: 1.0.0
 " LastChange: 11/03/2015 21:12
 " --------------------------------------------------
 */

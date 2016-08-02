@@ -3,7 +3,7 @@
 "   FileName: ndoo_block.ls
 "       Desc: ndoo.js block模块
 "     Author: chenglf
-"    Version: ndoo.js(v1.0rc2)
+"    Version: 1.0.0
 " LastChange: 11/03/2015 23:10
 " --------------------------------------------------
 */

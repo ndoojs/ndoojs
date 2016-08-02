@@ -3,8 +3,8 @@
 "   FileName: ndoo.ls
 "       Desc: ndoo.js主文件
 "     Author: chenglf
-"    Version: ndoo.js(v1.0rc2)
-" LastChange: 11/03/2015 23:10
+"    Version: 1.0.0
+" LastChange: 08/02/2016 23:41
 " --------------------------------------------------
 */
 
