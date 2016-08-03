@@ -7,13 +7,15 @@
     "start:test": "karma start test/conf/unit.conf.js --browsers=PhantomJS",
     "start:test-dev": "karma start test/conf/unit.conf.js --browsers=Chrome",
     "start:watch": "acmd watch",
+    "start:build": "acmd run",
     "test": "karma run",
     "gen:doc": "jsdoc -c jsdoc.conf js/*.js readme.md",
     "cpjs": "cp -fr js/*.js docs/example/js/"
   },
   "author": "chenglifu",
   "devDependencies": {
-    "autocommand-cli": "github:thinkjs/autocommand-cli",
+    "autocommand-cli": "github:thinkjs/autocommand-cli#f8d086d",
+    "coffee-script": "^1.10.0",
     "jade": "^1.11.0",
     "jasmine-core": "^2.3.4",
     "jsdoc": "^3.4.0",
