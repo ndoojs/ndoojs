@@ -4,6 +4,7 @@
   "description": "ndoojs",
   "main": "index.js",
   "scripts": {
+    "postinstall": "bower install",
     "start:test": "karma start test/conf/unit.conf.js --browsers=PhantomJS",
     "start:test-dev": "karma start test/conf/unit.conf.js --browsers=Chrome",
     "start:watch": "acmd watch",
@@ -16,6 +17,7 @@
   "author": "chenglifu",
   "devDependencies": {
     "autocommand-cli": "github:thinkjs/autocommand-cli#f8d086d",
+    "bower": "^1.7.9",
     "coffee-script": "^1.10.0",
     "jade": "^1.11.0",
     "jasmine-core": "^2.3.4",
