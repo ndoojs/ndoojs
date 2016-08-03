@@ -6,13 +6,15 @@
   "scripts": {
     "start:test": "karma start test/conf/unit.conf.js --browsers=PhantomJS",
     "start:test-dev": "karma start test/conf/unit.conf.js --browsers=Chrome",
-    "start:watch": "lsc browserSyncFile.ls",
+    "start:watch": "acmd watch",
     "test": "karma run",
     "gen:doc": "jsdoc -c jsdoc.conf js/*.js readme.md",
     "cpjs": "cp -fr js/*.js docs/example/js/"
   },
   "author": "chenglifu",
   "devDependencies": {
+    "autocommand-cli": "github:thinkjs/autocommand-cli",
+    "jade": "^1.11.0",
     "jasmine-core": "^2.3.4",
     "jsdoc": "^3.4.0",
     "karma": "^0.13.2",
@@ -21,6 +23,8 @@
     "karma-coffee-preprocessor": "^0.3.0",
     "karma-jasmine": "^0.3.6",
     "karma-phantomjs-launcher": "^0.2.0",
+    "markdown-js": "0.0.3",
+    "node-sass": "^3.8.0",
     "phantomjs": "^1.9.18",
     "phantomjs-polyfill": "0.0.1"
   }

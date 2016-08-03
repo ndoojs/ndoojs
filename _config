@@ -1,0 +1,67 @@
+{
+  // 侦听的文件
+  "file": [
+    "_source/live/*.ls",
+    "docs/_source/jade/*.jade",
+    "docs/_source/sass/*.sass",
+    "docs/example/_source/live/*.ls",
+    "docs/example/_source/jade/*.jade"
+  ],
+  // 过滤
+  "ignore": ["_*.*", "node_modules/"],
+  // 变量
+  "variable": {
+    "LocalBin": "~/node_modules/.bin",
+    "docsDir": "docs",
+    "exampleDir": "docs/example",
+    "cssOutPutDir": "./css",
+    "jsOutputDir": "./js"
+  },
+  // 环境变量
+  "environment": {
+    ":PATH": "#{LocalBin}"
+  },
+  // 定义
+  "define": {
+    "_source/": {
+      ".ls": {
+        "file": "js/#{fileName}.js",
+        "command": "lsc --no-header -cp #{file}>js/#{fileName}.js"
+      }
+    },
+    "docs/_source/": {
+      ".jade": {
+        "file": "#{docsDir}/#{fileName}.html",
+        "command": "jade -Po #{docsDir}/ #{file}"
+      },
+      ".sass": {
+        "file": "#{docsDir}/css/#{fileName}.css",
+        "command": "node-sass --sourcemap=none --style compact #{file}|sed '/^@charset/d'>#{docsDir}/css/#{fileName}.css"
+      }
+    },
+    "docs/example/_source/": {
+      ".jade": {
+        "file": "#{exampleDir}/#{fileName}.html",
+        "command": "jade -Po #{exampleDir}/ #{file}"
+      },
+      ".ls": {
+        "file": "#{exampleDir}/js/#{fileName}.js",
+        "command": "lsc --no-header -cp #{file}>#{exampleDir}/js/#{fileName}.js"
+      }
+    }
+  },
+  // browserSync配置
+  "browserSync": {
+    // 初始化配置
+    "init": {
+      "server": {
+        "baseDir": "./"
+      },
+      "open": false
+    },
+    // 启动livereload
+    "reload": false,
+  },
+  debug: true
+}
+// vim: se sw=2 ts=2 sts=2 ft=javascript et:
