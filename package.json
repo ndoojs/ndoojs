@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "ndoojs",
   "main": "index.js",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ndoojs/ndoojs.git"
+  },
   "scripts": {
     "postinstall": "bower install",
     "start:test": "karma start test/conf/unit.conf.js --browsers=PhantomJS",
