@@ -2,7 +2,7 @@
   "name": "ndoojs",
   "version": "1.0.0",
   "description": "ndoojs",
-  "main": "js/ndoo_all.js",
+  "main": "dist/ndoo_all.js",
   "keywords": [
     "ndoojs"
   ],
@@ -12,7 +12,6 @@
   "license": "MIT",
   "homepage": "github.com/ndoojs/ndoojs",
   "devDependencies": {
-    "jaguarjs-jsdoc": "https://github.com/davidshimjs/jaguarjs-jsdoc.git",
-    "jasmine": "~2.3.4"
+    "jaguarjs-jsdoc": "https://github.com/davidshimjs/jaguarjs-jsdoc.git"
   }
 }
