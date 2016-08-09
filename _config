@@ -57,7 +57,9 @@
       "server": {
         "baseDir": "./"
       },
-      "open": false
+      "open": false,
+      // 关闭ui
+      "ui": false
     },
     // 启动livereload
     "reload": false,
