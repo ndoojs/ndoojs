@@ -112,6 +112,7 @@
       return this.router.parse(/^(?:\/?)(.*?)(?:\/?([^\/?#]+))(?:\?(.*?))?(?:\#(.*?))?$/, blockId, function(namespace, block, params){
         var pkg;
         namespace == null && (namespace = '_default');
+        namespace = namespace.replace(/\//g, '.');
         pkg = namespace + "." + block;
         if (this$.block(pkg)) {
           this$.trigger('NBLOCK_LOADED', elem, namespace, block, params);

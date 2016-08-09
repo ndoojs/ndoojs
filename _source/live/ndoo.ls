@@ -475,7 +475,11 @@ _.extend _n,
         else
           namespace = void
 
-        if namespace then pkg = "#namespace.#controller" else pkg = controller
+        if namespace
+          namespace = namespace.replace(/\//g, '.');
+          pkg = "#namespace.#controller"
+        else
+          pkg = controller
 
         if _n.app pkg
           @trigger \NAPP_LOADED, namespace, controller, action, params

@@ -109,6 +109,7 @@ _n.initBlock = (elem) !->
       (?:\?(.*?))?       # [?:params]
       (?:\#(.*?))?$      # [#:hash]$
     //, blockId, (namespace = \_default, block, params) !~>
+      namespace = namespace.replace(/\//g, '.');
       pkg = "#namespace.#block"
       if @block pkg
         @trigger \NBLOCK_LOADED, elem, namespace, block, params

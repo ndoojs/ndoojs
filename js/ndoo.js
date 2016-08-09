@@ -505,6 +505,7 @@
             namespace = void 8;
           }
           if (namespace) {
+            namespace = namespace.replace(/\//g, '.');
             pkg = namespace + "." + controller;
           } else {
             pkg = controller;
