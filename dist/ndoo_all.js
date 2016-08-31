@@ -1226,15 +1226,26 @@
     });
   };
   _n.on('NBLOCK_INIT', function(){
-    var blocks, i$, len$, block, auto;
-    blocks = $('[data-nblock-id]');
-    if (blocks.length) {
-      for (i$ = 0, len$ = blocks.length; i$ < len$; ++i$) {
-        block = blocks[i$];
-        auto = $(block).data('nblockAuto');
-        if (auto === undefined || auto.toString() !== 'false') {
-          _n.initBlock(block);
-        }
+    var blockEl, blocks, i$, len$, el, auto, level, item, block;
+    blockEl = $('[data-nblock-id]');
+    if (!blockEl.length) {
+      return;
+    }
+    blocks = [];
+    for (i$ = 0, len$ = blockEl.length; i$ < len$; ++i$) {
+      el = blockEl[i$];
+      auto = $(el).data('nblockAuto');
+      level = parseInt($(el).data('nblockLevel')) || 5;
+      blocks.push([parseInt(level), auto, el]);
+    }
+    blocks.sort(function(block1, block2){
+      return block1[0] > block2[0];
+    });
+    for (i$ = 0, len$ = blocks.length; i$ < len$; ++i$) {
+      item = blocks[i$];
+      auto = item[1], block = item[2];
+      if (auto === undefined || auto.toString() !== 'false') {
+        _n.initBlock(block);
       }
     }
   });

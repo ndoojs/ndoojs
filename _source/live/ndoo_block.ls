@@ -122,11 +122,20 @@ _n.initBlock = (elem) !->
     _call.call _n, id
 
 _n.on \NBLOCK_INIT, !->
-  blocks = $ '[data-nblock-id]'
-  if blocks.length
-    for block in blocks
-      auto = $ block .data \nblockAuto
-      if auto is undefined or auto.toString! isnt 'false'
-        _n.initBlock block
+  blockEl = $ '[data-nblock-id]'
+  unless blockEl.length
+    return
+  blocks = []
+  for el in blockEl
+    auto = $ el .data \nblockAuto
+    level = parseInt( $ el .data \nblockLevel ) or 5
+    blocks.push [parseInt(level), auto, el]
+
+  blocks.sort (block1, block2) -> block1[0] > block2[0]
+
+  for item in blocks
+    [,auto, block] = item
+    if auto is undefined or auto.toString! isnt 'false'
+      _n.initBlock block
 
 /* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */
