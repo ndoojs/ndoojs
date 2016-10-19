@@ -44,6 +44,7 @@ module.exports = function(config) {
       '../mock/jquery.mock.js',
       jsPath + '/ndoo_prep.js',
       jsPath + '/ndoo_lib.js',
+      jsPath + '/ndoo_lib_depend.js',
       jsPath + '/ndoo.js',
       jsPath+ '/ndoo_block.js',
       jsPath+ '/ndoo_service.js',

@@ -30,10 +30,13 @@
         }
       }
     }
-    this.bind = function(event, call) {
+    this.on = this.bind = function(event, call) {
       if (event == 'load') {
         call()
       }
+    }
+    this.slice = function(startpos) {
+      [].slice.call(this, startpos)
     }
   }
   this.jQuery = this.$ = fn;
