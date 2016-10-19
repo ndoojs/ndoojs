@@ -4,23 +4,23 @@
 "       Desc: ndoo.js主文件
 "     Author: chenglf
 "    Version: 1.0.0
-" LastChange: 08/02/2016 23:41
+" LastChange: 10/19/2016 14:11
 " --------------------------------------------------
 */
 
 "use strict"
 _        = @[\_]
-$        = @[\jQuery] or @[\Zepto]
 
 @N = @ndoo ||= {}
 _n = @ndoo
 
 _vars    = _n.vars
 _func    = _n.func
+_lib     = _n._lib
 
 /* default _lib {{{ */
-if not _n._lib && @[\Backbone]
-  _n._lib = @[\Backbone]
+if not _n._lib.Events && @[\Backbone]
+  _n._lib.Events = @[\Backbone]
 /* }}} */
 
 /* storage module {{{ */
@@ -505,13 +505,13 @@ _.extend _n,
       @trigger \STATUS:PAGE_STATUS_FAST
 
       # trigger PAGE_STATUS_DOM and PAGE_STATUS_DOMORLOAD
-      $ !~>
+      _lib.onready !~>
         @trigger \STATUS:PAGE_STATUS_DOMPREP
         @trigger \STATUS:PAGE_STATUS_DOM
         @trigger \STATUS:PAGE_STATUS_DOMORLOAD
 
       # trigger PAGE_STATUS_LOAD
-      $(window).bind \load, ~>
+      _lib.onload ~>
         @trigger \STATUS:PAGE_STATUS_LOAD
 
       # trigger PAGE_STATUS_ROUTING

@@ -4,19 +4,19 @@
 "       Desc: ndoo.js block模块
 "     Author: chenglf
 "    Version: 1.0.0
-" LastChange: 11/03/2015 23:10
+" LastChange: 10/19/2016 14:11
 " --------------------------------------------------
 */
 (function(){
   "use strict";
-  var _, $, _n, _vars, _func, _stor;
+  var _, _n, _vars, _func, _stor, _lib;
   _ = this['_'];
-  $ = this['jQuery'] || this['Zepto'];
   this.N = this.ndoo || (this.ndoo = {});
   _n = this.ndoo;
   _vars = _n.vars;
   _func = _n.func;
   _stor = _n.storage;
+  _lib = _n._lib;
   /**
    * 检测是否存在指定block
    *
@@ -105,7 +105,7 @@
    */
   _n.initBlock = function(elem){
     var blockId, _call;
-    blockId = $(elem).data('nblockId');
+    blockId = _lib.data(elem, 'nblockId');
     blockId = blockId.split(/\s*,\s*|\s+/);
     _call = function(blockId){
       var this$ = this;
@@ -129,16 +129,16 @@
   };
   _n.on('NBLOCK_INIT', function(){
     var blockEl, blocks, i$, len$, el, auto, level, item, block;
-    blockEl = $('[data-nblock-id]');
-    if (!blockEl.length) {
+    blockEl = _lib.querySelector('[data-nblock-id]');
+    if (!blockEl || !blockEl.length) {
       return;
     }
     blocks = [];
     for (i$ = 0, len$ = blockEl.length; i$ < len$; ++i$) {
       el = blockEl[i$];
-      auto = $(el).data('nblockAuto');
-      level = parseInt($(el).data('nblockLevel')) || 5;
-      blocks.push([parseInt(level), auto, el]);
+      auto = _lib.data(el, 'nblockAuto');
+      level = parseInt(_lib.data(el, 'nblockLevel')) || 5;
+      blocks.push([level, auto, el]);
     }
     blocks.sort(function(block1, block2){
       return block1[0] > block2[0];

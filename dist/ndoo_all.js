@@ -4,7 +4,7 @@
 "       Desc: ndoo.js前置文件
 "     Author: chenglf
 "    Version: 1.0.0
-" LastChange: 11/03/2015 23:09
+" LastChange: 10/19/2016 14:11
 " --------------------------------------------------
 */
 (function(){
@@ -216,6 +216,10 @@
    * }
    */
   _n.func || (_n.func = {});
+  /**
+   * 依赖库存储空间
+   */
+  _n._lib || (_n._lib = {});
   /* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */
 }).call(this);
 /*
@@ -224,19 +228,18 @@
 "       Desc: ndoo.js库文件
 "     Author: chenglf
 "    Version: 1.0.0
-" LastChange: 08/02/2016 23:41
+" LastChange: 10/19/2016 14:11
 " --------------------------------------------------
 */
 (function(){
   "use strict";
-  var _, _n, _lib, Backbone, array, slice;
+  var _, _n, _lib, array, slice;
   _ = this['_'];
   this.N = this.ndoo || (this.ndoo = {});
   _n = this.ndoo;
-  _lib = _n._lib || (_n._lib = {});
-  Backbone = _lib;
+  _lib = _n._lib;
   if (this['Backbone']) {
-    _lib = this['Backbone'];
+    _lib.Events = this['Backbone'].Events;
     return;
   }
   array = [];
@@ -255,7 +258,7 @@
   //     object.on('expand', function(){ alert('expanded'); });
   //     object.trigger('expand');
   //
-  var Events = Backbone.Events = {};
+  var Events = _lib.Events = {};
   
   // Regular expression used to split event strings.
   var eventSplitter = /\s+/;
@@ -503,11 +506,67 @@
   Events.bind   = Events.on;
   Events.unbind = Events.off;
   
-  // Allow the 'Backbone' object to serve as a global event bus, for folks who
-  // want global "pubsub" in a convenient place.
-  _.extend(Backbone, Events);
-  
-  
+}).call(this);
+/*
+" --------------------------------------------------
+"   FileName: ndoo_lib_depend.ls
+"       Desc: ndoo.js库依赖文件
+"     Author: chenglf
+"    Version: 1.0.0
+" LastChange: 10/19/2016 11:11
+" --------------------------------------------------
+*/
+(function(){
+  "use strict";
+  var _, _n, _lib, $;
+  _ = this['_'];
+  this.N = this.ndoo || (this.ndoo = {});
+  _n = this.ndoo;
+  _lib = _n._lib;
+  $ = this['jQuery'] || this['Zepto'];
+  _.extend(_lib, {
+    onready: function(callback){
+      if ($) {
+        $(callback);
+      } else if (window.addEventListener) {
+        document.addEventListener('DOMContentLoaded', callback, false);
+      }
+    },
+    onload: function(callback){
+      if ($) {
+        $(window).on('load', callback);
+      } else if (window.addEventListener) {
+        addEventListener('load', callback, false);
+      }
+    },
+    querySelector: function(selector){
+      if ($) {
+        return $(selector).slice(0);
+      } else if (document.querySelectorAll) {
+        return document.querySelectorAll(selector);
+      }
+    },
+    data: function(elem, key, value){
+      if (!elem.dataset) {
+        key = key.replace(/([A-Z])/g, function(char){
+          return '-' + char.toLowerCase();
+        });
+      }
+      if (arguments.length === 2) {
+        if (elem.dataset) {
+          return elem.dataset[key];
+        } else {
+          return elem.getAttribute(key);
+        }
+      } else if (arguments.length === 3) {
+        if (elem.dataset) {
+          return elem.dataset[key] = value;
+        } else {
+          return elem.setAttribute(key, value);
+        }
+      }
+    }
+  });
 }).call(this);
 /*
 " --------------------------------------------------
@@ -515,21 +574,21 @@
 "       Desc: ndoo.js主文件
 "     Author: chenglf
 "    Version: 1.0.0
-" LastChange: 08/02/2016 23:41
+" LastChange: 10/19/2016 14:11
 " --------------------------------------------------
 */
 (function(){
   "use strict";
-  var _, $, _n, _vars, _func, _stor;
+  var _, _n, _vars, _func, _lib, _stor;
   _ = this['_'];
-  $ = this['jQuery'] || this['Zepto'];
   this.N = this.ndoo || (this.ndoo = {});
   _n = this.ndoo;
   _vars = _n.vars;
   _func = _n.func;
+  _lib = _n._lib;
   /* default _lib {{{ */
-  if (!_n._lib && this['Backbone']) {
-    _n._lib = this['Backbone'];
+  if (!_n._lib.Events && this['Backbone']) {
+    _n._lib.Events = this['Backbone'];
   }
   /* }}} */
   /* storage module {{{ */
@@ -1047,12 +1106,12 @@
       var call, this$ = this;
       call = function(){
         this$.trigger('STATUS:PAGE_STATUS_FAST');
-        $(function(){
+        _lib.onready(function(){
           this$.trigger('STATUS:PAGE_STATUS_DOMPREP');
           this$.trigger('STATUS:PAGE_STATUS_DOM');
           this$.trigger('STATUS:PAGE_STATUS_DOMORLOAD');
         });
-        $(window).bind('load', function(){
+        _lib.onload(function(){
           return this$.trigger('STATUS:PAGE_STATUS_LOAD');
         });
         this$.on('PAGE_STATUS_DOM', function(){
@@ -1102,19 +1161,19 @@
 "       Desc: ndoo.js block模块
 "     Author: chenglf
 "    Version: 1.0.0
-" LastChange: 11/03/2015 23:10
+" LastChange: 10/19/2016 14:11
 " --------------------------------------------------
 */
 (function(){
   "use strict";
-  var _, $, _n, _vars, _func, _stor;
+  var _, _n, _vars, _func, _stor, _lib;
   _ = this['_'];
-  $ = this['jQuery'] || this['Zepto'];
   this.N = this.ndoo || (this.ndoo = {});
   _n = this.ndoo;
   _vars = _n.vars;
   _func = _n.func;
   _stor = _n.storage;
+  _lib = _n._lib;
   /**
    * 检测是否存在指定block
    *
@@ -1203,7 +1262,7 @@
    */
   _n.initBlock = function(elem){
     var blockId, _call;
-    blockId = $(elem).data('nblockId');
+    blockId = _lib.data(elem, 'nblockId');
     blockId = blockId.split(/\s*,\s*|\s+/);
     _call = function(blockId){
       var this$ = this;
@@ -1227,16 +1286,16 @@
   };
   _n.on('NBLOCK_INIT', function(){
     var blockEl, blocks, i$, len$, el, auto, level, item, block;
-    blockEl = $('[data-nblock-id]');
-    if (!blockEl.length) {
+    blockEl = _lib.querySelector('[data-nblock-id]');
+    if (!blockEl || !blockEl.length) {
       return;
     }
     blocks = [];
     for (i$ = 0, len$ = blockEl.length; i$ < len$; ++i$) {
       el = blockEl[i$];
-      auto = $(el).data('nblockAuto');
-      level = parseInt($(el).data('nblockLevel')) || 5;
-      blocks.push([parseInt(level), auto, el]);
+      auto = _lib.data(el, 'nblockAuto');
+      level = parseInt(_lib.data(el, 'nblockLevel')) || 5;
+      blocks.push([level, auto, el]);
     }
     blocks.sort(function(block1, block2){
       return block1[0] > block2[0];

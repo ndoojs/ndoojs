@@ -4,19 +4,18 @@
 "       Desc: ndoo.js库文件
 "     Author: chenglf
 "    Version: 1.0.0
-" LastChange: 08/02/2016 23:41
+" LastChange: 10/19/2016 14:11
 " --------------------------------------------------
 */
 (function(){
   "use strict";
-  var _, _n, _lib, Backbone, array, slice;
+  var _, _n, _lib, array, slice;
   _ = this['_'];
   this.N = this.ndoo || (this.ndoo = {});
   _n = this.ndoo;
-  _lib = _n._lib || (_n._lib = {});
-  Backbone = _lib;
+  _lib = _n._lib;
   if (this['Backbone']) {
-    _lib = this['Backbone'];
+    _lib.Events = this['Backbone'].Events;
     return;
   }
   array = [];
@@ -35,7 +34,7 @@
   //     object.on('expand', function(){ alert('expanded'); });
   //     object.trigger('expand');
   //
-  var Events = Backbone.Events = {};
+  var Events = _lib.Events = {};
   
   // Regular expression used to split event strings.
   var eventSplitter = /\s+/;
@@ -282,10 +281,5 @@
   // Aliases for backwards compatibility.
   Events.bind   = Events.on;
   Events.unbind = Events.off;
-  
-  // Allow the 'Backbone' object to serve as a global event bus, for folks who
-  // want global "pubsub" in a convenient place.
-  _.extend(Backbone, Events);
-  
   
 }).call(this);

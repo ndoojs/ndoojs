@@ -4,7 +4,7 @@
 "       Desc: ndoo.js库文件
 "     Author: chenglf
 "    Version: 1.0.0
-" LastChange: 08/02/2016 23:41
+" LastChange: 10/19/2016 14:11
 " --------------------------------------------------
 */
 
@@ -14,11 +14,10 @@ _  = @[\_]
 @N = @ndoo ||= {}
 _n = @ndoo
 
-_lib = _n._lib ||  = {}
-Backbone = _lib
+_lib = _n._lib
 
 if @[\Backbone]
-  _lib = @[\Backbone]
+  _lib.Events = @[\Backbone].Events
   return void
 
 array    = []
@@ -38,7 +37,7 @@ slice    = array.slice
 //     object.on('expand', function(){ alert('expanded'); });
 //     object.trigger('expand');
 //
-var Events = Backbone.Events = {};
+var Events = _lib.Events = {};
 
 // Regular expression used to split event strings.
 var eventSplitter = /\s+/;
@@ -285,9 +284,4 @@ var triggerEvents = function(events, args) {
 // Aliases for backwards compatibility.
 Events.bind   = Events.on;
 Events.unbind = Events.off;
-
-// Allow the 'Backbone' object to serve as a global event bus, for folks who
-// want global "pubsub" in a convenient place.
-_.extend(Backbone, Events);
-
 ``

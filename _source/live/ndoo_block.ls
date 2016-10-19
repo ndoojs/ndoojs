@@ -4,13 +4,12 @@
 "       Desc: ndoo.js block模块
 "     Author: chenglf
 "    Version: 1.0.0
-" LastChange: 11/03/2015 23:10
+" LastChange: 10/19/2016 14:11
 " --------------------------------------------------
 */
 
 "use strict"
 _        = @[\_]
-$        = @[\jQuery] || @[\Zepto]
 
 @N = @ndoo ||= {}
 _n = @ndoo
@@ -18,6 +17,7 @@ _n = @ndoo
 _vars    = _n.vars
 _func    = _n.func
 _stor    = _n.storage
+_lib     = _n._lib
 
 /**
  * 检测是否存在指定block
@@ -98,7 +98,7 @@ _n.on \NBLOCK_LOADED, (elem, namespace=\_default, name, params) ->
  * @param {DOMElement} elem 初始化的元素
  */
 _n.initBlock = (elem) !->
-  blockId = $(elem).data \nblockId
+  blockId = _lib.data elem, \nblockId
   blockId = blockId.split /\s*,\s*|\s+/
 
   _call = (blockId) ->
@@ -122,14 +122,14 @@ _n.initBlock = (elem) !->
     _call.call _n, id
 
 _n.on \NBLOCK_INIT, !->
-  blockEl = $ '[data-nblock-id]'
-  unless blockEl.length
+  blockEl = _lib.querySelector '[data-nblock-id]'
+  if not blockEl or not blockEl.length
     return
   blocks = []
   for el in blockEl
-    auto = $ el .data \nblockAuto
-    level = parseInt( $ el .data \nblockLevel ) or 5
-    blocks.push [parseInt(level), auto, el]
+    auto =  _lib.data el, \nblockAuto
+    level = parseInt( _lib.data el, \nblockLevel ) or 5
+    blocks.push [level, auto, el]
 
   blocks.sort (block1, block2) -> block1[0] > block2[0]
 

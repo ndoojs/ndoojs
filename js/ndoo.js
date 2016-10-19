@@ -4,21 +4,21 @@
 "       Desc: ndoo.js主文件
 "     Author: chenglf
 "    Version: 1.0.0
-" LastChange: 08/02/2016 23:41
+" LastChange: 10/19/2016 14:11
 " --------------------------------------------------
 */
 (function(){
   "use strict";
-  var _, $, _n, _vars, _func, _stor;
+  var _, _n, _vars, _func, _lib, _stor;
   _ = this['_'];
-  $ = this['jQuery'] || this['Zepto'];
   this.N = this.ndoo || (this.ndoo = {});
   _n = this.ndoo;
   _vars = _n.vars;
   _func = _n.func;
+  _lib = _n._lib;
   /* default _lib {{{ */
-  if (!_n._lib && this['Backbone']) {
-    _n._lib = this['Backbone'];
+  if (!_n._lib.Events && this['Backbone']) {
+    _n._lib.Events = this['Backbone'];
   }
   /* }}} */
   /* storage module {{{ */
@@ -536,12 +536,12 @@
       var call, this$ = this;
       call = function(){
         this$.trigger('STATUS:PAGE_STATUS_FAST');
-        $(function(){
+        _lib.onready(function(){
           this$.trigger('STATUS:PAGE_STATUS_DOMPREP');
           this$.trigger('STATUS:PAGE_STATUS_DOM');
           this$.trigger('STATUS:PAGE_STATUS_DOMORLOAD');
         });
-        $(window).bind('load', function(){
+        _lib.onload(function(){
           return this$.trigger('STATUS:PAGE_STATUS_LOAD');
         });
         this$.on('PAGE_STATUS_DOM', function(){
