@@ -1,9 +1,9 @@
-/// <references src="./declare.d.ts" />
-import * as _ from 'underscore';
+export * from './src/prep';
 
-export * from './ndoo_prep';
-import * as _depend from './lib/depend';
-import Events from './lib/event';
-export let _lib = _.extend(_depend, {Events});
-export * from './ndoo';
-export * from './ndoo_block';
+import { _lib as _libBase } from './src/lib';
+import * as _depend from './src/lib/depend';
+import Events from './src/lib/event';
+export let _lib = _libBase.extend(_libBase, _depend, {Events});
+
+// export * from './src/main';
+// export * from './src/block';

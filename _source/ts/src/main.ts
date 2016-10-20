@@ -1,6 +1,7 @@
 /// <references src="./declare.d.ts" />
 import * as _ from 'underscore';
 
+// storage
 export class storage {
   static _data: any = {};
   static REWRITE: number = 1;
@@ -27,6 +28,7 @@ export class storage {
   }
 }
 
+// require
 export let require1 = function(depend: any[], callback: Function, type: string) {
   if (type.toLowerCase() === 'do') {
     window['Do'].apply(null, depend.concat(callback));
@@ -36,14 +38,15 @@ export let require1 = function(depend: any[], callback: Function, type: string) 
   }
 }
 
-export namespace _blockData {
-  export let _block = {};
-  export let _app = {};
-  export let _service = {};
-  export let _exist = {};
-}
+// block
+
+// event 
+export let on = function() {}
+export let trigger = function() {}
 // _n.require = (depend, callback, type) !->
 //   if type.toLowerCase! is \do
 //     Do.apply null, depend.concat callback
 //   else if type.toLowerCase! is \seajs
 //     seajs.use depend, callback
+
+// bootstrap

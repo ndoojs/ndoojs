@@ -1,7 +1,7 @@
 /// <references src="./declare.d.ts" />
 import * as _ from 'underscore';
 
-import { _blockData } from './ndoo';
+import { _blockData, _block } from './blockData';
 import * as _lib from './lib/depend';
 
 let blockExist = function (namespace: string, set: boolean = false) {
@@ -27,6 +27,32 @@ export let hasBlock = function (namespace: string) {
 export let setBlock = function (namespace: string) {
   return blockExist(namespace, true);
 };
+
+export let block = function (namespace: string, block: any) {
+  let nsmatch: string[] = namespace.match(/(.*?)(?:[/.]([^/.]+))$/);
+  let name: string;
+  if (!nsmatch) {
+    nsmatch = [, 'default', namespace];
+  }
+  [namespace, name] = nsmatch;
+  if (arguments.length > 1) {
+    _block('block', namespace, name, block);
+  }
+  else {
+    _block('block', namespace, name);
+  }
+}
+
+// _n.block = (namespace, block) ->
+//   if nsmatch = namespace.match /(.*?)(?:[/.]([^/.]+))$/
+//     [null, namespace, name] = nsmatch
+//   else
+//     [namespace, name] = [\_default, namespace]
+
+//   if arguments.length > 1
+//     _n._block \block, namespace, name, block
+//   else
+//     _n._block \block, namespace, name
 
 export let initBlock = function (elem: HTMLElement) {
   let blockId: string | string[] = _lib.data(elem, 'nblockId');

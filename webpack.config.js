@@ -26,6 +26,6 @@ module.exports = {
   externals: {
     "underscore": "_",
     "backbone": "Backbone",
-    "$": "window.jQuery || window.Zepto"
+    "$": "this.jQuery || this.Zepto"
   },
 };

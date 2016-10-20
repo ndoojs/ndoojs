@@ -15,3 +15,8 @@ declare namespace BackboneConstructor {
 declare module "backbone" {
     export = BackboneConstructor;
 }
+
+declare var NdooLibConstructor: any;
+declare module "ndoo_lib" {
+    export = NdooLibConstructor;
+}
