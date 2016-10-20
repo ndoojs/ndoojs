@@ -44,6 +44,7 @@
     "phantomjs-polyfill": "0.0.1",
     "source-map-loader": "^0.1.5",
     "ts-loader": "^0.9.4",
+    "typescript": "^2.0.3",
     "uglifyjs": "^2.4.10",
     "webpack": "^1.13.2",
     "webpack-dashboard": "^0.2.0",
