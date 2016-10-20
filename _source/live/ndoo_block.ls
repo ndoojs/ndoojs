@@ -9,15 +9,32 @@
 */
 
 "use strict"
-_        = @[\_]
 
 @N = @ndoo ||= {}
 _n = @ndoo
 
-_vars    = _n.vars
-_func    = _n.func
-_stor    = _n.storage
 _lib     = _n._lib
+
+/**
+ * 检测是否存在指定block
+ *
+ * @private
+ * @name _blockExist
+ * @param {string} ns 名称空间
+ * @param {set} boolean 是否标记block已存在
+ * @return {boolean} 返加block标记
+ */
+_blockExist = (ns, set) ->
+  nsmatch = ns.match /(.*?)(?:[/.]([^/.]+))$/
+  unless nsmatch
+    nsmatch = [, \_default, ns]
+
+  [, ns, name] = nsmatch
+
+  if set
+    _n._blockData[\_exist]["block.#ns.#name"] = true;
+  else
+    _n._blockData[\_exist]["block.#ns.#name"]
 
 /**
  * 检测是否存在指定block
@@ -25,16 +42,11 @@ _lib     = _n._lib
  * @method
  * @name hasBlock
  * @memberof ndoo
- * @param {string} namespace 名称空间
+ * @param {string} ns 名称空间
  * @return {boolean} 判断block是否存在
  */
 _n.hasBlock = (namespace) ->
-  if nsmatch = namespace.match /(.*?)(?:[/.]([^/.]+))$/
-    [null, namespace, name] = nsmatch
-  else
-    [namespace, name] = [\_default, namespace]
-
-  _n._blockData[\_exist]["block.#namespace.#name"]
+  _blockExist namespace
 
 /**
  * 标识指定block
@@ -46,12 +58,7 @@ _n.hasBlock = (namespace) ->
  * @return {boolean} 设置标识成功
  */
 _n.setBlock = (namespace) ->
-  if nsmatch = namespace.match /(.*?)(?:[/.]([^/.]+))$/
-    [null, namespace, name] = nsmatch
-  else
-    [namespace, name] = [\_default, namespace]
-
-  _n._blockData[\_exist]["block.#namespace.#name"] = true
+  _blockExist namespace, true
 
 /**
  * 添加block实现
