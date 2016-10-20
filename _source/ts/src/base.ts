@@ -28,7 +28,7 @@ export let _block = function (base: string, ns: string, name: string, block?: an
   let result: any;
   let success: boolean;
   if (block || arguments.length > 3) {
-    for(let ns in nsArr) {
+    for (let ns in nsArr) {
       temp = temp[ns] || (temp[ns] = {});
       // app/block只允许真值
       if (block && (base === 'app' || base === 'block')) {
@@ -73,5 +73,52 @@ export let _block = function (base: string, ns: string, name: string, block?: an
       temp = temp[ns];
     }
     return temp[name];
+  }
+}
+
+export namespace router {
+  export let parse = function (route: RegExp, url: string, callback: Function) {
+    let routeMatch = route.exec(url);
+    if (routeMatch != null) {
+      callback.apply(null, routeMatch.slice(1));
+    }
+  }
+}
+
+export namespace base {
+  export let require = function(depend: any[], callback: Function, type: string) {
+    if (type.toLowerCase() === 'do') {
+      window['Do'].apply(null, depend.concat(callback));
+    }
+    else if (type.toLowerCase() === 'seajs') {
+      window['seajs'].use(depend, callback);
+    }
+  }
+}
+
+// storage
+export class storage {
+  static _data: any = {};
+  static REWRITE: number = 1;
+  static DESTROY: number = 2;
+
+  constructor(key, value, option: number) {
+    let destroy = option & storage.DESTROY;
+    let rewrite = option & storage.REWRITE;
+    let data = storage._data;
+
+    if (value === undefined) {
+      return data[key];
+    }
+
+    if (destroy) {
+      delete data[key];
+    }
+
+    if (!rewrite && _lib.has(data, key)) {
+      return false;
+    }
+
+    return data[key] = value;
   }
 }

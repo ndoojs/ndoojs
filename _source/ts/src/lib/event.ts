@@ -264,4 +264,4 @@ var triggerEvents = function (events, args) {
 Events.bind = Events.on;
 Events.unbind = Events.off;
 
-export default Events;
+export { Events };
