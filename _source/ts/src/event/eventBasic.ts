@@ -1,3 +1,6 @@
+import { getTempData } from '../tempData';
+let tempData = getTempData();
+
 export class event {
   constructor(name: string, type: string) {
     return `#${name}:#${type}`;
@@ -5,18 +8,18 @@ export class event {
   static TYPE_ON = 1;
   static TYPE_TRIGGER = 2;
   static inited = false;
-  static _temp = [];
+  static _temp = tempData.eventTemp;
   static on(eventName: string, callback: Function) {
-    this._temp.push({
-      type: this.TYPE_ON,
+    event._temp.push({
+      type: event.TYPE_ON,
       eventName, callback
     })
   }
   static trigger(eventName: string, callback: Function, data: any) {
-    this._temp.push({
-      type: this.TYPE_TRIGGER,
+    event._temp.push({
+      type: event.TYPE_TRIGGER,
       eventName, callback, data
     });
   }
-  static off() { }
+  static off(eventName: string) { }
 }

@@ -1,7 +1,7 @@
 export let eventApi = function(event: any) {
     let on = function(eventName: string | string[], callback: Function) {
         eventName = (<string>eventName).split(/\s*,\s*|\s+/);
-        for (let e in eventName) {
+        for (let e of <string[]>eventName) {
             event.on(e, callback);
         }
     };
@@ -16,7 +16,7 @@ export let eventApi = function(event: any) {
 
     let off = function(eventName: string | string[]) {
       eventName = (<string>eventName).split(/\s*,\s*|\s+/);
-      for(let e in eventName) {
+      for(let e of <string[]>eventName) {
           event.off(e);
       }
     };

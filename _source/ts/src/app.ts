@@ -31,15 +31,15 @@ export let setApp = (ns: string) => _blockData._exist[`app.${ns}`] = true;
  * @param {string} namespace 名称空间
  * @param {object} controller 控制器
  */
-export let app = function (ns: string, app: any) {
+export let app = function (ns: string, app?: any) {
   let nsmatch = ns.match(/(.*?)(?:[/.]([^/.]+))$/);
   let appName: string;
   if (!nsmatch) {
     nsmatch = [, null, ns]
   }
-  [, appName, ns] = nsmatch;
+  [, ns, appName] = nsmatch;
 
-  if (arguments.length) {
+  if (arguments.length > 1) {
     return _block('app', ns, appName, app);
   }
   else {

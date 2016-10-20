@@ -1,5 +1,8 @@
 /// <references src="../declare.d.ts" />
-import * as $ from '$';
+import * as jquery from 'jquery';
+import * as zepto from 'zepto';
+
+let $ = jquery || zepto; 
 
 export let onready = function (callback: EventListener) {
   $(callback);

@@ -4,7 +4,10 @@ declare module "underscore" {
 }
 
 declare var jQueryConstructor: any;
-declare module "$" {
+declare module "jquery" {
+    export = jQueryConstructor;
+}
+declare module "zepto" {
     export = jQueryConstructor;
 }
 

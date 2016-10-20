@@ -1,5 +1,12 @@
 import { _lib } from '../lib';
 import { eventBase } from './base';
+import { getTempData } from '../tempData';
+
+let tempData = getTempData();
+
+export const TYPE_ON = 1;
+export const TYPE_TRIGGER = 2;
+export let inited = false;
 
 export let eventHandle: {
   [key: string]: any;
@@ -38,8 +45,36 @@ export let trigger = function(eventName: string, eventType: string, data: any[])
     eventHandle.trigger.apply(eventHandle, [eventName].concat(data));
   }
   else if (eventType === 'DELAY') {
+    if (_lib.has(eventHandle.listened, eventName)) {
+      eventHandle.trigger.apply(eventHandle, [eventName].concat(data));
+    }
+    if (!_lib.has(eventHandle.events, eventName)) {
+      eventHandle.events[eventName] = []
+    }
+    eventHandle.events[eventName].push(data);
   }
   else if (eventType === 'STATUS') {
+    if (!_lib.has(eventHandle.events, `${eventType}:${eventName}`)) {
+      eventHandle.events[`${eventType}:${eventName}`] = data;
+      if (_lib.has(eventHandle.listened, eventName)) {
+        eventHandle.trigger.apply(eventHandle, [eventName].concat(data));
+      }
+    }
+  } 
+}
 
+let init = function() {
+  if (!inited && tempData.use) {
+    for (let item of tempData.eventTemp) {
+      if (item.type === TYPE_ON) {
+        on(item.eventName, item.callback);
+      }
+      else if (item.type === TYPE_TRIGGER) {
+        trigger(item.eventName, item.eventTYpe, item.data);
+      }
+    }
+    inited = true;
   }
 }
+
+init();

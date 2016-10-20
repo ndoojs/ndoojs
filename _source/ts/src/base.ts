@@ -1,4 +1,5 @@
 import { _lib } from './lib';
+import { on, trigger } from './event';
 
 export namespace _blockData {
   export let _block = {};
@@ -30,38 +31,38 @@ export let _block = function (base: string, ns: string, name: string, block?: an
   if (block || arguments.length > 3) {
     for (let ns in nsArr) {
       temp = temp[ns] || (temp[ns] = {});
-      // app/block只允许真值
-      if (block && (base === 'app' || base === 'block')) {
-        if (typeof block === 'object') {
-          if (base === 'app' && temp[name]) {
-            result = _lib.defaults(temp[name], block);
-          }
-          else {
-            result = temp[name] = block;
-          }
-        }
-        else if (typeof block === 'function') {
-          result = temp;
+    }
+    // app/block只允许真值
+    if (block && (base === 'app' || base === 'block')) {
+      if (typeof block === 'object') {
+        if (base === 'app' && temp[name]) {
+          result = _lib.defaults(temp[name], block);
         }
         else {
-          result = false;
+          result = temp[name] = block;
         }
       }
-      else if (base == 'service') {
+      else if (typeof block === 'function') {
         result = temp[name] = block;
-        success = true;
       }
       else {
         result = false;
       }
+    }
+    else if (base == 'service') {
+      result = temp[name] = block;
+      success = true;
+    }
+    else {
+      result = false;
+    }
 
-      if (result || success) {
-        if (ns) {
-          _blockData._exist[`${base}.${ns}.${name}`] = true;
-        }
-        else {
-          _blockData._exist[`${base}.${name}`] = true;
-        }
+    if (result || success) {
+      if (ns) {
+        _blockData._exist[`${base}.${ns}.${name}`] = true;
+      }
+      else {
+        _blockData._exist[`${base}.${name}`] = true;
       }
     }
   }
@@ -122,3 +123,6 @@ export class storage {
     return data[key] = value;
   }
 }
+
+let _pk = +new Date();
+export let getPk = (prefix: string = '') => prefix+(++_pk);
