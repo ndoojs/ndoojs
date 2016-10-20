@@ -18,14 +18,18 @@
     "start:dist": "cat js/ndoo_prep.js js/ndoo_lib_depend.js js/ndoo_lib.js js/ndoo.js js/ndoo_block.js js/ndoo_service.js > dist/ndoo_all.js && cat js/ndoo_prep.js js/ndoo_lib_depend.js js/ndoo.js js/ndoo_block.js js/ndoo_service.js > dist/ndoo_slim.js && uglifyjs -rco dist/ndoo_all.min.js dist/ndoo_all.js && uglifyjs -rco dist/ndoo_slim.min.js dist/ndoo_slim.js",
     "test": "karma run",
     "gen:doc": "jsdoc -c jsdoc.conf js/*.js readme.md",
-    "cpjs": "cp -fr js/*.js docs/example/js/"
+    "cpjs": "cp -fr js/*.js docs/example/js/",
+    "webpack": "webpack",
+    "webpack:dev": "webpack-dashboard -- webpack-dev-server --hot --inline"
   },
   "author": "chenglifu",
   "devDependencies": {
     "autocommand-cli": "thinkjs/autocommand-cli#latest",
     "bower": "^1.7.9",
     "coffee-script": "^1.10.0",
+    "file-loader": "^0.9.0",
     "jade": "^1.11.0",
+    "jade-html-loader": "^0.0.3",
     "jasmine-core": "^2.3.4",
     "jsdoc": "^3.4.0",
     "karma": "^0.13.2",
@@ -38,6 +42,11 @@
     "node-sass": "^3.8.0",
     "phantomjs": "^1.9.18",
     "phantomjs-polyfill": "0.0.1",
-    "uglifyjs": "^2.4.10"
+    "source-map-loader": "^0.1.5",
+    "ts-loader": "^0.9.4",
+    "uglifyjs": "^2.4.10",
+    "webpack": "^1.13.2",
+    "webpack-dashboard": "^0.2.0",
+    "webpack-dev-server": "^1.16.2"
   }
 }
