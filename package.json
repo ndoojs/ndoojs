@@ -14,7 +14,8 @@
     "start:test-dev": "karma start test/conf/unit.conf.js --browsers=Chrome",
     "start:watch": "acmd watch",
     "start:build": "acmd run",
-    "start:dist": "cat js/ndoo_prep.js js/ndoo_lib.js js/ndoo_lib_depend.js js/ndoo.js js/ndoo_block.js js/ndoo_service.js > dist/ndoo_all.js && cat js/ndoo_prep.js js/ndoo_lib_depend.js js/ndoo.js js/ndoo_block.js js/ndoo_service.js > dist/ndoo_slim.js && uglifyjs -rco dist/ndoo_all.min.js dist/ndoo_all.js && uglifyjs -rco dist/ndoo_slim.min.js dist/ndoo_slim.js",
+    "start:build-ls": "find _source -type f -name *.ls | acmd run -o",
+    "start:dist": "cat js/ndoo_prep.js js/ndoo_lib_depend.js js/ndoo_lib.js js/ndoo.js js/ndoo_block.js js/ndoo_service.js > dist/ndoo_all.js && cat js/ndoo_prep.js js/ndoo_lib_depend.js js/ndoo.js js/ndoo_block.js js/ndoo_service.js > dist/ndoo_slim.js && uglifyjs -rco dist/ndoo_all.min.js dist/ndoo_all.js && uglifyjs -rco dist/ndoo_slim.min.js dist/ndoo_slim.js",
     "test": "karma run",
     "gen:doc": "jsdoc -c jsdoc.conf js/*.js readme.md",
     "cpjs": "cp -fr js/*.js docs/example/js/"
