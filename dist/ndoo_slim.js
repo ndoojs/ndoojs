@@ -239,7 +239,8 @@
   _n = this.ndoo;
   _lib = _n._lib;
   $ = this['jQuery'] || this['Zepto'];
-  _.extend(_lib, {
+  _.extend(_lib, _);
+  _lib.extend(_lib, {
     onready: function(callback){
       if ($) {
         $(callback);
@@ -262,22 +263,32 @@
       }
     },
     data: function(elem, key, value){
-      if (!elem.dataset) {
-        key = key.replace(/([A-Z])/g, function(char){
-          return '-' + char.toLowerCase();
-        });
-      }
-      if (arguments.length === 2) {
-        if (elem.dataset) {
-          return elem.dataset[key];
-        } else {
-          return elem.getAttribute(key);
+      var type;
+      type = arguments.length;
+      if ($) {
+        if (type === 2) {
+          return $(elem).data(key);
+        } else if (type === 3) {
+          return $(elem).data(key, value);
         }
-      } else if (arguments.length === 3) {
-        if (elem.dataset) {
-          return elem.dataset[key] = value;
-        } else {
-          return elem.setAttribute(key, value);
+      } else {
+        if (!elem.dataset) {
+          key = key.replace(/([A-Z])/g, function(char){
+            return '-' + char.toLowerCase();
+          });
+        }
+        if (type === 2) {
+          if (elem.dataset) {
+            return elem.dataset[key];
+          } else {
+            return elem.getAttribute(key);
+          }
+        } else if (type === 3) {
+          if (elem.dataset) {
+            return elem.dataset[key] = value;
+          } else {
+            return elem.setAttribute(key, value);
+          }
         }
       }
     }
@@ -294,12 +305,9 @@
 */
 (function(){
   "use strict";
-  var _, _n, _vars, _func, _lib, _stor;
-  _ = this['_'];
+  var _n, _lib, _stor;
   this.N = this.ndoo || (this.ndoo = {});
   _n = this.ndoo;
-  _vars = _n.vars;
-  _func = _n.func;
   _lib = _n._lib;
   /* default _lib {{{ */
   if (!_n._lib.Events && this['Backbone']) {
@@ -339,7 +347,7 @@
       delete data[key];
       return true;
     }
-    if (!rewrite && _.has(data, key)) {
+    if (!rewrite && _lib.has(data, key)) {
       return false;
     }
     data[key] = value;
@@ -418,7 +426,7 @@
       if (block && (base === 'app' || base === 'block')) {
         if (typeof block === 'object') {
           if (base === 'app' && temp[name]) {
-            result = _.defaults(temp[name], block);
+            result = _lib.defaults(temp[name], block);
           } else {
             result = temp[name] = block;
           }
@@ -444,7 +452,7 @@
     } else {
       for (i$ = 0, len$ = nsArr.length; i$ < len$; ++i$) {
         ns = nsArr[i$];
-        if (!_.has(temp, ns)) {
+        if (!_lib.has(temp, ns)) {
           return undefined;
         }
         temp = temp[ns];
@@ -502,9 +510,9 @@
   _n.trigger('STATUS:NAPP_DEFINE');
   /* }}} */
   /* event module {{{ */
-  _n.event = _.extend(_n.event, {
+  _n.event = _lib.extend(_n.event, {
     /* eventHandle {{{ */
-    eventHandle: _.extend({
+    eventHandle: _lib.extend({
       events: {},
       listened: {}
     }, _n._lib.Events)
@@ -515,10 +523,10 @@
       eventHandle = this.eventHandle;
       eventHandle.on(eventName, callback);
       eventHandle.listened[eventName] = true;
-      if (_.has(eventHandle.events, "STATUS:" + eventName)) {
+      if (_lib.has(eventHandle.events, "STATUS:" + eventName)) {
         callback.apply(eventHandle, eventHandle.events["STATUS:" + eventName]);
       }
-      if (_.has(eventHandle.events, eventName)) {
+      if (_lib.has(eventHandle.events, eventName)) {
         for (i$ = 0, len$ = (ref$ = eventHandle.events[eventName]).length; i$ < len$; ++i$) {
           item = ref$[i$];
           callback.apply(eventHandle, item);
@@ -542,17 +550,17 @@
       if (eventType === 'DEFAULT') {
         eventHandle.trigger.apply(eventHandle, [eventName].concat(data));
       } else if (eventType === 'DELAY') {
-        if (_.has(eventHandle.listened, eventName)) {
+        if (_lib.has(eventHandle.listened, eventName)) {
           eventHandle.trigger.apply(eventHandle, [eventName].concat(data));
         }
-        if (!_.has(eventHandle.events, eventName)) {
+        if (!_lib.has(eventHandle.events, eventName)) {
           eventHandle.events[eventName] = [];
         }
         eventHandle.events[eventName].push(data);
       } else if (eventType === 'STATUS') {
-        if (!_.has(eventHandle.events, eventType + ":" + eventName)) {
+        if (!_lib.has(eventHandle.events, eventType + ":" + eventName)) {
           eventHandle.events[eventType + ":" + eventName] = data;
-          if (_.has(eventHandle.listened, eventName)) {
+          if (_lib.has(eventHandle.listened, eventName)) {
             eventHandle.trigger.apply(eventHandle, [eventName].concat(data));
           }
         }
@@ -585,7 +593,7 @@
   });
   _n.event.init();
   /* }}} */
-  _.extend(_n, {
+  _lib.extend(_n, {
     /* base {{{ */
     /**
      * page id
@@ -681,26 +689,26 @@
           dataItem = _data[i$];
           /* init filter array */
           _filter = dataItem.filter;
-          if (!_.isArray(_filter)) {
+          if (!_lib.isArray(_filter)) {
             _filter = [].concat(_filter.split(/\s*,\s*|\s+/));
           }
           isRun = true;
           /* init only array */
           if (dataItem.only) {
             _only = dataItem.only;
-            if (!_.isArray(_only)) {
+            if (!_lib.isArray(_only)) {
               _only = [].concat(_only.split(/\s*,\s*|\s+/));
             }
-            if (_.indexOf(_only, actionName) < 0) {
+            if (_lib.indexOf(_only, actionName) < 0) {
               isRun = false;
             }
             /* init except array */
           } else if (dataItem.except) {
             _except = dataItem.except;
-            if (!_.isArray(_except)) {
+            if (!_lib.isArray(_except)) {
               _except = [].concat(_except.split(/\s*,\s*|\s+/));
             }
-            if (_.indexOf(_except, actionName) > -1) {
+            if (_lib.indexOf(_except, actionName) > -1) {
               isRun = false;
             }
           }
@@ -740,7 +748,7 @@
         } else {
           controller = _n.app(controllerName);
         }
-        if (!_.has(controller, actionName + "Action") && _.has(controller, '_emptyAction')) {
+        if (!_lib.has(controller, actionName + "Action") && _lib.has(controller, '_emptyAction')) {
           actionName = '_empty';
         }
         depend = [];
@@ -775,7 +783,7 @@
           _n.trigger('STATUS:NBLOCK_INIT');
         };
         if (depend.length) {
-          _n.require(_.uniq(depend), run, 'Do');
+          _n.require(_lib.uniq(depend), run, 'Do');
         } else {
           run();
         }
@@ -858,7 +866,7 @@
      */,
     init: function(id, depend){
       var ref$;
-      if (_.isArray(id)) {
+      if (_lib.isArray(id)) {
         ref$ = ['', id], id = ref$[0], depend = ref$[1];
       }
       this.initPageId(id);
@@ -881,31 +889,43 @@
 */
 (function(){
   "use strict";
-  var _, _n, _vars, _func, _stor, _lib;
-  _ = this['_'];
+  var _n, _lib, _blockExist;
   this.N = this.ndoo || (this.ndoo = {});
   _n = this.ndoo;
-  _vars = _n.vars;
-  _func = _n.func;
-  _stor = _n.storage;
   _lib = _n._lib;
+  /**
+   * 检测是否存在指定block
+   *
+   * @private
+   * @name _blockExist
+   * @param {string} ns 名称空间
+   * @param {set} boolean 是否标记block已存在
+   * @return {boolean} 返加block标记
+   */
+  _blockExist = function(ns, set){
+    var nsmatch, name;
+    nsmatch = ns.match(/(.*?)(?:[/.]([^/.]+))$/);
+    if (!nsmatch) {
+      nsmatch = [void 8, '_default', ns];
+    }
+    ns = nsmatch[1], name = nsmatch[2];
+    if (set) {
+      return _n._blockData['_exist']["block." + ns + "." + name] = true;
+    } else {
+      return _n._blockData['_exist']["block." + ns + "." + name];
+    }
+  };
   /**
    * 检测是否存在指定block
    *
    * @method
    * @name hasBlock
    * @memberof ndoo
-   * @param {string} namespace 名称空间
+   * @param {string} ns 名称空间
    * @return {boolean} 判断block是否存在
    */
   _n.hasBlock = function(namespace){
-    var nsmatch, name, ref$;
-    if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
-      namespace = nsmatch[1], name = nsmatch[2];
-    } else {
-      ref$ = ['_default', namespace], namespace = ref$[0], name = ref$[1];
-    }
-    return _n._blockData['_exist']["block." + namespace + "." + name];
+    return _blockExist(namespace);
   };
   /**
    * 标识指定block
@@ -917,13 +937,7 @@
    * @return {boolean} 设置标识成功
    */
   _n.setBlock = function(namespace){
-    var nsmatch, name, ref$;
-    if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
-      namespace = nsmatch[1], name = nsmatch[2];
-    } else {
-      ref$ = ['_default', namespace], namespace = ref$[0], name = ref$[1];
-    }
-    return _n._blockData['_exist']["block." + namespace + "." + name] = true;
+    return _blockExist(namespace, true);
   };
   /**
    * 添加block实现
@@ -953,7 +967,7 @@
     var block, call;
     namespace == null && (namespace = '_default');
     if (block = _n.block(namespace + "." + name)) {
-      if (_.isFunction(block.init)) {
+      if (_lib.isFunction(block.init)) {
         call = function(){
           block.init(elem, params);
         };
@@ -962,7 +976,7 @@
         } else {
           return call();
         }
-      } else if (_.isFunction(block)) {
+      } else if (_lib.isFunction(block)) {
         return block(elem, params);
       }
     }
@@ -995,7 +1009,7 @@
         }
       });
     };
-    _.each(blockId, function(id){
+    _lib.each(blockId, function(id){
       return _call.call(_n, id);
     });
   };
@@ -1037,14 +1051,10 @@
 */
 (function(){
   "use strict";
-  var _, $, _n, _vars, _func, _stor;
-  _ = this['_'];
-  $ = this['jQuery'] || this['Zepto'];
+  var _n, _lib;
   this.N = this.ndoo || (this.ndoo = {});
   _n = this.ndoo;
-  _vars = _n.vars;
-  _func = _n.func;
-  _stor = _n.storage;
+  _lib = _n._lib;
   /**
    * 添加/获取serivce
    *
@@ -1073,7 +1083,7 @@
       return _n._block('service', namespace, name, service);
     } else {
       service = _n._block('service', namespace, name);
-      if (service && _.isFunction(service.init)) {
+      if (service && _lib.isFunction(service.init)) {
         return service.init(_n);
       } else {
         return service;

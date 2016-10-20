@@ -9,12 +9,9 @@
 */
 (function(){
   "use strict";
-  var _, _n, _vars, _func, _lib, _stor;
-  _ = this['_'];
+  var _n, _lib, _stor;
   this.N = this.ndoo || (this.ndoo = {});
   _n = this.ndoo;
-  _vars = _n.vars;
-  _func = _n.func;
   _lib = _n._lib;
   /* default _lib {{{ */
   if (!_n._lib.Events && this['Backbone']) {
@@ -54,7 +51,7 @@
       delete data[key];
       return true;
     }
-    if (!rewrite && _.has(data, key)) {
+    if (!rewrite && _lib.has(data, key)) {
       return false;
     }
     data[key] = value;
@@ -133,7 +130,7 @@
       if (block && (base === 'app' || base === 'block')) {
         if (typeof block === 'object') {
           if (base === 'app' && temp[name]) {
-            result = _.defaults(temp[name], block);
+            result = _lib.defaults(temp[name], block);
           } else {
             result = temp[name] = block;
           }
@@ -159,7 +156,7 @@
     } else {
       for (i$ = 0, len$ = nsArr.length; i$ < len$; ++i$) {
         ns = nsArr[i$];
-        if (!_.has(temp, ns)) {
+        if (!_lib.has(temp, ns)) {
           return undefined;
         }
         temp = temp[ns];
@@ -217,9 +214,9 @@
   _n.trigger('STATUS:NAPP_DEFINE');
   /* }}} */
   /* event module {{{ */
-  _n.event = _.extend(_n.event, {
+  _n.event = _lib.extend(_n.event, {
     /* eventHandle {{{ */
-    eventHandle: _.extend({
+    eventHandle: _lib.extend({
       events: {},
       listened: {}
     }, _n._lib.Events)
@@ -230,10 +227,10 @@
       eventHandle = this.eventHandle;
       eventHandle.on(eventName, callback);
       eventHandle.listened[eventName] = true;
-      if (_.has(eventHandle.events, "STATUS:" + eventName)) {
+      if (_lib.has(eventHandle.events, "STATUS:" + eventName)) {
         callback.apply(eventHandle, eventHandle.events["STATUS:" + eventName]);
       }
-      if (_.has(eventHandle.events, eventName)) {
+      if (_lib.has(eventHandle.events, eventName)) {
         for (i$ = 0, len$ = (ref$ = eventHandle.events[eventName]).length; i$ < len$; ++i$) {
           item = ref$[i$];
           callback.apply(eventHandle, item);
@@ -257,17 +254,17 @@
       if (eventType === 'DEFAULT') {
         eventHandle.trigger.apply(eventHandle, [eventName].concat(data));
       } else if (eventType === 'DELAY') {
-        if (_.has(eventHandle.listened, eventName)) {
+        if (_lib.has(eventHandle.listened, eventName)) {
           eventHandle.trigger.apply(eventHandle, [eventName].concat(data));
         }
-        if (!_.has(eventHandle.events, eventName)) {
+        if (!_lib.has(eventHandle.events, eventName)) {
           eventHandle.events[eventName] = [];
         }
         eventHandle.events[eventName].push(data);
       } else if (eventType === 'STATUS') {
-        if (!_.has(eventHandle.events, eventType + ":" + eventName)) {
+        if (!_lib.has(eventHandle.events, eventType + ":" + eventName)) {
           eventHandle.events[eventType + ":" + eventName] = data;
-          if (_.has(eventHandle.listened, eventName)) {
+          if (_lib.has(eventHandle.listened, eventName)) {
             eventHandle.trigger.apply(eventHandle, [eventName].concat(data));
           }
         }
@@ -300,7 +297,7 @@
   });
   _n.event.init();
   /* }}} */
-  _.extend(_n, {
+  _lib.extend(_n, {
     /* base {{{ */
     /**
      * page id
@@ -396,26 +393,26 @@
           dataItem = _data[i$];
           /* init filter array */
           _filter = dataItem.filter;
-          if (!_.isArray(_filter)) {
+          if (!_lib.isArray(_filter)) {
             _filter = [].concat(_filter.split(/\s*,\s*|\s+/));
           }
           isRun = true;
           /* init only array */
           if (dataItem.only) {
             _only = dataItem.only;
-            if (!_.isArray(_only)) {
+            if (!_lib.isArray(_only)) {
               _only = [].concat(_only.split(/\s*,\s*|\s+/));
             }
-            if (_.indexOf(_only, actionName) < 0) {
+            if (_lib.indexOf(_only, actionName) < 0) {
               isRun = false;
             }
             /* init except array */
           } else if (dataItem.except) {
             _except = dataItem.except;
-            if (!_.isArray(_except)) {
+            if (!_lib.isArray(_except)) {
               _except = [].concat(_except.split(/\s*,\s*|\s+/));
             }
-            if (_.indexOf(_except, actionName) > -1) {
+            if (_lib.indexOf(_except, actionName) > -1) {
               isRun = false;
             }
           }
@@ -455,7 +452,7 @@
         } else {
           controller = _n.app(controllerName);
         }
-        if (!_.has(controller, actionName + "Action") && _.has(controller, '_emptyAction')) {
+        if (!_lib.has(controller, actionName + "Action") && _lib.has(controller, '_emptyAction')) {
           actionName = '_empty';
         }
         depend = [];
@@ -490,7 +487,7 @@
           _n.trigger('STATUS:NBLOCK_INIT');
         };
         if (depend.length) {
-          _n.require(_.uniq(depend), run, 'Do');
+          _n.require(_lib.uniq(depend), run, 'Do');
         } else {
           run();
         }
@@ -573,7 +570,7 @@
      */,
     init: function(id, depend){
       var ref$;
-      if (_.isArray(id)) {
+      if (_lib.isArray(id)) {
         ref$ = ['', id], id = ref$[0], depend = ref$[1];
       }
       this.initPageId(id);

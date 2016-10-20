@@ -15,7 +15,8 @@
   _n = this.ndoo;
   _lib = _n._lib;
   $ = this['jQuery'] || this['Zepto'];
-  _.extend(_lib, {
+  _.extend(_lib, _);
+  _lib.extend(_lib, {
     onready: function(callback){
       if ($) {
         $(callback);
@@ -38,22 +39,32 @@
       }
     },
     data: function(elem, key, value){
-      if (!elem.dataset) {
-        key = key.replace(/([A-Z])/g, function(char){
-          return '-' + char.toLowerCase();
-        });
-      }
-      if (arguments.length === 2) {
-        if (elem.dataset) {
-          return elem.dataset[key];
-        } else {
-          return elem.getAttribute(key);
+      var type;
+      type = arguments.length;
+      if ($) {
+        if (type === 2) {
+          return $(elem).data(key);
+        } else if (type === 3) {
+          return $(elem).data(key, value);
         }
-      } else if (arguments.length === 3) {
-        if (elem.dataset) {
-          return elem.dataset[key] = value;
-        } else {
-          return elem.setAttribute(key, value);
+      } else {
+        if (!elem.dataset) {
+          key = key.replace(/([A-Z])/g, function(char){
+            return '-' + char.toLowerCase();
+          });
+        }
+        if (type === 2) {
+          if (elem.dataset) {
+            return elem.dataset[key];
+          } else {
+            return elem.getAttribute(key);
+          }
+        } else if (type === 3) {
+          if (elem.dataset) {
+            return elem.dataset[key] = value;
+          } else {
+            return elem.setAttribute(key, value);
+          }
         }
       }
     }

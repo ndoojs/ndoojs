@@ -9,31 +9,43 @@
 */
 (function(){
   "use strict";
-  var _, _n, _vars, _func, _stor, _lib;
-  _ = this['_'];
+  var _n, _lib, _blockExist;
   this.N = this.ndoo || (this.ndoo = {});
   _n = this.ndoo;
-  _vars = _n.vars;
-  _func = _n.func;
-  _stor = _n.storage;
   _lib = _n._lib;
+  /**
+   * 检测是否存在指定block
+   *
+   * @private
+   * @name _blockExist
+   * @param {string} ns 名称空间
+   * @param {set} boolean 是否标记block已存在
+   * @return {boolean} 返加block标记
+   */
+  _blockExist = function(ns, set){
+    var nsmatch, name;
+    nsmatch = ns.match(/(.*?)(?:[/.]([^/.]+))$/);
+    if (!nsmatch) {
+      nsmatch = [void 8, '_default', ns];
+    }
+    ns = nsmatch[1], name = nsmatch[2];
+    if (set) {
+      return _n._blockData['_exist']["block." + ns + "." + name] = true;
+    } else {
+      return _n._blockData['_exist']["block." + ns + "." + name];
+    }
+  };
   /**
    * 检测是否存在指定block
    *
    * @method
    * @name hasBlock
    * @memberof ndoo
-   * @param {string} namespace 名称空间
+   * @param {string} ns 名称空间
    * @return {boolean} 判断block是否存在
    */
   _n.hasBlock = function(namespace){
-    var nsmatch, name, ref$;
-    if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
-      namespace = nsmatch[1], name = nsmatch[2];
-    } else {
-      ref$ = ['_default', namespace], namespace = ref$[0], name = ref$[1];
-    }
-    return _n._blockData['_exist']["block." + namespace + "." + name];
+    return _blockExist(namespace);
   };
   /**
    * 标识指定block
@@ -45,13 +57,7 @@
    * @return {boolean} 设置标识成功
    */
   _n.setBlock = function(namespace){
-    var nsmatch, name, ref$;
-    if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
-      namespace = nsmatch[1], name = nsmatch[2];
-    } else {
-      ref$ = ['_default', namespace], namespace = ref$[0], name = ref$[1];
-    }
-    return _n._blockData['_exist']["block." + namespace + "." + name] = true;
+    return _blockExist(namespace, true);
   };
   /**
    * 添加block实现
@@ -81,7 +87,7 @@
     var block, call;
     namespace == null && (namespace = '_default');
     if (block = _n.block(namespace + "." + name)) {
-      if (_.isFunction(block.init)) {
+      if (_lib.isFunction(block.init)) {
         call = function(){
           block.init(elem, params);
         };
@@ -90,7 +96,7 @@
         } else {
           return call();
         }
-      } else if (_.isFunction(block)) {
+      } else if (_lib.isFunction(block)) {
         return block(elem, params);
       }
     }
@@ -123,7 +129,7 @@
         }
       });
     };
-    _.each(blockId, function(id){
+    _lib.each(blockId, function(id){
       return _call.call(_n, id);
     });
   };

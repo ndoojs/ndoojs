@@ -10,14 +10,10 @@
 */
 (function(){
   "use strict";
-  var _, $, _n, _vars, _func, _stor;
-  _ = this['_'];
-  $ = this['jQuery'] || this['Zepto'];
+  var _n, _lib;
   this.N = this.ndoo || (this.ndoo = {});
   _n = this.ndoo;
-  _vars = _n.vars;
-  _func = _n.func;
-  _stor = _n.storage;
+  _lib = _n._lib;
   /**
    * 添加/获取serivce
    *
@@ -46,7 +42,7 @@
       return _n._block('service', namespace, name, service);
     } else {
       service = _n._block('service', namespace, name);
-      if (service && _.isFunction(service.init)) {
+      if (service && _lib.isFunction(service.init)) {
         return service.init(_n);
       } else {
         return service;
