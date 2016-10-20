@@ -10,15 +10,11 @@
 */
 
 "use strict"
-_        = @[\_]
-$        = @[\jQuery] || @[\Zepto]
 
 @N = @ndoo ||= {}
 _n = @ndoo
 
-_vars    = _n.vars
-_func    = _n.func
-_stor    = _n.storage
+_lib     = _n._lib
 
 /**
  * 添加/获取serivce
@@ -47,7 +43,7 @@ _n.service = (namespace, service) ->
     _n._block \service, namespace, name, service
   else
     service = _n._block \service, namespace, name
-    if service and _.isFunction service.init
+    if service and _lib.isFunction service.init
       service.init _n
     else
       service

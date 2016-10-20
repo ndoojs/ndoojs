@@ -17,8 +17,8 @@ _n = @ndoo
 _lib = _n._lib
 
 $ = @[\jQuery] or @[\Zepto]
-
-_.extend _lib, do
+``_.extend(_lib, _);``
+_lib.extend _lib, do
   onready: (callback) !->
     if $
       $ callback
@@ -38,16 +38,23 @@ _.extend _lib, do
       document.querySelectorAll selector
 
   data: (elem, key, value) ->
-    unless elem.dataset
-      key = key.replace /([A-Z])/g, (char) -> '-'+char.toLowerCase!
+    type = arguments.length
+    if $
+      if type is 2
+        $(elem).data(key)
+      else if type is 3
+        $(elem).data(key, value);
+    else
+      unless elem.dataset
+        key = key.replace /([A-Z])/g, (char) -> '-'+char.toLowerCase!
 
-    if arguments.length is 2
-      if elem.dataset
-        elem.dataset[key]
-      else
-        elem.getAttribute(key)
-    else if arguments.length is 3
-      if elem.dataset
-        elem.dataset[key] = value
-      else
-        elem.setAttribute(key, value)
+      if type is 2
+        if elem.dataset
+          elem.dataset[key]
+        else
+          elem.getAttribute(key)
+      else if type is 3
+        if elem.dataset
+          elem.dataset[key] = value
+        else
+          elem.setAttribute(key, value)

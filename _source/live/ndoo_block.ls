@@ -85,7 +85,7 @@ _n.trigger \STATUS:NBLOCK_DEFINE
 
 _n.on \NBLOCK_LOADED, (elem, namespace=\_default, name, params) ->
   if block = _n.block "#namespace.#name"
-    if _.isFunction block.init
+    if _lib.isFunction block.init
       call = !->
         block.init elem, params
 
@@ -93,7 +93,7 @@ _n.on \NBLOCK_LOADED, (elem, namespace=\_default, name, params) ->
         _n.require [].concat(block.depend), call, \Do
       else
         call!
-    else if _.isFunction block
+    else if _lib.isFunction block
       block elem, params
 
 /**
@@ -125,7 +125,7 @@ _n.initBlock = (elem) !->
           _n.trigger \NBLOCK_LOADED, elem, namespace, block, params
         , \Do
 
-  _.each blockId, (id) ->
+  _lib.each blockId, (id) ->
     _call.call _n, id
 
 _n.on \NBLOCK_INIT, !->

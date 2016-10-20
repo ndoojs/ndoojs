@@ -9,13 +9,10 @@
 */
 
 "use strict"
-_        = @[\_]
 
 @N = @ndoo ||= {}
 _n = @ndoo
 
-_vars    = _n.vars
-_func    = _n.func
 _lib     = _n._lib
 
 /* default _lib {{{ */
@@ -56,7 +53,7 @@ _n.storage = (key, value, option) ->
     delete data[key]
     return true
 
-  if not rewrite and _.has data, key
+  if not rewrite and _lib.has data, key
     return false
 
   data[key] = value
@@ -137,7 +134,7 @@ _n._block = (base, namespace, name, block) ->
     if block and (base is \app or base is \block)
       if typeof block is 'object'
         if base is \app and temp[name]
-          result = _.defaults temp[name], block
+          result = _lib.defaults temp[name], block
         else
           result = temp[name] = block
       else if typeof block is 'function'
@@ -163,7 +160,7 @@ _n._block = (base, namespace, name, block) ->
   else
     # 返回指定字段
     for ns in nsArr
-      unless _.has temp, ns
+      unless _lib.has temp, ns
         return undefined
       temp = temp[ns]
     temp[name]
@@ -216,9 +213,9 @@ _n.app = (namespace, controller) ->
 _n.trigger 'STATUS:NAPP_DEFINE'
 /* }}} */
 /* event module {{{ */
-_n.event = _.extend _n.event,
+_n.event = _lib.extend _n.event,
   /* eventHandle {{{ */
-  eventHandle: _.extend do
+  eventHandle: _lib.extend do
     * events   : {}
       listened : {}
     _n._lib.Events
@@ -231,11 +228,11 @@ _n.event = _.extend _n.event,
     # 标识监听
     eventHandle.listened[eventName] = true
     # 触发状态事件
-    if _.has eventHandle.events, "STATUS:#eventName"
+    if _lib.has eventHandle.events, "STATUS:#eventName"
       callback.apply eventHandle, eventHandle.events["STATUS:#eventName"]
       # eventHandle.trigger eventName, eventHandle.events["STATUS:"+eventName]
     # 触发延迟事件队列
-    if _.has eventHandle.events, eventName
+    if _lib.has eventHandle.events, eventName
       # temp = []
       # while item = eventHandle.events[eventName].shift()
       #   kepp = callback.apply eventHandle, item
@@ -263,10 +260,10 @@ _n.event = _.extend _n.event,
     # 处理请求事件
     else if eventType is \DELAY
       # 如果事件已绑定
-      if _.has eventHandle.listened, eventName
+      if _lib.has eventHandle.listened, eventName
         eventHandle.trigger.apply eventHandle, [eventName].concat data
       # 暂存队列
-      unless _.has eventHandle.events, eventName
+      unless _lib.has eventHandle.events, eventName
         eventHandle.events[eventName] = []
 
       eventHandle.events[eventName].push data
@@ -274,10 +271,10 @@ _n.event = _.extend _n.event,
     # 状态仅可触发一次
     else if eventType is \STATUS
       # 绑定状态事件
-      if not _.has eventHandle.events, "#eventType:#eventName"
+      if not _lib.has eventHandle.events, "#eventType:#eventName"
         eventHandle.events["#eventType:#eventName"] = data
         # 触发已绑定的事件
-        if _.has eventHandle.listened, eventName
+        if _lib.has eventHandle.listened, eventName
           eventHandle.trigger.apply eventHandle, [eventName].concat data
   /* }}} */
   /* init {{{ */
@@ -300,7 +297,7 @@ _n.event = _.extend _n.event,
 # initiation event module
 _n.event.init!
 /* }}} */
-_.extend _n,
+_lib.extend _n,
   /* base {{{ */
   /**
    * page id
@@ -380,26 +377,26 @@ _.extend _n,
       for dataItem in _data
         /* init filter array */
         _filter = dataItem.filter
-        unless _.isArray(_filter)
+        unless _lib.isArray(_filter)
           _filter = [].concat _filter.split /\s*,\s*|\s+/
 
         isRun = true
         /* init only array */
         if dataItem.only
           _only = dataItem.only
-          unless _.isArray(_only)
+          unless _lib.isArray(_only)
             _only = [].concat _only.split /\s*,\s*|\s+/
 
 
-          if _.indexOf(_only, actionName) < 0
+          if _lib.indexOf(_only, actionName) < 0
             isRun = false
           /* init except array */
         else if dataItem.except
           _except = dataItem.except
-          unless _.isArray(_except)
+          unless _lib.isArray(_except)
             _except = [].concat _except.split /\s*,\s*|\s+/
 
-          if _.indexOf(_except, actionName) > -1
+          if _lib.indexOf(_except, actionName) > -1
             isRun = false
 
         if isRun
@@ -420,8 +417,8 @@ _.extend _n,
       else
         controller = _n.app controllerName
 
-      if !_.has(controller, "#{actionName}Action") and
-      _.has controller, \_emptyAction
+      if !_lib.has(controller, "#{actionName}Action") and
+      _lib.has controller, \_emptyAction
         actionName = \_empty
 
       # @TODO 基于模块的依赖定义处理
@@ -456,7 +453,7 @@ _.extend _n,
         _n.trigger \STATUS:NBLOCK_INIT
 
       if depend.length
-        _n.require _.uniq(depend), run, \Do
+        _n.require _lib.uniq(depend), run, \Do
       else
         run!
 
@@ -541,7 +538,7 @@ _.extend _n,
    * _n.init('home/index', ['library', 'common'])
    */
   init: (id, depend) ->
-    if _.isArray id
+    if _lib.isArray id
       [id, depend] = ['', id]
 
     # initiation page id
