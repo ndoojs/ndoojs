@@ -9,6 +9,7 @@ import * as _depend from './src/lib/depend';
 import { Events } from './src/lib/event';
 export let _lib = _libBase.extend(_libBase, _depend, {Events});
 export * from './src/event';
+export * from './src/base';
 export * from './src/app';
 export * from './src/block';
 export * from './src/service';

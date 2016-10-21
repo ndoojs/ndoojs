@@ -7,7 +7,7 @@ let tempData = getTempData();
 export const TYPE_ON = 1;
 export const TYPE_TRIGGER = 2;
 export let inited = false;
-
+export const _temp = [];
 export let eventHandle: {
   [key: string]: any;
   events: {
