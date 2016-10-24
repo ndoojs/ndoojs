@@ -1,14 +1,16 @@
-export let _isDebug = false;
+import { event as EventBasic } from './event/eventBasic';
+import { EventApi } from './event/eventApi';
 
-const vars: any = {};
-const func: any = {};
-export let getVarsAndFunc = function(data) {
-    if (data.use) {
-        return data;
-    }
-    else {
-        return {vars, func};
-    }
+export class Prep extends EventApi {
+  private _isDebug: boolean = false;
+  public vars: any = {};
+  public func: any = {};
+  public _lib: any = {};
+
+  public event: typeof EventBasic;
+
+  constructor() {
+    super();
+    this.event = EventBasic;
+  }
 }
-// export const vars: any = {}
-// export const func: any = {}

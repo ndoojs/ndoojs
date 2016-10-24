@@ -10,14 +10,14 @@ export class event {
   static inited = false;
   static _temp = tempData.eventTemp;
   static on(eventName: string, callback: Function) {
-    event._temp.push({
-      type: event.TYPE_ON,
+    this._temp.push({
+      type: this.TYPE_ON,
       eventName, callback
     })
   }
   static trigger(eventName: string, callback: Function, data: any) {
-    event._temp.push({
-      type: event.TYPE_TRIGGER,
+    this._temp.push({
+      type: this.TYPE_TRIGGER,
       eventName, callback, data
     });
   }
