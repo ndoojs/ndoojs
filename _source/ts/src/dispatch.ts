@@ -210,8 +210,8 @@ export let init = function(id?: string | string[], depend?: string| string[]) {
     [id, depend] = ['', id];
   }
 
-  initPageId(<string>id);
-  dispatch();
-  triggerPageStatus(depend);
+  this.initPageId(<string>id);
+  this.dispatch();
+  this.triggerPageStatus(depend);
   return this;
 }

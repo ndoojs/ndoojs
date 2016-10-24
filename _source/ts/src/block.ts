@@ -46,7 +46,7 @@ export let block = function (ns: string, block?: any): any {
 
 export let initBlock = function (elem: HTMLElement) {
   let blockId: string | string[] = _lib.data(elem, 'nblockId');
-  blockId = blockId.split(/\s*,\s*|\s+/);
+  blockId = (<string>blockId).split(/\s*,\s*|\s+/);
 
   let _call = function (blockId: string) {
     router.parse(
