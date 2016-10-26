@@ -1,0 +1,22 @@
+doctype html
+html
+  head
+   title typescript preview page
+   script(src="./tsoutput/ndoo_prep.js")
+  body
+    script.
+      ndoo.vars.abc =  1;
+      ndoo.on('test', function() {
+        console.log('test');
+      });
+    script(src="./lib/underscore-min.js")
+    script(src="./tsoutput/ndoo_all.js")
+    // script.
+      ndoo.app('home', {
+        indexAction: function() {
+        ndoo.trigger('test');
+        console.log('home/index');
+        }
+      });
+
+      ndoo.init('home/index');
