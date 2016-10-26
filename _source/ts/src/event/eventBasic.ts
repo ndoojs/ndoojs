@@ -15,10 +15,10 @@ export class event {
       eventName, callback
     })
   }
-  static trigger(eventName: string, callback: Function, data: any) {
+  static trigger(eventName: string, eventType: string, data: any[]) {
     this._temp.push({
       type: this.TYPE_TRIGGER,
-      eventName, callback, data
+      eventName, eventType, data
     });
   }
   static off(eventName: string) { }
