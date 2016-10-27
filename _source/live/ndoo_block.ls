@@ -90,7 +90,8 @@ _n.on \NBLOCK_LOADED, (elem, namespace=\_default, name, params) ->
         block.init elem, params
 
       if block.depend
-        _n.require [].concat(block.depend), call, \Do
+        loader = block.loader || _n._loader[\block] || \Do
+        _n.require [].concat(block.depend), call, loader
       else
         call!
     else if _lib.isFunction block

@@ -98,11 +98,28 @@ _n.storage.DESTROY = 2
  *   a('body').mytest();
  * }, 'seajs');
  */
-_n.require = (depend, callback, type) !->
+_n.require = (depend, callback, type = 'loader') !->
   if type.toLowerCase! is \do
     Do.apply null, depend.concat callback
   else if type.toLowerCase! is \seajs
     seajs.use depend, callback
+  else
+    loader = _n._loader[type];
+    if loader
+      loader depend, callback
+
+_n._loader = do
+  app: ''
+  block: ''
+
+_n.setLoader = (type, loader) ->
+  if type is \app
+    _n._loader[\app] = \appLoader
+    _n._loader[\appLoader] = loader
+  else if type is \block
+    _n._loader[\block] = \blockLoader
+    _n._loader[\blockLoader] = loader
+  
 /* }}} */
 /* define block module {{{ */
 _n._blockData ||= do
@@ -435,15 +452,17 @@ _lib.extend _n,
       filterPrefix = filterPrefix.toUpperCase!
 
       run = !->
+        args = [].slice.call arguments, 0
+        args = [params].concat args
         if actionName
           _n.trigger \NAPP_ACTION_BEFORE, controller, actionName, params
 
           _n.trigger "NAPP_#{filterPrefix}_ACTION_BEFORE",
             controller, actionName, params
 
-          controller[actionName+\Before]?(params)
-          controller[actionName+\Action]?(params)
-          controller[actionName+\After]?(params)
+          controller[actionName+\Before]?.apply(controller, args)
+          controller[actionName+\Action]?.apply(controller, args)
+          controller[actionName+\After]?.apply(controller, args)
 
           _n.trigger "NAPP_#{filterPrefix}_ACTION_AFTER",
             controller, actionName, params
@@ -453,7 +472,8 @@ _lib.extend _n,
         _n.trigger \STATUS:NBLOCK_INIT
 
       if depend.length
-        _n.require _lib.uniq(depend), run, \Do
+        loader = controller[\loader] || _n._loader[\app] || \Do
+        _n.require _lib.uniq(depend), run, loader
       else
         run!
 

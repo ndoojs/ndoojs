@@ -84,7 +84,7 @@
   };
   _n.trigger('STATUS:NBLOCK_DEFINE');
   _n.on('NBLOCK_LOADED', function(elem, namespace, name, params){
-    var block, call;
+    var block, call, loader;
     namespace == null && (namespace = '_default');
     if (block = _n.block(namespace + "." + name)) {
       if (_lib.isFunction(block.init)) {
@@ -92,7 +92,8 @@
           block.init(elem, params);
         };
         if (block.depend) {
-          return _n.require([].concat(block.depend), call, 'Do');
+          loader = block.loader || _n._loader['block'] || 'Do';
+          return _n.require([].concat(block.depend), call, loader);
         } else {
           return call();
         }

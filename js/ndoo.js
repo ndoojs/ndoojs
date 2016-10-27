@@ -95,10 +95,30 @@
    * }, 'seajs');
    */
   _n.require = function(depend, callback, type){
+    var loader;
+    type == null && (type = 'loader');
     if (type.toLowerCase() === 'do') {
       Do.apply(null, depend.concat(callback));
     } else if (type.toLowerCase() === 'seajs') {
       seajs.use(depend, callback);
+    } else {
+      loader = _n._loader[type];
+      if (loader) {
+        loader(depend, callback);
+      }
+    }
+  };
+  _n._loader = {
+    app: '',
+    block: ''
+  };
+  _n.setLoader = function(type, loader){
+    if (type === 'app') {
+      _n._loader['app'] = 'appLoader';
+      return _n._loader['appLoader'] = loader;
+    } else if (type === 'block') {
+      _n._loader['block'] = 'blockLoader';
+      return _n._loader['blockLoader'] = loader;
     }
   };
   /* }}} */
@@ -446,7 +466,7 @@
       });
       /* call action */
       this.on('NAPP_LOADED', function(namespace, controllerName, actionName, params){
-        var controller, depend, filterPrefix, run;
+        var controller, depend, filterPrefix, run, loader;
         if (namespace) {
           controller = _n.app(namespace + "." + controllerName);
         } else {
@@ -468,18 +488,20 @@
         }
         filterPrefix = filterPrefix.toUpperCase();
         run = function(){
-          var key$;
+          var args, ref$, ref1$, ref2$;
+          args = [].slice.call(arguments, 0);
+          args = [params].concat(args);
           if (actionName) {
             _n.trigger('NAPP_ACTION_BEFORE', controller, actionName, params);
             _n.trigger("NAPP_" + filterPrefix + "_ACTION_BEFORE", controller, actionName, params);
-            if (typeof controller[key$ = actionName + 'Before'] == 'function') {
-              controller[key$](params);
+            if ((ref$ = controller[actionName + 'Before']) != null) {
+              ref$.apply(controller, args);
             }
-            if (typeof controller[key$ = actionName + 'Action'] == 'function') {
-              controller[key$](params);
+            if ((ref1$ = controller[actionName + 'Action']) != null) {
+              ref1$.apply(controller, args);
             }
-            if (typeof controller[key$ = actionName + 'After'] == 'function') {
-              controller[key$](params);
+            if ((ref2$ = controller[actionName + 'After']) != null) {
+              ref2$.apply(controller, args);
             }
             _n.trigger("NAPP_" + filterPrefix + "_ACTION_AFTER", controller, actionName, params);
             _n.trigger('NAPP_ACTION_AFTER', controller, actionName, params);
@@ -487,7 +509,8 @@
           _n.trigger('STATUS:NBLOCK_INIT');
         };
         if (depend.length) {
-          _n.require(_lib.uniq(depend), run, 'Do');
+          loader = controller['loader'] || _n._loader['app'] || 'Do';
+          _n.require(_lib.uniq(depend), run, loader);
         } else {
           run();
         }
