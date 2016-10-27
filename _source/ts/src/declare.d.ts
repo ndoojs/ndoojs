@@ -23,3 +23,7 @@ declare var NdooLibConstructor: any;
 declare module "ndoo_lib" {
     export = NdooLibConstructor;
 }
+declare var Do: Function
+declare var seajs: {
+    use: Function
+}

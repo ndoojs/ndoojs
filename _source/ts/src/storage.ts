@@ -1,4 +1,4 @@
-export class storage {
+export class Storage {
   static _data: any = {};
   static REWRITE: number = 1;
   static DESTROY: number = 2;
@@ -7,9 +7,9 @@ export class storage {
   };
 
   constructor(key, value, option: number) {
-    let destroy = option & storage.DESTROY;
-    let rewrite = option & storage.REWRITE;
-    let data = storage._data;
+    let destroy = option & Storage.DESTROY;
+    let rewrite = option & Storage.REWRITE;
+    let data = Storage._data;
 
     if (value === undefined) {
       return data[key];
@@ -19,7 +19,7 @@ export class storage {
       delete data[key];
     }
 
-    if (!rewrite && storage._lib.has(data, key)) {
+    if (!rewrite && Storage._lib.has(data, key)) {
       return false;
     }
 
