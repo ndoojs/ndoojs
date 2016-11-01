@@ -1,5 +1,11 @@
 import * as _ from 'underscore';
+import * as Backbone from 'backbone';
+let Events: any = {};
 
+if (Backbone) {
+  Events = Backbone.Events;
+}
+else {
 let array = [];
 let slice = array.slice;
 
@@ -16,7 +22,7 @@ let slice = array.slice;
 //     object.on('expand', function(){ alert('expanded'); });
 //     object.trigger('expand');
 //
-var Events: any = {};
+// var Events: any = {};
 
 // Regular expression used to split event strings.
 var eventSplitter = /\s+/;
@@ -263,5 +269,6 @@ var triggerEvents = function (events, args) {
 // Aliases for backwards compatibility.
 Events.bind = Events.on;
 Events.unbind = Events.off;
+}
 
 export { Events };
