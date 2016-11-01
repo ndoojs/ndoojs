@@ -2,20 +2,42 @@ import { Prep } from './prep';
 import { Storage } from './storage';
 import { Router } from './router';
 
-export class Main extends Prep {
-
-  public _pk: number = +new Date();
+export class Main extends Prep {  
   public pageId: string = '';
+  public initPageId(id: string) {
+    if (this.pageId) {
+      return;
+    }
+    if (typeof document != 'undefined') {
+      let el = document.getElementById(id || 'scriptArea');
+      if (el) {
+        this.pageId = el.getAttribute('data-page-id') || '';
+      }
+      if (!this.pageId && id) {
+        this.pageId = id;
+      }
+    }
+  }
+  private _pk: number = +new Date();
+  public getPk(prefix: string = '') {
+    return `prefix${++this._pk}`;
+  }
+  public storage: typeof Storage = Storage;
+  public route: typeof Router = Router;
+  public require(depend: any[], callback: Function, type: string): void {
+    if (type.toLocaleLowerCase() == 'do') {
+      Do.apply(null, depend.concat(callback));
+    }
+    else if (type.toLocaleLowerCase() == 'seajs') {
+      seajs.use(depend, callback);
+    }
+  }
   public _blockData = {
     _block: {},
     _app: {},
     _service: {},
     _exist: {}
   }
-  public getPk(prefix: string = '') {
-    return `prefix${++this._pk}`;
-  }
-
   public _block(base: string, ns: string, name: string, block?: any) {
     let data: any;
     let nsArr: string[];
@@ -82,30 +104,6 @@ export class Main extends Prep {
         temp = temp[ns];
       }
       return temp[name];
-    }
-  }
-  public initPageId(id: string) {
-    if (this.pageId) {
-      return;
-    }
-    if (typeof document != 'undefined') {
-      let el = document.getElementById(id || 'scriptArea');
-      if (el) {
-        this.pageId = el.getAttribute('data-page-id') || '';
-      }
-      if (!this.pageId && id) {
-        this.pageId = id;
-      }
-    }
-  }
-  public storage: typeof Storage = Storage;
-  public route: typeof Router = Router;
-  public require(depend: any[], callback: Function, type: string): void {
-    if (type.toLocaleLowerCase() == 'do') {
-      Do.apply(null, depend.concat(callback));
-    }
-    else if (type.toLocaleLowerCase() == 'seajs') {
-      seajs.use(depend, callback);
     }
   }
   hasApp(ns: string) {
@@ -186,9 +184,198 @@ export class Main extends Prep {
       }
     }
   }
+  filterHaldner(type: string, controller: any, actionName: string, params: string) {
+    let data: any;
+    let _lib = this._lib;
+    if (type === 'before') {
+      data = controller.before
+    }
+    else if (type === 'after') {
+      data = controller.after;
+    }
+    if (!data) {
+      return;
+    }
+    let _data: any[];
+    if (typeof data === 'object') {
+      _data = [].concat(data);
+    }
+    for (let dataItem of _data) {
+      let _filter = dataItem.filter;
+      if (!_lib.isArray(_filter)) {
+        _filter = [].concat(_filter.split(/\s*,\s*|\s+/))
+      }
+      let isRun = true;
+      if (dataItem.only) {
+        let _only = dataItem.only;
+        if (!_lib.isArray(_only)) {
+          _only = [].concat(_only.split(/\s*,\s*|\s+/))
+        }
+        if (_lib.indexOf(_only, actionName) < 0) {
+          isRun = false
+        }
+      }
+      else if (dataItem.except) {
+        let _except = dataItem.except;
+        if (!_lib.isArray(_except)) {
+          _except = [].concat(_except.split(/\s*,\s*|\s+/))
+        }
+        if (_lib.indexOf(_except, actionName) > -1) {
+          isRun = false;
+        }
+      }
+      if (isRun) {
+        for (let filter of _filter) {
+          controller[`${filter}Filter`](actionName, params);
+        }
+      }
+    }
+  }
+  dispatch() {
+    let { filterHaldner, _lib } = this;
+    let _self = this;
+    this.on(
+      'NAPP_ACTION_BEFORE',
+      (...data: any[]) => filterHaldner.apply(null, ['before'].concat(data))
+    );
+    this.on(
+      'NAPP_ACTION_AFTER',
+      (...data: any[]) => filterHaldner.apply(null, ['after'].concat(data))
+    );
+    this.on('NAPP_LOADED', function (ns: string, appName: string, actionName: string, params) {
+      let appData: any;
+      if (ns) {
+        appData = this.app(`${ns}.${appName}`)
+      }
+      else {
+        appData = this.app(appName)
+      }
+
+      if (!_lib.has(appData, `${actionName}Action`) 
+        && _lib.has(appData, 'emptyAction')) {
+          actionName = '_empty';
+      }
+
+      let depend = [];
+
+      if (appData['depend']) {
+        depend = depend.concat(appData['depend']);
+      }
+
+      if (appData[`${actionName}Depend`]) {
+        depend = depend.concat(appData[`${actionName}Depend`]);
+      }
+
+      let filterPrefix = appName;
+      if (ns) {
+        filterPrefix = (`${ns}.${appName}`).replace(/\./g, '_')
+      }
+      filterPrefix = filterPrefix.toUpperCase();
+
+      let run = () => {
+        if (actionName) {
+          this.trigger('NAPP_ACTION_BEFORE', appData, actionName, params);
+          this.trigger(`NAPP_${filterPrefix}_ACTION_BEFORE`, appData, actionName, params);
+
+          if (appData[`${actionName}Before`]) {
+            appData[`${actionName}Before`](params);
+          }
+          if (appData[`${actionName}Action`]) {
+            appData[`${actionName}Action`](params);
+          }
+          if (appData[`${actionName}After`]) {
+            appData[`${actionName}After`](params);
+          }
+
+          this.trigger(`NAPP_${filterPrefix}_ACTION_AFTER`, appData, actionName, params);
+          this.trigger('NAPP_ACTION_AFTER', appData, actionName, params);
+        }
+        this.trigger('STATUS:NBLOCK_INIT');
+      }
+
+      if (depend.length) {
+        this.require(_lib.uniq(depend), run, 'Do');
+      }
+      else {
+        run();
+      }
+    });
+    this.on('PAGE_STATUS_ROUTING', function(data) {
+      this.router.parse(
+        /^(?:\/?)(.*?)(?:\/?([^\/?#]+))(?:\?(.*?))?(?:\#(.*?))?$/,
+        data, function(appName: string, actionName: string, params: string) {
+        let nsmatch = appName.match(/(.*?)(?:[/.]([^/.]+))$/);
+        let ns: string = '';
+        if (nsmatch) {
+          [, ns, appName] = nsmatch;
+        }
+        let pkg: string;
+        if (ns) {
+          ns = ns.replace(/\//g, '.');
+          pkg = `${ns}.${appName}`;
+        }
+        else {
+          pkg = appName;
+        }
+
+        if (this.app(pkg)) {
+          this.trigger('NAPP_LOADED', ns, appName, actionName, params);
+        }
+        else if (this.hasApp(pkg)) {
+          this.require([pkg], function() {
+            this.trigger('NAPP_LOADED', ns, appName, actionName, params);
+          }, 'Do');
+        }
+        else {
+          this.trigger('STATUS:NBLOCK_INIT');
+        }
+      });
+    });
+  }
+  triggerPageStatus = function(depend: string | string[]) {
+    let { _lib } = this;
+    let call = () => {
+      this.trigger('STATUS:PAGE_STATUS_FAST')
+
+      _lib.onready(() => {
+        this.trigger('STATUS:PAGE_STATUS_DOMPREP');
+        this.trigger('STATUS:PAGE_STATUS_DOM');
+        this.trigger('STATUS:PAGE_STATUS_DOMORLOAD');
+      });
+
+      _lib.onload(() => {
+        this.trigger('STATUS:PAGE_STATUS_LOAD');
+      });
+
+      this.on('PAGE_STATUS_DOM', () => {
+        if (this.pageId) {
+          this.trigger('STATUS:PAGE_STATUS_ROUTING', this.pageId);
+        }
+      });
+    }
+
+    if (depend) {
+      this.require([].concat(depend), call, 'Do');
+    }
+    else {
+      call();
+    }
+  }
+  init(id?: string | string[], depend?: string| string[]) {
+    let { _lib } = this._lib;
+    if (_lib.isArray(id)) {
+      [id, depend] = ['', id];
+    }
+
+    this.initPageId(<string>id);
+    this.dispatch();
+    this.triggerPageStatus(depend);
+    return this;
+    }
   constructor(lib: any) {
     super();
     this._lib = lib;
+    let _lib = lib;
     let eventHandle = lib.extend({
       events: {},
       listened: {}
@@ -196,16 +383,63 @@ export class Main extends Prep {
     this.event = lib.extend(this.event, {
       eventHandle,
       on: function(eventName: string, callback: Function) {
-        
+        let { eventHandle } = this;
+        eventHandle.on(eventName, callback);
+        eventHandle.listened[eventName] = true;
+        if (_lib.has(eventHandle.events, `STATUS:${eventName}`)) {
+          callback.apply(eventHandle, eventHandle.events[`STATUS:${eventName}`]);
+        }
+        if (_lib.has(eventHandle.events, eventName)) {
+          for (let item of eventHandle.events[eventName]) {
+            callback.apply(eventHandle, item);
+          }
+        }
       },
       trigger: function(eventName: string, eventType: string, data: any[]) {
-
+        let { eventHandle } = this;
+        if (eventType === 'DEFAULT') {
+          eventHandle.trigger.apply(eventHandle, [eventName].concat(data));
+        }
+        else if (eventType === 'DELAY') {
+          if (_lib.has(eventHandle.listened, eventName)) {
+            eventHandle.trigger.apply(eventHandle, [eventName].concat(data));
+          }
+          if (!_lib.has(eventHandle.events, eventName)) {
+            eventHandle.events[eventName] = []
+          }
+          eventHandle.events[eventName].push(data);
+        }
+        else if (eventType === 'STATUS') {
+          if (!_lib.has(eventHandle.events, `${eventType}:${eventName}`)) {
+            eventHandle.events[`${eventType}:${eventName}`] = data;
+            if (_lib.has(eventHandle.listened, eventName)) {
+              eventHandle.trigger.apply(eventHandle, [eventName].concat(data));
+            }
+          }
+        } 
       },
       off: function(eventName: string) {
-
+        let { eventHandle } = this;
+        eventHandle.off(eventName);
+        delete eventHandle.listened[eventName];
+        delete eventHandle.events[eventName];
       },
-      init: function() {}
+      init: function() {
+        let { inited, _temp, TYPE_ON, TYPE_TRIGGER } = this;
+        if (!inited) {
+          for (let item of _temp) {
+            if (item.type === TYPE_ON) {
+              this.on(item.eventName, item.callback);
+            }
+            else if (item.type === TYPE_TRIGGER) {
+              this.trigger(item.eventName, item.eventTYpe, item.data);
+            }
+          }
+          inited = true;
+        }
+      }
     });
+    this.event.init();
     this.trigger('STATUS:NAPP_DEFINE');
     this.trigger('STATUS:NBLOCK_DEFINE');
     this.trigger('STATUS:NSERVICE_DEFINE');

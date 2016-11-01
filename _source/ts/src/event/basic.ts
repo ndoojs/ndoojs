@@ -19,4 +19,5 @@ export class EventBasic {
     });
   }
   static off(eventName: string) { }
+  static init() {}
 }
