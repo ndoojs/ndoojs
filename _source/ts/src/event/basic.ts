@@ -1,3 +1,6 @@
+import { getPrepData, PrepDataType } from '../prepData';
+let prepData = getPrepData();
+
 export class EventBasic {
   constructor(name: string, type: string) {
     return `#${name}:#${type}`;
@@ -5,7 +8,7 @@ export class EventBasic {
   static TYPE_ON = 1;
   static TYPE_TRIGGER = 2;
   static inited = false;
-  static _temp = [];
+  static _temp = prepData ? (prepData as PrepDataType).eventData : [];
   static on(eventName: string, callback: Function) {
     this._temp.push({
       type: this.TYPE_ON,

@@ -17,6 +17,7 @@ export class Storage {
 
     if (destroy) {
       delete data[key];
+      return true;
     }
 
     if (!rewrite && Storage._lib.has(data, key)) {

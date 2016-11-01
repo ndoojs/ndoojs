@@ -1,6 +1,8 @@
 import { Prep } from './prep';
 import { Storage } from './storage';
 import { Router } from './router';
+import { getPrepData, removePrepData } from './prepData';
+let prepData = getPrepData();
 
 export class Main extends Prep {  
   public pageId: string = '';
@@ -20,10 +22,10 @@ export class Main extends Prep {
   }
   private _pk: number = +new Date();
   public getPk(prefix: string = '') {
-    return `prefix${++this._pk}`;
+    return `${prefix}${++this._pk}`;
   }
   public storage: typeof Storage = Storage;
-  public route: typeof Router = Router;
+  public router: typeof Router = Router;
   public require(depend: any[], callback: Function, type: string): void {
     if (type.toLocaleLowerCase() == 'do') {
       Do.apply(null, depend.concat(callback));
@@ -95,6 +97,8 @@ export class Main extends Prep {
           this._blockData._exist[`${base}.${name}`] = true;
         }
       }
+
+      return result;
     }
     else {
       for (let ns in nsArr) {
@@ -143,10 +147,10 @@ export class Main extends Prep {
     }
   }
   hasBlock(ns: string) {
-    this._blockExist(ns);
+    return this._blockExist(ns);
   }
   setBlock(ns: string) {
-    this._blockExist(ns, true);
+    return this._blockExist(ns, true);
   }
   block(ns: string, block?: any) {
     let nsmatch: string[] = ns.match(/(.*?)(?:[/.]([^/.]+))$/);
@@ -162,6 +166,32 @@ export class Main extends Prep {
       return this._block('block', ns, name);
     }
   }
+  initBlock(elem: HTMLElement) {
+    let {_lib, router} = this;
+    let blockId: string | string[] = _lib.data(elem, 'nblockId');
+    blockId = (<string>blockId).split(/\s*,\s*|\s+/);
+
+    let _call = (blockId: string) => {
+      router.parse(
+        /^(?:\/?)(.*?)(?:\/?([^\/?#]+))(?:\?(.*?))?(?:\#(.*?))?$/,
+        blockId, (ns: string, blockName: string, params: string) => {
+          ns = ns.replace(/\//g, '.');
+          let pkg: string = `${ns}.${blockName}`;
+          if (this.block(pkg)) {
+            this.trigger('NBLOCK_LOADED', elem, ns, blockName, params);
+          }
+          else if (this.hasBlock(pkg)) {
+            this.require([`${ns}.${blockName}`], () => {
+              this.trigger('NBLOCK_LOADED', elem, ns, blockName, params);
+            }, 'Do');
+          }
+        });
+    }
+    _lib.each(blockId, (id: string) => {
+      let _self = this;
+      _call.call(_self, id);
+    });
+  }
   service(ns: string, service: any) {
     let nsmatch = ns.match(/(.*?)(?:[/.]([^/.]+))$/);
     let name: string;
@@ -172,7 +202,7 @@ export class Main extends Prep {
     [, ns, name] = nsmatch;
 
     if (arguments.length > 1) {
-      this._block('service', ns, name, service);
+      return this._block('service', ns, name, service);
     }
     else {
       service = this._block('service', ns, name);
@@ -184,55 +214,56 @@ export class Main extends Prep {
       }
     }
   }
-  filterHaldner(type: string, controller: any, actionName: string, params: string) {
-    let data: any;
-    let _lib = this._lib;
-    if (type === 'before') {
-      data = controller.before
-    }
-    else if (type === 'after') {
-      data = controller.after;
-    }
-    if (!data) {
-      return;
-    }
-    let _data: any[];
-    if (typeof data === 'object') {
-      _data = [].concat(data);
-    }
-    for (let dataItem of _data) {
-      let _filter = dataItem.filter;
-      if (!_lib.isArray(_filter)) {
-        _filter = [].concat(_filter.split(/\s*,\s*|\s+/))
-      }
-      let isRun = true;
-      if (dataItem.only) {
-        let _only = dataItem.only;
-        if (!_lib.isArray(_only)) {
-          _only = [].concat(_only.split(/\s*,\s*|\s+/))
-        }
-        if (_lib.indexOf(_only, actionName) < 0) {
-          isRun = false
-        }
-      }
-      else if (dataItem.except) {
-        let _except = dataItem.except;
-        if (!_lib.isArray(_except)) {
-          _except = [].concat(_except.split(/\s*,\s*|\s+/))
-        }
-        if (_lib.indexOf(_except, actionName) > -1) {
-          isRun = false;
-        }
-      }
-      if (isRun) {
-        for (let filter of _filter) {
-          controller[`${filter}Filter`](actionName, params);
-        }
-      }
-    }
-  }
+  
   dispatch() {
-    let { filterHaldner, _lib } = this;
+    let {  _lib } = this;
+    let filterHaldner = (type: string, controller: any, actionName: string, params: string) => {
+      let data: any;
+      let { _lib } = this;
+      if (type === 'before') {
+        data = controller.before
+      }
+      else if (type === 'after') {
+        data = controller.after;
+      }
+      if (!data) {
+        return;
+      }
+      let _data: any[];
+      if (typeof data === 'object') {
+        _data = [].concat(data);
+      }
+      for (let dataItem of _data) {
+        let _filter = dataItem.filter;
+        if (!_lib.isArray(_filter)) {
+          _filter = [].concat(_filter.split(/\s*,\s*|\s+/))
+        }
+        let isRun = true;
+        if (dataItem.only) {
+          let _only = dataItem.only;
+          if (!_lib.isArray(_only)) {
+            _only = [].concat(_only.split(/\s*,\s*|\s+/))
+          }
+          if (_lib.indexOf(_only, actionName) < 0) {
+            isRun = false
+          }
+        }
+        else if (dataItem.except) {
+          let _except = dataItem.except;
+          if (!_lib.isArray(_except)) {
+            _except = [].concat(_except.split(/\s*,\s*|\s+/))
+          }
+          if (_lib.indexOf(_except, actionName) > -1) {
+            isRun = false;
+          }
+        }
+        if (isRun) {
+          for (let filter of _filter) {
+            controller[`${filter}Filter`](actionName, params);
+          }
+        }
+      }
+    }
     let _self = this;
     this.on(
       'NAPP_ACTION_BEFORE',
@@ -242,7 +273,7 @@ export class Main extends Prep {
       'NAPP_ACTION_AFTER',
       (...data: any[]) => filterHaldner.apply(null, ['after'].concat(data))
     );
-    this.on('NAPP_LOADED', function (ns: string, appName: string, actionName: string, params) {
+    this.on('NAPP_LOADED', (ns: string, appName: string, actionName: string, params) => {
       let appData: any;
       if (ns) {
         appData = this.app(`${ns}.${appName}`)
@@ -300,10 +331,10 @@ export class Main extends Prep {
         run();
       }
     });
-    this.on('PAGE_STATUS_ROUTING', function(data) {
+    this.on('PAGE_STATUS_ROUTING', (data) => {
       this.router.parse(
         /^(?:\/?)(.*?)(?:\/?([^\/?#]+))(?:\?(.*?))?(?:\#(.*?))?$/,
-        data, function(appName: string, actionName: string, params: string) {
+        data, (appName: string, actionName: string, params: string) => {
         let nsmatch = appName.match(/(.*?)(?:[/.]([^/.]+))$/);
         let ns: string = '';
         if (nsmatch) {
@@ -362,7 +393,7 @@ export class Main extends Prep {
     }
   }
   init(id?: string | string[], depend?: string| string[]) {
-    let { _lib } = this._lib;
+    let { _lib } = this;
     if (_lib.isArray(id)) {
       [id, depend] = ['', id];
     }
@@ -371,16 +402,16 @@ export class Main extends Prep {
     this.dispatch();
     this.triggerPageStatus(depend);
     return this;
-    }
-  constructor(lib: any) {
+  }
+  constructor(_lib: any) {
     super();
-    this._lib = lib;
-    let _lib = lib;
-    let eventHandle = lib.extend({
+    this._lib = _lib;
+  
+    let eventHandle = _lib.extend({
       events: {},
       listened: {}
-    }, lib.Events);
-    this.event = lib.extend(this.event, {
+    }, _lib.Events);
+    this.event = _lib.extend(this.event, {
       eventHandle,
       on: function(eventName: string, callback: Function) {
         let { eventHandle } = this;
@@ -426,8 +457,8 @@ export class Main extends Prep {
       },
       init: function() {
         let { inited, _temp, TYPE_ON, TYPE_TRIGGER } = this;
-        if (!inited) {
-          for (let item of _temp) {
+        if (!inited && this._temp.length) {
+          for (let item of this._temp) {
             if (item.type === TYPE_ON) {
               this.on(item.eventName, item.callback);
             }
@@ -440,8 +471,55 @@ export class Main extends Prep {
       }
     });
     this.event.init();
+    this.storage._lib = _lib;
+
     this.trigger('STATUS:NAPP_DEFINE');
     this.trigger('STATUS:NBLOCK_DEFINE');
     this.trigger('STATUS:NSERVICE_DEFINE');
+
+    this.on('NBLOCK_LOADED', (elem, ns, name, params) => {
+      ns == null && (ns == '_default');
+      let block = this.block(`${ns}.${name}`);
+      if (block) {
+        if (this._lib.isFunction(block.init)) {
+          let call = () => {
+            block.init(elem, params);
+          }
+
+          if (block.depend) {
+            this.require([].concat(block.depend), call, 'Do');
+          }
+          else {
+            call();
+          }
+        }
+        else if (this._lib.isFunction(block)) {
+          block(elem, params);
+        }
+      }
+    });
+
+    this.on('NBLOCK_INIT', () => {
+      let blockEl = this._lib.querySelector('[data-nblock-id]');
+      if (!blockEl || !blockEl.length) {
+        return;
+      }
+      let blocks:any[] = [];
+      for (let el of blockEl) {
+        let auto = this._lib.data(el, 'nblockAuto');
+        let level = parseInt(this._lib.data(el, 'nblockLevel')) || 5;
+        blocks.push([level, auto, el]);
+      }
+      for (let item of blocks) {
+        let [, auto, block] = item;
+        if (auto === undefined || auto.toString() != 'false') {
+          this.initBlock(block);
+        }
+      }
+    });
+
+    if (prepData) {
+      removePrepData();
+    }
   }
 }

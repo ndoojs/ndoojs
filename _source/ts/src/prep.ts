@@ -1,5 +1,7 @@
 import { EventApi } from './event/api';
 import { EventBasic } from './event/basic';
+import { getPrepData, PrepDataType } from './prepData';
+let prepData = getPrepData();
 
 class Prep extends EventApi {
   public _isDebug: boolean = false;
@@ -11,6 +13,10 @@ class Prep extends EventApi {
 
   constructor() {
     super();
+    if (prepData) {
+      this.vars = (prepData as PrepDataType).vars;
+      this.func = (prepData as PrepDataType).func;
+    }
   }
 }
 
