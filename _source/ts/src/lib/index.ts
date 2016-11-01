@@ -1,2 +1,3 @@
 import * as _ from 'underscore';
-export let _lib = _.extend({}, _);
+import * as depend from './depend';
+export let _lib = _.extend({}, depend, _);
