@@ -2,7 +2,7 @@ import { Main } from './src/main';
 import { _lib as libBase } from './src/lib';
 import { Events as libEvent } from './src/lib/event';
 
-let lib = libBase.extend(libBase, {libEvent});
+let lib = libBase.extend(libBase, {Events: libEvent});
 
 class Ndoo extends Main {
     constructor(lib) {

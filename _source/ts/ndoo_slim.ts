@@ -3,7 +3,7 @@ import { _lib as libBase } from './src/lib';
 import { Events as libEvent } from './src/lib/event_with_lib';
 import * as depend from './src/lib/depend';
 
-let lib = libBase.extend(libBase, libEvent);
+let lib = libBase.extend(libBase, {Events: libEvent});
 
 class Slim extends Main {
     constructor(lib) {
@@ -13,4 +13,4 @@ class Slim extends Main {
 
 let ndoo = new Slim(lib);
 
-export default ndoo;
+export = ndoo;

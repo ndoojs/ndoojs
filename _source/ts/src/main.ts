@@ -192,6 +192,47 @@ export class Main extends Prep {
       _call.call(_self, id);
     });
   }
+  private _bindBlockEvent() {
+    this.on('NBLOCK_LOADED', (elem, ns, name, params) => {
+      ns == null && (ns == '_default');
+      let block = this.block(`${ns}.${name}`);
+      if (block) {
+        if (this._lib.isFunction(block.init)) {
+          let call = () => {
+            block.init(elem, params);
+          }
+
+          if (block.depend) {
+            this.require([].concat(block.depend), call, 'Do');
+          }
+          else {
+            call();
+          }
+        }
+        else if (this._lib.isFunction(block)) {
+          block(elem, params);
+        }
+      }
+    });
+    this.on('NBLOCK_INIT', () => {
+      let blockEl = this._lib.querySelector('[data-nblock-id]');
+      if (!blockEl || !blockEl.length) {
+        return;
+      }
+      let blocks:any[] = [];
+      for (let el of blockEl) {
+        let auto = this._lib.data(el, 'nblockAuto');
+        let level = parseInt(this._lib.data(el, 'nblockLevel')) || 5;
+        blocks.push([level, auto, el]);
+      }
+      for (let item of blocks) {
+        let [, auto, block] = item;
+        if (auto === undefined || auto.toString() != 'false') {
+          this.initBlock(block);
+        }
+      }
+    });
+  }
   service(ns: string, service: any) {
     let nsmatch = ns.match(/(.*?)(?:[/.]([^/.]+))$/);
     let name: string;
@@ -214,7 +255,6 @@ export class Main extends Prep {
       }
     }
   }
-  
   dispatch() {
     let {  _lib } = this;
     let filterHaldner = (type: string, controller: any, actionName: string, params: string) => {
@@ -363,7 +403,7 @@ export class Main extends Prep {
       });
     });
   }
-  triggerPageStatus = function(depend: string | string[]) {
+  public triggerPageStatus = function(depend: string | string[]) {
     let { _lib } = this;
     let call = () => {
       this.trigger('STATUS:PAGE_STATUS_FAST')
@@ -403,10 +443,8 @@ export class Main extends Prep {
     this.triggerPageStatus(depend);
     return this;
   }
-  constructor(_lib: any) {
-    super();
-    this._lib = _lib;
-  
+  private _rebuildEvent() {
+    let { _lib } = this;
     let eventHandle = _lib.extend({
       events: {},
       listened: {}
@@ -470,53 +508,18 @@ export class Main extends Prep {
         }
       }
     });
+  }
+  constructor(_lib: any) {
+    super();
+    this._lib = _lib;
+    this._rebuildEvent();
     this.event.init();
     this.storage._lib = _lib;
 
     this.trigger('STATUS:NAPP_DEFINE');
     this.trigger('STATUS:NBLOCK_DEFINE');
     this.trigger('STATUS:NSERVICE_DEFINE');
-
-    this.on('NBLOCK_LOADED', (elem, ns, name, params) => {
-      ns == null && (ns == '_default');
-      let block = this.block(`${ns}.${name}`);
-      if (block) {
-        if (this._lib.isFunction(block.init)) {
-          let call = () => {
-            block.init(elem, params);
-          }
-
-          if (block.depend) {
-            this.require([].concat(block.depend), call, 'Do');
-          }
-          else {
-            call();
-          }
-        }
-        else if (this._lib.isFunction(block)) {
-          block(elem, params);
-        }
-      }
-    });
-
-    this.on('NBLOCK_INIT', () => {
-      let blockEl = this._lib.querySelector('[data-nblock-id]');
-      if (!blockEl || !blockEl.length) {
-        return;
-      }
-      let blocks:any[] = [];
-      for (let el of blockEl) {
-        let auto = this._lib.data(el, 'nblockAuto');
-        let level = parseInt(this._lib.data(el, 'nblockLevel')) || 5;
-        blocks.push([level, auto, el]);
-      }
-      for (let item of blocks) {
-        let [, auto, block] = item;
-        if (auto === undefined || auto.toString() != 'false') {
-          this.initBlock(block);
-        }
-      }
-    });
+    this._bindBlockEvent();
 
     if (prepData) {
       removePrepData();
