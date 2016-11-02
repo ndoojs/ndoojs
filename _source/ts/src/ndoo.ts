@@ -3,6 +3,8 @@ import { Storage } from './storage';
 import { Router } from './router';
 import { _lib as lib } from './lib';
 import { getPrepData, removePrepData } from './prepData';
+import { RegType, getComponent } from './component';
+
 let prepData = getPrepData();
 
 export class Ndoo extends Prep {
@@ -404,7 +406,7 @@ export class Ndoo extends Prep {
       });
     });
   }
-  public triggerPageStatus = function(depend: string | string[]) {
+  public triggerPageStatus(depend: string | string[]) {
     let { _lib } = this;
     let call = () => {
       this.trigger('STATUS:PAGE_STATUS_FAST')
@@ -510,6 +512,8 @@ export class Ndoo extends Prep {
       }
     });
   }
+  public RegType = RegType;
+  public Component = getComponent(this);
   constructor() {
     super();
     this.storage._lib = this._lib;

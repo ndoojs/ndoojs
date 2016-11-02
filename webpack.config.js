@@ -1,5 +1,6 @@
 var webpack = require('webpack');
 var NODE_ENV = process.env.NODE_ENV;
+var TARGET = process.env.TARGET;
 var config = {
   entry: {
     app: ["./_source/ts/ndoo_prep.ts", "file?name=index.html!jade-html!./_source/ts/index.jade"],
@@ -33,7 +34,7 @@ var config = {
     }),
     new webpack.optimize.UglifyJsPlugin({
       include: /\.min\.js$/,
-      minimize: true
+      minimize: true,
     })
   ],
   externals: {
@@ -46,8 +47,16 @@ var config = {
 
 if (NODE_ENV == 'production') {
   delete config.entry['app'];
+  delete config.devtool;
 }
-else {
-
+if (TARGET == 'node-module') {
+  config.entry = {
+    "export": ["./_source/ts/export.ts"]
+  };
+  config.output =  {
+    filename: "./tsoutput/[name].js",
+    library: "ndoo",
+    libraryTarget: "commonjs"
+  };
 }
 module.exports = config;
