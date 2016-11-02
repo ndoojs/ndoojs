@@ -19,7 +19,7 @@
     "test": "karma run",
     "gen:doc": "jsdoc -c jsdoc.conf js/*.js readme.md",
     "cpjs": "cp -fr js/*.js docs/example/js/",
-    "webpack": "webpack",
+    "webpack": "export NODE_ENV=production && webpack",
     "webpack:dev": "webpack-dashboard -- webpack-dev-server --hot --inline"
   },
   "author": "chenglifu",

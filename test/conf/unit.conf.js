@@ -42,7 +42,7 @@ module.exports = function(config) {
       rootPath + '/node_modules/phantomjs-polyfill/bind-polyfill.js',
       libPath + '/underscore-min.js',
       '../mock/jquery.mock.js',
-      '../../tsoutput/ndoo_all.js',
+      '../../tsoutput/ndoo.js',
       '../tool/ndoo_reset.js',
       '../unit/*Spec.coffee'
     ],

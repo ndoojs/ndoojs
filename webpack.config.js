@@ -1,9 +1,11 @@
-module.exports = {
+var webpack = require('webpack');
+var NODE_ENV = process.env.NODE_ENV;
+var config = {
   entry: {
     app: ["./_source/ts/ndoo_prep.ts", "file?name=index.html!jade-html!./_source/ts/index.jade"],
     ndoo_prep: ["./_source/ts/ndoo_prep.ts"],
-    ndoo_slim: ["./_source/ts/ndoo_slim.ts"],
-    ndoo_all: ["./_source/ts/ndoo_all.ts"]
+    ndoo: ["./_source/ts/ndoo.ts"],
+    "ndoo.min": ["./_source/ts/ndoo.ts"]
   },
   output: {
     filename: "./tsoutput/[name].js",
@@ -23,6 +25,17 @@ module.exports = {
       { test: /\.js$/, loader: "source-map-loader" }
     ]
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('production')
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      include: /\.min\.js$/,
+      minimize: true
+    })
+  ],
   externals: {
     "underscore": "_",
     "backbone": "Backbone",
@@ -30,3 +43,11 @@ module.exports = {
     "zepto": "Zepto",
   },
 };
+
+if (NODE_ENV == 'production') {
+  delete config.entry['app'];
+}
+else {
+
+}
+module.exports = config;

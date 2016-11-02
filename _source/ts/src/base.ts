@@ -4,7 +4,7 @@ import { Router } from './router';
 import { getPrepData, removePrepData } from './prepData';
 let prepData = getPrepData();
 
-export class Main extends Prep {  
+export class NdooBase extends Prep {
   public pageId: string = '';
   public initPageId(id: string) {
     if (this.pageId) {
@@ -194,7 +194,7 @@ export class Main extends Prep {
   }
   private _bindBlockEvent() {
     this.on('NBLOCK_LOADED', (elem, ns, name, params) => {
-      ns == null && (ns == '_default');
+      ns == null && (ns = '_default');
       let block = this.block(`${ns}.${name}`);
       if (block) {
         if (this._lib.isFunction(block.init)) {
@@ -304,7 +304,6 @@ export class Main extends Prep {
         }
       }
     }
-    let _self = this;
     this.on(
       'NAPP_ACTION_BEFORE',
       (...data: any[]) => filterHaldner.apply(null, ['before'].concat(data))
@@ -495,8 +494,8 @@ export class Main extends Prep {
       },
       init: function() {
         let { inited, _temp, TYPE_ON, TYPE_TRIGGER } = this;
-        if (!inited && this._temp.length) {
-          for (let item of this._temp) {
+        if (!inited && _temp.length) {
+          for (let item of _temp) {
             if (item.type === TYPE_ON) {
               this.on(item.eventName, item.callback);
             }

@@ -1,14 +1,12 @@
 import * as _ from 'underscore';
 import * as Backbone from 'backbone';
+
 let Events: any = {};
 
 if (Backbone) {
   Events = Backbone.Events;
 }
 else {
-let array = [];
-let slice = array.slice;
-
 // Backbone.Events
 // ---------------
 

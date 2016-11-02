@@ -26,7 +26,6 @@ export let setPrepData = function () {
 }
 
 export let removePrepData = function () {
-  let _self: any = {};
   if (typeof window != 'undefined' && window['ndoo_prep_data']) {
     delete window['ndoo_prep_data'];
   }
