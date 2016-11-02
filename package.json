@@ -21,7 +21,7 @@
     "cpjs": "cp -fr js/*.js docs/example/js/",
     "webpack": "export NODE_ENV=production && webpack",
     "webpack:dev": "webpack-dashboard -- webpack-dev-server --hot --inline",
-    "build:node-module": "export NODE_ENV=production && export TARGET=node-module && webpack",
+    "build:node-module": "export NODE_ENV=production && export TARGET=node-module && webpack"
   },
   "author": "chenglifu",
   "devDependencies": {
