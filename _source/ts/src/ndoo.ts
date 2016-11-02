@@ -1,10 +1,12 @@
 import { Prep } from './prep';
 import { Storage } from './storage';
 import { Router } from './router';
+import { _lib as lib } from './lib';
 import { getPrepData, removePrepData } from './prepData';
 let prepData = getPrepData();
 
-export class NdooBase extends Prep {
+export class Ndoo extends Prep {
+  public _lib = lib;
   public pageId: string = '';
   public initPageId(id: string) {
     if (this.pageId) {
@@ -508,12 +510,12 @@ export class NdooBase extends Prep {
       }
     });
   }
-  constructor(_lib: any) {
+  constructor() {
     super();
-    this._lib = _lib;
+    this.storage._lib = this._lib;
+
     this._rebuildEvent();
     this.event.init();
-    this.storage._lib = _lib;
 
     this.trigger('STATUS:NAPP_DEFINE');
     this.trigger('STATUS:NBLOCK_DEFINE');
