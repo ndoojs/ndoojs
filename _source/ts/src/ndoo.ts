@@ -65,7 +65,7 @@ export class Ndoo extends Prep {
     let result: any;
     let success: boolean;
     if (block || arguments.length > 3) {
-      for (let ns in nsArr) {
+      for (let ns of nsArr) {
         temp = temp[ns] || (temp[ns] = {});
       }
       // app/block只允许真值
@@ -105,7 +105,7 @@ export class Ndoo extends Prep {
       return result;
     }
     else {
-      for (let ns in nsArr) {
+      for (let ns of nsArr) {
         if (!this._lib.has(temp, ns)) {
           return undefined;
         }

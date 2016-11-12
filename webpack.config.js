@@ -51,12 +51,13 @@ if (NODE_ENV == 'production') {
 }
 if (TARGET == 'node-module') {
   config.entry = {
-    "export": ["./_source/ts/export.ts"]
+    "index": ["./_source/ts/export.ts"]
   };
   config.output =  {
-    filename: "./tsoutput/[name].js",
-    library: "ndoo",
-    libraryTarget: "commonjs"
+    filename: "./[name].js",
+    library: "ndoojs",
+    libraryTarget: "umd"
   };
+  // delete config.externals;
 }
 module.exports = config;
