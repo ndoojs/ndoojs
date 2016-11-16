@@ -584,7 +584,7 @@
 "       Desc: ndoo.js主文件
 "     Author: chenglf
 "    Version: 1.0.0
-" LastChange: 10/19/2016 14:11
+" LastChange: 11/16/2016 20:05
 " --------------------------------------------------
 */
 (function(){
@@ -1310,8 +1310,8 @@
       level = parseInt(_lib.data(el, 'nblockLevel')) || 5;
       blocks.push([level, auto, el]);
     }
-    blocks.sort(function(block1, block2){
-      return block1[0] > block2[0];
+    blocks = blocks.sort(function(block1, block2){
+      return block1[0] - block2[0];
     });
     for (i$ = 0, len$ = blocks.length; i$ < len$; ++i$) {
       item = blocks[i$];

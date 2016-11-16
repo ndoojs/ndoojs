@@ -4,36 +4,48 @@
 "       Desc: ndoo.js block模块
 "     Author: chenglf
 "    Version: 1.0.0
-" LastChange: 11/03/2015 23:10
+" LastChange: 10/19/2016 14:11
 " --------------------------------------------------
 */
 (function(){
   "use strict";
-  var _, $, _n, _vars, _func, _stor;
-  _ = this['_'];
-  $ = this['jQuery'] || this['Zepto'];
+  var _n, _lib, _blockExist;
   this.N = this.ndoo || (this.ndoo = {});
   _n = this.ndoo;
-  _vars = _n.vars;
-  _func = _n.func;
-  _stor = _n.storage;
+  _lib = _n._lib;
+  /**
+   * 检测是否存在指定block
+   *
+   * @private
+   * @name _blockExist
+   * @param {string} ns 名称空间
+   * @param {set} boolean 是否标记block已存在
+   * @return {boolean} 返加block标记
+   */
+  _blockExist = function(ns, set){
+    var nsmatch, name;
+    nsmatch = ns.match(/(.*?)(?:[/.]([^/.]+))$/);
+    if (!nsmatch) {
+      nsmatch = [void 8, '_default', ns];
+    }
+    ns = nsmatch[1], name = nsmatch[2];
+    if (set) {
+      return _n._blockData['_exist']["block." + ns + "." + name] = true;
+    } else {
+      return _n._blockData['_exist']["block." + ns + "." + name];
+    }
+  };
   /**
    * 检测是否存在指定block
    *
    * @method
    * @name hasBlock
    * @memberof ndoo
-   * @param {string} namespace 名称空间
+   * @param {string} ns 名称空间
    * @return {boolean} 判断block是否存在
    */
   _n.hasBlock = function(namespace){
-    var nsmatch, name, ref$;
-    if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
-      namespace = nsmatch[1], name = nsmatch[2];
-    } else {
-      ref$ = ['_default', namespace], namespace = ref$[0], name = ref$[1];
-    }
-    return _n._blockData['_exist']["block." + namespace + "." + name];
+    return _blockExist(namespace);
   };
   /**
    * 标识指定block
@@ -45,13 +57,7 @@
    * @return {boolean} 设置标识成功
    */
   _n.setBlock = function(namespace){
-    var nsmatch, name, ref$;
-    if (nsmatch = namespace.match(/(.*?)(?:[/.]([^/.]+))$/)) {
-      namespace = nsmatch[1], name = nsmatch[2];
-    } else {
-      ref$ = ['_default', namespace], namespace = ref$[0], name = ref$[1];
-    }
-    return _n._blockData['_exist']["block." + namespace + "." + name] = true;
+    return _blockExist(namespace, true);
   };
   /**
    * 添加block实现
@@ -81,7 +87,7 @@
     var block, call;
     namespace == null && (namespace = '_default');
     if (block = _n.block(namespace + "." + name)) {
-      if (_.isFunction(block.init)) {
+      if (_lib.isFunction(block.init)) {
         call = function(){
           block.init(elem, params);
         };
@@ -90,7 +96,7 @@
         } else {
           return call();
         }
-      } else if (_.isFunction(block)) {
+      } else if (_lib.isFunction(block)) {
         return block(elem, params);
       }
     }
@@ -105,13 +111,14 @@
    */
   _n.initBlock = function(elem){
     var blockId, _call;
-    blockId = $(elem).data('nblockId');
+    blockId = _lib.data(elem, 'nblockId');
     blockId = blockId.split(/\s*,\s*|\s+/);
     _call = function(blockId){
       var this$ = this;
       return this.router.parse(/^(?:\/?)(.*?)(?:\/?([^\/?#]+))(?:\?(.*?))?(?:\#(.*?))?$/, blockId, function(namespace, block, params){
         var pkg;
         namespace == null && (namespace = '_default');
+        namespace = namespace.replace(/\//g, '.');
         pkg = namespace + "." + block;
         if (this$.block(pkg)) {
           this$.trigger('NBLOCK_LOADED', elem, namespace, block, params);
@@ -122,20 +129,31 @@
         }
       });
     };
-    _.each(blockId, function(id){
+    _lib.each(blockId, function(id){
       return _call.call(_n, id);
     });
   };
   _n.on('NBLOCK_INIT', function(){
-    var blocks, i$, len$, block, auto;
-    blocks = $('[data-nblock-id]');
-    if (blocks.length) {
-      for (i$ = 0, len$ = blocks.length; i$ < len$; ++i$) {
-        block = blocks[i$];
-        auto = $(block).data('nblockAuto');
-        if (auto === undefined || auto.toString() !== 'false') {
-          _n.initBlock(block);
-        }
+    var blockEl, blocks, i$, len$, el, auto, level, item, block;
+    blockEl = _lib.querySelector('[data-nblock-id]');
+    if (!blockEl || !blockEl.length) {
+      return;
+    }
+    blocks = [];
+    for (i$ = 0, len$ = blockEl.length; i$ < len$; ++i$) {
+      el = blockEl[i$];
+      auto = _lib.data(el, 'nblockAuto');
+      level = parseInt(_lib.data(el, 'nblockLevel')) || 5;
+      blocks.push([level, auto, el]);
+    }
+    blocks = blocks.sort(function(block1, block2){
+      return block1[0] - block2[0];
+    });
+    for (i$ = 0, len$ = blocks.length; i$ < len$; ++i$) {
+      item = blocks[i$];
+      auto = item[1], block = item[2];
+      if (auto === undefined || auto.toString() !== 'false') {
+        _n.initBlock(block);
       }
     }
   });

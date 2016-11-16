@@ -4,7 +4,7 @@
 "       Desc: ndoo.js前置文件
 "     Author: chenglf
 "    Version: 1.0.0
-" LastChange: 11/03/2015 23:09
+" LastChange: 10/19/2016 14:11
 " --------------------------------------------------
 */
 (function(){
@@ -216,5 +216,9 @@
    * }
    */
   _n.func || (_n.func = {});
+  /**
+   * 依赖库存储空间
+   */
+  _n._lib || (_n._lib = {});
   /* vim: se ts=2 sts=2 sw=2 fdm=marker cc=80 et: */
 }).call(this);

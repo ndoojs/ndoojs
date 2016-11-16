@@ -138,7 +138,7 @@ _n.on \NBLOCK_INIT, !->
     level = parseInt( _lib.data el, \nblockLevel ) or 5
     blocks.push [level, auto, el]
 
-  blocks.sort (block1, block2) -> block1[0] > block2[0]
+  blocks = blocks.sort (block1, block2) -> block1[0] - block2[0]
 
   for item in blocks
     [,auto, block] = item
