@@ -229,6 +229,7 @@ export class Ndoo extends Prep {
         let level = parseInt(this._lib.data(el, 'nblockLevel')) || 5;
         blocks.push([level, auto, el]);
       }
+      blocks = blocks.sort((block1: any, block2: any) => block1[0] - block2[0]);
       for (let item of blocks) {
         let [, auto, block] = item;
         if (auto === undefined || auto.toString() != 'false') {

@@ -327,6 +327,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                var level = parseInt(_this._lib.data(el, 'nblockLevel')) || 5;
 	                blocks.push([level, auto, el]);
 	            }
+	            blocks = blocks.sort(function (block1, block2) { return block1[0] - block2[0]; });
 	            for (var _a = 0, blocks_1 = blocks; _a < blocks_1.length; _a++) {
 	                var item = blocks_1[_a];
 	                var auto = item[1], block = item[2];
