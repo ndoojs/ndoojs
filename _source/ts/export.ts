@@ -1,3 +1,8 @@
 import { Ndoo } from './src/ndoo';
 
-export default new Ndoo();
+let ndoo = new Ndoo();
+
+let {RegType, Component} = ndoo;
+
+export default ndoo;
+export {RegType, Component};
