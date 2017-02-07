@@ -35,6 +35,9 @@ var config = {
     new webpack.optimize.UglifyJsPlugin({
       include: /\.min\.js$/,
       minimize: true,
+      compress: {
+        warnings: false
+      }
     })
   ],
   externals: {

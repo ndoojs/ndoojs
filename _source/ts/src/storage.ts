@@ -7,9 +7,10 @@ export class Storage {
   };
 
   constructor(key, value, option: number) {
-    let destroy = option & Storage.DESTROY;
-    let rewrite = option & Storage.REWRITE;
-    let data = Storage._data;
+    let _self = Storage;
+    let destroy = option & _self.DESTROY;
+    let rewrite = option & _self.REWRITE;
+    let data = _self._data;
 
     if (value === undefined) {
       return data[key];
@@ -20,7 +21,7 @@ export class Storage {
       return true;
     }
 
-    if (!rewrite && Storage._lib.has(data, key)) {
+    if (!rewrite && _self._lib.has(data, key)) {
       return false;
     }
 
