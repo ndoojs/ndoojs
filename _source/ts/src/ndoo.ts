@@ -30,12 +30,30 @@ export class Ndoo extends Prep {
   }
   public storage: typeof Storage = Storage;
   public router: typeof Router = Router;
-  public require(depend: any[], callback: Function, type: string): void {
-    if (type.toLocaleLowerCase() == 'do') {
+  private _loader = {
+    app: 'do',
+    block: 'do',
+    init: 'do',
+    appLoader: null,
+    blockLoader: null,
+    initLoader: null,
+    doLoader: function(depend: any[], callback: Function) {
       Do.apply(null, depend.concat(callback));
-    }
-    else if (type.toLocaleLowerCase() == 'seajs') {
+    },
+    seajsLoader: function(depend: any[], callback: Function) {
       seajs.use(depend, callback);
+    }
+  };
+  public setLoader(type: string, loader: Function) {
+    this._loader[`${type}Loader`] = loader;
+  }
+  public require(depend: any[], callback: Function, type: string): void {
+    type = type.toLowerCase();
+    if (this._loader[`${type}Loader`]) {
+      this[type](depend, callback);
+    }
+    else {
+      throw new Error('require load is not define');
     }
   }
   public _blockData = {
@@ -187,7 +205,7 @@ export class Ndoo extends Prep {
           else if (this.hasBlock(pkg)) {
             this.require([`${ns}.${blockName}`], () => {
               this.trigger('NBLOCK_LOADED', elem, ns, blockName, params);
-            }, 'Do');
+            }, this._loader['block']);
           }
         });
     }
@@ -207,7 +225,7 @@ export class Ndoo extends Prep {
           }
 
           if (block.depend) {
-            this.require([].concat(block.depend), call, 'Do');
+            this.require([].concat(block.depend), call, this._loader['block']);
           }
           else {
             call();
@@ -319,6 +337,7 @@ export class Ndoo extends Prep {
     );
     this.on('NAPP_LOADED', (ns: string, appName: string, actionName: string, params) => {
       let appData: any;
+      let _self = this;
       if (ns) {
         appData = this.app(`${ns}.${appName}`)
       }
@@ -347,29 +366,31 @@ export class Ndoo extends Prep {
       }
       filterPrefix = filterPrefix.toUpperCase();
 
-      let run = () => {
+      let run = function() {
+        let args: any[] = [].slice.call(arguments, 0);
+        args.unshift(params);
         if (actionName) {
-          this.trigger('NAPP_ACTION_BEFORE', appData, actionName, params);
-          this.trigger(`NAPP_${filterPrefix}_ACTION_BEFORE`, appData, actionName, params);
+          _self.trigger('NAPP_ACTION_BEFORE', appData, actionName, params);
+          _self.trigger(`NAPP_${filterPrefix}_ACTION_BEFORE`, appData, actionName, params);
 
           if (appData[`${actionName}Before`]) {
-            appData[`${actionName}Before`](params);
+            appData[`${actionName}Before`].apply(appData, params);
           }
           if (appData[`${actionName}Action`]) {
-            appData[`${actionName}Action`](params);
+            appData[`${actionName}Action`].apply(appData, params);
           }
           if (appData[`${actionName}After`]) {
-            appData[`${actionName}After`](params);
+            appData[`${actionName}After`].apply(appData, params);
           }
 
-          this.trigger(`NAPP_${filterPrefix}_ACTION_AFTER`, appData, actionName, params);
-          this.trigger('NAPP_ACTION_AFTER', appData, actionName, params);
+          _self.trigger(`NAPP_${filterPrefix}_ACTION_AFTER`, appData, actionName, params);
+          _self.trigger('NAPP_ACTION_AFTER', appData, actionName, params);
         }
-        this.trigger('STATUS:NBLOCK_INIT');
+        _self.trigger('STATUS:NBLOCK_INIT');
       }
 
       if (depend.length) {
-        this.require(_lib.uniq(depend), run, 'Do');
+        this.require(_lib.uniq(depend), run, this._loader['app']);
       }
       else {
         run();
@@ -399,7 +420,7 @@ export class Ndoo extends Prep {
         else if (this.hasApp(pkg)) {
           this.require([pkg], function() {
             this.trigger('NAPP_LOADED', ns, appName, actionName, params);
-          }, 'Do');
+          }, this._loader['app']);
         }
         else {
           this.trigger('STATUS:NBLOCK_INIT');
@@ -428,13 +449,7 @@ export class Ndoo extends Prep {
         }
       });
     }
-
-    if (depend) {
-      this.require([].concat(depend), call, 'Do');
-    }
-    else {
-      call();
-    }
+    depend ? this.require([].concat(depend), call, this._loader['init']) : call();
   }
   init(id?: string | string[], depend?: string| string[]) {
     let { _lib } = this;
