@@ -374,13 +374,13 @@ export class Ndoo extends Prep {
           _self.trigger(`NAPP_${filterPrefix}_ACTION_BEFORE`, appData, actionName, params);
 
           if (appData[`${actionName}Before`]) {
-            appData[`${actionName}Before`].apply(appData, params);
+            appData[`${actionName}Before`].apply(appData, args);
           }
           if (appData[`${actionName}Action`]) {
-            appData[`${actionName}Action`].apply(appData, params);
+            appData[`${actionName}Action`].apply(appData, args);
           }
           if (appData[`${actionName}After`]) {
-            appData[`${actionName}After`].apply(appData, params);
+            appData[`${actionName}After`].apply(appData, args);
           }
 
           _self.trigger(`NAPP_${filterPrefix}_ACTION_AFTER`, appData, actionName, params);
