@@ -45,6 +45,7 @@ export class Ndoo extends Prep {
     }
   };
   public setLoader(type: string, loader: Function) {
+    this._loader[type] = `${type}Loader`;
     this._loader[`${type}Loader`] = loader;
   }
   public require(depend: any[], callback: Function, type: string): void {
