@@ -82,6 +82,33 @@ describe 'ndoo framework test >', ->
         it 'get abc for storage, should be undefined', ->
           expect(_stor('abc')).toBeUndefined()# }}}
 
+    describe 'loader test>', -> #{{{
+      _n = null
+
+      beforeAll ->
+        _n = ndoo
+
+      it 'do loader should be define', ->
+        expect(_n._loader['initLoader']).toBeDefined()
+
+      it 'init loader should be truthy', ->
+        expect(_n._loader['init']).toBeTruthy()
+
+      describe 'set loader test>', ->
+        testLoaderSpy = jasmine.createSpy 'testLoaderSpy'
+
+        beforeEach ->
+          _n.setLoader 'test', testLoaderSpy
+
+        afterEach ->
+          delete _n._loader['testLoader']
+        
+        it 'test loader should be define', ->
+          expect(_n._loader['testLoader']).toBeDefined()
+
+        it 'set test Loader should be equal spy', ->
+          expect(_n._loader['testLoader']).toEqual testLoaderSpy #}}}
+
     #}}}
 
   describe 'event test >', -># {{{
@@ -356,7 +383,7 @@ describe 'ndoo framework test >', ->
       _n.block 'test.block', testBlock
       expect(_n.block 'test.block').toBe testBlock
 
-    it 'block shoud be overwrite', ->
+    it 'block should be overwrite', ->
       block2 = new Object()
       _n.block 'main.block2', block2
       expect(_n.block 'main.block2').toBe block2
@@ -650,7 +677,7 @@ describe 'ndoo framework test >', ->
         onlyIndexFilter = null
         exceptIndexFilter = null
 
-      it 'only index filter shoud be call on home/index', ->
+      it 'only index filter should be call on home/index', ->
         _n.init 'home/index'
         expect(onlyIndexFilter).toHaveBeenCalled()
 
@@ -662,7 +689,7 @@ describe 'ndoo framework test >', ->
         _n.init 'home/index'
         expect(exceptIndexFilter).not.toHaveBeenCalled()
 
-      it 'except index filter shoud be call on home/list', ->
+      it 'except index filter should be call on home/list', ->
         _n.init 'home/list'
         expect(exceptIndexFilter).toHaveBeenCalled()# }}}
 
@@ -686,7 +713,7 @@ describe 'ndoo framework test >', ->
         firstFilter = null
         secondFilter = null
 
-      it 'first and second shoud be call', ->
+      it 'first and second should be call', ->
         _n.app 'home',
           before: { filter: 'first second' }
           firstFilter: firstFilter
@@ -841,5 +868,7 @@ describe 'ndoo framework test >', ->
 
         expect(beforeCall).toHaveBeenCalled()# }}}
     # }}}
+
+  #}}}
 
 # vim: set sw=2 ts=2 sts=2 fdm=marker et:
