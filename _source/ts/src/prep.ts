@@ -3,6 +3,11 @@ import { EventBasic } from './event/basic';
 import { getPrepData, PrepDataType } from './prepData';
 let prepData = getPrepData();
 
+/**
+ * ndoojs 全局名称空间，短名称N
+ *
+ * @namespace ndoo
+ */
 class Prep extends EventApi {
   public _isDebug: boolean = false;
   public event: typeof EventBasic = EventBasic;
