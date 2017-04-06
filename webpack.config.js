@@ -5,8 +5,7 @@ var config = {
   entry: {
     app: ["./_source/ts/ndoo_prep.ts", "file?name=index.html!jade-html!./_source/ts/index.jade"],
     ndoo_prep: ["./_source/ts/ndoo_prep.ts"],
-    ndoo: ["./_source/ts/ndoo.ts"],
-    "ndoo.min": ["./_source/ts/ndoo.ts"]
+    ndoo: ["./_source/ts/ndoo.ts"]
   },
   output: {
     filename: "./tsoutput/[name].js",
@@ -51,6 +50,14 @@ var config = {
 if (NODE_ENV == 'production') {
   delete config.entry['app'];
   delete config.devtool;
+}
+if (NODE_ENV == 'dist') {
+  delete config.entry['app'];
+  delete config.entry['ndoo'];
+  delete config.entry['ndoo_prep'];
+  config.entry['ndoo.min'] = ["./_source/ts/ndoo.ts"];
+  config.entry['ndoo_prep.min'] = ["./_source/ts/ndoo_prep.ts"];
+  config.output.filename = './dist/[name].js';
 }
 if (TARGET == 'node-module') {
   config.entry = {
