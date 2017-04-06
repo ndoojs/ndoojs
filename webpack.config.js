@@ -12,7 +12,7 @@ var config = {
     library: "ndoo",
     libraryTarget: "umd"
   },
-  devtool: "source-map",
+  devtool: "cheap-module-eval-source-map",
 
   resolve: {
     extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js"]
@@ -49,15 +49,7 @@ var config = {
 
 if (NODE_ENV == 'production') {
   delete config.entry['app'];
-  delete config.devtool;
-}
-if (NODE_ENV == 'dist') {
-  delete config.entry['app'];
-  delete config.entry['ndoo'];
-  delete config.entry['ndoo_prep'];
-  config.entry['ndoo.min'] = ["./_source/ts/ndoo.ts"];
-  config.entry['ndoo_prep.min'] = ["./_source/ts/ndoo_prep.ts"];
-  config.output.filename = './dist/[name].js';
+  config.devtool = 'source-map';
 }
 if (TARGET == 'node-module') {
   config.entry = {
@@ -69,5 +61,12 @@ if (TARGET == 'node-module') {
     libraryTarget: "umd"
   };
   // delete config.externals;
+}
+else if (TARGET == 'dist') {
+  delete config.entry['ndoo'];
+  delete config.entry['ndoo_prep'];
+  config.entry['ndoo.min'] = ["./_source/ts/ndoo.ts"];
+  config.entry['ndoo_prep.min'] = ["./_source/ts/ndoo_prep.ts"];
+  config.output.filename = './dist/[name].js';
 }
 module.exports = config;

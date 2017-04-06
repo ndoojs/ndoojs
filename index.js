@@ -71,8 +71,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	var ndoo_1 = __webpack_require__(2);
+	var ndoo = new ndoo_1.Ndoo();
+	var RegType = ndoo.RegType, Component = ndoo.Component;
+	exports.RegType = RegType;
+	exports.Component = Component;
 	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = new ndoo_1.Ndoo();
+	exports.default = ndoo;
 
 
 /***/ },
@@ -95,31 +99,44 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Ndoo = (function (_super) {
 	    __extends(Ndoo, _super);
 	    function Ndoo() {
-	        var _this = _super.call(this) || this;
-	        _this._lib = lib_1._lib;
-	        _this.pageId = '';
-	        _this._pk = +new Date();
-	        _this.storage = storage_1.Storage;
-	        _this.router = router_1.Router;
-	        _this._blockData = {
+	        _super.call(this);
+	        this._lib = lib_1._lib;
+	        this.pageId = '';
+	        this._pk = +new Date();
+	        this.storage = storage_1.Storage;
+	        this.router = router_1.Router;
+	        this._loader = {
+	            app: 'do',
+	            block: 'do',
+	            init: 'do',
+	            appLoader: null,
+	            blockLoader: null,
+	            initLoader: null,
+	            doLoader: function (depend, callback) {
+	                Do.apply(null, depend.concat(callback));
+	            },
+	            seajsLoader: function (depend, callback) {
+	                seajs.use(depend, callback);
+	            }
+	        };
+	        this._blockData = {
 	            _block: {},
 	            _app: {},
 	            _service: {},
 	            _exist: {}
 	        };
-	        _this.RegType = component_1.RegType;
-	        _this.Component = component_1.getComponent(_this);
-	        _this.storage._lib = _this._lib;
-	        _this._rebuildEvent();
-	        _this.event.init();
-	        _this.trigger('STATUS:NAPP_DEFINE');
-	        _this.trigger('STATUS:NBLOCK_DEFINE');
-	        _this.trigger('STATUS:NSERVICE_DEFINE');
-	        _this._bindBlockEvent();
+	        this.RegType = component_1.RegType;
+	        this.Component = component_1.getComponent(this);
+	        this.storage._lib = this._lib;
+	        this._rebuildEvent();
+	        this.event.init();
+	        this.trigger('STATUS:NAPP_DEFINE');
+	        this.trigger('STATUS:NBLOCK_DEFINE');
+	        this.trigger('STATUS:NSERVICE_DEFINE');
+	        this._bindBlockEvent();
 	        if (prepData) {
 	            prepData_1.removePrepData();
 	        }
-	        return _this;
 	    }
 	    Ndoo.prototype.initPageId = function (id) {
 	        if (this.pageId) {
@@ -139,19 +156,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (prefix === void 0) { prefix = ''; }
 	        return "" + prefix + ++this._pk;
 	    };
+	    Ndoo.prototype.setLoader = function (type, loader) {
+	        this._loader[type] = type + "Loader";
+	        this._loader[(type + "Loader")] = loader;
+	    };
 	    Ndoo.prototype.require = function (depend, callback, type) {
-	        if (type.toLocaleLowerCase() == 'do') {
-	            Do.apply(null, depend.concat(callback));
+	        type = type.toLowerCase();
+	        if (this._loader[(type + "Loader")]) {
+	            this[type](depend, callback);
 	        }
-	        else if (type.toLocaleLowerCase() == 'seajs') {
-	            seajs.use(depend, callback);
+	        else {
+	            throw new Error('require load is not define');
 	        }
 	    };
 	    Ndoo.prototype._block = function (base, ns, name, block) {
 	        var data;
 	        var nsArr;
 	        if (base == 'block' || base == 'app' || base == 'service') {
-	            data = this._blockData["_" + base];
+	            data = this._blockData[("_" + base)];
 	        }
 	        else {
 	            return false;
@@ -195,10 +217,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	            if (result || success) {
 	                if (ns) {
-	                    this._blockData._exist[base + "." + ns + "." + name] = true;
+	                    this._blockData._exist[(base + "." + ns + "." + name)] = true;
 	                }
 	                else {
-	                    this._blockData._exist[base + "." + name] = true;
+	                    this._blockData._exist[(base + "." + name)] = true;
 	                }
 	            }
 	            return result;
@@ -215,10 +237,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    };
 	    Ndoo.prototype.hasApp = function (ns) {
-	        return this._blockData._exist["app." + ns];
+	        return this._blockData._exist[("app." + ns)];
 	    };
 	    Ndoo.prototype.setApp = function (ns) {
-	        return this._blockData._exist["app." + ns] = true;
+	        return this._blockData._exist[("app." + ns)] = true;
 	    };
 	    Ndoo.prototype.app = function (ns, app) {
 	        var nsmatch = ns.match(/(.*?)(?:[/.]([^/.]+))$/);
@@ -243,10 +265,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        ns = nsmatch[1], name = nsmatch[2];
 	        if (set) {
-	            return this._blockData._exist["block." + ns + "." + name] = true;
+	            return this._blockData._exist[("block." + ns + "." + name)] = true;
 	        }
 	        else {
-	            return this._blockData._exist["block." + ns + "." + name];
+	            return this._blockData._exist[("block." + ns + "." + name)];
 	        }
 	    };
 	    Ndoo.prototype.hasBlock = function (ns) {
@@ -282,9 +304,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    _this.trigger('NBLOCK_LOADED', elem, ns, blockName, params);
 	                }
 	                else if (_this.hasBlock(pkg)) {
-	                    _this.require([ns + "." + blockName], function () {
+	                    _this.require([(ns + "." + blockName)], function () {
 	                        _this.trigger('NBLOCK_LOADED', elem, ns, blockName, params);
-	                    }, 'Do');
+	                    }, _this._loader['block']);
 	                }
 	            });
 	        };
@@ -304,7 +326,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        block.init(elem, params);
 	                    };
 	                    if (block.depend) {
-	                        _this.require([].concat(block.depend), call, 'Do');
+	                        _this.require([].concat(block.depend), call, _this._loader['block']);
 	                    }
 	                    else {
 	                        call();
@@ -404,7 +426,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                if (isRun) {
 	                    for (var _a = 0, _filter_1 = _filter; _a < _filter_1.length; _a++) {
 	                        var filter = _filter_1[_a];
-	                        controller[filter + "Filter"](actionName, params);
+	                        controller[(filter + "Filter")](actionName, params);
 	                    }
 	                }
 	            }
@@ -425,6 +447,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 	        this.on('NAPP_LOADED', function (ns, appName, actionName, params) {
 	            var appData;
+	            var _self = _this;
 	            if (ns) {
 	                appData = _this.app(ns + "." + appName);
 	            }
@@ -439,8 +462,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if (appData['depend']) {
 	                depend = depend.concat(appData['depend']);
 	            }
-	            if (appData[actionName + "Depend"]) {
-	                depend = depend.concat(appData[actionName + "Depend"]);
+	            if (appData[(actionName + "Depend")]) {
+	                depend = depend.concat(appData[(actionName + "Depend")]);
 	            }
 	            var filterPrefix = appName;
 	            if (ns) {
@@ -448,25 +471,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	            filterPrefix = filterPrefix.toUpperCase();
 	            var run = function () {
+	                var args = [].slice.call(arguments, 0);
+	                args.unshift(params);
 	                if (actionName) {
-	                    _this.trigger('NAPP_ACTION_BEFORE', appData, actionName, params);
-	                    _this.trigger("NAPP_" + filterPrefix + "_ACTION_BEFORE", appData, actionName, params);
-	                    if (appData[actionName + "Before"]) {
-	                        appData[actionName + "Before"](params);
+	                    _self.trigger('NAPP_ACTION_BEFORE', appData, actionName, params);
+	                    _self.trigger("NAPP_" + filterPrefix + "_ACTION_BEFORE", appData, actionName, params);
+	                    if (appData[(actionName + "Before")]) {
+	                        appData[(actionName + "Before")].apply(appData, args);
 	                    }
-	                    if (appData[actionName + "Action"]) {
-	                        appData[actionName + "Action"](params);
+	                    if (appData[(actionName + "Action")]) {
+	                        appData[(actionName + "Action")].apply(appData, args);
 	                    }
-	                    if (appData[actionName + "After"]) {
-	                        appData[actionName + "After"](params);
+	                    if (appData[(actionName + "After")]) {
+	                        appData[(actionName + "After")].apply(appData, args);
 	                    }
-	                    _this.trigger("NAPP_" + filterPrefix + "_ACTION_AFTER", appData, actionName, params);
-	                    _this.trigger('NAPP_ACTION_AFTER', appData, actionName, params);
+	                    _self.trigger("NAPP_" + filterPrefix + "_ACTION_AFTER", appData, actionName, params);
+	                    _self.trigger('NAPP_ACTION_AFTER', appData, actionName, params);
 	                }
-	                _this.trigger('STATUS:NBLOCK_INIT');
+	                _self.trigger('STATUS:NBLOCK_INIT');
 	            };
 	            if (depend.length) {
-	                _this.require(_lib.uniq(depend), run, 'Do');
+	                _this.require(_lib.uniq(depend), run, _this._loader['app']);
 	            }
 	            else {
 	                run();
@@ -493,7 +518,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                else if (_this.hasApp(pkg)) {
 	                    _this.require([pkg], function () {
 	                        this.trigger('NAPP_LOADED', ns, appName, actionName, params);
-	                    }, 'Do');
+	                    }, _this._loader['app']);
 	                }
 	                else {
 	                    _this.trigger('STATUS:NBLOCK_INIT');
@@ -520,12 +545,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                }
 	            });
 	        };
-	        if (depend) {
-	            this.require([].concat(depend), call, 'Do');
-	        }
-	        else {
-	            call();
-	        }
+	        depend ? this.require([].concat(depend), call, this._loader['init']) : call();
 	    };
 	    Ndoo.prototype.init = function (id, depend) {
 	        var _lib = this._lib;
@@ -551,7 +571,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                eventHandle.on(eventName, callback);
 	                eventHandle.listened[eventName] = true;
 	                if (_lib.has(eventHandle.events, "STATUS:" + eventName)) {
-	                    callback.apply(eventHandle, eventHandle.events["STATUS:" + eventName]);
+	                    callback.apply(eventHandle, eventHandle.events[("STATUS:" + eventName)]);
 	                }
 	                if (_lib.has(eventHandle.events, eventName)) {
 	                    for (var _i = 0, _a = eventHandle.events[eventName]; _i < _a.length; _i++) {
@@ -576,7 +596,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                }
 	                else if (eventType === 'STATUS') {
 	                    if (!_lib.has(eventHandle.events, eventType + ":" + eventName)) {
-	                        eventHandle.events[eventType + ":" + eventName] = data;
+	                        eventHandle.events[(eventType + ":" + eventName)] = data;
 	                        if (_lib.has(eventHandle.listened, eventName)) {
 	                            eventHandle.trigger.apply(eventHandle, [eventName].concat(data));
 	                        }
@@ -628,17 +648,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Prep = (function (_super) {
 	    __extends(Prep, _super);
 	    function Prep() {
-	        var _this = _super.call(this) || this;
-	        _this._isDebug = false;
-	        _this.event = basic_1.EventBasic;
-	        _this.vars = {};
-	        _this.func = {};
-	        _this._lib = {};
+	        _super.call(this);
+	        this._isDebug = false;
+	        this.event = basic_1.EventBasic;
+	        this.vars = {};
+	        this.func = {};
+	        this._lib = {};
 	        if (prepData) {
-	            _this.vars = prepData.vars;
-	            _this.func = prepData.func;
+	            this.vars = prepData.vars;
+	            this.func = prepData.func;
 	        }
-	        return _this;
 	    }
 	    return Prep;
 	}(api_1.EventApi));
@@ -707,13 +726,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	    EventBasic.off = function (eventName) { };
 	    EventBasic.init = function () { };
+	    EventBasic.TYPE_ON = 1;
+	    EventBasic.TYPE_TRIGGER = 2;
+	    EventBasic.inited = false;
+	    EventBasic._temp = prepData ? prepData.eventData : [];
 	    return EventBasic;
 	}());
 	exports.EventBasic = EventBasic;
-	EventBasic.TYPE_ON = 1;
-	EventBasic.TYPE_TRIGGER = 2;
-	EventBasic.inited = false;
-	EventBasic._temp = prepData ? prepData.eventData : [];
 
 
 /***/ },
@@ -754,9 +773,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	"use strict";
 	var Storage = (function () {
 	    function Storage(key, value, option) {
-	        var destroy = option & Storage.DESTROY;
-	        var rewrite = option & Storage.REWRITE;
-	        var data = Storage._data;
+	        var _self = Storage;
+	        var destroy = option & _self.DESTROY;
+	        var rewrite = option & _self.REWRITE;
+	        var data = _self._data;
 	        if (value === undefined) {
 	            return data[key];
 	        }
@@ -764,17 +784,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	            delete data[key];
 	            return true;
 	        }
-	        if (!rewrite && Storage._lib.has(data, key)) {
+	        if (!rewrite && _self._lib.has(data, key)) {
 	            return false;
 	        }
 	        return data[key] = value;
 	    }
+	    Storage._data = {};
+	    Storage.REWRITE = 1;
+	    Storage.DESTROY = 2;
 	    return Storage;
 	}());
 	exports.Storage = Storage;
-	Storage._data = {};
-	Storage.REWRITE = 1;
-	Storage.DESTROY = 2;
 
 
 /***/ },
