@@ -17,7 +17,7 @@
     "start:build-ls": "find _source -type f -name *.ls | acmd run -o",
     "start:dist": "cat js/ndoo_prep.js js/ndoo_lib_depend.js js/ndoo_lib.js js/ndoo.js js/ndoo_block.js js/ndoo_service.js > dist/ndoo_all.js && cat js/ndoo_prep.js js/ndoo_lib_depend.js js/ndoo.js js/ndoo_block.js js/ndoo_service.js > dist/ndoo_slim.js && uglifyjs -rco dist/ndoo_all.min.js dist/ndoo_all.js && uglifyjs -rco dist/ndoo_slim.min.js dist/ndoo_slim.js",
     "test": "karma run",
-    "gen:doc": "jsdoc -c jsdoc.conf tsoutput/ndoo.js readme.md",
+    "gen:doc": "jsdoc -c jsdoc.conf js/ndoo.js readme.md",
     "cpjs": "cp -fr js/*.js docs/example/js/",
     "webpack": "export NODE_ENV=production && webpack",
     "webpack:dev": "webpack-dashboard -- webpack-dev-server --hot --inline",
