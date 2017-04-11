@@ -82,7 +82,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    __extends(Prep, _super);
 	    function Prep() {
 	        var _this = _super.call(this) || this;
-	        _this._isDebug = false;
 	        _this.event = basic_1.EventBasic;
 	        /**
 	         * 变量存储名称空间
