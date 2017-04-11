@@ -9,7 +9,6 @@ let prepData = getPrepData();
  * @namespace ndoo
  */
 class Prep extends EventApi {
-  public _isDebug: boolean = false;
   public event: typeof EventBasic = EventBasic;
 
   /**
