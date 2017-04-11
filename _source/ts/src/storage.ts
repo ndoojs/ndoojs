@@ -2,7 +2,6 @@
  * 变量存储
  *
  * @method
- * @name storage
  * @memberof ndoo
  * @param {string} key 键名
  * @param {variable} value 值
@@ -23,7 +22,6 @@ export class Storage {
   /**
    * storage重写常量
    *
-   * @name REWRITE
    * @memberof ndoo.storage
    */
   static REWRITE: number = 1;
@@ -31,7 +29,6 @@ export class Storage {
   /**
    * storage删除常量
    *
-   * @name DESTROY
    * @memberof ndoo.storage
    */
   static DESTROY: number = 2;

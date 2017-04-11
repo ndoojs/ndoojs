@@ -16,7 +16,6 @@ class Prep extends EventApi {
    * 变量存储名称空间
    *
    * @namespace
-   * @name vars
    * @memberof ndoo
    * @type {object}
    * @example // alias _vars
@@ -29,7 +28,6 @@ class Prep extends EventApi {
    * 函数存储名称空间
    *
    * @namespace
-   * @name func
    * @memberof ndoo
    * @type {object}
    * @example // alias _func

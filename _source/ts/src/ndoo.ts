@@ -9,7 +9,19 @@ let prepData = getPrepData();
 
 export class Ndoo extends Prep {
   public _lib = lib;
+  /**
+   * page id
+   *
+   * @memberof ndoo
+   * @type {string}
+   */
   public pageId: string = '';
+  /**
+   * initPageId 初始化 pageId
+   *
+   * @private
+   * @memberof ndoo
+   */
   public initPageId(id: string) {
     if (this.pageId) {
       return;
@@ -25,6 +37,14 @@ export class Ndoo extends Prep {
     }
   }
   private _pk: number = +new Date();
+  /**
+   * 获取唯一key
+   *
+   * @method
+   * @memberof ndoo
+   * @param prefix {string} 前缀
+   * @return {string} 键名
+   */
   public getPk(prefix: string = '') {
     return `${prefix}${++this._pk}`;
   }
@@ -44,10 +64,24 @@ export class Ndoo extends Prep {
       seajs.use(depend, callback);
     }
   };
+  /**
+   * 设置加载器
+   * 
+   * @method
+   * @memberof ndoo
+   * @param type {string} 加载器类型
+   * @param loader {Function} 加载器回调函数
+   */
   public setLoader(type: string, loader: Function) {
     this._loader[type] = `${type}Loader`;
     this._loader[`${type}Loader`] = loader;
   }
+  /**
+   * 
+   * @param depend {array} 依赖
+   * @param callback {Function} 架设函数
+   * @param type {string} 加载器类型 app/block/service
+   */
   public require(depend: any[], callback: Function, type: string): void {
     type = type.toLowerCase();
     if (this._loader[`${type}Loader`]) {
@@ -133,12 +167,35 @@ export class Ndoo extends Prep {
       return temp[name];
     }
   }
+  /**
+   * 检测是否存在指定app
+   *
+   * @method
+   * @memberof ndoo
+   * @param {string} namespace 名称空间
+   * @return {boolean} 是否在存指定的app
+   */
   hasApp(ns: string) {
     return this._blockData._exist[`app.${ns}`]
   }
+  /**
+   * 标识指定app已存在
+   *
+   * @method
+   * @memberof ndoo
+   * @param {string} namespace 名称空间
+   */
   setApp(ns: string) {
     return this._blockData._exist[`app.${ns}`] = true;
   }
+  /**
+   * 添加app实现
+   *
+   * @method
+   * @memberof ndoo
+   * @param {string} namespace 名称空间
+   * @param {object} controller 控制器
+   */
   app(ns: string, app?: any) {
     let nsmatch = ns.match(/(.*?)(?:[/.]([^/.]+))$/);
     let appName: string;
@@ -154,6 +211,14 @@ export class Ndoo extends Prep {
       return this._block('app', ns, appName);
     }
   }
+  /**
+   * 检测是否存在指定block
+   *
+   * @private
+   * @param {string} ns 名称空间
+   * @param {set} boolean 是否标记block已存在
+   * @return {boolean} 返加block标记
+   */
   _blockExist(ns: string, set: boolean = false) {
     let nsmatch: string[] = ns.match(/(.*?)(?:[/.]([^/.]+))$/);
     let name: string;
@@ -169,12 +234,37 @@ export class Ndoo extends Prep {
       return this._blockData._exist[`block.${ns}.${name}`]
     }
   }
+  /**
+   * 检测是否存在指定block
+   *
+   * @method
+   * @memberof ndoo
+   * @param {string} ns 名称空间
+   * @return {boolean} 判断block是否存在
+   */
   hasBlock(ns: string) {
     return this._blockExist(ns);
   }
+  /**
+   * 标识指定block
+   *
+   * @method
+   * @memberof ndoo
+   * @param {string} namespace 名称空间
+   * @return {boolean} 设置标识成功
+   */
   setBlock(ns: string) {
     return this._blockExist(ns, true);
   }
+  /**
+   * 添加block实现
+   *
+   * @method
+   * @memberof ndoo
+   * @param {string} namespace 名称空间
+   * @param {(object|function)} block 模块实现
+   * @return {(boolean|object|function)} 是否成功|标识本身
+   */
   block(ns: string, block?: any) {
     let nsmatch: string[] = ns.match(/(.*?)(?:[/.]([^/.]+))$/);
     let name: string;
@@ -189,6 +279,13 @@ export class Ndoo extends Prep {
       return this._block('block', ns, name);
     }
   }
+  /**
+   * 初始化模块
+   *
+   * @method
+   * @memberof ndoo
+   * @param {DOMElement} elem 初始化的元素
+   */
   initBlock(elem: HTMLElement) {
     let {_lib, router} = this;
     let blockId: string | string[] = _lib.data(elem, 'nblockId');
@@ -257,6 +354,22 @@ export class Ndoo extends Prep {
       }
     });
   }
+  /**
+   * 添加/获取serivce
+   *
+   * @method
+   * @memberof ndoo
+   * @param {string}   namespace 名称空间
+   * @param {variable} service 对象
+   * @example var _n = ndoo;
+   * _n.service('user', {
+   *   hasSignin: function(){
+   *     return false;
+   *   }
+   * });
+   * user = _n.service('user');
+   * console.log(user.hasSignin());
+   */
   service(ns: string, service: any) {
     let nsmatch = ns.match(/(.*?)(?:[/.]([^/.]+))$/);
     let name: string;
@@ -279,6 +392,13 @@ export class Ndoo extends Prep {
       }
     }
   }
+  /**
+   * 路由函数
+   *
+   * @private
+   * @method
+   * @memberof ndoo
+   */
   dispatch() {
     let {  _lib } = this;
     let filterHaldner = (type: string, controller: any, actionName: string, params: string) => {
@@ -429,6 +549,14 @@ export class Ndoo extends Prep {
       });
     });
   }
+  /**
+   * 触发页面状态
+   *
+   * @private
+   * @method
+   * @name triggerPageStatus
+   * @memberof ndoo
+   */
   public triggerPageStatus(depend: string | string[]) {
     let { _lib } = this;
     let call = () => {
