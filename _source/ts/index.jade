@@ -1,8 +1,8 @@
 doctype html
 html
   head
-   title typescript preview page
-   script(src="./tsoutput/ndoo_prep.js")
+   title= htmlWebpackPlugin.options.title
+   script(src="./js/ndoo_prep.js")
   body
     script.
       ndoo.vars.abc =  1;
@@ -10,7 +10,7 @@ html
         console.log('test');
       });
     script(src="./lib/underscore-min.js")
-    script(src="./tsoutput/ndoo.js")
+    script(src="./js/ndoo.js")
     script.
       ndoo.app('home', {
         indexAction: function() {

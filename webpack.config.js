@@ -1,9 +1,9 @@
 var webpack = require('webpack');
+var htmlWebpackPlugin = require('html-webpack-plugin');
 var NODE_ENV = process.env.NODE_ENV;
 var TARGET = process.env.TARGET;
 var config = {
   entry: {
-    app: ["./_source/ts/ndoo_prep.ts", "file?name=index.html!jade-html!./_source/ts/index.jade"],
     ndoo_prep: ["./_source/ts/ndoo_prep.ts"],
     ndoo: ["./_source/ts/ndoo.ts"]
   },
@@ -19,7 +19,8 @@ var config = {
   },
   module: {
     loaders: [
-      { test: /\.tsx?$/, loader: "ts-loader" }
+      { test: /\.tsx?$/, loader: "ts-loader" },
+      { test: /\.jade$/, loader: "jade-loader" }
     ],
     preLoaders: [
       { test: /\.js$/, loader: "source-map-loader" }
@@ -37,7 +38,12 @@ var config = {
       compress: {
         warnings: false
       }
-    })
+    }),
+    new htmlWebpackPlugin({
+      title: 'Typescript Preview Page',
+      inject: false,
+      template: __dirname + '/_source/ts/index.jade'
+    }),
   ],
   externals: {
     "underscore": "_",
@@ -48,8 +54,9 @@ var config = {
 };
 
 if (NODE_ENV == 'production') {
-  delete config.entry['app'];
   config.devtool = 'source-map';
+  config.plugins.splice(2);
+  // config.plugins = config.plugins.slice(2);
 }
 if (TARGET == 'node') {
   config.entry = {
