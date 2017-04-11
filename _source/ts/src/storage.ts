@@ -2,6 +2,7 @@
  * 变量存储
  *
  * @method
+ * @name storage
  * @memberof ndoo
  * @param {string} key 键名
  * @param {variable} value 值

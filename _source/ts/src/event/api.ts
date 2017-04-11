@@ -6,6 +6,7 @@ export class EventApi {
    * global on
    *
    * @method
+   * @name on
    * @memberof ndoo
    * @param {string} eventName 事件名称
    * @param {function} callback 事件回调
@@ -28,6 +29,7 @@ export class EventApi {
    * global trigger
    *
    * @method
+   * @name trigger
    * @memberof ndoo
    * @param {string} eventName 事件名称
    * @param {variable} data 数据，可以是多个
@@ -44,6 +46,7 @@ export class EventApi {
    * global off
    *
    * @method
+   * @name off
    * @memberof ndoo
    * @param {string} eventName 事件名称
    */

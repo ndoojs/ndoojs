@@ -18,6 +18,7 @@ export class EventBasic {
   /**
    * 暂存数据类型
    *
+   * @name TYPE_ON
    * @memberof ndoo.event
    * @type {number}
    */
@@ -26,6 +27,7 @@ export class EventBasic {
   /**
    * 暂存数据类型
    *
+   * @name TYPE_TRIGGER
    * @memberof ndoo.event
    * @type {number}
    */
@@ -34,6 +36,7 @@ export class EventBasic {
   /**
    * init token
    *
+   * @name inited
    * @memberof ndoo.event
    * @type {boolean}
    */
@@ -43,6 +46,7 @@ export class EventBasic {
    * event stack
    *
    * @private
+   * @name _temp
    * @memberof ndoo.event
    * @type {array}
    */
@@ -52,6 +56,7 @@ export class EventBasic {
    * on api
    *
    * @method
+   * @name on
    * @memberof ndoo.event
    * @param {string} eventName 事件名称
    * @param {function} callback 回调函数
@@ -67,6 +72,7 @@ export class EventBasic {
    * trigger api
    *
    * @method
+   * @name trigger
    * @memberof ndoo.event
    * @param eventName {string} 事件名称
    * @param eventType {string} 事件类型
@@ -83,6 +89,7 @@ export class EventBasic {
    * off api
    *
    * @method
+   * @name off
    * @memberof ndoo.event
    * @param eventName {string}
    */

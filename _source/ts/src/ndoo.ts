@@ -12,6 +12,7 @@ export class Ndoo extends Prep {
   /**
    * page id
    *
+   * @name pageId
    * @memberof ndoo
    * @type {string}
    */
@@ -20,6 +21,7 @@ export class Ndoo extends Prep {
    * initPageId 初始化 pageId
    *
    * @private
+   * @name initPageId
    * @memberof ndoo
    */
   public initPageId(id: string) {
@@ -36,11 +38,19 @@ export class Ndoo extends Prep {
       }
     }
   }
+  /**
+   * 内部_pk主键
+   * 
+   * @private
+   * @name _pk
+   * @memberof ndoo
+   */
   private _pk: number = +new Date();
   /**
    * 获取唯一key
    *
    * @method
+   * @name getPk
    * @memberof ndoo
    * @param prefix {string} 前缀
    * @return {string} 键名
@@ -68,6 +78,7 @@ export class Ndoo extends Prep {
    * 设置加载器
    * 
    * @method
+   * @name setLoader
    * @memberof ndoo
    * @param type {string} 加载器类型
    * @param loader {Function} 加载器回调函数
@@ -77,7 +88,11 @@ export class Ndoo extends Prep {
     this._loader[`${type}Loader`] = loader;
   }
   /**
+   * 依赖加载方法
    * 
+   * @method
+   * @name require
+   * @memberof ndoo
    * @param depend {array} 依赖
    * @param callback {Function} 架设函数
    * @param type {string} 加载器类型 app/block/service
@@ -171,6 +186,7 @@ export class Ndoo extends Prep {
    * 检测是否存在指定app
    *
    * @method
+   * @name hasApp
    * @memberof ndoo
    * @param {string} namespace 名称空间
    * @return {boolean} 是否在存指定的app
@@ -182,6 +198,7 @@ export class Ndoo extends Prep {
    * 标识指定app已存在
    *
    * @method
+   * @name setApp
    * @memberof ndoo
    * @param {string} namespace 名称空间
    */
@@ -192,6 +209,7 @@ export class Ndoo extends Prep {
    * 添加app实现
    *
    * @method
+   * @name app
    * @memberof ndoo
    * @param {string} namespace 名称空间
    * @param {object} controller 控制器
@@ -238,6 +256,7 @@ export class Ndoo extends Prep {
    * 检测是否存在指定block
    *
    * @method
+   * @name hasBlock
    * @memberof ndoo
    * @param {string} ns 名称空间
    * @return {boolean} 判断block是否存在
@@ -249,6 +268,7 @@ export class Ndoo extends Prep {
    * 标识指定block
    *
    * @method
+   * @name setBlock
    * @memberof ndoo
    * @param {string} namespace 名称空间
    * @return {boolean} 设置标识成功
@@ -260,6 +280,7 @@ export class Ndoo extends Prep {
    * 添加block实现
    *
    * @method
+   * @name block
    * @memberof ndoo
    * @param {string} namespace 名称空间
    * @param {(object|function)} block 模块实现
@@ -283,6 +304,7 @@ export class Ndoo extends Prep {
    * 初始化模块
    *
    * @method
+   * @name initBlock
    * @memberof ndoo
    * @param {DOMElement} elem 初始化的元素
    */
@@ -358,6 +380,7 @@ export class Ndoo extends Prep {
    * 添加/获取serivce
    *
    * @method
+   * @name service
    * @memberof ndoo
    * @param {string}   namespace 名称空间
    * @param {variable} service 对象
@@ -397,6 +420,7 @@ export class Ndoo extends Prep {
    *
    * @private
    * @method
+   * @name dispatch
    * @memberof ndoo
    */
   dispatch() {
@@ -556,6 +580,7 @@ export class Ndoo extends Prep {
    * @method
    * @name triggerPageStatus
    * @memberof ndoo
+   * @param depend {string|array} 赖数组
    */
   public triggerPageStatus(depend: string | string[]) {
     let { _lib } = this;
@@ -580,6 +605,19 @@ export class Ndoo extends Prep {
     }
     depend ? this.require([].concat(depend), call, this._loader['init']) : call();
   }
+  /**
+   * 初始化页面
+   *
+   * @method
+   * @name init
+   * @memberof ndoo
+   * @param {string} id DOM的ID或指定ID
+   * @param {array} depend 依赖
+   * @example // ndoo alias _n
+   * _n.init('home/index')
+   * // set depend
+   * _n.init('home/index', ['library', 'common'])
+   */
   init(id?: string | string[], depend?: string| string[]) {
     let { _lib } = this;
     if (_lib.isArray(id)) {
