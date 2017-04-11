@@ -51,7 +51,7 @@ if (NODE_ENV == 'production') {
   delete config.entry['app'];
   config.devtool = 'source-map';
 }
-if (TARGET == 'node-module') {
+if (TARGET == 'node') {
   config.entry = {
     "index": ["./_source/ts/export.ts"]
   };
@@ -60,6 +60,7 @@ if (TARGET == 'node-module') {
     library: "ndoojs",
     libraryTarget: "umd"
   };
+  delete config.devtool;
   // delete config.externals;
 }
 else if (TARGET == 'dist') {
