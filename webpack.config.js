@@ -8,7 +8,7 @@ var config = {
     ndoo: ["./_source/ts/ndoo.ts"]
   },
   output: {
-    filename: "./tsoutput/[name].js",
+    filename: "./js/[name].js",
     library: "ndoo",
     libraryTarget: "umd"
   },
