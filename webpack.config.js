@@ -62,6 +62,7 @@ if (TARGET == 'node') {
   config.entry = {
     "index": ["./_source/ts/export.ts"]
   };
+  delete config.externals;
   config.output =  {
     filename: "./[name].js",
     library: "ndoojs",

@@ -57,11 +57,11 @@ declare interface NdooBase {
   
   RegType: NdooRegType;
 
-  Component: (path: string, type: RegType, isStatic = false) => (component: any) => void;
+  Component: (path: string, type: NdooRegType, isStatic = false) => (component: any) => void;
 }
 
 declare var ndoo: NdooBase;
 
-declare module "ndoo" {
-  export = ndoo;
+declare module "ndoojs" {
+  export default ndoo;
 }
