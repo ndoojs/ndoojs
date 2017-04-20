@@ -10,7 +10,6 @@
     "url": "git+https://github.com/ndoojs/ndoojs.git"
   },
   "scripts": {
-    "postinstall": "bower install",
     "test": "karma run",
     "start-test": "karma start test/conf/unit.conf.js --browsers=PhantomJS",
     "start-test-dev": "karma start test/conf/unit.conf.js --browsers=Chrome",
