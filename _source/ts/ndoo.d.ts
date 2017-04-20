@@ -6,6 +6,7 @@ declare enum NdooRegType {
   Block,
   Service
 }
+
 declare interface NdooBase {
   [id: string]: any;
   _isDebug: boolean;
@@ -24,7 +25,7 @@ declare interface NdooBase {
 
   on: (eventName: string, callback: Function) => void;
   off: (eventName: string) => void;
-  trigger: (eventName: string, ...param) => void;
+  trigger: (eventName: string, ...param: any[]) => void;
 
   app: {
     (namespace: string): any;
@@ -57,11 +58,17 @@ declare interface NdooBase {
   
   RegType: NdooRegType;
 
-  Component: (path: string, type: NdooRegType, isStatic = false) => (component: any) => void;
+  Component: (path: string, type: NdooRegType, isStatic:boolean) => (component: any) => void;
 }
 
 declare var ndoo: NdooBase;
 
 declare module "ndoojs" {
   export default ndoo;
+  export enum RegType {
+    App,
+    Block,
+    Service
+  }
+  export let Component: (path: string, type: any, isStatic:boolean) => (component: any) => void;
 }
