@@ -8,7 +8,7 @@ export let getComponent = (ndoo: any) => {
   /**
    * ndoo组件注册
    */
-  return (path: string, type: RegType, isStatic = false) => (component: any) => {
+  return (path: string, type: RegType, isStatic = true) => (component: any) => {
     // 是否静态类型
     let instance = component;
     if (!isStatic) {
