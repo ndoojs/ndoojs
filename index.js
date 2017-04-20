@@ -1,7 +1,15 @@
 (function webpackUniversalModuleDefinition(root, factory) {
-	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("_"), require("jQuery"), require("Zepto"), require("Backbone"));
-	else if(typeof define === 'function' && define.amd)
+	if(typeof exports === 'object' && typeof module === 'object') {
+		var $, Backbone;
+		try {$ = require('jQuery');}
+		catch(e) {}
+		if (!$)
+			try { $ = require('Zepto'); }
+			catch(e) {}
+		try { Backbone = require('Backbone'); }
+		catch(e) {};
+		module.exports = factory(require("underscore"), $, $, Backbone);
+	} else if(typeof define === 'function' && define.amd)
 		define(["_", "jQuery", "Zepto", "Backbone"], factory);
 	else if(typeof exports === 'object')
 		exports["ndoojs"] = factory(require("_"), require("jQuery"), require("Zepto"), require("Backbone"));
