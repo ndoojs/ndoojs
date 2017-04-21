@@ -55,11 +55,5 @@ declare interface NdooBase {
 declare var ndoo: NdooBase;
 
 declare module "ndoojs" {
-  export default ndoo;
-  export enum RegType {
-    App,
-    Block,
-    Service
-  }
-  export let Component: (path: string, type: RegType, isStatic?:boolean) => (component: any) => void;
+  export = ndoo;
 }
