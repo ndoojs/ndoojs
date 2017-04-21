@@ -85,8 +85,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Ndoo = (function (_super) {
 	    __extends(Ndoo, _super);
 	    function Ndoo() {
-	        _super.call(this);
-	        this._lib = lib_1._lib;
+	        var _this = _super.call(this) || this;
+	        _this._lib = lib_1._lib;
 	        /**
 	         * page id
 	         *
@@ -94,7 +94,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	         * @memberof ndoo
 	         * @type {string}
 	         */
-	        this.pageId = '';
+	        _this.pageId = '';
 	        /**
 	         * 内部_pk主键
 	         *
@@ -102,10 +102,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	         * @name _pk
 	         * @memberof ndoo
 	         */
-	        this._pk = +new Date();
-	        this.storage = storage_1.Storage;
-	        this.router = router_1.Router;
-	        this._loader = {
+	        _this._pk = +new Date();
+	        _this.storage = storage_1.Storage;
+	        _this.router = router_1.Router;
+	        _this._loader = {
 	            app: 'do',
 	            block: 'do',
 	            init: 'do',
@@ -119,22 +119,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	                seajs.use(depend, callback);
 	            }
 	        };
-	        this._blockData = {
+	        _this._blockData = {
 	            _block: {},
 	            _app: {},
 	            _service: {},
 	            _exist: {}
 	        };
-	        this.storage._lib = this._lib;
-	        this._rebuildEvent();
-	        this.event.init();
-	        this.trigger('STATUS:NAPP_DEFINE');
-	        this.trigger('STATUS:NBLOCK_DEFINE');
-	        this.trigger('STATUS:NSERVICE_DEFINE');
-	        this._bindBlockEvent();
+	        _this.storage._lib = _this._lib;
+	        _this._rebuildEvent();
+	        _this.event.init();
+	        _this.trigger('STATUS:NAPP_DEFINE');
+	        _this.trigger('STATUS:NBLOCK_DEFINE');
+	        _this.trigger('STATUS:NSERVICE_DEFINE');
+	        _this._bindBlockEvent();
 	        if (prepData) {
 	            prepData_1.removePrepData();
 	        }
+	        return _this;
 	    }
 	    /**
 	     * initPageId 初始化 pageId
@@ -181,7 +182,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     */
 	    Ndoo.prototype.setLoader = function (type, loader) {
 	        this._loader[type] = type + "Loader";
-	        this._loader[(type + "Loader")] = loader;
+	        this._loader[type + "Loader"] = loader;
 	    };
 	    /**
 	     * 依赖加载方法
@@ -195,7 +196,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     */
 	    Ndoo.prototype.require = function (depend, callback, type) {
 	        type = type.toLowerCase();
-	        if (this._loader[(type + "Loader")]) {
+	        if (this._loader[type + "Loader"]) {
 	            this[type](depend, callback);
 	        }
 	        else {
@@ -206,7 +207,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var data;
 	        var nsArr;
 	        if (base == 'block' || base == 'app' || base == 'service') {
-	            data = this._blockData[("_" + base)];
+	            data = this._blockData["_" + base];
 	        }
 	        else {
 	            return false;
@@ -251,10 +252,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	            if (result || success) {
 	                if (ns) {
-	                    this._blockData._exist[(base + "." + ns + "." + name)] = true;
+	                    this._blockData._exist[base + "." + ns + "." + name] = true;
 	                }
 	                else {
-	                    this._blockData._exist[(base + "." + name)] = true;
+	                    this._blockData._exist[base + "." + name] = true;
 	                }
 	            }
 	            return result;
@@ -280,7 +281,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @return {boolean} 是否在存指定的app
 	     */
 	    Ndoo.prototype.hasApp = function (ns) {
-	        return this._blockData._exist[("app." + ns)];
+	        return this._blockData._exist["app." + ns];
 	    };
 	    /**
 	     * 标识指定app已存在
@@ -291,7 +292,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @param {string} namespace 名称空间
 	     */
 	    Ndoo.prototype.setApp = function (ns) {
-	        return this._blockData._exist[("app." + ns)] = true;
+	        return this._blockData._exist["app." + ns] = true;
 	    };
 	    /**
 	     * 添加app实现
@@ -333,10 +334,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        ns = nsmatch[1], name = nsmatch[2];
 	        if (set) {
-	            return this._blockData._exist[("block." + ns + "." + name)] = true;
+	            return this._blockData._exist["block." + ns + "." + name] = true;
 	        }
 	        else {
-	            return this._blockData._exist[("block." + ns + "." + name)];
+	            return this._blockData._exist["block." + ns + "." + name];
 	        }
 	    };
 	    /**
@@ -408,7 +409,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    _this.trigger('NBLOCK_LOADED', elem, ns, blockName, params);
 	                }
 	                else if (_this.hasBlock(pkg)) {
-	                    _this.require([(ns + "." + blockName)], function () {
+	                    _this.require([ns + "." + blockName], function () {
 	                        _this.trigger('NBLOCK_LOADED', elem, ns, blockName, params);
 	                    }, _this._loader['block']);
 	                }
@@ -555,7 +556,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                if (isRun) {
 	                    for (var _a = 0, _filter_1 = _filter; _a < _filter_1.length; _a++) {
 	                        var filter = _filter_1[_a];
-	                        controller[(filter + "Filter")](actionName, params);
+	                        controller[filter + "Filter"](actionName, params);
 	                    }
 	                }
 	            }
@@ -563,14 +564,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.on('NAPP_ACTION_BEFORE', function () {
 	            var data = [];
 	            for (var _i = 0; _i < arguments.length; _i++) {
-	                data[_i - 0] = arguments[_i];
+	                data[_i] = arguments[_i];
 	            }
 	            return filterHaldner.apply(null, ['before'].concat(data));
 	        });
 	        this.on('NAPP_ACTION_AFTER', function () {
 	            var data = [];
 	            for (var _i = 0; _i < arguments.length; _i++) {
-	                data[_i - 0] = arguments[_i];
+	                data[_i] = arguments[_i];
 	            }
 	            return filterHaldner.apply(null, ['after'].concat(data));
 	        });
@@ -591,8 +592,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if (appData['depend']) {
 	                depend = depend.concat(appData['depend']);
 	            }
-	            if (appData[(actionName + "Depend")]) {
-	                depend = depend.concat(appData[(actionName + "Depend")]);
+	            if (appData[actionName + "Depend"]) {
+	                depend = depend.concat(appData[actionName + "Depend"]);
 	            }
 	            var filterPrefix = appName;
 	            if (ns) {
@@ -605,14 +606,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	                if (actionName) {
 	                    _self.trigger('NAPP_ACTION_BEFORE', appData, actionName, params);
 	                    _self.trigger("NAPP_" + filterPrefix + "_ACTION_BEFORE", appData, actionName, params);
-	                    if (appData[(actionName + "Before")]) {
-	                        appData[(actionName + "Before")].apply(appData, args);
+	                    if (appData[actionName + "Before"]) {
+	                        appData[actionName + "Before"].apply(appData, args);
 	                    }
-	                    if (appData[(actionName + "Action")]) {
-	                        appData[(actionName + "Action")].apply(appData, args);
+	                    if (appData[actionName + "Action"]) {
+	                        appData[actionName + "Action"].apply(appData, args);
 	                    }
-	                    if (appData[(actionName + "After")]) {
-	                        appData[(actionName + "After")].apply(appData, args);
+	                    if (appData[actionName + "After"]) {
+	                        appData[actionName + "After"].apply(appData, args);
 	                    }
 	                    _self.trigger("NAPP_" + filterPrefix + "_ACTION_AFTER", appData, actionName, params);
 	                    _self.trigger('NAPP_ACTION_AFTER', appData, actionName, params);
@@ -722,7 +723,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                eventHandle.on(eventName, callback);
 	                eventHandle.listened[eventName] = true;
 	                if (_lib.has(eventHandle.events, "STATUS:" + eventName)) {
-	                    callback.apply(eventHandle, eventHandle.events[("STATUS:" + eventName)]);
+	                    callback.apply(eventHandle, eventHandle.events["STATUS:" + eventName]);
 	                }
 	                if (_lib.has(eventHandle.events, eventName)) {
 	                    for (var _i = 0, _a = eventHandle.events[eventName]; _i < _a.length; _i++) {
@@ -747,7 +748,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                }
 	                else if (eventType === 'STATUS') {
 	                    if (!_lib.has(eventHandle.events, eventType + ":" + eventName)) {
-	                        eventHandle.events[(eventType + ":" + eventName)] = data;
+	                        eventHandle.events[eventType + ":" + eventName] = data;
 	                        if (_lib.has(eventHandle.listened, eventName)) {
 	                            eventHandle.trigger.apply(eventHandle, [eventName].concat(data));
 	                        }
@@ -804,8 +805,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Prep = (function (_super) {
 	    __extends(Prep, _super);
 	    function Prep() {
-	        _super.call(this);
-	        this.event = basic_1.EventBasic;
+	        var _this = _super.call(this) || this;
+	        _this.event = basic_1.EventBasic;
 	        /**
 	         * 变量存储名称空间
 	         *
@@ -818,7 +819,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	         * var _vars = ndoo.vars;
 	         * vars.bar = 'bar';
 	         */
-	        this.vars = {};
+	        _this.vars = {};
 	        /**
 	         * 函数存储名称空间
 	         *
@@ -832,15 +833,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	         *   console.log('foo');
 	         * }
 	         */
-	        this.func = {};
+	        _this.func = {};
 	        /**
 	         * 依赖库存储空间
 	         */
-	        this._lib = {};
+	        _this._lib = {};
 	        if (prepData) {
-	            this.vars = prepData.vars;
-	            this.func = prepData.func;
+	            _this.vars = prepData.vars;
+	            _this.func = prepData.func;
 	        }
+	        return _this;
 	    }
 	    return Prep;
 	}(api_1.EventApi));
@@ -978,41 +980,41 @@ return /******/ (function(modules) { // webpackBootstrap
 	     */
 	    EventBasic.off = function (eventName) { };
 	    EventBasic.init = function () { };
-	    /**
-	     * 暂存数据类型
-	     *
-	     * @name TYPE_ON
-	     * @memberof ndoo.event
-	     * @type {number}
-	     */
-	    EventBasic.TYPE_ON = 1;
-	    /**
-	     * 暂存数据类型
-	     *
-	     * @name TYPE_TRIGGER
-	     * @memberof ndoo.event
-	     * @type {number}
-	     */
-	    EventBasic.TYPE_TRIGGER = 2;
-	    /**
-	     * init token
-	     *
-	     * @name inited
-	     * @memberof ndoo.event
-	     * @type {boolean}
-	     */
-	    EventBasic.inited = false;
-	    /**
-	     * event stack
-	     *
-	     * @private
-	     * @name _temp
-	     * @memberof ndoo.event
-	     * @type {array}
-	     */
-	    EventBasic._temp = prepData ? prepData.eventData : [];
 	    return EventBasic;
 	}());
+	/**
+	 * 暂存数据类型
+	 *
+	 * @name TYPE_ON
+	 * @memberof ndoo.event
+	 * @type {number}
+	 */
+	EventBasic.TYPE_ON = 1;
+	/**
+	 * 暂存数据类型
+	 *
+	 * @name TYPE_TRIGGER
+	 * @memberof ndoo.event
+	 * @type {number}
+	 */
+	EventBasic.TYPE_TRIGGER = 2;
+	/**
+	 * init token
+	 *
+	 * @name inited
+	 * @memberof ndoo.event
+	 * @type {boolean}
+	 */
+	EventBasic.inited = false;
+	/**
+	 * event stack
+	 *
+	 * @private
+	 * @name _temp
+	 * @memberof ndoo.event
+	 * @type {array}
+	 */
+	EventBasic._temp = prepData ? prepData.eventData : [];
 	exports.EventBasic = EventBasic;
 
 
@@ -1090,21 +1092,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        return data[key] = value;
 	    }
-	    Storage._data = {};
-	    /**
-	     * storage重写常量
-	     *
-	     * @memberof ndoo.storage
-	     */
-	    Storage.REWRITE = 1;
-	    /**
-	     * storage删除常量
-	     *
-	     * @memberof ndoo.storage
-	     */
-	    Storage.DESTROY = 2;
 	    return Storage;
 	}());
+	Storage._data = {};
+	/**
+	 * storage重写常量
+	 *
+	 * @memberof ndoo.storage
+	 */
+	Storage.REWRITE = 1;
+	/**
+	 * storage删除常量
+	 *
+	 * @memberof ndoo.storage
+	 */
+	Storage.DESTROY = 2;
 	exports.Storage = Storage;
 
 
