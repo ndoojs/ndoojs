@@ -1,6 +1,6 @@
 {
   "name": "ndoojs",
-  "version": "2.0.0b1",
+  "version": "2.0.0rc1",
   "description": "ndoojs",
   "main": "index.js",
   "types": "./_source/ts/ndoo.d.ts",
