@@ -3,6 +3,7 @@ import { Storage } from './storage';
 import { Router } from './router';
 import { _lib as lib } from './lib';
 import { getPrepData, removePrepData } from './prepData';
+import { RegType, getComponent } from './component';
 
 let prepData = getPrepData();
 
@@ -694,6 +695,8 @@ export class Ndoo extends Prep {
       }
     });
   }
+  public RegType: any = RegType;
+  public Component: any = getComponent(this);
   constructor() {
     super();
     this.storage._lib = this._lib;
@@ -709,5 +712,8 @@ export class Ndoo extends Prep {
     if (prepData) {
       removePrepData();
     }
+
+    // this.RegType = RegType;
+    // this.Component = getComponent(this);
   }
 }

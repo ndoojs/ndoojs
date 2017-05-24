@@ -1,6 +1,11 @@
 declare interface NdooFuncStatic {
   [id: string]: any;
 }
+declare interface NdooRegType {
+  App: number;
+  Block: number;
+  Service: number;
+}
 
 declare interface NdooBase {
   [id: string]: any;
@@ -50,16 +55,21 @@ declare interface NdooBase {
   func: NdooFuncStatic;
 
   vars: any;
+
+  RegType: NdooRegType;
+
+  Component: (path: string, type: number|string, isStatic?:boolean) => (component: any) => void;
 }
 
 declare var ndoo: NdooBase;
 
 declare module "ndoojs" {
-  export default ndoo;
-  export enum RegType {
-    App,
-    Block,
-    Service
-  }
-  export let Component: (path: string, type: RegType, isStatic?:boolean) => (component: any) => void;
+  export = ndoo;
+  // export default ndoo;
+  // export enum RegType {
+  //   App,
+  //   Block,
+  //   Service
+  // }
+  // export let Component: (path: string, type: RegType, isStatic?:boolean) => (component: any) => void;
 }
