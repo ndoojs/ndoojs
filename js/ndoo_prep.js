@@ -54,7 +54,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(16);
+	module.exports = __webpack_require__(17);
 
 
 /***/ },
@@ -81,8 +81,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Prep = (function (_super) {
 	    __extends(Prep, _super);
 	    function Prep() {
-	        _super.call(this);
-	        this.event = basic_1.EventBasic;
+	        var _this = _super.call(this) || this;
+	        _this.event = basic_1.EventBasic;
 	        /**
 	         * 变量存储名称空间
 	         *
@@ -95,7 +95,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	         * var _vars = ndoo.vars;
 	         * vars.bar = 'bar';
 	         */
-	        this.vars = {};
+	        _this.vars = {};
 	        /**
 	         * 函数存储名称空间
 	         *
@@ -109,15 +109,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	         *   console.log('foo');
 	         * }
 	         */
-	        this.func = {};
+	        _this.func = {};
 	        /**
 	         * 依赖库存储空间
 	         */
-	        this._lib = {};
+	        _this._lib = {};
 	        if (prepData) {
-	            this.vars = prepData.vars;
-	            this.func = prepData.func;
+	            _this.vars = prepData.vars;
+	            _this.func = prepData.func;
 	        }
+	        return _this;
 	    }
 	    return Prep;
 	}(api_1.EventApi));
@@ -255,41 +256,41 @@ return /******/ (function(modules) { // webpackBootstrap
 	     */
 	    EventBasic.off = function (eventName) { };
 	    EventBasic.init = function () { };
-	    /**
-	     * 暂存数据类型
-	     *
-	     * @name TYPE_ON
-	     * @memberof ndoo.event
-	     * @type {number}
-	     */
-	    EventBasic.TYPE_ON = 1;
-	    /**
-	     * 暂存数据类型
-	     *
-	     * @name TYPE_TRIGGER
-	     * @memberof ndoo.event
-	     * @type {number}
-	     */
-	    EventBasic.TYPE_TRIGGER = 2;
-	    /**
-	     * init token
-	     *
-	     * @name inited
-	     * @memberof ndoo.event
-	     * @type {boolean}
-	     */
-	    EventBasic.inited = false;
-	    /**
-	     * event stack
-	     *
-	     * @private
-	     * @name _temp
-	     * @memberof ndoo.event
-	     * @type {array}
-	     */
-	    EventBasic._temp = prepData ? prepData.eventData : [];
 	    return EventBasic;
 	}());
+	/**
+	 * 暂存数据类型
+	 *
+	 * @name TYPE_ON
+	 * @memberof ndoo.event
+	 * @type {number}
+	 */
+	EventBasic.TYPE_ON = 1;
+	/**
+	 * 暂存数据类型
+	 *
+	 * @name TYPE_TRIGGER
+	 * @memberof ndoo.event
+	 * @type {number}
+	 */
+	EventBasic.TYPE_TRIGGER = 2;
+	/**
+	 * init token
+	 *
+	 * @name inited
+	 * @memberof ndoo.event
+	 * @type {boolean}
+	 */
+	EventBasic.inited = false;
+	/**
+	 * event stack
+	 *
+	 * @private
+	 * @name _temp
+	 * @memberof ndoo.event
+	 * @type {array}
+	 */
+	EventBasic._temp = prepData ? prepData.eventData : [];
 	exports.EventBasic = EventBasic;
 
 
@@ -334,7 +335,8 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 13 */,
 /* 14 */,
 /* 15 */,
-/* 16 */
+/* 16 */,
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";

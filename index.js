@@ -1183,13 +1183,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	var depend = {};
 	if ($) {
 	    depend.onready = function (callback) {
-	        $(callback);
+	        return $(callback);
 	    };
 	    depend.onload = function (callback) {
-	        $(window).on('load', callback);
+	        return $(window).on('load', callback);
 	    };
 	    depend.querySelector = function (selector) {
-	        $(selector).slice(0);
+	        return $(selector).slice(0);
 	    };
 	    depend.data = function (elem, key, value) {
 	        if (arguments.length === 2) {
@@ -1202,13 +1202,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	else {
 	    depend.onready = function (callback) {
-	        document.addEventListener('DOMContentLoaded', callback, false);
+	        return document.addEventListener('DOMContentLoaded', callback, false);
 	    };
 	    depend.onload = function (callback) {
-	        addEventListener('load', callback, false);
+	        return addEventListener('load', callback, false);
 	    };
 	    depend.querySelector = function (selector) {
-	        document.querySelectorAll(selector);
+	        return document.querySelectorAll(selector);
 	    };
 	    depend.data = function (elem, key, value) {
 	        if (!elem.dataset) {
