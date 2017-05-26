@@ -6,13 +6,13 @@ let $ = jquery || zepto;
 let depend: any = {};
 if ($) {
   depend.onready = function (callback: EventListener) {
-    $(callback);
+    return $(callback);
   }
   depend.onload = function (callback: EventListener) {
-    $(window).on('load', callback);
+    return $(window).on('load', callback);
   }
   depend.querySelector = function (selector: any) {
-    $(selector).slice(0);
+    return $(selector).slice(0);
   }
   depend.data = function (elem: HTMLElement, key: string, value: any) {
     if (arguments.length === 2) {
@@ -25,14 +25,13 @@ if ($) {
 }
 else {
   depend.onready = function (callback: EventListener) {
-    document.addEventListener('DOMContentLoaded', callback, false);
-
+    return document.addEventListener('DOMContentLoaded', callback, false);
   }
   depend.onload = function (callback: EventListener) {
-    addEventListener('load', callback, false);
+    return addEventListener('load', callback, false);
   }
   depend.querySelector = function (selector: any) {
-    document.querySelectorAll(selector);
+    return document.querySelectorAll(selector);
   }
   depend.data = function (elem: HTMLElement, key: string, value?: any) {
     if (!elem.dataset) {
