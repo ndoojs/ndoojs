@@ -1187,7 +1187,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return $(window).on('load', callback);
 	    };
 	    depend.querySelector = function (selector) {
-	        return $(selector).slice(0);
+	        return $(selector).get();
 	    };
 	    depend.data = function (elem, key, value) {
 	        if (arguments.length === 2) {
