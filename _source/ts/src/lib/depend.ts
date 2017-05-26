@@ -12,7 +12,7 @@ if ($) {
     return $(window).on('load', callback);
   }
   depend.querySelector = function (selector: any) {
-    return $(selector).slice(0);
+    return $(selector).get();
   }
   depend.data = function (elem: HTMLElement, key: string, value: any) {
     if (arguments.length === 2) {
