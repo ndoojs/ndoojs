@@ -34,24 +34,24 @@ else {
     return document.querySelectorAll(selector);
   }
   depend.data = function (elem: HTMLElement, key: string, value?: any) {
-    if (!elem.dataset) {
-      key = key.replace(/([A-Z])/g, (char) => '-' + char.toLocaleLowerCase());
+    let setData: Function;
+    let getData: Function;
+
+    if (elem.dataset) {
+      setData = (elem, key, value) => elem.dataset[key] = value;
+      getData = (elem, key) => elem.dataset[key];
     }
+    else {
+      key = key.replace(/([A-Z])/g, (char) => '-' + char.toLocaleLowerCase());
+      setData = (elem, key, value) => elem.setAttribute(key, value);
+      getData = (elem, key) => elem.getAttribute(key);
+    }
+
     if (arguments.length === 2) {
-      if (elem.dataset) {
-        return elem.dataset[key];
-      }
-      else {
-        return elem.getAttribute(key);
-      }
+      return getData(elem, key);
     }
     else if (arguments.length === 3) {
-      if (elem.dataset) {
-        elem.dataset[key] = value;
-      }
-      else {
-        elem.setAttribute(key, value);
-      }
+      return setData(elem, key, value);
     }
   }
 }

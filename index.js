@@ -1219,24 +1219,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return document.querySelectorAll(selector);
 	    };
 	    depend.data = function (elem, key, value) {
-	        if (!elem.dataset) {
+	        var setData;
+	        var getData;
+	        if (elem.dataset) {
+	            setData = function (elem, key, value) { return elem.dataset[key] = value; };
+	            getData = function (elem, key) { return elem.dataset[key]; };
+	        }
+	        else {
 	            key = key.replace(/([A-Z])/g, function (char) { return '-' + char.toLocaleLowerCase(); });
+	            setData = function (elem, key, value) { return elem.setAttribute(key, value); };
+	            getData = function (elem, key) { return elem.getAttribute(key); };
 	        }
 	        if (arguments.length === 2) {
-	            if (elem.dataset) {
-	                return elem.dataset[key];
-	            }
-	            else {
-	                return elem.getAttribute(key);
-	            }
+	            return getData(elem, key);
 	        }
 	        else if (arguments.length === 3) {
-	            if (elem.dataset) {
-	                elem.dataset[key] = value;
-	            }
-	            else {
-	                elem.setAttribute(key, value);
-	            }
+	            return setData(elem, key, value);
 	        }
 	    };
 	}
